@@ -179,17 +179,19 @@ background-color: white;
   }
 
 /* Dropdown Button */
-.dropbtn {
+.editbtn {
     background-color: rgb(145, 21, 27);
     color: white;
-    padding: 16px;
+    /* position: relative; */
+    width: 100px;
+    padding: 10px;
     font-size: 17px;
     border: none;
     cursor: pointer;
   }
   
   /* Dropdown button on hover & focus */
-  .dropbtn:hover, .dropbtn:focus {
+  .editbtn:hover, .editbtn:focus {
     background-color: rgb(216, 52, 52);
   }
   
