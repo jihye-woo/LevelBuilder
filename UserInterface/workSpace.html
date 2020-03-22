@@ -1,7 +1,7 @@
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 <!-- <script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
-<link href="workspace_style.css" rel="stylesheet">
+<link href="css/workSpace.css" rel="stylesheet">
 <!------ Include the above in your HEAD tag ---------->
 
 <!DOCTYPE html>
@@ -76,8 +76,13 @@
           </div>
         </div>
         <div class="project">
-          <div class="tab-header">Map layers</div>
-          <div class="surface tab">
+          <!-- <div class="tab-header"> -->
+                <button class="tab-header1" onclick="openCity(event, 'MapLayers')">Map Layers</button>
+                <button class="tab-header1" onclick="openCity(event, 'TileSets')">Tile Sets</button>
+                <!-- <button class="tab-header" onclick="openCity(event, 'Tokyo')">Tokyo</button> -->
+          <!-- </div> -->
+          <!-- <div class="tab-header">Map layers</div> -->
+          <!-- <div id="London"class="surface tab">
             <div class="project-tools">
               <div class="surface btn" id="btn-layer-group" title="Create a new group" onclick="createLayerGroup()"><i
                   class="fa fa-folder"></i></div>
@@ -95,8 +100,43 @@
             <div class="project-item-list" id="style-4">
               <ul class="project-item-tree"></ul>
             </div>
-          </div>
+          </div> -->
+          <div id="MapLayers" class="tabcontent">
+              <div class="project-tools">
+                <div class="surface btn" id="btn-layer-group" title="Create a new group" onclick="createLayerGroup()"><i
+                    class="fa fa-folder"></i></div>
+                <div class="surface btn" id="btn-layer-add" title="Create a layer" onclick="createLayer()"><i
+                    class="fa fa-file-o"> </i></div>
+                <div class="surface btn req-layer" id="btn-layer-duplicate" title="Duplicate layer"
+                  onclick="duplicateLayer(this)" disabled="disabled"><i class="fa fa-files-o"></i></div>
+                <div class="surface btn req-layer" id="btn-layer-up" title="Move group or layer upwards"
+                  onclick="moveLayerUp(this)" disabled="disabled"><i class="fa fa-arrow-up"></i></div>
+                <div class="surface btn req-layer" id="btn-layer-down" title="Move group or layer downwards"
+                  onclick="moveLayerDown(this)" disabled="disabled"><i class="fa fa-arrow-down"> </i></div>
+                <div class="surface btn req-layer" id="btn-layer-remove" title="Remove group or layer"
+                  onclick="removeLayerOrGroup(this)" disabled="disabled"><i class="fa fa-trash-o"> </i></div>
+              </div>
+              <div class="project-item-list" id="style-4">
+                <ul class="project-item-tree"></ul>
+              </div>
+            </div>
+
+            <div id="TileSets" class="tabcontent">
+                <div class="project-tools">
+                  <div class="surface btn" id="btn-layer-group" title="Create a new group" onclick="createLayerGroup()"><i
+                      class="fa fa-folder"></i></div>
+                  <div class="surface btn" id="btn-layer-add" title="Create a layer" onclick="createLayer()"><i
+                      class="fa fa-file-o"> </i></div>
+                  
+                  <div class="surface btn req-layer" id="btn-layer-remove" title="Remove group or layer"
+                    onclick="removeLayerOrGroup(this)" disabled="disabled"><i class="fa fa-trash-o"> </i></div>
+                </div>
+                <div class="project-item-list" id="style-4">
+                  <ul class="project-item-tree"></ul>
+                </div>
+              </div>
         </div>
+
       </div>
     </section>
   </div>
@@ -165,3 +205,19 @@
 </body>
 
 </html>
+
+<script>
+    function openCity(evt, cityName) {
+      var i, tabcontent, tablinks;
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+      tablinks = document.getElementsByClassName("tablinks");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+      document.getElementById(cityName).style.display = "block";
+      evt.currentTarget.className += " active";
+    }
+    </script>
