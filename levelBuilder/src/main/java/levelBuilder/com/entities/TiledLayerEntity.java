@@ -1,4 +1,4 @@
-package com.example.entitiesTesting.entities;
+package levelBuilder.com.entities;
 
 import javax.persistence.*;
 

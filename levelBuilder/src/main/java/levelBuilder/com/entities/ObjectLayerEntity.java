@@ -1,9 +1,9 @@
-package com.example.entitiesTesting.entities;
+package levelBuilder.com.entities;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "ObjectLayer", schema = "pubhattachar", catalog = "")
+@Table(name = "ObjectLayer")
 public class ObjectLayerEntity {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)

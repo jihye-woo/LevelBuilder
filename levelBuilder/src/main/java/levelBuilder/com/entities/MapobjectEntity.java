@@ -1,10 +1,10 @@
-package com.example.entitiesTesting.entities;
+package levelBuilder.com.entities;
 
 import javax.persistence.*;
 import java.util.Arrays;
 
 @Entity
-@Table(name = "mapobject", schema = "pubhattachar", catalog = "")
+@Table(name = "mapobject")
 public class MapobjectEntity {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
