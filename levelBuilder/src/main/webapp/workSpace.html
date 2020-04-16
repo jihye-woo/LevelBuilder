@@ -1,23 +1,19 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
-<!DOCTYPE html>
 <!-- <script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
 <link href="css/workSpace.css" rel="stylesheet">
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="js/bootstrap.min.js" rel="text/javascript">
 <!------ Include the above in your HEAD tag ---------->
 
+<!DOCTYPE html>
 <html lang='en' class=''>
 
 <head>
-<meta charset="EUC-KR">
-<title>LevelBuilder map editor</title>
 </head>
 
 <body>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
-  <div class="whole_workspace">
+  <div id="whole_workspace">
     <section id="side-bar">
       <a id="toggle-home">
         <img src="img/home.svg" tooltip = "toggle-home" flow = "right">
@@ -202,7 +198,4 @@
       evt.currentTarget.className += " active";
     }
     document.getElementById("defaultOpen").click();
-</script>
-
-
-
+    </script>
