@@ -37,10 +37,35 @@
     </section>
     <section class="app">
       <div class="menu">
-        <div class="surface btn" id="btn-new" title="Create a new map" onclick="newMap()"><i
-            class="fa fa-plus"></i><span>New map</span></div>
-        <div class="surface btn" id="btn-load" title="Load a map using mapdata" onclick="loadMap()"><i
-            class="fa fa-folder-open"> </i><span>Load</span></div>
+          <div class="dropdown">
+              <button class="dropbtn">File</button>
+              <div class="dropdown-content">
+                <a href="#">New Map</a>
+                <a href="#">New TileSet</a>
+                <a href="#">Share Map</a>
+                <a href="#">Open</a>
+                <a href="#">Save</a>
+                <a href="#">Save As</a>
+                <a href="#">Export</a>
+                <a href="#">Export As</a>
+                <a href="#">Export As Image</a>
+                <a href="#">Delete</a>
+                <a href="#">Recent Files</a>
+                <a href="#">Close All</a>
+              </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">Edit</button>
+                <div class="dropdown-content">
+                  <a href="#">Undo</a>
+                  <a href="#">Redo</a>
+                  <a href="#">Cut</a>
+                  <a href="#">Copy</a>
+                  <a href="#">Paste</a>
+                  <a href="#">Select All</a>
+                  <a href="#">Delete</a>
+                </div>
+              </div>
         <div class="surface btn" id="btn-save" title="Save/Export this map" onclick="saveMap()"><i
             class="fa fa-save"></i><span>Save</span></div>
         <div class="surface btn" id="btn-settings" title="Change editor or map preferences" onclick="showSettings()"><i
@@ -200,4 +225,18 @@
       evt.currentTarget.className += " active";
     }
     document.getElementById("defaultOpen").click();
+
+    function myFunction() {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(e) {
+  if (!e.target.matches('.dropbtn')) {
+  var myDropdown = document.getElementById("myDropdown");
+    if (myDropdown.classList.contains('show')) {
+      myDropdown.classList.remove('show');
+    }
+  }
+}
     </script>
