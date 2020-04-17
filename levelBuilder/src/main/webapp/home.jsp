@@ -183,15 +183,6 @@
                 <option value="rightUP">Right Up</option>
               </select>  -->
         
-        <!-- <div class="input-header">Select perspective</div>
-        <div class="input-row">
-          <input class="map-perspective" id="p-2d-default" name="map-perspective" type="radio" value="top" checked="checked"/>
-          <label for="p-2d-default">2D default</label>
-        </div>
-        <div class="input-row">
-          <input class="map-perspective" id="p-2d-isometric" name="map-perspective" value="iso" type="radio"/>
-          <label for="p-2d-isometric">2D isometric</label>
-        </div> -->
         <div class="newline"></div>
         <div class="input-header">Map size</div>
         <div class="input-row">
