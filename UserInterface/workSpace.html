@@ -214,7 +214,20 @@
       <div class="surface btn" onclick="cancelCreateMap()"><i class="fa fa-close"></i></div>
     </div>
     <div class="window-body">
-      <p>Warning: Creating a new map will discard your current progress!</p>
+      <div class="input-header">Oriententaion: </div>
+      <select id="oriententaion">
+          <option value="orthogonal">Orthogonal</option>
+          <!-- <option value="isometric">Isometric</option> -->
+        </select>
+        <div class="input-header">Tile layer format: </div>
+        <select id="tileLayerFormat">
+            <option value="base64">Base64(uncompressed)</option>
+          </select>
+          <div class="input-header">Tile render order</div>
+          <select id="tileRenderOrder">
+              <option value="rightUP">Right Up</option>
+            </select>
+      
       <div class="input-header">Select perspective</div>
       <div class="input-row">
         <input class="map-perspective" id="p-2d-default" name="map-perspective" type="radio" value="top" checked="checked"/>
@@ -243,25 +256,25 @@
 </html>
 
 <script>
-  // let createMapWindow = document.querySelector("#create-map-window");
+   let createMapWindow = document.querySelector("#create-map-window");
 
   function newMap() {  
   showWindow(createMapWindow);
 }
 
-function createMap() {
-  closeWindow(createMapWindow);  
-  let mapType = "top";
-  let mapWidth  = parseInt(document.querySelector("#input-map-width").value  || 32)
-  let mapHeight = parseInt(document.querySelector("#input-map-height").value || 32);
-  for(let radio of document.getElementsByClassName("map-perspective")) {if (window.CP.shouldStopExecution(29)){break;}    
-    if (radio.checked) {
-      mapType = radio.value;
-      break;
-    }
-    }
-}
-window.CP.exitedLoop(29);
+// function createMap() {
+//   closeWindow(createMapWindow);  
+//   let mapType = "top";
+//   let mapWidth  = parseInt(document.querySelector("#input-map-width").value  || 32)
+//   let mapHeight = parseInt(document.querySelector("#input-map-height").value || 32);
+//   for(let radio of document.getElementsByClassName("map-perspective")) {if (window.CP.shouldStopExecution(29)){break;}    
+//     if (radio.checked) {
+//       mapType = radio.value;
+//       break;
+//     }
+//     }
+// }
+// window.CP.exitedLoop(29);
 
 function showWindow(hwnd) {
   hwnd.style.display = "block";

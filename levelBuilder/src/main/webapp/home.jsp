@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
-<!DOCTYPE html>
+<!DOCTYPE html>spring
 <!-- <script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
 <link href="css/workSpace.css" rel="stylesheet">
 <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -43,7 +43,7 @@
               <button class="dropbtn">File</button>
               <div class="dropdown-content">
                 <a href="#" onclick="newMap()">New Map</a>
-                <a href="#">New TileSet</a>
+                <a href="#" onclick="newTileSet()">New TileSet</a>
                 <a href="#">Share Map</a>
                 <a href="#">Open</a>
                 <a href="#">Save</a>
@@ -68,10 +68,26 @@
                   <a href="#">Delete</a>
                 </div>
               </div>
-        <div class="surface btn" id="btn-save" title="Save/Export this map" onclick="saveMap()"><i
-            class="fa fa-save"></i><span>Save</span></div>
-        <div class="surface btn" id="btn-settings" title="Change editor or map preferences" onclick="showSettings()"><i
-            class="fa fa-cog"></i><span>Settings</span></div>
+              <div class="dropdown">
+                  <button class="dropbtn">Layers</button>
+                  <div class="dropdown-content">
+                    <a href="#">New</a>
+                    <a href="#">Group</a>
+                    <a href="#">Duplicate Layers</a>
+                    <a href="#">Remove Layers</a>
+                    <a href="#">Raise Layers</a>
+                    <a href="#">Lower Layers</a>
+                    <a href="#">Show/Hide Layers</a>
+                    <a href="#">Lock/Unlock Layers</a>
+                  </div>
+                </div>
+                <div class="dropdown">
+                    <button class="dropbtn">TileSet</button>
+                    <div class="dropdown-content">
+                      <a href="#">Add Tile</a>
+                      <a href="#">Remove Tile</a>
+                    </div>
+                  </div>
         <div class="surface btn" id="btn-info" title="Totally about this tool!" onclick="showAbout()"><i
             class="fa fa-info"></i><span>About</span></div>
       </div>
@@ -147,72 +163,159 @@
     </section>
   </div>
   <div class="window surface" id="create-map-window">
-    <div class="window-tint"> </div>
-    <div class="window-title-bar">
-      <h4>New map</h4>
-      <div class="surface btn" onclick="cancelCreateMap()"><i class="fa fa-close"></i></div>
-    </div>
-    <div class="window-body">
-      <p>Warning: Creating a new map will discard your current progress!</p>
-      <div class="input-header">Select perspective</div>
-      <div class="input-row">
-        <input class="map-perspective" id="p-2d-default" name="map-perspective" type="radio" value="top"
-          checked="checked" />
-        <label for="p-2d-default">2D default</label>
+      <div class="window-title-bar">
+        <h4>New map</h4>
+        <div class="surface btn" onclick="cancelCreateMap()"><i class="fa fa-close"></i></div>
       </div>
-      <div class="input-row">
-        <input class="map-perspective" id="p-2d-isometric" name="map-perspective" value="iso" type="radio" />
-        <label for="p-2d-isometric">2D isometric</label>
+      <div class="window-body">
+         <p>Oriententaion: orthogonal</p>
+         <p>Tile layer format: Base64 (uncompressed)</p>
+         <p>Tile render order: Right Up</p>
+        <!-- <select id="oriententaion">
+            <option value="orthogonal">Orthogonal</option>
+         </select>
+          <div class="input-header">Tile layer format: </div>
+          <select id="tileLayerFormat">
+              <option value="base64">Base64(uncompressed)</option>
+            </select>
+            <div class="input-header">Tile render order</div>
+            <select id="tileRenderOrder">
+                <option value="rightUP">Right Up</option>
+              </select>  -->
+        
+        <!-- <div class="input-header">Select perspective</div>
+        <div class="input-row">
+          <input class="map-perspective" id="p-2d-default" name="map-perspective" type="radio" value="top" checked="checked"/>
+          <label for="p-2d-default">2D default</label>
+        </div>
+        <div class="input-row">
+          <input class="map-perspective" id="p-2d-isometric" name="map-perspective" value="iso" type="radio"/>
+          <label for="p-2d-isometric">2D isometric</label>
+        </div> -->
+        <div class="newline"></div>
+        <div class="input-header">Map size</div>
+        <div class="input-row">
+          <label for="input-map-width">Width :</label>
+          <input type="text" placeholder="eg. 32" id="input-map-width"/>
+
+          <label for="input-map-height">Height:</label>
+          <input type="text" placeholder="eg. 32" id="input-map-height"/>
+        </div>
+        <div class="input-header">Tile size</div>
+        <div class="input-row">
+          <label for="input-map-width">Width :</label>
+          <input type="text" placeholder="eg. 32" id="input-map-width"/>
+
+          <label for="input-map-height">Height:</label>
+          <input type="text" placeholder="eg. 32" id="input-map-height"/>
+        </div>
       </div>
-      <div class="newline"></div>
-      <div class="input-header">Map/grid size</div>
-      <div class="input-row">
-        <label for="input-map-width">Width :</label>
-        <input type="text" placeholder="eg. 32" id="input-map-width" />
-      </div>
-      <div class="input-row">
-        <label for="input-map-height">Height:</label>
-        <input type="text" placeholder="eg. 32" id="input-map-height" />
-      </div>
-    </div>
-    <div class="window-actions">
-      <div class="surface btn" onclick="cancelCreateMap()">Cancel</div>
-      <div class="surface btn" onclick="createMap()">OK</div>
-    </div>
-  </div>
-  <div class="window surface" id="load-map-window">
-    <div class="window-title-bar">
-      <h4>Load map</h4>
-      <div class="surface btn" onclick="cancelLoadMap()"><i class="fa fa-close"></i></div>
-    </div>
-    <div class="window-body">
-      <p>Warning: Loading a map will discard your current progress!</p>
-      <div class="input-header">Paste your map data here (not implemented)</div>
-      <div class="input-row">
-        <textarea placeholder="Paste your map data here" id="input-map-data"></textarea>
-      </div>
-    </div>
-    <div class="window-actions">
-      <div class="surface btn" onclick="cancelLoadMap()">Cancel</div>
-      <div class="surface btn" onclick="openMap()">OK</div>
-    </div>
-  </div>
-  <div class="window surface" id="load-tilesets-window">
-    <div class="window-title-bar">
-      <h4>Loading tilesets...</h4>
-    </div>
-    <div class="window-body">
-      <p>Please wait while we load the tilesets </p>
-      <div class="progress-bar">
-        <div class="progress-bar-value"></div>
+      <div class="window-actions">
+        <div class="surface btn" onclick="cancelCreateMap()">Cancel</div>
+        <div class="surface btn" onclick="createMap()">OK</div>
       </div>
     </div>
-  </div>
+
+    <div class="window surface" id="create-tileset-window">
+        <div class="window-title-bar">
+          <h4>New TileSet</h4>
+          <div class="surface btn" onclick="cancelCreateTileSet()"><i class="fa fa-close"></i></div>
+        </div>
+        <div class="window-body">
+            <div class="input-header">TileSet </div>
+            <label for="fname">File name:</label>
+            <input type="text" id="fname" name="fname"><br><br> 
+          <div class="input-header">Type</div>
+          <div class="input-row">
+            <input class="map-perspective" id="p-2d-default" name="map-perspective" type="radio" value="top" checked="checked"/>
+            <label for="basedOnTileSetImg">Based on TileSet Image </label>
+            <input class="map-perspective" id="p-2d-isometric" name="map-perspective" value="iso" type="radio"/>
+            <label for="collectionOfImg"> Collection of Images</label>
+          </div>
+          <div class="newline"></div>
+          <div class="input-header">Image </div> 
+          <!-- <label for="fname">Source:</label>
+          <input type="text" id="fname" name="fname"> -->
+          <input type="file" id="myFile"> 
+
+          <div class="input-row">
+            <label for="input-map-width">Width :</label>
+            <input type="text" placeholder="eg. 32" id="input-map-width"/>
+            <label for="input-map-height">Height:</label>
+            <input type="text" placeholder="eg. 32" id="input-map-height"/>
+          </div>
+          <div class="input-row">
+            <label for="input-map-width">Magin :</label>
+            <input type="text" placeholder="eg. 32" id="input-map-width"/>
+            <label for="input-map-height">Spacing:</label>
+            <input type="text" placeholder="eg. 32" id="input-map-height"/>
+          </div>
+        </div>
+        <div class="window-actions">
+          <div class="surface btn" onclick="cancelCreateTileSet()">Cancel</div>
+          <div class="surface btn" onclick="createTileSet()">OK</div>
+        </div>
+      </div>
 </body>
+
 
 </html>
 
 <script>
+let createMapWindow = document.querySelector("#create-map-window");
+let createTileSetWindow = document.querySelector("#create-tileset-window");
+
+function newMap() {  
+showWindow(createMapWindow);
+}
+
+function newTileSet() {  
+showWindow(createTileSetWindow);
+}
+
+function cancelCreateMap() {  
+  closeWindow(createMapWindow);
+}
+
+function cancelCreateTileSet() {  
+  closeWindow(createTileSetWindow);
+}
+
+function createMap() {
+  closeWindow(createMapWindow);  
+  let mapType = "top";
+  let mapWidth  = parseInt(document.querySelector("#input-map-width").value  || 32)
+  let mapHeight = parseInt(document.querySelector("#input-map-height").value || 32);
+  for(let radio of document.getElementsByClassName("map-perspective")) {if (window.CP.shouldStopExecution(29)){break;}    
+    if (radio.checked) {
+      mapType = radio.value;
+      break;
+    }
+    }
+}
+window.CP.exitedLoop(29);
+
+function createTileSet() {  
+  
+}
+
+function showWindow(hwnd) {
+	  hwnd.style.display = "block";
+	  windowBackgroundTint.style.display = "block";
+	  isWindowOpen = true;
+	}
+
+	function closeWindow(hwnd) {
+	  hwnd.style.display = "none";
+	  windowBackgroundTint.style.display = "none";
+	  isWindowOpen = false;
+	}
+
+  function myFunction() {
+  var x = document.getElementById("myFile");
+  x.disabled = true;
+}
+
     function openCity(evt, cityName) {
       var i, tabcontent, tablinks;
       tabcontent = document.getElementsByClassName("tabcontent");
