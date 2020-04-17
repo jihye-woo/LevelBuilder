@@ -40,7 +40,7 @@
           <div class="dropdown">
               <button class="dropbtn">File</button>
               <div class="dropdown-content">
-                <a href="#">New Map</a>
+                <a href="#" onclick="newMap()">New Map</a>
                 <a href="#">New TileSet</a>
                 <a href="#">Share Map</a>
                 <a href="#">Open</a>
@@ -208,9 +208,74 @@
   </div>
 </body>
 
+<div class="window surface" id="create-map-window">
+    <div class="window-title-bar">
+      <h4>New map</h4>
+      <div class="surface btn" onclick="cancelCreateMap()"><i class="fa fa-close"></i></div>
+    </div>
+    <div class="window-body">
+      <p>Warning: Creating a new map will discard your current progress!</p>
+      <div class="input-header">Select perspective</div>
+      <div class="input-row">
+        <input class="map-perspective" id="p-2d-default" name="map-perspective" type="radio" value="top" checked="checked"/>
+        <label for="p-2d-default">2D default</label>
+      </div>
+      <div class="input-row">
+        <input class="map-perspective" id="p-2d-isometric" name="map-perspective" value="iso" type="radio"/>
+        <label for="p-2d-isometric">2D isometric</label>
+      </div>
+      <div class="newline"></div>
+      <div class="input-header">Map/grid size</div>
+      <div class="input-row">
+        <label for="input-map-width">Width :</label>
+        <input type="text" placeholder="eg. 32" id="input-map-width"/>
+      </div>
+      <div class="input-row">
+        <label for="input-map-height">Height:</label>
+        <input type="text" placeholder="eg. 32" id="input-map-height"/>
+      </div>
+    </div>
+    <div class="window-actions">
+      <div class="surface btn" onclick="cancelCreateMap()">Cancel</div>
+      <div class="surface btn" onclick="createMap()">OK</div>
+    </div>
+  </div>
 </html>
 
 <script>
+  // let createMapWindow = document.querySelector("#create-map-window");
+
+  function newMap() {  
+  showWindow(createMapWindow);
+}
+
+function createMap() {
+  closeWindow(createMapWindow);  
+  let mapType = "top";
+  let mapWidth  = parseInt(document.querySelector("#input-map-width").value  || 32)
+  let mapHeight = parseInt(document.querySelector("#input-map-height").value || 32);
+  for(let radio of document.getElementsByClassName("map-perspective")) {if (window.CP.shouldStopExecution(29)){break;}    
+    if (radio.checked) {
+      mapType = radio.value;
+      break;
+    }
+    }
+}
+window.CP.exitedLoop(29);
+
+function showWindow(hwnd) {
+  hwnd.style.display = "block";
+  windowBackgroundTint.style.display = "block";
+  isWindowOpen = true;
+}
+
+function closeWindow(hwnd) {
+  hwnd.style.display = "none";
+  windowBackgroundTint.style.display = "none";
+  isWindowOpen = false;
+}
+
+
     function openCity(evt, cityName) {
       var i, tabcontent, tablinks;
       tabcontent = document.getElementsByClassName("tabcontent");
@@ -239,4 +304,4 @@ window.onclick = function(e) {
     }
   }
 }
-    </script>
+</script>
