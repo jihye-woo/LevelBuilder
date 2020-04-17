@@ -5,6 +5,10 @@
 <link href="css/workSpace.css" rel="stylesheet">
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="js/bootstrap.min.js" rel="text/javascript">
+
+<script src="https://cdn.rawgit.com/eligrey/FileSaver.js/5ed507ef8aa53d8ecfea96d96bc7214cd2476fd2/FileSaver.min.js"></script>
+
+
 <!------ Include the above in your HEAD tag ---------->
 
 <html lang='en' class=''>
@@ -282,21 +286,23 @@ function cancelCreateTileSet() {
 }
 
 function createMap() {
-  closeWindow(createMapWindow);  
+  createMapXML(1, 2, 3, 4);
+	closeWindow(createMapWindow);
   let mapType = "top";
   let mapWidth  = parseInt(document.querySelector("#input-map-width").value  || 32)
   let mapHeight = parseInt(document.querySelector("#input-map-height").value || 32);
+
   for(let radio of document.getElementsByClassName("map-perspective")) {if (window.CP.shouldStopExecution(29)){break;}    
     if (radio.checked) {
       mapType = radio.value;
       break;
-    }
+    }	
     }
 }
-window.CP.exitedLoop(29);
+window.CP.exite,dLoop(29);
 
 function createTileSet() {  
-  
+  createTilesetXML("filename", "20", "20", "1", "1", "15", "3");
 }
 
 function showWindow(hwnd) {
@@ -330,7 +336,81 @@ function showWindow(hwnd) {
       evt.currentTarget.className += " active";
     }
     document.getElementById("defaultOpen").click();
-</script>
+    
+    function createMapXML(width, height, tilewidth, tileheight) {
+        var xml = new XMLSerializer().serializeToString(MapXMLCreate(width, height, tilewidth, tileheight));
+        var blob = new Blob([xml], {type: "text/xml;charset=utf-8"});
+        saveAs(blob, "newmap.tmx");
+  }
 
+
+  function MapXMLCreate(width, height, tilewidth, tileheight)
+  {
+      var doc = document.implementation.createDocument(null, null);
+      var mapElem = doc.createElement("map");
+      mapElem.setAttribute("version", "1.2");
+      mapElem.setAttribute("tiledversion", "1.3.2");
+      mapElem.setAttribute("orientation", "isometric");
+      mapElem.setAttribute("renderoreder", "left-down");
+      mapElem.setAttribute("compressionlevel", "-1");
+      mapElem.setAttribute("width", width);
+      mapElem.setAttribute("height", height);
+      mapElem.setAttribute("tilewidth", width);
+      mapElem.setAttribute("tileheight", height);
+      mapElem.setAttribute("infinite", "0");
+      mapElem.setAttribute("nextlayerid", "2");
+      mapElem.setAttribute("nextobjectid", "1");  
+
+      var layerElem = doc.createElement("layer");
+      layerElem.setAttribute("id", "1");
+      layerElem.setAttribute("name", "Tile Layer 1");
+      layerElem.setAttribute("width", width);
+      layerElem.setAttribute("height", height);
+      
+      var dataElem = doc.createElement("data");
+      dataElem.setAttribute("encoding", "csv");
+
+      doc.innerHTML = '<?xml version="1.0" encoding="UTF-8"?>';
+      mapElem.appendChild(layerElem);
+      layerElem.appendChild(dataElem);
+      doc.appendChild(mapElem);
+      return doc;
+  }
+
+  function createTilesetXML(name, tilewidth, tilehegiht, spacing, margin, tilecount, tileheight) {
+        var xml = new XMLSerializer().serializeToString(MapXMLCreate(name, tilewidth, tilehegiht, spacing, margin, tilecount, tileheight));
+        var blob = new Blob([xml], {type: "text/xml;charset=utf-8"});
+        saveAs(blob, "newtileset.tsx");
+  }
+
+  function TilesetXMLCreate(name, tilewidth, tilehegiht, spacing, margin, tilecount, tileheight)
+{
+    var doc = document.implementation.createDocument(null, null);
+    var tilesetElem = doc.createElement("tileset");
+    tilesetElem.setAttribute("version", "1.2");
+    tilesetElem.setAttribute("tiledversion", "1.3.2");
+    tilesetElem.setAttribute("name", "test");
+    tilesetElem.setAttribute("tilewidth", tilewidth);
+    tilesetElem.setAttribute("tilehegiht", tilehegiht);
+    tilesetElem.setAttribute("spacing", spacing);
+    tilesetElem.setAttribute("margin", margin);
+    tilesetElem.setAttribute("tilecount", tilecount);
+    tilesetElem.setAttribute("tileheight", tileheight);
+    tilesetElem.setAttribute("columns", "3");
+
+    var imageElem = doc.createElement("image");
+    imageElem.setAttribute("source", "D:\Program Files\Tiled\examples\sticker-knight\map\alter.png");
+    imageElem.setAttribute("width", "20");
+    imageElem.setAttribute("height", "20");
+    
+    doc.innerHTML = '<?xml version="1.0" encoding="UTF-8"?>';
+    tilesetElem.appendChild(imageElem);
+    doc.appendChild(tilesetElem);
+    return doc;
+}
+
+
+   
+</script>
 
 
