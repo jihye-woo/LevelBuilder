@@ -166,6 +166,8 @@
       </div>
     </section>
   </div>
+
+  <div class="window-tint">       </div>
   <div class="window surface" id="create-map-window">
       <div class="window-title-bar">
         <h4>New map</h4>
@@ -190,19 +192,19 @@
         <div class="newline"></div>
         <div class="input-header">Map size</div>
         <div class="input-row">
-          <label for="input-map-width">Width :</label>
-          <input type="text" placeholder="eg. 32" id="input-map-width"/>
+          <label for="map-width">Width :</label>
+          <input type="text" placeholder="eg. 32" id="map-width"/>
 
-          <label for="input-map-height">Height:</label>
-          <input type="text" placeholder="eg. 32" id="input-map-height"/>
+          <label for="map-height">Height:</label>
+          <input type="text" placeholder="eg. 32" id="map-height"/>
         </div>
         <div class="input-header">Tile size</div>
         <div class="input-row">
-          <label for="input-map-width">Width :</label>
-          <input type="text" placeholder="eg. 32" id="input-map-width"/>
+          <label for="tile-width">Width :</label>
+          <input type="text" placeholder="eg. 32" id="tile-width"/>
 
-          <label for="input-map-height">Height:</label>
-          <input type="text" placeholder="eg. 32" id="input-map-height"/>
+          <label for="tile-height">Height:</label>
+          <input type="text" placeholder="eg. 32" id="tile-height"/>
         </div>
       </div>
       <div class="window-actions">
@@ -221,12 +223,16 @@
             <label for="fname">File name:</label>
             <input type="text" id="fname" name="fname"><br><br> 
           <div class="input-header">Type</div>
-          <div class="input-row">
-            <input class="map-perspective" id="p-2d-default" name="map-perspective" type="radio" value="top" checked="checked"/>
+          based On TileSet Img: <input type="checkbox" id="basedOnTileSetImg"  onclick="myCheck()">
+          collection Of Img: <input type="checkbox" id="collectionOfImg"  onclick="myCheck()">
+          <!-- <div class="input-row">
+            <input class="map-perspective" id="basedOnTileSetImg" name="tileSetType" type="radio" value="basedOnTileSetImg" checked="checked"/>
             <label for="basedOnTileSetImg">Based on TileSet Image </label>
-            <input class="map-perspective" id="p-2d-isometric" name="map-perspective" value="iso" type="radio"/>
+            <input class="map-perspective" id="collectionOfImg" name="tileSetType" value="collectionOfImg" type="radio"/>
             <label for="collectionOfImg"> Collection of Images</label>
-          </div>
+            <input type="button" onclick="mySelect()" value="Select">
+          </div> -->
+          <div class="input-row" id="txt" style="display:none">
           <div class="newline"></div>
           <div class="input-header">Image </div> 
           <!-- <label for="fname">Source:</label>
@@ -234,19 +240,24 @@
           <input type="file" id="myFile"> 
 
           <div class="input-row">
-            <label for="input-map-width">Width :</label>
-            <input type="text" placeholder="eg. 32" id="input-map-width"/>
-            <label for="input-map-height">Height:</label>
-            <input type="text" placeholder="eg. 32" id="input-map-height"/>
+            <label for="tileSet-width">Width :</label>
+            <input type="text" placeholder="eg. 32" id="tileSet-width"/>
+            <label for="tileSet-height">Height:</label>
+            <input type="text" placeholder="eg. 32" id="tileSet-height"/>
           </div>
           <div class="input-row">
-            <label for="input-map-width">Magin :</label>
-            <input type="text" placeholder="eg. 32" id="input-map-width"/>
-            <label for="input-map-height">Spacing:</label>
-            <input type="text" placeholder="eg. 32" id="input-map-height"/>
+            <label for="margin">Margin :</label>
+            <input type="text" placeholder="eg. 32" id="margin"/>
+            <label for="spacing">Spacing:</label>
+            <input type="text" placeholder="eg. 32" id="spacing"/>
+          </div>
+          <div class="window-actions">
+              <div class="surface btn" onclick="cancelCreateTileSet()">Cancel</div>
+              <div class="surface btn" onclick="createTileSet()">OK</div>
+            </div>
           </div>
         </div>
-        <div class="window-actions">
+        <div class="window-actions" id="text" style="display:none">
           <div class="surface btn" onclick="cancelCreateTileSet()">Cancel</div>
           <div class="surface btn" onclick="createTileSet()">OK</div>
         </div>
@@ -257,6 +268,22 @@
 </html>
 
 <script>
+
+  function myCheck() {
+  var checkBox = document.getElementById("collectionOfImg");
+  var checkBox2 = document.getElementById("basedOnTileSetImg");
+  var text = document.getElementById("text");
+  var text2 = document.getElementById("txt");
+  if (checkBox.checked == true){
+    text.style.display = "block";
+  } else if (checkBox2.checked == true){
+     text2.style.display = "block";
+  } else {
+     text.style.display = "none";
+     text2.style.display = "none";
+  }
+}
+
 let createMapWindow = document.querySelector("#create-map-window");
 let createTileSetWindow = document.querySelector("#create-tileset-window");
 
@@ -277,12 +304,20 @@ function cancelCreateTileSet() {
 }
 
 function createMap() {
-  createMapXML(1, 2, 3, 4);
-	closeWindow(createMapWindow);
+  //createMapXML(10, 12, 13, 14);
+	//closeWindow(createMapWindow);
   let mapType = "top";
-  let mapWidth  = parseInt(document.querySelector("#input-map-width").value  || 32)
-  let mapHeight = parseInt(document.querySelector("#input-map-height").value || 32);
+  // let mapWidth  = parseInt(document.querySelector("#map-width").value  || 32);
+  // let mapHeight = parseInt(document.querySelector("#map-height").value || 32);
+  // let tileWidth  = parseInt(document.querySelector("#tile-width").value  || 32);
+  // let tileHeight = parseInt(document.querySelector("#tile-height").value || 32);
+  var mapWidth = document.getElementById("map-width").value;
+  var mapHeight = document.getElementById("map-height").value;
+  var tileWidth = document.getElementById("tile-width").value;
+  var tileHeight = document.getElementById("tile-height").value;
 
+  createMapXML(mapWidth, mapHeight , tileWidth, tileHeight);
+  closeWindow(createMapWindow);
   for(let radio of document.getElementsByClassName("map-perspective")) {if (window.CP.shouldStopExecution(29)){break;}    
     if (radio.checked) {
       mapType = radio.value;
@@ -290,7 +325,7 @@ function createMap() {
     }	
     }
 }
-window.CP.exite,dLoop(29);
+window.CP.exitedLoop(29);
 
 function createTileSet() {  
   createTilesetXML("filename", "20", "20", "1", "1", "15", "3");
@@ -311,6 +346,18 @@ function showWindow(hwnd) {
   function myFunction() {
   var x = document.getElementById("myFile");
   x.disabled = true;
+}
+
+function mySelect() {
+  var tileSetType = document.forms[0];
+  var txt = "";
+  var i;
+  for (i = 0; i < tileSetType.length; i++) {
+    if (tileSetType[i].checked) {
+      txt = txt + tileSetType[i].value + " ";
+    }
+  }
+  document.getElementById("order").value = "You ordered a coffee with: " + txt;
 }
 
     function openCity(evt, cityName) {
