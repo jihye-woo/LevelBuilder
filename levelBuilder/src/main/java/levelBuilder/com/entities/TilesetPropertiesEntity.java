@@ -15,6 +15,7 @@ public class TilesetPropertiesEntity {
     private int columns;
     private int tilewidth;
     private int tileheight;
+    private int tilesetId;
 
     public int getId() {
         return id;
@@ -78,5 +79,13 @@ public class TilesetPropertiesEntity {
 
     public void setTileheight(int tileheight) {
         this.tileheight = tileheight;
+    }
+
+    public int getTilesetId() {
+        return tilesetId;
+    }
+
+    public void setTilesetId(int tilesetId) {
+        this.tilesetId = tilesetId;
     }
 }

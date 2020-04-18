@@ -14,7 +14,6 @@ public class MapEntity {
     private String tilelayerformat;
     private String orientation;
     private String tilerenderorder;
-    private int mapPropertiesId;
     private int projectId;
 
     public int getId() {
@@ -71,14 +70,6 @@ public class MapEntity {
 
     public void setTilerenderorder(String tilerenderorder) {
         this.tilerenderorder = tilerenderorder;
-    }
-
-    public int getMapPropertiesId() {
-        return mapPropertiesId;
-    }
-
-    public void setMapPropertiesId(int mapPropertiesId) {
-        this.mapPropertiesId = mapPropertiesId;
     }
 
     public int getProjectId() {

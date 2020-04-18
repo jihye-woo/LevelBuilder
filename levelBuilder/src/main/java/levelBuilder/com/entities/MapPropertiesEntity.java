@@ -12,6 +12,7 @@ public class MapPropertiesEntity {
     private Integer height;
     private Integer offsetX;
     private Integer offsetY;
+    private int mapId;
 
     public int getId() {
         return id;
@@ -51,5 +52,13 @@ public class MapPropertiesEntity {
 
     public void setOffsetY(Integer offsetY) {
         this.offsetY = offsetY;
+    }
+
+    public int getMapId() {
+        return mapId;
+    }
+
+    public void setMapId(int mapId) {
+        this.mapId = mapId;
     }
 }

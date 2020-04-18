@@ -9,7 +9,6 @@ public class TilesetEntity {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
     private String name;
-    private int tilesetPropertiesId;
     private int mapId;
 
     public int getId() {
@@ -26,14 +25,6 @@ public class TilesetEntity {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getTilesetPropertiesId() {
-        return tilesetPropertiesId;
-    }
-
-    public void setTilesetPropertiesId(int tilesetPropertiesId) {
-        this.tilesetPropertiesId = tilesetPropertiesId;
     }
 
     public int getMapId() {
