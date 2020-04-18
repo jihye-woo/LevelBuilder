@@ -15,6 +15,7 @@ public class UserEntity {
     private String name;
     private Date birthdate;
     private String phonenumber;
+    private String roles;
 
     public int getId() {
         return id;
@@ -70,5 +71,13 @@ public class UserEntity {
 
     public void setPhonenumber(String phonenumber) {
         this.phonenumber = phonenumber;
+    }
+
+    public String getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
     }
 }
