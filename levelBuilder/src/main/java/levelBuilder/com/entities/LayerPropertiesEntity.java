@@ -13,6 +13,7 @@ public class LayerPropertiesEntity {
     private Integer opacity;
     private Integer verticalOffset;
     private Integer horizontalOffset;
+    private int layerId;
 
     public int getId() {
         return id;
@@ -60,5 +61,13 @@ public class LayerPropertiesEntity {
 
     public void setHorizontalOffset(Integer horizontalOffset) {
         this.horizontalOffset = horizontalOffset;
+    }
+
+    public int getLayerId() {
+        return layerId;
+    }
+
+    public void setLayerId(int layerId) {
+        this.layerId = layerId;
     }
 }
