@@ -5,9 +5,10 @@
 <link href="css/workSpace.css" rel="stylesheet">
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="js/bootstrap.min.js" rel="text/javascript">
+<!-- <link href="js/Map.js" rel="text/javascript"> -->
 
 <script src="https://cdn.rawgit.com/eligrey/FileSaver.js/5ed507ef8aa53d8ecfea96d96bc7214cd2476fd2/FileSaver.min.js"></script>
-
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
 <!------ Include the above in your HEAD tag ---------->
 
@@ -92,13 +93,8 @@
                       <a href="#">Remove Tile</a>
                     </div>
                   </div>
-                  <div class="dropdown">
-                      <button class="dropbtn">About</button>
-                      <div class="dropdown-content">
-                        <a href="#">User Manual</a>
-                        <a href="#">About Level Builder</a>
-                      </div>
-                    </div>
+        <div class="surface btn" id="btn-info" title="Totally about this tool!" onclick="showAbout()"><i
+            class="fa fa-info"></i><span>About</span></div>
       </div>
       <div class="workspace">
         <div class="scene">
@@ -134,7 +130,7 @@
 
           <div id="MapLayers" class="tabcontent">
               <div class="project-tools">
-                <div class="surface btn" id="btn-layer-group" title="Create a new group of Layer" onclick="createLayerGroup()"><i
+                <div class="surface btn" id="btn-layer-group" title="Create a new group" onclick="createLayerGroup()"><i
                     class="fa fa-folder"></i></div>
                 <div class="surface btn" id="btn-layer-add" title="Create a layer" onclick="createLayer()"><i
                     class="fa fa-file-o"> </i></div>
@@ -152,23 +148,22 @@
               </div>
             </div>
 
-            <!-- <div id="TileSets" class="tabcontent">
+            <div id="TileSets" class="tabcontent">
                 <div class="project-tools">
-                  <div class="surface btn" id="btn-tileset-group" title="Create a new group of TileSet" onclick="createTileSetGroup()"><i
+                  <div class="surface btn" id="btn-layer-group" title="Create a new group" onclick="createLayerGroup()"><i
                       class="fa fa-folder"></i></div>
-                  <div class="surface btn" id="btn-tileset-add" title="Create a tileset" onclick="createTileSet()"><i
+                  <div class="surface btn" id="btn-layer-add" title="Create a layer" onclick="createLayer()"><i
                       class="fa fa-file-o"> </i></div>
-                  
-                  <div class="surface btn req-layer" id="btn-tileset-remove" title="Remove group or tileset"
-                    onclick="removeTileSetOrGroup(this)" disabled="disabled"><i class="fa fa-trash-o"> </i></div>
+
+                  <div class="surface btn req-layer" id="btn-layer-remove" title="Remove group or layer"
+                    onclick="removeLayerOrGroup(this)" disabled="disabled"><i class="fa fa-trash-o"> </i></div>
                 </div>
                 <div class="project-item-list" id="style-4">
-                  <ul class="project-item-tree">
-                    <li>TileSet1</li>
-                  </ul>
+                  <ul class="project-item-tree"></ul>
                 </div>
-              </div> -->
+              </div>
         </div>
+
       </div>
     </section>
   </div>
@@ -194,8 +189,7 @@
             <select id="tileRenderOrder">
                 <option value="rightUP">Right Up</option>
               </select>  -->
-              <label for="fname">Name:</label>
-              <input type="text" id="map-name" name="fname">
+        
         <div class="newline"></div>
         <div class="input-header">Map size</div>
         <div class="input-row">
@@ -266,7 +260,7 @@
         </div>
         <div class="window-actions" id="text" style="display:none">
           <div class="surface btn" onclick="cancelCreateTileSet()">Cancel</div>
-          <div class="surface btn" onclick="createCollecionOfImgTileSet()">OK</div>
+          <div class="surface btn" onclick="createTileSet()">OK</div>
         </div>
       </div>
 </body>
@@ -275,181 +269,6 @@
 </html>
 
 <script>
-function createLayerGroup() {
-  return createTreeItem("group", x => map.createGroup(x)) ;
-}
-
-function createLayer(skipRename) {
-  return createTreeItem("layer", x => map.createLayer(x),skipRename) ;
-}
-
-function createLayerFromItem(item) {
-  let l = createLayer(true);
-  l.item.name = item.name;
-  l.item.visible = item.visible;  
-  l.item.properties = item.properties;  
-  l.item.tileData   = JSON.parse(JSON.stringify(item.tileData));
-  l.node.innerHTML = item.name;  
-}
-
-function clearTreeItems() {  
-  if (mapTreeElement) {
-    mapTreeElement.innerHTML = "";
-  }
-}
-
-function createTreeItem(type, factory, skipRename) {
-  if (!map) return;
-  if (isRenamingTreeItem) acceptRenameTreeItem();
-  var group;
-  var parent = mapTreeElement;
-  if (isGroupSelected()) {        
-      group = factory(selectedTreeItem);    
-      parent = selectedTreeElement.parentElement.querySelector(".children");         
-  }
-  else { 
-    group = factory(); 
-  }    
-  
-  let layerElementWrapper = document.createElement("li");
-  layerElementWrapper.classList.add(type);
-  layerElementWrapper.setAttribute("data-id", group.id);
-  
-  let itemNameElement = document.createElement("div");
-  itemNameElement.classList.add("item-name");
-  itemNameElement.classList.add(type);
-  itemNameElement.innerHTML = group.name;
-  layerElementWrapper.appendChild(itemNameElement);
-  
-  let itemVisibilityElement = document.createElement("i");
-  itemVisibilityElement.classList.add("item-visibility");
-  itemVisibilityElement.classList.add("visible");
-  itemVisibilityElement.addEventListener("click", e => {        
-    group.visible = !group.visible;    
-    if (group.visible) {
-      itemVisibilityElement.classList.remove("not-visible");
-      itemVisibilityElement.classList.add("visible");
-    } else {
-      itemVisibilityElement.classList.remove("visible");
-      itemVisibilityElement.classList.add("not-visible");      
-    }
-  }, false);
-  layerElementWrapper.appendChild(itemVisibilityElement);
-  
-  if (type === "group") {
-    let childlist = document.createElement("ul");
-    childlist.classList.add("children");
-    layerElementWrapper.appendChild(childlist);
-  }  
- 
-  itemNameElement.addEventListener("click", e => {     
-    e.stopPropagation(); 
-    selectTreeItem(group, itemNameElement); 
-  }, false);
-  
-  itemNameElement.addEventListener("dblclick", e => {     
-    e.stopPropagation(); 
-    showRenameTreeItem(group, itemNameElement); 
-  }, false);
-  
-  parent.appendChild(layerElementWrapper);  
-  if (skipRename)
-    selectTreeItem(group, itemNameElement);  
-  else showRenameTreeItem(group, itemNameElement);
-  return {
-    item: group,
-    node: itemNameElement
-  };
-}
-
-function showDeleteTreeItemAndChildren(item, elm) {
-  if (elm.classList.contains("group")) {
-    if (!confirm("Are you sure you want to delete this group and all its children?")) {
-        return;
-    }    
-  }
-  else if (!confirm("Are you sure you want to delete this layer?")) {
-    return;
-  }  
-  let index = item.parent.children.indexOf(item);
-  if (index === -1) {
-    alert("Error removing item!!");
-    return;
-  }  
-  elm.parentElement.parentElement.removeChild(elm.parentElement);  
-  item.parent.children.remove(index);  
-  setLayerButtonState(false);
-  clearSelectionDetails();  
-  hideInspector();  
-  
-  selectedTreeItem = undefined;
-  selectedTreeElement = undefined;
-}
-
-function selectTreeItem(item, elm) {  
-  if (selectedTreeElement === elm) {
-    return;
-  }
-  if (selectedTreeElement !== undefined) {    
-    acceptRenameTreeItem();  
-    selectedTreeElement.classList.remove("selected");  
-  }  
-  elm.classList.add("selected");
-  selectedTreeElement = elm;
-  selectedTreeItem = item; 
-  setLayerButtonState(true);
-  updateSelectionDetails();
-  showInspector();
-}
-
-function acceptRenameTreeItem() {
-  if (isRenamingTreeItem) {
-    isRenamingTreeItem=false;
-    let input = selectedTreeElement.querySelector("input");
-    if (input) {
-      selectedTreeItem.name = input.value;
-      selectedTreeElement.innerHTML = input.value;
-    }
-  }    
-}
-
-function showRenameTreeItem(item, elm) {
-  if (isRenamingTreeItem && selectedTreeItem === elm) {
-    return;
-  } else if (isRenamingTreeItem) {
-    acceptRenameTreeItem();
-  }
-  selectTreeItem(item, elm);
-  isRenamingTreeItem = true;
-  let input = document.createElement("input");
-  input.classList.add("name-editor");
-  elm.innerHTML = "";      
-  input.addEventListener("keydown", evt => {
-    if (evt.keyCode === 27) {
-      // cancel
-      isRenamingTreeItem=false;
-      elm.innerHTML = item.name;
-      return;
-    }
-  }, false);
-  input.addEventListener("keypress", evt=> {
-    if (evt.which === 13) {
-      // accept
-      isRenamingTreeItem=false;
-      item.name = input.value;
-      elm.innerHTML = item.name;
-      updateSelectionDetails();
-      return;
-    }
-  }, false);
-  input.value = item.name;    
-  elm.appendChild(input);  
-  input.select();
-}
-
-function isGroupSelected() {
-  return selectedTreeItem && selectedTreeElement.classList.contains("group");
-}  
 
   function myCheck() {
   var checkBox = document.getElementById("collectionOfImg");
@@ -485,16 +304,71 @@ function cancelCreateTileSet() {
   closeWindow(createTileSetWindow);
 }
 
+
+
+class Map{
+    constructor(name, mapWidth, mapHeight, tileWidth, tileHeight, layer){
+        this.name = name;
+        this.mapWidth = mapWidth;
+        this.mapHeight = mapHeight;
+        this.tileWidth = tileWidth;
+        this.tileHeight = tileHeight;
+        this.Layer = new Array(layer);
+    }
+}
+
+class Layer{
+    constructor(id, name, width, height){
+        this.id = id;
+        this.name = name;
+        this.width = width;
+        this.hegiht = height;
+    }
+}
+
+class TiledLayer extends Layer{
+    constructor(id, name, width, height){
+        super(id, name, width, height);
+    }
+}
+
+class ObjectLayer extends Layer{
+    constructor(id, name, width, height){
+        super(id, name, width, height);
+        this.objects = new Array(); // insert the MapObject later
+    }
+}
+
+
 function createMap() {
   let mapType = "top";
 
-  var mapName = document.getElementById("map-name").value;
   var mapWidth = document.getElementById("map-width").value;
   var mapHeight = document.getElementById("map-height").value;
   var tileWidth = document.getElementById("tile-width").value;
   var tileHeight = document.getElementById("tile-height").value;
+  var mapName = "test.tmx";
 
-  createMapXML(mapWidth, mapHeight, tileWidth, tileHeight);
+
+
+
+
+  // 1. create Map and Layer objects
+  var newLayer = new TiledLayer(1, "Tile Layer 1", mapWidth, mapHeight);
+  console.log(newLayer);
+  var newMap = new Map(mapName, mapWidth, mapHeight, tileWidth, tileHeight, newLayer);
+  console.log(newMap);
+  // 2. save data ( ajax request )
+  var mapXML = MapXML(newMap.mapWidth, newMap.mapHeight, newMap.tileWidth, newMap.tileheight, newLayer);
+  console.log(mapXML);
+  save(mapXML);
+
+  // 3. load map
+  load(mapXML.name);
+
+  // 4. create XML File
+  //createMapXMLFile(mapXML, mapName);
+
   // create map object and load 
   closeWindow(createMapWindow);
   for(let radio of document.getElementsByClassName("map-perspective")) {if (window.CP.shouldStopExecution(29)){break;}    
@@ -507,15 +381,9 @@ function createMap() {
 window.CP.exitedLoop(29);
 
 function createTileSet() {  
-   ("filename", "20", "20", "1", "1", "15", "3");
-  closeWindow(createTileSetWindow);
-}
-
-function createCollecionOfImgTileSet() {  
   createTilesetXML("filename", "20", "20", "1", "1", "15", "3");
  // createImageTilesetXML(name, tilewidth, tilehegiht, spacing, margin, imagesource)
  // createCollectionTilesetXML(name)
- closeWindow(createTileSetWindow);
 }
 
 function showWindow(hwnd) {
@@ -562,14 +430,14 @@ function mySelect() {
     }
     document.getElementById("defaultOpen").click();
     
-    function createMapXML(width, height, tilewidth, tileheight) {
-        var xml = new XMLSerializer().serializeToString(MapXML(width, height, tilewidth, tileheight));
+    function createMapXMLFile(xmlFile, name) {
+        var xml = new XMLSerializer().serializeToString(xmlFile);
         var blob = new Blob([xml], {type: "text/xml;charset=utf-8"});
-        saveAs(blob, "newmap.tmx");
+        saveAs(blob, name+".tmx");
   }
 
 
-  function MapXML(width, height, tilewidth, tileheight)
+  function MapXML(width, height, tilewidth, tileheight, layer)
   {
       var doc = document.implementation.createDocument(null, null);
       var mapElem = doc.createElement("map");
@@ -625,7 +493,6 @@ function mySelect() {
     tilesetElem.setAttribute("tilecount", tilecount);
     tilesetElem.setAttribute("columns", "3"); 
 
-
     var imageElem = doc.createElement("image");
     imageElem.setAttribute("source", imagesource);
 
@@ -669,6 +536,78 @@ function getImage(imagesrc){
   return newImage;
 }
 
+function save(mapXML){
+  var save_endpoint = "save_map";
+  var helper = new XMLSerializer();
+	$.ajax({
+		type : "POST",
+		contentType: "application/xml",
+		url : "/fileController/" + save_endpoint,
+    data : helper.serializeToString(mapXML),
+    contentType: "application/xml",
+    dataType : 'xml',
+    processData: false, 
+    
+    error : function(e){
+      alert("save error occurred");
+      console.log("XML Saving Failed");
+    },
+
+		success : function(data) {
+      console.log(data);
+			console.log("success!");
+		}
+  });
+}
+
+function load(fileName){
+  var load_endpoint = "load_map";
+  var helper = new XMLSerializer();
+	$.ajax({
+		type : "POST",
+		contentType: "text/plain",
+		url : "/fileController/" + load_endpoint,
+    data : fileName,
+    dataType : 'xml',
+    processData: false, 
+    
+    error : function(e){
+      alert("save error occurred");
+      console.log("XML Loading Failed");
+    },
+
+		success : function(data) {
+      console.log(data);
+      console.log("success!");
+      // return data;
+		}
+  });
+}
+
+
+// function save(mapXML){
+// $.ajax({
+// 		type : "POST",
+// 		contentType: "application/xml",
+// 		url : "/fileController/save_map",
+// 		data : JSON.stringify({
+// 				"type" : "FeatureCollection",
+// 				"features" : []
+// 			}),
+// 		dataType : 'json',
+   
+// 		success : function(data) {
+
+//       console.log("success load");
+// 		}
+
+// 	});
+// }
+
+
+   
 </script>
+
+
 
 
