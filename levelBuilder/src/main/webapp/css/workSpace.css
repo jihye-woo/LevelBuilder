@@ -402,6 +402,7 @@ ul {
   padding-bottom: 2px;
   margin-right: 0px;
   cursor: default;
+  color: white;
 }
 .project-item-tree li .selected {
   background-color: rgba(52, 152, 219, 0.5);
@@ -738,3 +739,27 @@ height: 100%;
 .dropdown:hover .dropdown-content {display: block;}
 
 .dropdown:hover .dropbtn {background-color: #3f3e3e;}
+
+#myUL li{
+  cursor: pointer;
+  position: relative;
+  padding: 12px 8px 12px 40px;
+  list-style-type: none;
+  background: #585858;
+  font-size: 12px;
+  transition: 0.2s;
+  color: white;
+   
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; 
+}
+
+#myUL li:nth-child(odd) {
+  background: #636262;
+}
+
+#myUL li:hover {
+  background: rgb(133, 133, 133);
+}

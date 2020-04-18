@@ -52,7 +52,7 @@
                 <a href="#">Share Map</a>
                 <a href="#">Open</a>
                 <a href="#">Save</a>
-                <a href="#">Save As</a>
+                <a href="#" onclick="saveAs()">Save As </a>
                 <a href="#">Export</a>
                 <a href="#">Export As</a>
                 <a href="#">Export As Image</a>
@@ -76,8 +76,8 @@
               <div class="dropdown">
                   <button class="dropbtn">Layers</button>
                   <div class="dropdown-content">
-                    <a href="#">New</a>
-                    <a href="#">Group</a>
+                    <a href="#" onclick="createLayer()">New</a>
+                    <a href="#" onclick="createLayerGroup()">Group</a>
                     <a href="#">Duplicate Layers</a>
                     <a href="#">Remove Layers</a>
                     <a href="#">Raise Layers</a>
@@ -93,8 +93,13 @@
                       <a href="#">Remove Tile</a>
                     </div>
                   </div>
-        <div class="surface btn" id="btn-info" title="Totally about this tool!" onclick="showAbout()"><i
-            class="fa fa-info"></i><span>About</span></div>
+                  <div class="dropdown">
+                      <button class="dropbtn">About</button>
+                      <div class="dropdown-content">
+                        <a href="#">User Manual</a>
+                        <a href="#">About Level Builder</a>
+                      </div>
+                    </div>
       </div>
       <div class="workspace">
         <div class="scene">
@@ -125,8 +130,8 @@
         </div>
         <div class="project">
           <!-- <div class="tab-header"> -->
-                <button class="tab-header1" onclick="openCity(event, 'MapLayers')" id="defaultOpen">Map Layers</button>
-                <button class="tab-header1" onclick="openCity(event, 'TileSets')">Tile Sets</button>
+                <button class="tab-header1" onclick="openTab(event, 'MapLayers')" id="defaultOpen">Map Layers</button>
+                <button class="tab-header1" onclick="openTab(event, 'TileSets')">Tile Sets</button>
 
           <div id="MapLayers" class="tabcontent">
               <div class="project-tools">
@@ -144,22 +149,24 @@
                   onclick="removeLayerOrGroup(this)" disabled="disabled"><i class="fa fa-trash-o"> </i></div>
               </div>
               <div class="project-item-list" id="style-4">
-                <ul class="project-item-tree"></ul>
+                <!-- <ul class="project-item-tree" id="myUL"> -->
+                <ul id="myUL"> 
+                </ul>
               </div>
             </div>
 
             <div id="TileSets" class="tabcontent">
                 <div class="project-tools">
-                  <div class="surface btn" id="btn-layer-group" title="Create a new group" onclick="createLayerGroup()"><i
+                  <div class="surface btn" id="btn-layer-group" title="Create a new group" onclick="createTileGroup()"><i
                       class="fa fa-folder"></i></div>
-                  <div class="surface btn" id="btn-layer-add" title="Create a layer" onclick="createLayer()"><i
+                  <div class="surface btn" id="btn-layer-add" title="Create a layer" onclick="createTile()"><i
                       class="fa fa-file-o"> </i></div>
 
                   <div class="surface btn req-layer" id="btn-layer-remove" title="Remove group or layer"
                     onclick="removeLayerOrGroup(this)" disabled="disabled"><i class="fa fa-trash-o"> </i></div>
                 </div>
                 <div class="project-item-list" id="style-4">
-                  <ul class="project-item-tree"></ul>
+                  <ul class="project-item-tree" id="tileUL"></ul>
                 </div>
               </div>
         </div>
@@ -189,7 +196,8 @@
             <select id="tileRenderOrder">
                 <option value="rightUP">Right Up</option>
               </select>  -->
-        
+              <label for="fname">Name:</label>
+              <input type="text" id="map-name" name="fname">
         <div class="newline"></div>
         <div class="input-header">Map size</div>
         <div class="input-row">
@@ -263,6 +271,18 @@
           <div class="surface btn" onclick="createTileSet()">OK</div>
         </div>
       </div>
+
+      <div class="window surface" id="saveas">
+          <div class="window-title-bar">
+            <h4>Save As</h4>
+            <label for="fname">File name:</label>
+            <input type="text" id="fname" name="fname"><br><br> 
+          </div>
+          <div class="window-actions">
+            <div class="surface btn" onclick="cancelSaveAs()">Cancel</div>
+            <div class="surface btn" onclick="SaveAs()">OK</div>
+          </div>
+      </div>
 </body>
 </html>
 
@@ -302,7 +322,13 @@ function cancelCreateTileSet() {
   closeWindow(createTileSetWindow);
 }
 
+function saveAs() {  
+showWindow(saveas);
+}
 
+function cancelSaveAs() {  
+  closeWindow(saveas);
+}
 
 class Map{
     constructor(name, mapWidth, mapHeight, tileWidth, tileHeight, layer){
@@ -313,7 +339,8 @@ class Map{
         this.tileHeight = tileHeight;
         this.Layer = new Array(layer);
     }
-}
+  }
+
 
 class Layer{
     constructor(id, name, width, height){
@@ -346,9 +373,7 @@ function createMap() {
   var tileWidth = document.getElementById("tile-width").value;
   var tileHeight = document.getElementById("tile-height").value;
   var mapName = "test.tmx";
-
-
-
+  //var mapName = document.getElementById("map-name").value;
 
 
   // 1. create Map and Layer objects
@@ -413,7 +438,7 @@ function mySelect() {
   document.getElementById("order").value = "You ordered a coffee with: " + txt;
 }
 
-    function openCity(evt, cityName) {
+    function openTab(evt, cityName) {
       var i, tabcontent, tablinks;
       tabcontent = document.getElementsByClassName("tabcontent");
       for (i = 0; i < tabcontent.length; i++) {
@@ -602,7 +627,106 @@ function load(fileName){
 // 	});
 // }
 
+function createLayerGroup() {
+  var li = document.createElement("li");
+  //var inputValue = document.getElementById("myInput").value;
+  var inputValue ="Group";
+  var t = document.createTextNode(inputValue);
+  li.appendChild(t);
+  if (inputValue === '') {
+    alert("You must write something!");
+  } else {
+    document.getElementById("myUL").appendChild(li);
+  }
+   document.getElementById("myInput").value = "";
 
-   
+  var span = document.createElement("SPAN");
+
+  li.appendChild(span);
+
+  for (i = 0; i < close.length; i++) {
+    close[i].onclick = function() {
+      var div = this.parentElement;
+      div.style.display = "none";
+    }
+  }
+} 
+function createLayer() {
+  var li = document.createElement("li");
+  //var inputValue = document.getElementById("myInput").value;
+  var inputValue ="Layer";
+ // <i class="fa fa-files-o"></i>
+  var t = document.createTextNode(inputValue);
+  li.appendChild(t);
+  if (inputValue === '') {
+    alert("You must write something!");
+  } else {
+    document.getElementById("myUL").appendChild(li);
+  }
+   document.getElementById("myInput").value = "";
+
+  var span = document.createElement("SPAN");
+  var txt = document.createTextNode("\u00D7");
+
+  li.appendChild(span);
+
+  for (i = 0; i < close.length; i++) {
+    close[i].onclick = function() {
+      var div = this.parentElement;
+      div.style.display = "none";
+    }
+  }
+} 
+
+// function createTileGroup() {
+//   var lis = document.createElement("li");
+//   //var inputValue = document.getElementById("myInput").value;
+//   var inputValue ="Group";
+//   var t = document.createTextNode(inputValue);
+//   lis.appendChild(t);
+//   if (inputValue === '') {
+//     alert("You must write something!");
+//   } else {
+//     document.getElementById("myUL").appendChild(lis);
+//   }
+//    document.getElementById("myInput").value = "";
+
+//   var span = document.createElement("SPAN");
+
+//   lis.appendChild(span);
+
+//   for (i = 0; i < close.length; i++) {
+//     close[i].onclick = function() {
+//       var div = this.parentElement;
+//       div.style.display = "none";
+//     }
+//   }
+// } 
+// function createTile() {
+//   var lis = document.createElement("li");
+//   //var inputValue = document.getElementById("myInput").value;
+//   var inputValue ="Layer";
+//  // <i class="fa fa-files-o"></i>
+//   var t = document.createTextNode(inputValue);
+//   lis.appendChild(t);
+//   if (inputValue === '') {
+//     alert("You must write something!");
+//   } else {
+//     document.getElementById("myUL").appendChild(lis);
+//   }
+//    document.getElementById("myInput").value = "";
+
+//   var span = document.createElement("SPAN");
+//   var txt = document.createTextNode("\u00D7");
+
+//   lis.appendChild(span);
+
+//   for (i = 0; i < close.length; i++) {
+//     close[i].onclick = function() {
+//       var div = this.parentElement;
+//       div.style.display = "none";
+//     }
+//   }
+// } 
 </script>
 

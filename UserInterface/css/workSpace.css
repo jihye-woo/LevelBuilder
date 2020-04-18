@@ -735,3 +735,39 @@ height: 100%;
 .dropdown:hover .dropdown-content {display: block;}
 
 .dropdown:hover .dropbtn {background-color: #3f3e3e;}
+
+/* ul {
+  margin: 0;
+  padding: 0;
+} */
+
+/* Style the list items */
+/* ul li { */
+#myUL li{
+  cursor: pointer;
+  position: relative;
+  padding: 12px 8px 12px 40px;
+  list-style-type: none;
+  background: #363636;
+  font-size: 12px;
+  transition: 0.2s;
+  color: white;
+   
+   /* make the list items unselectable  */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; 
+}
+
+/* Set all odd list items to a different color (zebra-stripes) */
+#myUL li:nth-child(odd) {
+  background: #363636;
+}
+
+/* Darker background-color on hover */
+#myUL li:hover {
+  background: rgb(133, 133, 133);
+}
+
+
