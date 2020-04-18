@@ -270,8 +270,6 @@
         </div>
       </div>
 </body>
-
-
 </html>
 
 <script>
@@ -670,5 +668,4 @@ function getImage(imagesrc){
 }
 
 </script>
-
 
