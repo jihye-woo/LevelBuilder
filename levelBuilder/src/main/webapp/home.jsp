@@ -194,7 +194,8 @@
             <select id="tileRenderOrder">
                 <option value="rightUP">Right Up</option>
               </select>  -->
-        
+              <label for="fname">Name:</label>
+              <input type="text" id="map-name" name="fname">
         <div class="newline"></div>
         <div class="input-header">Map size</div>
         <div class="input-row">
@@ -487,6 +488,7 @@ function cancelCreateTileSet() {
 function createMap() {
   let mapType = "top";
 
+  var mapName = document.getElementById("map-name").value;
   var mapWidth = document.getElementById("map-width").value;
   var mapHeight = document.getElementById("map-height").value;
   var tileWidth = document.getElementById("tile-width").value;
@@ -667,7 +669,6 @@ function getImage(imagesrc){
   return newImage;
 }
 
-   
 </script>
 
 
