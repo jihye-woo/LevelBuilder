@@ -304,19 +304,15 @@ function cancelCreateTileSet() {
 }
 
 function createMap() {
-  //createMapXML(10, 12, 13, 14);
-	//closeWindow(createMapWindow);
   let mapType = "top";
-  // let mapWidth  = parseInt(document.querySelector("#map-width").value  || 32);
-  // let mapHeight = parseInt(document.querySelector("#map-height").value || 32);
-  // let tileWidth  = parseInt(document.querySelector("#tile-width").value  || 32);
-  // let tileHeight = parseInt(document.querySelector("#tile-height").value || 32);
+
   var mapWidth = document.getElementById("map-width").value;
   var mapHeight = document.getElementById("map-height").value;
   var tileWidth = document.getElementById("tile-width").value;
   var tileHeight = document.getElementById("tile-height").value;
 
   createMapXML(mapWidth, mapHeight, tileWidth, tileHeight);
+  // create map object and load 
   closeWindow(createMapWindow);
   for(let radio of document.getElementsByClassName("map-perspective")) {if (window.CP.shouldStopExecution(29)){break;}    
     if (radio.checked) {
@@ -423,7 +419,7 @@ function mySelect() {
   function createImageTilesetXML(name, tilewidth, tilehegiht, spacing, margin, imagesource) {
         var xml = new XMLSerializer().serializeToString(ImageTilesetXML(name, tilewidth, tilehegiht, spacing, margin, imagesource));
         var blob = new Blob([xml], {type: "text/xml;charset=utf-8"});
-        saveAs(blob, "newtileset.tsx");
+        saveAs(blob, name+".tsx");
   }
 
   function ImageTilesetXML(name, tilewidth, tilehegiht, spacing, margin, imagesource)
@@ -438,17 +434,18 @@ function mySelect() {
     tilesetElem.setAttribute("spacing", spacing);
     tilesetElem.setAttribute("margin", margin);
     tilesetElem.setAttribute("tilecount", tilecount);
-    tilesetElem.setAttribute("columns", "3");
+    tilesetElem.setAttribute("columns", "3"); 
+
 
     var imageElem = doc.createElement("image");
     imageElem.setAttribute("source", imagesource);
 
-    // imagewidth, imageHeight function
+    // function for getting imagewidth, imageHeight from the source
+    var newImg = getImage(imagesource);
 
-    imageElem.setAttribute("width", 32);
-    imageElem.setAttribute("height", 32);
+    imageElem.setAttribute("width", newImg.width);
+    imageElem.setAttribute("height", newImg.height);
     
-    doc.innerHTML = '<?xml version="1.0" encoding="UTF-8"?>';
     tilesetElem.appendChild(imageElem);
     doc.appendChild(tilesetElem);
     return doc;
@@ -458,7 +455,7 @@ function mySelect() {
 function createCollectionTilesetXML(name) {
         var xml = new XMLSerializer().serializeToString(CollectionTilesetXML(name));
         var blob = new Blob([xml], {type: "text/xml;charset=utf-8"});
-        saveAs(blob, "newtileset.tsx");
+        saveAs(blob, name+".tsx");
   }
   function CollectionTilesetXML(name)
 {
@@ -473,11 +470,15 @@ function createCollectionTilesetXML(name) {
     tilesetElem.setAttribute("tilecount", 0);
     tilesetElem.setAttribute("columns", 0);
     
-    doc.innerHTML = '<?xml version="1.0" encoding="UTF-8"?>';
     doc.appendChild(tilesetElem);
     return doc;
 }
 
+function getImage(imagesrc){
+  var newImage = new Image();
+  newImage.src = imagesrc;
+  return newImage;
+}
 
    
 </script>
