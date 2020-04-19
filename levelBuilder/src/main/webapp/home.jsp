@@ -387,7 +387,7 @@ function createMap() {
   save(mapXML);
 
   // 3. load map
-  load(mapXML.name);
+  load(mapXML);
 
   // 4. create XML File
   //createMapXMLFile(mapXML, mapName);
@@ -578,32 +578,31 @@ function save(mapXML){
 
 		success : function(data) {
       console.log(data);
-			console.log("success!");
+			console.log("save success!");
 		}
   });
 }
 
-function load(fileName){
+function load(mapXML){
   var load_endpoint = "load_map";
   var helper = new XMLSerializer();
 	$.ajax({
 		type : "POST",
-		contentType: "text/plain",
 		url : "/fileController/" + load_endpoint,
-    data : fileName,
-    dataType : 'xml',
+    data : mapXML,
+    contentType: "application/xml",
+    dataType : 'text',
     processData: false, 
     
     error : function(e){
       alert("save error occurred");
-      console.log("XML Loading Failed");
+      console.log("XML Saving Failed");
     },
 
 		success : function(data) {
       console.log(data);
-      console.log("success!");
-      // return data;
-		}
+			console.log("load success!");
+    }
   });
 }
 
@@ -651,6 +650,7 @@ function createLayerGroup() {
     }
   }
 } 
+
 function createLayer() {
   var li = document.createElement("li");
   //var inputValue = document.getElementById("myInput").value;

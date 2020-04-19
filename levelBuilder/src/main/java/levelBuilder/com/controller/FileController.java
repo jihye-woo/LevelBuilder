@@ -1,11 +1,12 @@
 package levelBuilder.com.controller;
 
+import java.io.File;
+
 import javax.transaction.Transactional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,14 +30,16 @@ public class FileController {
 	@RequestMapping(value="/save_map", method=RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
 	public ResponseEntity<String> saveMap(@RequestBody String mapXML) {
 		System.out.println(mapXML);
+		// save map file
 		return new ResponseEntity<>(mapXML, HttpStatus.CREATED);
 	}
 	
-	@RequestMapping(value="/load_map", method=RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
+	@RequestMapping(value="/load_map", method=RequestMethod.POST)
 	public ResponseEntity<String> loadMap(@RequestBody String mapXMLfileName) {
-		System.out.println(mapXMLfileName);
+		System.out.println("test.tmx");
+//		File file = new File("F:\\XMLFile.xml");  
 		// parsing the xml file and return
-		return new ResponseEntity<>(mapXMLfileName, HttpStatus.CREATED);
+		return new ResponseEntity<>("hello", HttpStatus.CREATED);
 	}
 }
 
