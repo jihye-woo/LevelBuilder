@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TilesetPropertiesRepository extends JpaRepository<TilesetPropertiesEntity, Integer> {
-    public TilesetPropertiesEntity findByTilesetId(int tilesetId); //find the properties associated with a tileset
+    TilesetPropertiesEntity findByTilesetId(int tilesetId); //find the properties associated with a tileset
 }

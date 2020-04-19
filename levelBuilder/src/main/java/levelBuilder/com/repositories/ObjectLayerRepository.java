@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ObjectLayerRepository extends JpaRepository<ObjectLayerEntity, Integer> {
-    public ObjectLayerEntity findByLayerId(int layerId); //find the ObjectLayer given the parent Layer id
+    ObjectLayerEntity findByLayerId(int layerId); //find the ObjectLayer given the parent Layer id
 }
