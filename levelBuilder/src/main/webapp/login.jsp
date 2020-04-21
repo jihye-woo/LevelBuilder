@@ -38,6 +38,9 @@
             <h3 align="center"> <a href="/registration">Create an Account</a> </h3>
         </div>
         <div>
+            <h3 align="center"> <a href="/forgot-username">Forgot Username?</a> </h3>
+        </div>
+        <div>
             <h3 align="center"> <a href="/forgot-password">Forgot Password?</a> </h3>
         </div>
     </form:form>

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class RegistrationController {
 
 	@Autowired
-    UserRepository userRepository;
+	UserRepository userRepository;
 
 	@Autowired
 	private UserValidator userValidator;
@@ -38,6 +38,6 @@ public class RegistrationController {
 
 		userRepository.save(userForm);
 
-		return "redirect:/home";
+		return "registrationSuccess.jsp";
 	}
 }
