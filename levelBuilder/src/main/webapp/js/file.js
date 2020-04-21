@@ -1,5 +1,4 @@
-
-
+ 
 function myCheck() {
   var checkBox = document.getElementById("collectionOfImg");
   var checkBox2 = document.getElementById("basedOnTileSetImg");
@@ -62,10 +61,11 @@ function createMap() {
   // 2. save data ( ajax request )
   var mapXML = MapXML(newMap.mapWidth, newMap.mapHeight, newMap.tileWidth, newMap.tileheight, newLayer);
   console.log(mapXML);
+  
   save(mapXML);
 
   // 3. load map
-  load(mapXML);
+  load(newMap.name);
 
   // 4. create XML File
   //createMapXMLFile(mapXML, mapName);
@@ -261,15 +261,15 @@ function save(mapXML){
   });
 }
 
-function load(mapXML){
-  var load_endpoint = "load_map";
+function load(fileName){
+  var load_endpoint = "load_file";
   var helper = new XMLSerializer();
-    $.ajax({
-        type : "POST",
-        url : "/fileController/" + load_endpoint,
-    data : mapXML,
-    contentType: "application/xml",
-    dataType : 'text',
+	$.ajax({
+		type : "POST",
+		url : "/fileController/" + load_endpoint,
+    data : JSON.stringify({"filename" : fileName}),
+    contentType: "application/json",
+    dataType : 'xml',
     processData: false, 
     
     error : function(e){
