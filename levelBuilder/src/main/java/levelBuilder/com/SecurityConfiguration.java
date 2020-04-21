@@ -28,7 +28,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/home").hasRole("USER")
                 .antMatchers("/fileController/**").permitAll()
-                .antMatchers("/", "/registration", "/forgot-password", "/confirm-reset", "/confirm-reset/**").permitAll()
+                .antMatchers("/", "/registration").permitAll()
+                .antMatchers("/forgot-password", "/confirm-reset", "/forgot-username").permitAll()
                 .and().formLogin().loginPage("/login").successForwardUrl("/home");
         http.csrf().disable();
     }
