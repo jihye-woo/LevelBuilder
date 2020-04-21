@@ -303,10 +303,6 @@
 <script type="text/javascript" src="js/tilemap.js"></script>
 <script type="text/javascript" src="js/Tileset.js"></script>
 <script type="text/javascript" src="js/FileSaver.js"></script>
-<script>
- 
 
-
- </script>
 </body>
 </html>
