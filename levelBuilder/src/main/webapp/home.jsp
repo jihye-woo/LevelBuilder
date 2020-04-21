@@ -285,10 +285,55 @@
       </div>
 </body>
 </html>
-
 <script>
+ 
+class Map{
+    constructor(id, mapWidth, mapHeight, tileWidth, tileHeight, layer){
+        this.id = id;
+        this.mapWidth = mapWidth;
+        this.mapHeight = mapHeight;
+        this.tileWidth = tileWidth;
+        this.tileHeight = tileHeight;
+        this.Layer = new Array(layer);
+    }
+}
 
-  function myCheck() {
+class Layer{
+    constructor(id, name, width, height){
+        this.id = id;
+        this.name = name;
+        this.width = width;
+        this.hegiht = height;
+    }
+}
+
+class TiledLayer extends Layer{
+    constructor(id, name, width, height){
+        super(id, name, width, height);
+    }
+}
+
+class ObjectLayer extends Layer{
+    constructor(id, name, width, height){
+        super(id, name, width, height);
+        this.objects = new Array(); // insert the MapObject later
+    }
+}
+
+class MapObject{
+    constructor(id, xcoordinate, ycoordinate, height, width, image, properties){
+        this.id = id;
+        this.xcoordinate = xcoordinate;
+        this.ycoordinate = ycoordinate;
+        this.visibility = true;
+        this.height = height;
+        this.width = width;
+        this.image = image;
+        this.properties = properties;
+    }
+}
+
+function myCheck() {
   var checkBox = document.getElementById("collectionOfImg");
   var checkBox2 = document.getElementById("basedOnTileSetImg");
   var text = document.getElementById("text");
@@ -328,40 +373,6 @@ showWindow(saveas);
 
 function cancelSaveAs() {  
   closeWindow(saveas);
-}
-
-class Map{
-    constructor(name, mapWidth, mapHeight, tileWidth, tileHeight, layer){
-        this.name = name;
-        this.mapWidth = mapWidth;
-        this.mapHeight = mapHeight;
-        this.tileWidth = tileWidth;
-        this.tileHeight = tileHeight;
-        this.Layer = new Array(layer);
-    }
-  }
-
-
-class Layer{
-    constructor(id, name, width, height){
-        this.id = id;
-        this.name = name;
-        this.width = width;
-        this.hegiht = height;
-    }
-}
-
-class TiledLayer extends Layer{
-    constructor(id, name, width, height){
-        super(id, name, width, height);
-    }
-}
-
-class ObjectLayer extends Layer{
-    constructor(id, name, width, height){
-        super(id, name, width, height);
-        this.objects = new Array(); // insert the MapObject later
-    }
 }
 
 
@@ -410,16 +421,16 @@ function createTileSet() {
 }
 
 function showWindow(hwnd) {
-	  hwnd.style.display = "block";
-	  windowBackgroundTint.style.display = "block";
-	  isWindowOpen = true;
-	}
+      hwnd.style.display = "block";
+      windowBackgroundTint.style.display = "block";
+      isWindowOpen = true;
+    }
 
-	function closeWindow(hwnd) {
-	  hwnd.style.display = "none";
-	  windowBackgroundTint.style.display = "none";
-	  isWindowOpen = false;
-	}
+    function closeWindow(hwnd) {
+      hwnd.style.display = "none";
+      windowBackgroundTint.style.display = "none";
+      isWindowOpen = false;
+    }
 
   function myFunction() {
   var x = document.getElementById("myFile");
@@ -562,10 +573,10 @@ function getImage(imagesrc){
 function save(mapXML){
   var save_endpoint = "save_map";
   var helper = new XMLSerializer();
-	$.ajax({
-		type : "POST",
-		contentType: "application/xml",
-		url : "/fileController/" + save_endpoint,
+    $.ajax({
+        type : "POST",
+        contentType: "application/xml",
+        url : "/fileController/" + save_endpoint,
     data : helper.serializeToString(mapXML),
     contentType: "application/xml",
     dataType : 'xml',
@@ -576,19 +587,19 @@ function save(mapXML){
       console.log("XML Saving Failed");
     },
 
-		success : function(data) {
+        success : function(data) {
       console.log(data);
-			console.log("save success!");
-		}
+            console.log("save success!");
+        }
   });
 }
 
 function load(mapXML){
   var load_endpoint = "load_map";
   var helper = new XMLSerializer();
-	$.ajax({
-		type : "POST",
-		url : "/fileController/" + load_endpoint,
+    $.ajax({
+        type : "POST",
+        url : "/fileController/" + load_endpoint,
     data : mapXML,
     contentType: "application/xml",
     dataType : 'text',
@@ -599,9 +610,9 @@ function load(mapXML){
       console.log("XML Saving Failed");
     },
 
-		success : function(data) {
+        success : function(data) {
       console.log(data);
-			console.log("load success!");
+            console.log("load success!");
     }
   });
 }
@@ -728,5 +739,8 @@ function createLayer() {
 //     }
 //   }
 // } 
-</script>
+ </script>
+<!-- <link href="js/Map.js" rel="text/javascript">
+<link href="js/file.js" rel="text/javascript">
+<script src="//js/Map.js"></script> -->
 
