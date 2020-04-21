@@ -1,6 +1,5 @@
 package levelBuilder.com.controller;
 
-import levelBuilder.com.UserValidator;
 import levelBuilder.com.entities.UserEntity;
 import levelBuilder.com.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,30 +12,26 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 
 @Controller
-public class RegistrationController {
+public class LoginController {
 
 	@Autowired
-    UserRepository userRepository;
+	UserRepository userRepository;
 
-	@Autowired
-	private UserValidator userValidator;
-
-	@GetMapping("/registration")
-	public String getRegistration(Model model) {
+	@GetMapping("/login")
+	public String getLogin(Model model) {
 		model.addAttribute("userForm", new UserEntity());
-		return "registration.jsp";
+		return "login.jsp";
 	}
 
-	@PostMapping("/registration")
-	public String registration(@ModelAttribute("userForm") UserEntity userForm, BindingResult bindingResult) {
+	@PostMapping("/login")
+	public String login(@ModelAttribute("userForm") UserEntity userForm, BindingResult bindingResult) {
 		userForm.setRoles("ROLE_USER");
-		userValidator.validate(userForm, bindingResult);
-
-		if (bindingResult.hasErrors()) {
-			return "registration.jsp";
+		UserEntity existingUser = userRepository.findByUsername(userForm.getUsername());
+		if (existingUser==null){
+			bindingResult.rejectValue("username", "Bad credentials", "Bad credentials");
+			bindingResult.rejectValue("password", "Bad credentials", "Bad credentials");
+			return "login.jsp";
 		}
-
-		userRepository.save(userForm);
 
 		return "redirect:/home";
 	}
