@@ -123,7 +123,20 @@
                     class="fa fa-search-plus"></i></div>
               </div>
               <div class="surface editor-border">
-                <script type="text/javascript" src="js/tilemap.js"></script>
+                <div class = "Layer1">
+                  <script type="text/javascript" src="js/tilemap.js"></script>
+                  <script>
+                      var grid = new Grid(300, 300, 30, 20); 
+                      // << Later >>
+                      // + new Grid(300, 300, 30, 20) <= these values can be brought from the map object
+                      // + "Layer" object should be added
+                      // So, final version should be Grid(mapObject, layerObject);
+                      // for now, this is just hard coded
+                      grid.updateCells();
+                    </script>
+                </div>
+                <div class = "Layer2">
+                </div>
               </div>
             </div>
           </div>
