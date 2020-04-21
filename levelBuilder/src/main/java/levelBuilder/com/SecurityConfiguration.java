@@ -29,7 +29,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/home").hasRole("USER")
                 .antMatchers("/fileController/**").permitAll()
                 .antMatchers("/", "/registration", "/forgot-password", "/confirm-reset", "/confirm-reset/**").permitAll()
-                .and().formLogin();
+                .and().formLogin().loginPage("/login").successForwardUrl("/home");
         http.csrf().disable();
     }
 

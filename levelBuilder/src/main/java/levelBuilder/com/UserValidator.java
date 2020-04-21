@@ -24,12 +24,12 @@ public class UserValidator implements Validator {
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "NotEmpty", "Not valid");
         if (userRepository.findByUsername(user.getUsername()) != null) {
-            errors.rejectValue("username", "Username Already Exists");
+            errors.rejectValue("username", "Username Already Exists", "Username Already Exists");
         }
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty", "Not valid");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "NotEmpty", "Not valid");
         if (userRepository.findByEmail(user.getEmail()) != null) {
-            errors.rejectValue("email", "Email Already Associated With an Account");
+            errors.rejectValue("email", "Email Already Associated With an Account", "Email Already Associated With an Account");
         }
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "NotEmpty", "Not valid");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "birthdate", "NotEmpty", "Not valid");

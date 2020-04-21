@@ -27,7 +27,7 @@ public class ResetPasswordController {
 		ConfirmationTokenEntity token = confirmationTokenRepository.findByConfirmationToken(confirmationToken);
 
 		if (token == null) {
-			return "redirect:/error";
+			return "redirect:/login";
 		}
 
 		model.addAttribute("resetForm", new UserEntity());
@@ -41,7 +41,7 @@ public class ResetPasswordController {
 		UserEntity existingUser = userRepository.findByEmail(token.getUserEmail());
 
 		if (existingUser == null){
-			return "redirect:/error";
+			return "redirect:/login";
 		}
 
 		existingUser.setPassword(user.getPassword());

@@ -38,7 +38,7 @@ public class ForgotPasswordController {
 
 		UserEntity existingUser = userRepository.findByEmail(reset.getEmail());
 		if (existingUser == null){
-			bindingResult.rejectValue("email", "Email not associated with an account");
+			bindingResult.rejectValue("email", "Email not associated with an account", "Email not associated with an account");
 			return "forgotPassword.jsp";
 		}
 		// Create token
