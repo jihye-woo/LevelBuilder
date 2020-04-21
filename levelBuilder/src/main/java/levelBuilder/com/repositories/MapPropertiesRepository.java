@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MapPropertiesRepository extends JpaRepository<MapPropertiesEntity, Integer> {
-    public MapPropertiesEntity findByMapId(int mapId); //find the properties associated with a map
+    MapPropertiesEntity findByMapId(int mapId); //find the properties associated with a map
 }

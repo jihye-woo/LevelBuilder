@@ -18,10 +18,13 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<UserEntity> user = userRepository.findByUsername(username);
+        UserEntity user = userRepository.findByUsername(username);
 
-        user.orElseThrow(() -> new UsernameNotFoundException("Not found: " + username));
-
-        return user.map(MyUserDetails::new).get();
+        if (user == null){
+            throw new UsernameNotFoundException("Not found: " + username);
+        }
+        else{
+            return new MyUserDetails(user);
+        }
     }
 }

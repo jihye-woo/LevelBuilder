@@ -1,0 +1,43 @@
+package levelBuilder.com.controller;
+
+import levelBuilder.com.UserValidator;
+import levelBuilder.com.entities.UserEntity;
+import levelBuilder.com.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
+
+@Controller
+public class RegistrationController {
+
+	@Autowired
+    UserRepository userRepository;
+
+	@Autowired
+	private UserValidator userValidator;
+
+	@GetMapping("/registration")
+	public String home(Model model) {
+		model.addAttribute("userForm", new UserEntity());
+		return "registration.jsp";
+	}
+
+	@PostMapping("/registration")
+	public String registration(@ModelAttribute("userForm") UserEntity userForm, BindingResult bindingResult) {
+		userForm.setRoles("ROLE_USER");
+		userValidator.validate(userForm, bindingResult);
+
+		if (bindingResult.hasErrors()) {
+			return "registration.jsp";
+		}
+
+		userRepository.save(userForm);
+
+		return "redirect:/home";
+	}
+}
