@@ -327,9 +327,11 @@ var editor;
 class Editor{
 	constructor(){
 		this.currentMap;
-		this.currentTileset;
+    this.currentTileset;
+    this.currentLayer;
 		this.loadedMapList = new Array();
-		this.loadedTilesetList = new Array();
+    this.loadedTilesetList = new Array();
+    this.userName;
 	}
 	
 	loadMap(map){
@@ -355,9 +357,9 @@ window.onload = (event) => {
 
 </script>
 <script type="text/javascript" src="js/Map.js"></script>
+<script type="text/javascript" src="js/tilemap.js"></script>
 <script type="text/javascript" src="js/file.js"></script>
 <script type="text/javascript" src="js/npm.js"></script>
-<script type="text/javascript" src="js/tilemap.js"></script>
 <script type="text/javascript" src="js/Tileset.js"></script>
 <script type="text/javascript" src="js/FileSaver.js"></script>
 

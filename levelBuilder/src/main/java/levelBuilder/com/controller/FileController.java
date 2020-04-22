@@ -28,13 +28,13 @@ public class FileController {
 		
 	}
 
-//	
-//	@RequestMapping(value="/save_map", method=RequestMethod.POST)
-//	public ResponseEntity<String> saveMa(@RequestBody String mapXML) {
-//		System.out.println(mapXML);
-//		return new ResponseEntity<>(mapXML, HttpStatus.CREATED);
-//	} 
 	
+//	@RequestMapping(value="/save_userName", method=RequestMethod.POST)
+//	public ResponseEntity<String> saveUserName(@RequestBody String request) {
+//		System.out.println(userName);
+//		return new ResponseEntity<>(userName, HttpStatus.CREATED);
+//	} 
+//	
 	@RequestMapping(value="/save_map", method=RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
 	public ResponseEntity<String> saveMap(@RequestBody MapEntity map) {
 		System.out.println(map);
