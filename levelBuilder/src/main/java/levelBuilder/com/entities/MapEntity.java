@@ -14,6 +14,7 @@ public class MapEntity {
     private String tilerenderorder;
     private int width;
     private int height;
+    private String ownedBy;
 
     public String getName() {
         return name;
@@ -77,5 +78,13 @@ public class MapEntity {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public String getOwnedBy() {
+        return ownedBy;
+    }
+
+    public void setOwnedBy(String ownedBy) {
+        this.ownedBy = ownedBy;
     }
 }
