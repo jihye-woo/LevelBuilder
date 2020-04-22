@@ -11,12 +11,12 @@ class Map{
 
     addLayer(layerType, name){
         var newLayer;
-        var id = this.Layer.length
+        var id = this.Layer.length;
         // if (layerType == true){ // tiledLayer
         if (layerType === "tile-layer"){ 
-          newLayer = new TiledLayer(id, name, width, height);
+          newLayer = new TiledLayer(id, name, this.mapWidth, this.mapHeight, this.tileWidth, this.tileHeight);
         } else {
-          newLayer = new ObjectLayer(id, name, width, height);
+          newLayer = new ObjectLayer(id, name, this.mapWidth, this.mapHeight);
         }
         this.Layer.push(newLayer);
     }
@@ -95,9 +95,30 @@ class Layer{
 }
 
 class TiledLayer extends Layer{
-    constructor(id, name, width, height){
+    constructor(id, name, width, height, tileW, tileH){
         super(id, name, width, height);
+        this.tileW = tileW;
+        this.tileH = tileH;
+        // Array.from(Array(M), () => new Array(N));
+        this.csv = Array.from(Array((width/tileW)), () => Array((height/tileH)));
+        var lengthOfCSV = this.csv.length;
+        for (var i = 0; i < lengthOfCSV; i += 2) {
+            for(var j = 0; j < this.csv[0].length; j +=2){
+                this.csv[i][j] = 1;
+            }
+        }
     }
+    fillTiles(x, y, canvas){
+        var mapGrid = this.csv;
+        var tileW = this.tileW;
+        var tileH = this.tileH;
+        canvas.getContext("2d").fillStyle = "#800000";
+        canvas.getContext("2d").fillRect(tileW*x, tileH*y, tileW, tileH);
+        console.log("call fillTiles");
+        this.csv[x][y] = 1;
+    }
+    
+
 }
 
 class ObjectLayer extends Layer{
