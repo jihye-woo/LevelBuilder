@@ -76,8 +76,8 @@
               <div class="dropdown">
                   <button class="dropbtn">Layers</button>
                   <div class="dropdown-content">
-                    <a href="#" onclick="createLayer()">New</a>
-                    <a href="#" onclick="createLayerGroup()">Group</a>
+                    <a href="#" onclick="newLayer()">New</a>
+                    <a href="#" onclick="newLayerGroup()">Group</a>
                     <a href="#">Duplicate Layers</a>
                     <a href="#">Remove Layers</a>
                     <a href="#">Raise Layers</a>
@@ -124,16 +124,7 @@
               </div>
               <div class="surface editor-border">
                 <div class = "Layer1">
-                  <script type="text/javascript" src="js/tilemap.js"></script>
-                  <script>
-                      var grid = new Grid(300, 300, 30, 20);
-                      // << Later >>
-                      // + new Grid(300, 300, 30, 20) <= these values can be brought from the map object
-                      // + "Layer" object should be added
-                      // So, final version should be Grid(mapObject, layerObject);
-                      // for now, this is just hard coded
-                      grid.updateCells();
-                    </script>
+                  <!-- <script type="text/javascript" src="js/tilemap.js"></script> -->
                 </div>
                 <div class = "Layer2">
                 </div>
@@ -150,7 +141,7 @@
               <div class="project-tools">
                 <div class="surface btn" id="btn-layer-group" title="Create a new group" onclick="createLayerGroup()"><i
                     class="fa fa-folder"></i></div>
-                <div class="surface btn" id="btn-layer-add" title="Create a layer" onclick="createLayer()"><i
+                <div class="surface btn" id="btn-layer-add" title="Create a layer" onclick="newLayer()"><i
                     class="fa fa-file-o"> </i></div>
                 <div class="surface btn req-layer" id="btn-layer-duplicate" title="Duplicate layer"
                   onclick="duplicateLayer(this)" disabled="disabled"><i class="fa fa-files-o"></i></div>
@@ -198,17 +189,7 @@
          <p>Oriententaion: orthogonal</p>
          <p>Tile layer format: Base64 (uncompressed)</p>
          <p>Tile render order: Right Up</p>
-        <!-- <select id="oriententaion">
-            <option value="orthogonal">Orthogonal</option>
-         </select>
-          <div class="input-header">Tile layer format: </div>
-          <select id="tileLayerFormat">
-              <option value="base64">Base64(uncompressed)</option>
-            </select>
-            <div class="input-header">Tile render order</div>
-            <select id="tileRenderOrder">
-                <option value="rightUP">Right Up</option>
-              </select>  -->
+
               <label for="fname">Name:</label>
               <input type="text" id="map-name" name="fname">
         <div class="newline"></div>
@@ -296,6 +277,33 @@
             <div class="surface btn" onclick="SaveAs()">OK</div>
           </div>
       </div>
+
+      <div class="window surface" id="create-layer-window">
+          <div class="window-title-bar">
+            <h4>New Layer</h4>
+            <div class="surface btn" onclick="cancelCreateLayer()"><i class="fa fa-close"></i></div>
+          </div>
+          <div class="window-body">
+            <!-- <p>Warning: Creating a new layer will discard your current progress!</p> -->
+            <div class="input-header">Select</div>
+            <div class="input-row">
+              <input class="map-perspective" id="tile-layer" name="layer-obj" type="radio" value="tile-layer" checked="checked"/>
+              <label for="tile-layer">Tile Layer</label>
+            </div>
+            <div class="input-row">
+              <input class="map-perspective" id="object-layer" name="layer-obj" value="object-layer" type="radio"/>
+              <label for="object-layer">Object Layer</label>
+            </div>
+            <div class="input-row">
+              <label for="input-layer">Layer Name :</label>
+              <input type="text" placeholder="Layer1" id="input-layer"/>
+            </div>
+          </div>
+          <div class="window-actions">
+            <div class="surface btn" onclick="cancelCreateLayer()">Cancel</div>
+            <div class="surface btn" onclick="createLayer()">OK</div>
+          </div>
+        </div>
 <script>
 var editor;
 
@@ -329,6 +337,7 @@ window.onload = (event) => {
 	};
 
 </script>
+
 <script type="text/javascript" src="js/Map.js"></script>
 <script type="text/javascript" src="js/file.js"></script>
 <script type="text/javascript" src="js/npm.js"></script>
