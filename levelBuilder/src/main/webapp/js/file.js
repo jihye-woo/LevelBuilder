@@ -1,5 +1,4 @@
- 
- 
+
 function myCheck() {
   var checkBox = document.getElementById("collectionOfImg");
   var checkBox2 = document.getElementById("basedOnTileSetImg");
@@ -72,7 +71,7 @@ function createMap() {
   //var mapName = document.getElementById("map-name").value;
 
   // 1. create Map and Layer objects
-  var newLayer = new TiledLayer(1, "Tile Layer 1", mapWidth, mapHeight);
+  var newLayer = new TiledLayer(1, "Layer1", mapWidth, mapHeight, tileWidth, tileHeight);
   console.log(newLayer);
   var newMap = new Map(mapName, mapWidth, mapHeight, tileWidth, tileHeight, newLayer);
   console.log(newMap);
@@ -86,22 +85,23 @@ function createMap() {
   // 3. load map
   // load(newMap.name);
 
-  // 4. create XML File
-  //createMapXMLFile(mapXML, mapName);
+editor.currentMap = newMap;
+var grid = new Grid(newLayer);
+grid.updateCells();
 
   // create map object and load 
   closeWindow(createMapWindow);
-    // 1. create Map and Layer objects
-    var newLayer = new TiledLayer(1, "Tile Layer 1", mapWidth, mapHeight);
-    console.log(newLayer);
-    var newMap = new Map(mapName, mapWidth, mapHeight, tileWidth, tileHeight, newLayer);
-    console.log(newMap);
-    // 2. save data ( ajax request )
-    var mapXML = MapXML(newMap.mapWidth, newMap.mapHeight, newMap.tileWidth, newMap.tileheight, newLayer);
-    console.log(mapXML);
-    var jsonMap = getMapJSON(newMap);
-    console.log(jsonMap);
-    save(jsonMap);
+    // // 1. create Map and Layer objects
+    // var newLayer = new TiledLayer(1, "Tile Layer 1", mapWidth, mapHeight);
+    // console.log(newLayer);
+    // var newMap = new Map(mapName, mapWidth, mapHeight, tileWidth, tileHeight, newLayer);
+    // console.log(newMap);
+    // // 2. save data ( ajax request )
+    // var mapXML = MapXML(newMap.mapWidth, newMap.mapHeight, newMap.tileWidth, newMap.tileheight, newLayer);
+    // console.log(mapXML);
+    // var jsonMap = getMapJSON(newMap);
+    // console.log(jsonMap);
+    // save(jsonMap);
 
   // for(let radio of document.getElementsByClassName("map-perspective")) {if (window.CP.shouldStopExecution(29)){break;}    
   //   if (radio.checked) {
@@ -352,9 +352,10 @@ function getImage(imagesrc){
 
 function getMapJSON(mapData){
   return {
+          "onwnedBy" : "jh",
           "name" : mapData.id,
-          "mapwidth" : mapData.mapWidth,
-          "mapheight" : mapData.mapHeight,
+          "width" : mapData.mapWidth,
+          "height" : mapData.mapHeight,
           "tilewidth" : mapData.tileWidth,
           "tileheight" : mapData.tileHeight,
           "tilelayerformat" : "csv",

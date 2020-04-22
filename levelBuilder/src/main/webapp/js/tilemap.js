@@ -31,8 +31,8 @@ class Canvas{
         let canvas = document.createElement("canvas");
         canvas.addEventListener('click', function(event) {
             var mousePos = getMousePos(canvas, event);
-            var row = Math.floor(mousePos.x/tileW);
-            var col = Math.floor(mousePos.y/tileH);
+            var row = Math.floor(mousePos.x/layer.tileW);
+            var col = Math.floor(mousePos.y/layer.tileH);
             var message = 'Mouse position: ' + row  + ',' + col;
             layer.fillTiles(row, col, canvas);
             console.log(message);
@@ -45,9 +45,9 @@ class Canvas{
     }
 
     drawGrid(w, h, tileWidth, tileHeight){
-        let cols = (this.w / tileWidth) | 0;
-        let rows = (this.h / tileHeight) | 0;
-
+        let cols = w | 0;
+        let rows = h | 0;
+        
         this.ctx.save();
         this.ctx.strokeStyle = "lightgrey";
         this.ctx.beginPath();
@@ -100,10 +100,3 @@ function getMousePos(canvasNode, event) {
     };
 }
 
-var width = 15;
-var height = 15;
-var tileW = 30;
-var tileH = 20;
-var currentLayer = new TiledLayer(1, "Layer1", width, height, tileW, tileH);
-var grid = new Grid(currentLayer);
-grid.updateCells();
