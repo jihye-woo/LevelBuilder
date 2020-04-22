@@ -296,12 +296,15 @@
             <!-- <p>Warning: Creating a new layer will discard your current progress!</p> -->
             <div class="input-header">Select</div>
             <div class="input-row">
-              <input class="map-perspective" id="tile-layer" name="layer-obj" type="radio" value="tile-layer" checked="checked"/>
-              <label for="tile-layer">Tile Layer</label>
+              <!-- <input class="map-perspective" id="tile-layer" name="layer-obj" type="radio" value="tile-layer" checked="checked"/> -->
+              <!-- <label for="tile-layer">Tile Layer</label> -->
+              <input type="radio" name="layerType" onclick="myFunction(this.value)" value="tile-layer">tile layer<br>
+              
             </div>
             <div class="input-row">
-              <input class="map-perspective" id="object-layer" name="layer-obj" value="object-layer" type="radio"/>
-              <label for="object-layer">Object Layer</label>
+              <!-- <input class="map-perspective" id="object-layer" name="layer-obj" value="object-layer" type="radio"/> -->
+              <input type="radio" name="layerType" onclick="myFunction(this.value)" value="object-layer">object layer<br>
+              <!-- <label for="object-layer">Object Layer</label> -->
             </div>
             <div class="input-row">
               <label for="input-layer">Layer Name :</label>

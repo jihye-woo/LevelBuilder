@@ -39,7 +39,7 @@ class Map{
         
 }
 
-function createLayer(layerType) {
+function createNewLayer(layerType, name) {
 	var currentMap = editor.currentMap;
 	currentMap.layerlist.addLayer(layerType, name);
 	var layers = currentMap.layerlist;

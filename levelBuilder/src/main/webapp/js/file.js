@@ -97,11 +97,19 @@ function createTileSet() {
 }
 
 function createLayer() {  
-  // var layerName = document.getElementById("input-layer").value;
-var layerName = "layer";
-let layerType = "tile-layer";
- closeWindow(createLayerWindow);
+    var ele = document.getElementsByName('layerType'); 
+    let layerType = "tile-layer";
 
+    for(i = 0; i < ele.length; i++) { 
+      if(ele[i].checked) {
+        layerType = ele[i].value;
+      }
+    } 
+  // var layerName = document.getElementById("input-layer").value;
+  var layerName = "layer";
+  closeWindow(createLayerWindow);
+  createNewLayer(layerType, layerName);
+  console.log("!!");
 //  for(let radio of document.getElementsByClassName("layer-obj")) {if (window.CP.shouldStopExecution(29)){break;}    
 //     if (radio.checked) {
 //       layerType = radio.value;
@@ -110,6 +118,8 @@ let layerType = "tile-layer";
 //     }   
 //     }
 //    window.CP.exitedLoop(29);
+
+
 
   // if (layerType === "object-layer") {
   //   let layer = Map.addLayer(layerType, layerName);
