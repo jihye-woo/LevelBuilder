@@ -69,12 +69,12 @@ function createMap() {
   // 2. save data ( ajax request )
   var mapXML = MapXML(newMap.mapWidth, newMap.mapHeight, newMap.tileWidth, newMap.tileheight, newLayer);
   console.log(mapXML);
-  
-  save(getMapJSON(newMap));
+  var jsonMap = getMapJSON(newMap);
+  console.log(jsonMap);
+  save(jsonMap);
 
   // 3. load map
-  load(newMap.name);
-  editor.
+  // load(newMap.name);
 
   // 4. create XML File
   //createMapXMLFile(mapXML, mapName);
@@ -325,8 +325,8 @@ function getImage(imagesrc){
 }
 
 function getMapJSON(mapData){
-  return {"id" : mapData.id,
-          "name" : mapData.name,
+  return {
+          "name" : mapData.id,
           "mapwidth" : mapData.mapWidth,
           "mapheight" : mapData.mapHeight,
           "tilewidth" : mapData.tileWidth,
@@ -334,12 +334,11 @@ function getMapJSON(mapData){
           "tilelayerformat" : "csv",
           "orientation" : "orthogonal",
           "tilerenderorder" : "right-down",
-          "projectId" : 1
   }
 }
 
 function save(map){
-
+  console.log(map);
   var save_endpoint = "save_map";
   // var helper = new XMLSerializer();
   //helper.serializeToString(mapXML)
@@ -348,18 +347,18 @@ function save(map){
       contentType: "application/json",
       url : "/fileController/" + save_endpoint,
       data : JSON.stringify(map),
-      dataType : 'text',
+      dataType : 'json',
       processData: false, 
     
     error : function(e){
       alert("save error occurred");
-      console.log("XML Saving Failed");
+       console.log("XML Saving Failed");
     },
 
-        success : function(data) {
-      console.log(data);
-            console.log("save success!");
-        }
+    success : function(data) {
+        console.log(data);
+        console.log("save success!");
+    }
   });
 }
 

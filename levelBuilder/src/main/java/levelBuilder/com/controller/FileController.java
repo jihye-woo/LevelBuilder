@@ -40,7 +40,7 @@ public class FileController {
 		System.out.println(map);
 		// save map file
 		mapRepository.save(map);
-		return new ResponseEntity<>("save success", HttpStatus.CREATED);
+		return new ResponseEntity<>("", HttpStatus.CREATED);
 	}
 	
 	@RequestMapping(value="/load_file", method=RequestMethod.POST)
