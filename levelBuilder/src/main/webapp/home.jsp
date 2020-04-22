@@ -97,7 +97,7 @@
                       <button class="dropbtn">About</button>
                       <div class="dropdown-content">
                         <a href="#">User Manual</a>
-                        <a href="#">About Level Builder</a>
+                        <a href="#" onclick="aboutLB()">About Level Builder</a>
                       </div>
                     </div>
       </div>
@@ -275,6 +275,20 @@
           <div class="window-actions">
             <div class="surface btn" onclick="cancelSaveAs()">Cancel</div>
             <div class="surface btn" onclick="SaveAs()">OK</div>
+          </div>
+      </div>
+
+      <div class="window surface" id="about">
+          <div class="window-title-bar">
+            <h4>About</h4>
+            <p>The Level Builder is a too for making a map. 
+              It will provide the user with a set of tools to build graphic representations of maps which can be used in games. 
+              There are many functions that enables users to easily create and edit maps. 
+              Moreover, by logging in, users can easily handle the maps they made.b</p>
+          </div>
+          <div class="window-actions">
+            <p>2020-04-22</p>
+            <div class="surface btn" onclick="cancelAbout()">OK</div>
           </div>
       </div>
 

@@ -19,6 +19,7 @@ let windowBackgroundTint = document.querySelector(".window-tint");
 let createMapWindow = document.querySelector("#create-map-window");
 let createTileSetWindow = document.querySelector("#create-tileset-window");
 let createLayerWindow = document.querySelector("#create-layer-window");
+let aboutWindow = document.querySelector("#about");
 
 function newMap() {  
 showWindow(createMapWindow);
@@ -49,6 +50,15 @@ showWindow(saveas);
 function cancelSaveAs() {  
   closeWindow(saveas);
 }
+
+function aboutLB() {  
+  console.log("about");
+  showWindow(aboutWindow);
+  }
+  
+  function cancelAbout() {  
+    closeWindow(aboutWindow);
+  }
 
 function createMap() {
   let mapType = "top";
@@ -193,6 +203,10 @@ function mySelect() {
         var blob = new Blob([xml], {type: "text/xml;charset=utf-8"});
         saveAs(blob, name+".tmx");
   }
+
+    function about(){
+
+    }
 
 
   function MapXML(width, height, tilewidth, tileheight, layer)
