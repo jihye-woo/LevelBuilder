@@ -57,9 +57,9 @@ function createMap() {
   var mapHeight = document.getElementById("map-height").value;
   var tileWidth = document.getElementById("tile-width").value;
   var tileHeight = document.getElementById("tile-height").value;
+  // var mapName = document.getElementById("map-name").value;
   var mapName = "test.tmx";
   //var mapName = document.getElementById("map-name").value;
-
 
   // 1. create Map and Layer objects
   var newLayer = new TiledLayer(1, "Tile Layer 1", mapWidth, mapHeight);
@@ -81,14 +81,26 @@ function createMap() {
 
   // create map object and load 
   closeWindow(createMapWindow);
-  for(let radio of document.getElementsByClassName("map-perspective")) {if (window.CP.shouldStopExecution(29)){break;}    
-    if (radio.checked) {
-      mapType = radio.value;
-      break;
-    }   
-    }
+    // 1. create Map and Layer objects
+    var newLayer = new TiledLayer(1, "Tile Layer 1", mapWidth, mapHeight);
+    console.log(newLayer);
+    var newMap = new Map(mapName, mapWidth, mapHeight, tileWidth, tileHeight, newLayer);
+    console.log(newMap);
+    // 2. save data ( ajax request )
+    var mapXML = MapXML(newMap.mapWidth, newMap.mapHeight, newMap.tileWidth, newMap.tileheight, newLayer);
+    console.log(mapXML);
+    var jsonMap = getMapJSON(newMap);
+    console.log(jsonMap);
+    save(jsonMap);
+
+  // for(let radio of document.getElementsByClassName("map-perspective")) {if (window.CP.shouldStopExecution(29)){break;}    
+  //   if (radio.checked) {
+  //     mapType = radio.value;
+  //     break;
+  //   }   
+  //   }
 }
-window.CP.exitedLoop(29);
+// window.CP.exitedLoop(29);
 
 function createTileSet() {  
   createTilesetXML("filename", "20", "20", "1", "1", "15", "3");
@@ -99,27 +111,20 @@ function createTileSet() {
 function createLayer() {  
     var ele = document.getElementsByName('layerType'); 
     let layerType = "tile-layer";
+    var layerName = document.getElementById("input-layer").value;
 
     for(i = 0; i < ele.length; i++) { 
       if(ele[i].checked) {
         layerType = ele[i].value;
       }
     } 
-  // var layerName = document.getElementById("input-layer").value;
-  var layerName = "layer";
+    // console.log(layerType);
+    // console.log(layerName);
+
   closeWindow(createLayerWindow);
-  createNewLayer(layerType, layerName);
+  showList(layerType, layerName);
+  //createNewLayer(layerType, layerName);
   console.log("!!");
-//  for(let radio of document.getElementsByClassName("layer-obj")) {if (window.CP.shouldStopExecution(29)){break;}    
-//     if (radio.checked) {
-//       layerType = radio.value;
-//       console.log("qq");
-//       break;
-//     }   
-//     }
-//    window.CP.exitedLoop(29);
-
-
 
   // if (layerType === "object-layer") {
   //   let layer = Map.addLayer(layerType, layerName);
@@ -127,31 +132,16 @@ function createLayer() {
   //   let layer = Map.addLayer(layerType, layerName);
   // }
 
-    var li = document.createElement("li");
-    //var inputValue = document.getElementById("myInput").value;
-    // var inputValue =layerName;
-    
-    var t = document.createTextNode(layerName);
-    li.appendChild(t);
+//     var li = document.createElement("li");
+// e(layerName);
+//     li.appendChild(t);
 
-    if (layerName === '') {
-      alert("You must write something!");
-    } else {
-      document.getElementById("myUL").appendChild(li);
-    }
-     document.getElementById("myInput").value = "";
+//     if (layerName === '') {
+//       alert("You must write something!");
+//     } else {
+//       document.getElementById("myUL").appendChild(li);
+//     }
   
-    var span = document.createElement("SPAN");
-    var txt = document.createTextNode("\u00D7");
-  
-    li.appendChild(span);
-  
-    for (i = 0; i < close.length; i++) {
-      close[i].onclick = function() {
-        var div = this.parentElement;
-        div.style.display = "none";
-      }
-    }
 }
 
 function showWindow(hwnd) {

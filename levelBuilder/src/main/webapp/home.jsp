@@ -340,7 +340,6 @@ window.onload = (event) => {
 	};
 
 </script>
-
 <script type="text/javascript" src="js/Map.js"></script>
 <script type="text/javascript" src="js/file.js"></script>
 <script type="text/javascript" src="js/npm.js"></script>

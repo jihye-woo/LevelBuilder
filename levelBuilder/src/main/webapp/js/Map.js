@@ -1,4 +1,3 @@
-
 class Map{
     constructor(id, mapWidth, mapHeight, tileWidth, tileHeight, layer){
         this.id = id;
@@ -41,43 +40,47 @@ class Map{
 
 function createNewLayer(layerType, name) {
 	var currentMap = editor.currentMap;
-	currentMap.layerlist.addLayer(layerType, name);
-	var layers = currentMap.layerlist;
+	currentMap.addLayer(layerType, name);
+    var layers = currentMap.layerlist;
+    showList();
 	showLayers(layers);
 }
 
 function removeLayer(id){
 	var currentMap = editor.currentMap;
-    currentMap.layerlist.removeLayer(id);
+    currentMap.removeLayer(id);
     showLayers(layers);
+    //showList();
 }
 
-function showLayers(layers){
-    // show the layers (UI)
+function showList(type, name){
     var li = document.createElement("li");
     //var inputValue = document.getElementById("myInput").value;
-    var inputValue ="Layer";
+    //var inputValue ="Layer";
+    var inputValue = name +"   "+ type;
    // <i class="fa fa-files-o"></i>
     var t = document.createTextNode(inputValue);
     li.appendChild(t);
-    if (inputValue === '') {
-      alert("You must write something!");
-    } else {
+    // if (inputValue === '') {
+    //   alert("You must write something!");
+    // } else { 
       document.getElementById("myUL").appendChild(li);
-    }
-     document.getElementById("myInput").value = "";
+   // }
   
-    var span = document.createElement("SPAN");
-    var txt = document.createTextNode("\u00D7");
-  
-    li.appendChild(span);
-  
-    for (i = 0; i < close.length; i++) {
-      close[i].onclick = function() {
-        var div = this.parentElement;
-        div.style.display = "none";
-      }
-    }
+//     for (i = 0; i < llist.length; i++) {
+//      var showlist = llist[i].name;
+        // var t = document.createTextNode(inputValue);
+        // li.appendChild(t);
+
+//= function() {
+//         var div = this.parentElement;
+//         div.style.display = "none";
+//       }
+//     }
+ }
+
+function showLayers(layers){
+    // show the layers (UI)
 }
 
 
