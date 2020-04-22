@@ -37,9 +37,9 @@ class Canvas{
             layer.fillTiles(row, col, canvas);
             console.log(message);
         });
-        this.w = canvas.width = layer.width;
-        this.h = canvas.height = layer.height;
-        document.getElementsByClassName("Layer1")[0].appendChild(canvas);
+        this.w = canvas.width = (layer.width*layer.tileW);
+        this.h = canvas.height = (layer.height*layer.tileH);
+        document.getElementsByClassName(layer.name)[0].appendChild(canvas);
         this.ctx = canvas.getContext("2d");
         this.layer = layer;
     }
@@ -53,11 +53,11 @@ class Canvas{
         this.ctx.beginPath();
 
         for(let x =0 ; x<=cols * tileWidth ; x+=tileWidth) {
-            this.drawLine(x, 0, x, this.w);
+            this.drawLine(x, 0, x, this.w*tileWidth);
         }
 
         for(let y =0 ; y<=rows * tileHeight ; y+=tileHeight) {
-            this.drawLine(0, y, this.h, y);
+            this.drawLine(0, y, this.h*tileHeight, y);
         }
         this.ctx.stroke();
         this.ctx.beginPath();
@@ -100,9 +100,8 @@ function getMousePos(canvasNode, event) {
     };
 }
 
-
-var width = 300;
-var height = 300;
+var width = 15;
+var height = 15;
 var tileW = 30;
 var tileH = 20;
 var currentLayer = new TiledLayer(1, "Layer1", width, height, tileW, tileH);

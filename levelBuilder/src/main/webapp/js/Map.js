@@ -100,7 +100,7 @@ class TiledLayer extends Layer{
         this.tileW = tileW;
         this.tileH = tileH;
         // Array.from(Array(M), () => new Array(N));
-        this.csv = Array.from(Array((width/tileW)), () => Array((height/tileH)));
+        this.csv = Array.from(Array((width)), () => Array((height)));
         var lengthOfCSV = this.csv.length;
         for (var i = 0; i < lengthOfCSV; i += 2) {
             for(var j = 0; j < this.csv[0].length; j +=2){

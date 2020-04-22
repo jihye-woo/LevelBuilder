@@ -1,26 +1,29 @@
 package levelBuilder.com.controller;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import javax.transaction.Transactional;
 
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import levelBuilder.com.entities.MapEntity;
+import levelBuilder.com.repositories.MapRepository;
+
 @RestController
 @RequestMapping("/fileController")
 @Transactional
 public class FileController {
+	
+	
+	@Autowired
+	MapRepository mapRepository;
+	
 	FileController(){
 		
 	}
@@ -31,11 +34,13 @@ public class FileController {
 //		System.out.println(mapXML);
 //		return new ResponseEntity<>(mapXML, HttpStatus.CREATED);
 //	} 
+	
 	@RequestMapping(value="/save_map", method=RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
-	public ResponseEntity<String> saveMap(@RequestBody String mapXML) {
-		System.out.println(mapXML);
+	public ResponseEntity<String> saveMap(@RequestBody MapEntity map) {
+		System.out.println(map);
 		// save map file
-		return new ResponseEntity<>(mapXML, HttpStatus.CREATED);
+		mapRepository.save(map);
+		return new ResponseEntity<>("save success", HttpStatus.CREATED);
 	}
 	
 	@RequestMapping(value="/load_file", method=RequestMethod.POST)
