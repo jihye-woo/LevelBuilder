@@ -66,6 +66,7 @@
 
 //   // 3. load map
 //   load(newMap.name);
+//   editor.
 
 //   // 4. create XML File
 //   //createMapXMLFile(mapXML, mapName);
@@ -174,62 +175,60 @@
 //       return doc;
 //   }
 
-//   function createImageTilesetXML(name, tilewidth, tilehegiht, spacing, margin, imagesource) {
-//         var xml = new XMLSerializer().serializeToString(ImageTilesetXML(name, tilewidth, tilehegiht, spacing, margin, imagesource));
-//         var blob = new Blob([xml], {type: "text/xml;charset=utf-8"});
-//         saveAs(blob, name+".tsx");
-//   }
+   function createImageTilesetXML(name, tilewidth, tilehegiht, spacing, margin, imagesource) {
+         var xml = new XMLSerializer().serializeToString(ImageTilesetXML(name, tilewidth, tilehegiht, spacing, margin, imagesource));
+         var blob = new Blob([xml], {type: "text/xml;charset=utf-8"});
+         saveAs(blob, name+".tsx");
+   }
 
-//   function ImageTilesetXML(name, tilewidth, tilehegiht, spacing, margin, imagesource)
-// {
-//     var doc = document.implementation.createDocument(null, null);
-//     var tilesetElem = doc.createElement("tileset");
-//     tilesetElem.setAttribute("version", "1.2");
-//     tilesetElem.setAttribute("tiledversion", "1.3.2");
-//     tilesetElem.setAttribute("name", name);
-//     tilesetElem.setAttribute("tilewidth", tilewidth);
-//     tilesetElem.setAttribute("tilehegiht", tilehegiht);
-//     tilesetElem.setAttribute("spacing", spacing);
-//     tilesetElem.setAttribute("margin", margin);
-//     tilesetElem.setAttribute("tilecount", tilecount);
-//     tilesetElem.setAttribute("columns", "3"); 
-
-//     var imageElem = doc.createElement("image");
-//     imageElem.setAttribute("source", imagesource);
-
-//     // function for getting imagewidth, imageHeight from the source
-//     var newImg = getImage(imagesource);
-
-//     imageElem.setAttribute("width", newImg.width);
-//     imageElem.setAttribute("height", newImg.height);
+   function ImageTilesetXML(name, tilewidth, tilehegiht, spacing, margin, imagesource)
+ {
+     var doc = document.implementation.createDocument(null, null);
+     var tilesetElem = doc.createElement("tileset");
+     tilesetElem.setAttribute("version", "1.2");
+     tilesetElem.setAttribute("tiledversion", "1.3.2");
+     tilesetElem.setAttribute("name", name);
+     tilesetElem.setAttribute("tilewidth", tilewidth);
+     tilesetElem.setAttribute("tilehegiht", tilehegiht);
+     tilesetElem.setAttribute("spacing", spacing);
+     tilesetElem.setAttribute("margin", margin);
+     tilesetElem.setAttribute("tilecount", tilecount);
+     tilesetElem.setAttribute("columns", "3"); 
+     var imageElem = doc.createElement("image");
+     imageElem.setAttribute("source", imagesource);
+     // function for getting imagewidth, imageHeight from the source
+     var newImg = getImage(imagesource);
+     imageElem.setAttribute("width", newImg.width);
+     imageElem.setAttribute("height", newImg.height);
     
-//     tilesetElem.appendChild(imageElem);
-//     doc.appendChild(tilesetElem);
-//     return doc;
-// }
+     tilesetElem.appendChild(imageElem);
+     doc.appendChild(tilesetElem);
+     return doc;
+ }
 
 
-// function createCollectionTilesetXML(name) {
-//         var xml = new XMLSerializer().serializeToString(CollectionTilesetXML(name));
-//         var blob = new Blob([xml], {type: "text/xml;charset=utf-8"});
-//         saveAs(blob, name+".tsx");
-//   }
-//   function CollectionTilesetXML(name)
-// {
-//   // tilewidth, tileheght
-//     var doc = document.implementation.createDocument(null, null);
-//     var tilesetElem = doc.createElement("tileset");
-//     tilesetElem.setAttribute("version", "1.2");
-//     tilesetElem.setAttribute("tiledversion", "1.3.2");
-//     tilesetElem.setAttribute("name", name);
-//     tilesetElem.setAttribute("tilewidth", 1);
-//     tilesetElem.setAttribute("tilehegiht", 1);
-//     tilesetElem.setAttribute("tilecount", 0);
-//     tilesetElem.setAttribute("columns", 0);
+ function createCollectionTilesetXML(name) {
+         var xml = new XMLSerializer().serializeToString(CollectionTilesetXML(name));
+         var blob = new Blob([xml], {type: "text/xml;charset=utf-8"});
+         saveAs(blob, name+".tsx");
+   }
+
+   function CollectionTilesetXML(name)
+ {
+   // tilewidth, tileheght
+     var doc = document.implementation.createDocument(null, null);
+     var tilesetElem = doc.createElement("tileset");
+     tilesetElem.setAttribute("version", "1.2");
+     tilesetElem.setAttribute("tiledversion", "1.3.2");
+     tilesetElem.setAttribute("name", name);
+     tilesetElem.setAttribute("tilewidth", 1);
+     tilesetElem.setAttribute("tilehegiht", 1);
+     tilesetElem.setAttribute("tilecount", 0);
+     tilesetElem.setAttribute("columns", 0);
     
-//     doc.appendChild(tilesetElem);
-//     return doc;
-// }
+     doc.appendChild(tilesetElem);
+     return doc;
+ }
 
 // function getImage(imagesrc){
 //   var newImage = new Image();
@@ -749,6 +748,11 @@ function createLayerGroup() {
 }
 
 function createLayer(skipRename) {
+	// var currentMap = editor.currentMap;
+	// var layers = currentMap.layerlist;
+	// add new layers in the current layerlist
+	// show the layerlist
+	
   return createTreeItem("layer", x => map.createLayer(x),skipRename) ;
 }
 

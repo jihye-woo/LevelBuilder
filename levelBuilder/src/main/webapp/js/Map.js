@@ -1,23 +1,39 @@
 
-// class Map{
-//     constructor(id, mapWidth, mapHeight, tileWidth, tileHeight, layer){
-//         this.id = id;
-//         this.mapWidth = mapWidth;
-//         this.mapHeight = mapHeight;
-//         this.tileWidth = tileWidth;
-//         this.tileHeight = tileHeight;
-//         this.Layer = new Array(layer);
-//     }
-// }
+// static variables
 
-// class Layer{
-//     constructor(id, name, width, height){
-//         this.id = id;
-//         this.name = name;
-//         this.width = width;
-//         this.hegiht = height;
-//     }
-// }
+class Map{
+   constructor(id, mapWidth, mapHeight, tileWidth, tileHeight, layer){
+       this.id = id;
+       this.mapWidth = mapWidth;
+       this.mapHeight = mapHeight;
+       this.tileWidth = tileWidth;
+       this.tileHeight = tileHeight;
+       this.Layer = new Array(layer);
+   }
+	addLayer(layerType, name){
+		// mapWidth, mapH, tileW, tileH (map에서 불러올 수 있음)
+	// 
+	}
+	removeLayer(){
+	//
+	}
+	createGroup(){
+		//
+	}
+ 
+	clone(){
+		//
+	}
+}
+
+ class Layer{
+     constructor(id, name, width, height){
+         this.id = id;
+         this.name = name;
+         this.width = width;
+         this.hegiht = height;
+     }
+ }
 
 // class TiledLayer extends Layer{
 //     constructor(id, name, width, height){
@@ -32,6 +48,23 @@
 //     }
 // }
 
+ 
+ function createLayer(layerType) {
+		var currentMap = editor.currentMap;
+		currentMap.layerlist.addLayer(layerType, name);
+		var layers = currentMap.layerlist;
+		showLayers(layers);
+	}
+	function removeLayer(id){
+		var currentMap = editor.currentMap;
+	currentMap.layerlist.removeLayer(id);
+	showLayers(layers);
+	}
+	function showLayers(layers){
+		// show the layers (UI)
+	}
+
+ 
 // class MapObject{
 //     constructor(id, xcoordinate, ycoordinate, height, width, image, properties){
 //         this.id = id;
@@ -101,7 +134,7 @@ class Color {
           if (!this.objects) this.objects = [];        
           var index = this.objects.indexOf(object);       
           if (index === -1) return;
-          this.objects.remove(index);        
+          this.objects.remove(index);       
       }
     
       static update() {
@@ -213,10 +246,12 @@ class Color {
       this.width = window.innerWidth / ctxScaleX;
       this.height = window.innerWidth / ctxScaleY;    
     }
+    
     move (xOffset, yOffset) {
       this.x += xOffset;
       this.y += yOffset;
     }
+    
     reset() {
       this.x = 0;
       this.y = 0;

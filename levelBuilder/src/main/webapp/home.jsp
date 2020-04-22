@@ -126,7 +126,7 @@
                 <div class = "Layer1">
                   <script type="text/javascript" src="js/tilemap.js"></script>
                   <script>
-                      var grid = new Grid(300, 300, 30, 20); 
+                      var grid = new Grid(300, 300, 30, 20);
                       // << Later >>
                       // + new Grid(300, 300, 30, 20) <= these values can be brought from the map object
                       // + "Layer" object should be added
@@ -296,9 +296,41 @@
             <div class="surface btn" onclick="SaveAs()">OK</div>
           </div>
       </div>
+<script>
+var editor;
 
-<script type="text/javascript" src="js/file.js"></script>
+class Editor{
+	constructor(){
+		this.currentMap;
+		this.currentTileset;
+		this.loadedMapList = new Array();
+		this.loadedTilesetList = new Array();
+	}
+	
+	loadMap(map){
+		this.currentMap = map;
+		this.loadedMapList.push(map);
+	}
+	loadTileset(tileset){
+		this.loadedTilesetList.push(tileset);
+		this.currentTileset = tileset;
+	}
+	closeMap(){
+		
+	}
+	loadTileset(){
+		
+	}
+}
+
+window.onload = (event) => {
+	editor = new Editor();
+	console.log("create editor class");
+	};
+
+</script>
 <script type="text/javascript" src="js/Map.js"></script>
+<script type="text/javascript" src="js/file.js"></script>
 <script type="text/javascript" src="js/npm.js"></script>
 <script type="text/javascript" src="js/tilemap.js"></script>
 <script type="text/javascript" src="js/Tileset.js"></script>
