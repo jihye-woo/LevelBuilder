@@ -48,8 +48,8 @@ function createLayer(layerType) {
 
 function removeLayer(id){
 	var currentMap = editor.currentMap;
-currentMap.layerlist.removeLayer(id);
-showLayers(layers);
+    currentMap.layerlist.removeLayer(id);
+    showLayers(layers);
 }
 
 function showLayers(layers){
@@ -86,7 +86,7 @@ class Layer{
         this.id = id;
         this.name = name;
         this.width = width;
-        this.hegiht = height;
+        this.height = height;
     }
 
    // clone(){

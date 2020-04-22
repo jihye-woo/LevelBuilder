@@ -1,11 +1,10 @@
-
 class Grid{
-    constructor(w, h, tileWidth, tileHeight){
-        this.w = w;
-        this.h = h;
-        this.tileWidth = tileWidth;
-        this.tileHeight = tileHeight;
-        this.canvas = new Canvas(this.w, this.h);
+    constructor(layer){
+        this.w = layer.width;
+        this.h = layer.height;
+        this.tileWidth = layer.tileW;
+        this.tileHeight = layer.tileH;
+        this.canvas = new Canvas(layer);
 
         // let centerTileX = this.w / this.tileWidth / 2 - 1;
         // let centerTileY = this.h / this.tileHeight / 2 - 1;
@@ -27,19 +26,24 @@ class Grid{
 
 }
 class Canvas{
-    constructor(w, h){
+    constructor(layer){
          // should be get a layer
         let canvas = document.createElement("canvas");
-        canvas.addEventListener('mousemove', function(event) {
+        canvas.addEventListener('click', function(event) {
             var mousePos = getMousePos(canvas, event);
-            var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
+            var row = Math.floor(mousePos.x/tileW);
+            var col = Math.floor(mousePos.y/tileH);
+            var message = 'Mouse position: ' + row  + ',' + col;
+            layer.fillTiles(row, col, canvas);
             console.log(message);
         });
-        this.w = canvas.width = w;
-        this.h = canvas.height = h;
+        this.w = canvas.width = layer.width;
+        this.h = canvas.height = layer.height;
         document.getElementsByClassName("Layer1")[0].appendChild(canvas);
         this.ctx = canvas.getContext("2d");
+        this.layer = layer;
     }
+
     drawGrid(w, h, tileWidth, tileHeight){
         let cols = (this.w / tileWidth) | 0;
         let rows = (this.h / tileHeight) | 0;
@@ -97,3 +101,10 @@ function getMousePos(canvasNode, event) {
 }
 
 
+var width = 300;
+var height = 300;
+var tileW = 30;
+var tileH = 20;
+var currentLayer = new TiledLayer(1, "Layer1", width, height, tileW, tileH);
+var grid = new Grid(currentLayer);
+grid.updateCells();

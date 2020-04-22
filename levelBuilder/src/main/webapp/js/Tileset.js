@@ -37,7 +37,8 @@ function createSingleTiles(image, tileWidth, tileHeight){
 	//
 	return new Array();
 	}
-	Function showTileset(){
+	// function showTileset(){
 	 
-	}
+	// }
+}
 
