@@ -69,12 +69,12 @@ function createMap() {
   // 2. save data ( ajax request )
   var mapXML = MapXML(newMap.mapWidth, newMap.mapHeight, newMap.tileWidth, newMap.tileheight, newLayer);
   console.log(mapXML);
-  
-  save(mapXML);
+  var jsonMap = getMapJSON(newMap);
+  console.log(jsonMap);
+  save(jsonMap);
 
   // 3. load map
-  load(newMap.name);
-  editor.
+  // load(newMap.name);
 
   // 4. create XML File
   //createMapXMLFile(mapXML, mapName);
@@ -212,7 +212,7 @@ function mySelect() {
       mapElem.setAttribute("version", "1.2");
       mapElem.setAttribute("tiledversion", "1.3.2");
       mapElem.setAttribute("orientation", "isometric");
-      mapElem.setAttribute("renderoreder", "left-down");
+      mapElem.setAttribute("renderoreder", "right-down");
       mapElem.setAttribute("compressionlevel", "-1");
       mapElem.setAttribute("width", width);
       mapElem.setAttribute("height", height);
@@ -334,27 +334,41 @@ function getImage(imagesrc){
   return newImage;
 }
 
-function save(mapXML){
+function getMapJSON(mapData){
+  return {
+          "name" : mapData.id,
+          "mapwidth" : mapData.mapWidth,
+          "mapheight" : mapData.mapHeight,
+          "tilewidth" : mapData.tileWidth,
+          "tileheight" : mapData.tileHeight,
+          "tilelayerformat" : "csv",
+          "orientation" : "orthogonal",
+          "tilerenderorder" : "right-down",
+  }
+}
+
+function save(map){
+  console.log(map);
   var save_endpoint = "save_map";
-  var helper = new XMLSerializer();
+  // var helper = new XMLSerializer();
+  //helper.serializeToString(mapXML)
     $.ajax({
-        type : "POST",
-        contentType: "application/xml",
-        url : "/fileController/" + save_endpoint,
-    data : helper.serializeToString(mapXML),
-    contentType: "application/xml",
-    dataType : 'xml',
-    processData: false, 
+      type : "POST",
+      contentType: "application/json",
+      url : "/fileController/" + save_endpoint,
+      data : JSON.stringify(map),
+      dataType : 'json',
+      processData: false, 
     
     error : function(e){
       alert("save error occurred");
-      console.log("XML Saving Failed");
+       console.log("XML Saving Failed");
     },
 
-        success : function(data) {
-      console.log(data);
-            console.log("save success!");
-        }
+    success : function(data) {
+        console.log(data);
+        console.log("save success!");
+    }
   });
 }
 
@@ -371,7 +385,7 @@ function load(fileName){
     
     error : function(e){
       alert("save error occurred");
-      console.log("XML Saving Failed");
+      console.log("XML Loading Failed");
     },
 
         success : function(data) {

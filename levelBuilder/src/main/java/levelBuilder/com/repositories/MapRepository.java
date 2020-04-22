@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface MapRepository extends JpaRepository<MapEntity, Integer> {
-    List<MapEntity> findByProjectId(int projectId); //find all maps in a certain project
+    MapEntity findByName(int name); //find map with given name
 }

@@ -9,7 +9,7 @@ public class TilesetEntity {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
     private String name;
-    private int mapId;
+    private String mapName;
 
     public int getId() {
         return id;
@@ -27,11 +27,11 @@ public class TilesetEntity {
         this.name = name;
     }
 
-    public int getMapId() {
-        return mapId;
+    public String getMapName() {
+        return mapName;
     }
 
-    public void setMapId(int mapId) {
-        this.mapId = mapId;
+    public void setMapName(String mapName) {
+        this.mapName = mapName;
     }
 }
