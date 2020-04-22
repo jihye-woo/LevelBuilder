@@ -5,6 +5,7 @@ import levelBuilder.com.entities.UserEntity;
 import levelBuilder.com.repositories.ConfirmationTokenRepository;
 import levelBuilder.com.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class ResetPasswordController {
 
+	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+
 	@Autowired
-    UserRepository userRepository;
+	UserRepository userRepository;
 
 	@Autowired
 	ConfirmationTokenRepository confirmationTokenRepository;
@@ -44,7 +47,7 @@ public class ResetPasswordController {
 			return "redirect:/login";
 		}
 
-		existingUser.setPassword(user.getPassword());
+		existingUser.setPassword(encoder.encode(user.getPassword()));
 		userRepository.save(existingUser);
 
 		//delete the token so it cant be reused
