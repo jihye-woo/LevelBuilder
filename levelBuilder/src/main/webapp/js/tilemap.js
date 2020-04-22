@@ -27,7 +27,8 @@ class Grid{
 
 }
 class Canvas{
-    constructor(w, h){ // should be get a layer
+    constructor(w, h){
+         // should be get a layer
         let canvas = document.createElement("canvas");
         canvas.addEventListener('mousemove', function(event) {
             var mousePos = getMousePos(canvas, event);
