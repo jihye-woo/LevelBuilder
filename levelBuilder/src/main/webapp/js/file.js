@@ -112,7 +112,19 @@ function createMap() {
 }
 // window.CP.exitedLoop(29);
 
-function createTileSet() {  
+function createSingleTileSet() {  
+  var imageSource = document.getElementById("myFile").value;
+  console.log(imageSource);
+  closeWindow(createTileSetWindow);
+  createTilesetXML("filename", "20", "20", "1", "1", "15", "3");
+  
+ // createImageTilesetXML(name, tilewidth, tilehegiht, spacing, margin, imagesource)
+ // createCollectionTilesetXML(name)
+}
+function createCollectionTileSet() {  
+  var tilesetcollectionName = document.getElementById("TilesetName").value;
+  console.log(tilesetcollectionName);
+  closeWindow(createTileSetWindow);
   createTilesetXML("filename", "20", "20", "1", "1", "15", "3");
  // createImageTilesetXML(name, tilewidth, tilehegiht, spacing, margin, imagesource)
  // createCollectionTilesetXML(name)

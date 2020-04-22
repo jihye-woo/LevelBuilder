@@ -40,5 +40,5 @@ function createSingleTiles(image, tileWidth, tileHeight){
 	// function showTileset(){
 	 
 	// }
-}
+
 

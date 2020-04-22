@@ -224,7 +224,7 @@
         <div class="window-body">
             <div class="input-header">TileSet </div>
             <label for="fname">File name:</label>
-            <input type="text" id="fname" name="fname"><br><br> 
+            <input type="text" id="TilesetName" name="fname"><br><br> 
           <div class="input-header">Type</div>
           based On TileSet Img: <input type="checkbox" id="basedOnTileSetImg"  onclick="myCheck()">
           collection Of Img: <input type="checkbox" id="collectionOfImg"  onclick="myCheck()">
@@ -255,14 +255,14 @@
             <input type="text" placeholder="eg. 32" id="spacing"/>
           </div>
           <div class="window-actions">
-              <div class="surface btn" onclick="cancelCreateTileSet()">Cancel</div>
-              <div class="surface btn" onclick="createTileSet()">OK</div>
+              <div class="surface btn" onclick="cancelCreateSingleTileSet()">Cancel</div>
+              <div class="surface btn" onclick="createSingleTileSet()">OK</div>
             </div>
           </div>
         </div>
         <div class="window-actions" id="text" style="display:none">
-          <div class="surface btn" onclick="cancelCreateTileSet()">Cancel</div>
-          <div class="surface btn" onclick="createTileSet()">OK</div>
+          <div class="surface btn" onclick="cancelCreateCollectionTileSet()">Cancel</div>
+          <div class="surface btn" onclick="createCollectionTileSet()">OK</div>
         </div>
       </div>
 
@@ -313,7 +313,7 @@
             </div>
             <div class="input-row">
               <label for="input-layer">Layer Name :</label>
-              <input type="text" placeholder="Layer1" id="input-layer"/>
+              <input type="text" placeholder="Layer 1" id="input-layer"/>
             </div>
           </div>
           <div class="window-actions">
