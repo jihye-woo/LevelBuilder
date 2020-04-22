@@ -6,23 +6,14 @@ import javax.persistence.*;
 @Table(name = "map")
 public class MapEntity {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private int id;
     private String name;
     private int tilewidth;
     private int tileheight;
     private String tilelayerformat;
     private String orientation;
     private String tilerenderorder;
-    private int projectId;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    private int width;
+    private int height;
 
     public String getName() {
         return name;
@@ -72,11 +63,19 @@ public class MapEntity {
         this.tilerenderorder = tilerenderorder;
     }
 
-    public int getProjectId() {
-        return projectId;
+    public int getWidth() {
+        return width;
     }
 
-    public void setProjectId(int projectId) {
-        this.projectId = projectId;
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 }

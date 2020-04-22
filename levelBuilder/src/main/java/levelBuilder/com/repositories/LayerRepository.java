@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LayerRepository extends JpaRepository<LayerEntity, Integer> {
-    LayerEntity findByMapId(int mapId); //find all the layers in a given map
+    LayerEntity findByMapName(String mapName); //find all the layers in a given map
 }

@@ -11,7 +11,7 @@ public class LayerEntity {
     private String name;
     private int offsetX;
     private int offsetY;
-    private int mapId;
+    private String mapName;
     private int orderInMap;
     private String type;
 
@@ -47,12 +47,12 @@ public class LayerEntity {
         this.offsetY = offsetY;
     }
 
-    public int getMapId() {
-        return mapId;
+    public String getMapName() {
+        return mapName;
     }
 
-    public void setMapId(int mapId) {
-        this.mapId = mapId;
+    public void setMapName(String mapName) {
+        this.mapName = mapName;
     }
 
     public int getOrderInMap() {
