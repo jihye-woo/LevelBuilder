@@ -68,7 +68,8 @@ function createMap() {
   var tileHeight = parseInt(document.getElementById("tile-height").value);
   var mapName = document.getElementById("map-name").value;
 
-  var newLayer = new TiledLayer(1, "Layer1", mapWidth, mapHeight, tileWidth, tileHeight, mapName);
+  var newLayer = new TiledLayer(1, "Layer1", mapWidth, mapHeight, mapName, tileWidth, tileHeight);
+  //createNewLayer("tile-layer", "Layer1");
   var newMap = new Map(mapName, mapWidth, mapHeight, tileWidth, tileHeight, newLayer);
 console.log(newLayer);
   // save(newMap, newLayer);
@@ -77,7 +78,6 @@ console.log(newLayer);
   editor.currentMap = newMap;
   var grid = new Grid(newLayer);
   grid.updateCells();
-  //showlist();
 
   // create map object and load 
   closeWindow(createMapWindow);
@@ -124,6 +124,21 @@ function createLayer() {
   
 }
 
+function createCollectionTileSet(){
+  var collectionName = document.getElementById("TilesetName").value;
+  var newLayer = new TiledLayer(1, "Layer1", mapWidth, mapHeight, mapName, tileWidth, tileHeight);
+  closeWindow(createTileSetWindow);
+}
+
+function PreviewImage() {
+  var oFReader = new FileReader();
+  oFReader.readAsDataURL(document.getElementById("uploadImage").files[0]);
+
+  oFReader.onload = function (oFREvent) {
+      document.getElementById("uploadPreview").src = oFREvent.target.result;
+  };
+};
+
 function showWindow(hwnd) {
       hwnd.style.display = "block";
       windowBackgroundTint.style.display = "block";
@@ -159,7 +174,7 @@ function mySelect() {
       for (i = 0; i < tabcontent.length; i++) {
         tabcontent[i].style.display = "none";
       }
-      tablinks = document.getElementsByClassName("tablinks");
+      tablinks = document.getElementsByClassName("tab-header1");
       for (i = 0; i < tablinks.length; i++) {
         tablinks[i].className = tablinks[i].className.replace(" active", "");
       }
@@ -168,6 +183,21 @@ function mySelect() {
     }
     document.getElementById("defaultOpen").click();
     
+    // function openTileSet(evt, tilesetName) {
+    //   var i, tileSetcontent, tablinks;
+    //   tileSetcontent = document.getElementsByClassName("tileSetcontent");
+    //   for (i = 0; i < tileSetcontent.length; i++) {
+    //     tileSetcontent[i].style.display = "none";
+    //   }
+    //   tablinks = document.getElementsByClassName("tab-header2");
+    //   for (i = 0; i < tablinks.length; i++) {
+    //     tablinks[i].className = tablinks[i].className.replace(" active", "");
+    //   }
+    //   document.getElementById(tilesetName).style.display = "block";
+    //   evt.currentTarget.className += " active";
+    //   closeWindow(createTileSetWindow);
+    // }
+
     function createMapXMLFile(xmlFile, name) {
         var xml = new XMLSerializer().serializeToString(xmlFile);
         var blob = new Blob([xml], {type: "text/xml;charset=utf-8"});
@@ -179,8 +209,6 @@ function mySelect() {
     }
 
 
-  
-   
 function getMapJSON(mapData){
   return {
           "onwnedBy" : "jh",

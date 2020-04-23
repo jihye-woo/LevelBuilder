@@ -1,17 +1,21 @@
 class Tileset{
-   constructor(id, name, mapWidth, mapHeight, tileWidth, tileHeight, columns){
-       this.id = id;
+   constructor(id, name, mapWidth, mapHeight, tileWidth, tileHeight){
+	   this.id = id;
+	   this.name = name;
        this.mapWidth = mapWidth;
        this.mapHeight = mapHeight;
        this.tileWidth = tileWidth;
        this.tileHeight = tileHeight;
-       this.columns = columns;
    }
 }
 
 class CollectionTileset extends Tileset{
-	construtor(){
+	construtor(name, tileWidth, tileHeight){
 		super();
+		this.name = name;
+		this.tileWidth = tileWidth;
+		this.tileHeight = tileHeight;
+		this.columns =0;
 		this.tiles = new Array();
 	}
 	updateTileSize(image){
@@ -24,11 +28,12 @@ class CollectionTileset extends Tileset{
 }
 
 class SingleImageTileset extends Tileset{
-	construtor(image, margin, spacing){
+	construtor(image, margin, spacing, columns){
 		super();
 	    this.image = image;
 		this.margin = margin;
 		this.spacing = spacing;
+		this.columns = columns;
 		this.tiles = createSingleTiles(image, tileWidth, tileHeight);
 	}
 }

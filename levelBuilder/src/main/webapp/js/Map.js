@@ -22,91 +22,70 @@ class Map{
 
     removeLayer(id){
         for( var i = 0; i<this.LayerList.length; i++){
-            if ( this.LayerList[i].id == id){
-                console.log("+"+i);
+            if ( this.LayerList[i].id === id){
                 this.LayerList.splice(i,1);
-                //this.LayerList.pop();
-               // this.LayerList.splice(i, 1);
             }
         }
-            // for (i = 0; i < this.LayerList.length; i++) {
-            //     //      var showlist = llist[i].name;
-            //    console.log("~"+this.LayerList[i].id); 
-            // }
+    }
+
+    duplicateLayers(id){
+        this.LayerList.splice(id, 0, this.LayerList[id]);
     }
 
     //createGroup(){
     //
     //}
-         
-    // clone(){
-    //     if (!item.type) {    
-    //     }
-    // }
-        
 }
 
 function createNewLayer(layerType, name) {
 	var currentMap = editor.currentMap;
 	currentMap.addLayer(layerType, name);
     var layers = currentMap.LayerList;
-    
-    // for (i = 0; i < layers.length; i++) {
-    //     //      var showlist = llist[i].name;
-    //    console.log(layers[i].name); 
-    // }
     showList(layers);
 	//showLayers(layers);
 }
 
 function removeLayer(){
-    let id = 1;
+    let id = 2;
 	var currentMap = editor.currentMap;
     currentMap.removeLayer(id);
     var layers = currentMap.LayerList;
-    //showLayers(layers);
     showList(layers);
 }
 
 function showList(Llist){
-    var li = document.createElement("li");
+      var list = document.getElementById("myUL");
+        //var list = document.getElementById("myList");
+        while (list.hasChildNodes()) {
+          list.removeChild(list.firstChild);
+        }
+    // for (i = 0; i < list.length; i++) {
+    //     console.log("@@"+list.childElementCount +"!"+list.childNodes[i]);
+    // }
+            // var list = document.getElementById("myUL");
+            //    list.removeChild(list.childNodes[i]);
     for (i = 0; i < Llist.length; i++) {
-     var inputValue = Llist[i].name;
+        var li = document.createElement("li");
+        var inputValue = Llist[i].name;
+        var t = document.createTextNode(inputValue);
+        li.appendChild(t);
+        document.getElementById("myUL").appendChild(li);
     }
-    var t = document.createTextNode(inputValue);
-    li.appendChild(t);
-    document.getElementById("myUL").appendChild(li);
+    
 }
-// function showList(type, name){
-//     var li = document.createElement("li");
-//     //var inputValue = document.getElementById("myInput").value;
-//     //var inputValue ="Layer";
-//     var inputValue = name +"   "+ type;
-//    // <i class="fa fa-files-o"></i>
-//     var t = document.createTextNode(inputValue);
-//     li.appendChild(t);
-//     // if (inputValue === '') {
-//     //   alert("You must write something!");
-//     // } else { 
-//       document.getElementById("myUL").appendChild(li);
-//    // }
-  
-// //     for (i = 0; i < llist.length; i++) {
-// //      var showlist = llist[i].name;
-//         // var t = document.createTextNode(inputValue);
-//         // li.appendChild(t);
 
-// //= function() {
-// //         var div = this.parentElement;
-// //         div.style.display = "none";
-// //       }
-// //     }
-//  }
+function duplicateLayer(){
+    let id = 1;
+	var currentMap = editor.currentMap;
+    currentMap.duplicateLayers(id);
+    var layers = currentMap.LayerList;
+    showList(layers);
+
+}
 
 function showLayers(layers){
     // show the layers (UI)
 }
-
 
 class Layer{
     constructor(id, name, width, height, mapName){

@@ -139,12 +139,12 @@
 
           <div id="MapLayers" class="tabcontent">
               <div class="project-tools">
-                <div class="surface btn" id="btn-layer-group" title="Create a new group" onclick="createLayerGroup()"><i
+                <div class="surface btn" id="btn-layer-group" title="Create a new group" onclick="createLayerGroup()" disabled="disabled"><i
                     class="fa fa-folder"></i></div>
                 <div class="surface btn" id="btn-layer-add" title="Create a layer" onclick="newLayer()"><i
                     class="fa fa-file-o"> </i></div>
                 <div class="surface btn req-layer" id="btn-layer-duplicate" title="Duplicate layer"
-                  onclick="duplicateLayer(this)" disabled="disabled"><i class="fa fa-files-o"></i></div>
+                  onclick="duplicateLayer()"><i class="fa fa-files-o"></i></div>
                 <div class="surface btn req-layer" id="btn-layer-up" title="Move group or layer upwards"
                   onclick="moveLayerUp(this)" disabled="disabled"><i class="fa fa-arrow-up"></i></div>
                 <div class="surface btn req-layer" id="btn-layer-down" title="Move group or layer downwards"
@@ -154,12 +154,28 @@
               </div>
               <div class="project-item-list" id="style-4">
                 <!-- <ul class="project-item-tree" id="myUL"> -->
-                <ul id="myUL"> 
-                </ul>
+                <ul id="myUL"></ul>
               </div>
-            </div>
+          </div>
 
-            <div id="TileSets" class="tabcontent">
+            <div id="TileSets" class="tileSetcontent">
+                <!-- <button class="tab-header2" onclick="openTileSet(event, 'singleIMG')">Single</button>
+                <button class="tab-header2" onclick="openTileSet(event, 'collections')">Collection</button> -->
+
+                <!-- <div id="singleIMG" class="tileSetcontent">
+                    <div class="project-tools">
+                        <!-- <div class="surface btn" id="btn-layer-group" title="Create a new group" onclick="createTileGroup()"><i
+                            class="fa fa-folder"></i></div>
+                        <div class="surface btn" id="btn-layer-add" title="Create a layer" onclick="createTile()"><i
+                            class="fa fa-file-o"> </i></div> -->
+                       <!-- <div class="surface btn req-layer" id="btn-layer-remove" title="Remove group or layer"
+                          onclick="removeTileSet(this)"><i class="fa fa-trash-o"> </i></div>
+                      </div>
+                      <div class="project-item-list" id="style-4">
+                        <ul id="tileUL"></ul>
+                      </div>
+                </div> -->
+                <!-- <div id="collections" class="tileSetcontent"> -->
                 <div class="project-tools">
                   <!-- <div class="surface btn" id="btn-layer-group" title="Create a new group" onclick="createTileGroup()"><i
                       class="fa fa-folder"></i></div>
@@ -169,9 +185,12 @@
                     onclick="removeTileSet(this)"><i class="fa fa-trash-o"> </i></div>
                 </div>
                 <div class="project-item-list" id="style-4">
-                  <ul class="project-item-tree" id="tileUL"></ul>
+                  <!-- <ul id="tileUL"></ul> -->
+                  <img id="uploadPreview" style="width: 120px; height: 120px;" />
+                  <input id="uploadImage" type="file" name="myPhoto" onchange="PreviewImage();" />
                 </div>
               </div>
+          </div>
         </div>
 
       </div>
@@ -227,13 +246,6 @@
           <div class="input-header">Type</div>
           based On TileSet Img: <input type="checkbox" id="basedOnTileSetImg"  onclick="myCheck()">
           collection Of Img: <input type="checkbox" id="collectionOfImg"  onclick="myCheck()">
-          <!-- <div class="input-row">
-            <input class="map-perspective" id="basedOnTileSetImg" name="tileSetType" type="radio" value="basedOnTileSetImg" checked="checked"/>
-            <label for="basedOnTileSetImg">Based on TileSet Image </label>
-            <input class="map-perspective" id="collectionOfImg" name="tileSetType" value="collectionOfImg" type="radio"/>
-            <label for="collectionOfImg"> Collection of Images</label>
-            <input type="button" onclick="mySelect()" value="Select">
-          </div> -->
           <div class="input-row" id="txt" style="display:none">
           <div class="newline"></div>
           <div class="input-header">Image </div> 
@@ -256,12 +268,14 @@
           <div class="window-actions">
               <div class="surface btn" onclick="cancelCreateSingleTileSet()">Cancel</div>
               <div class="surface btn" onclick="createSingleTileSet()">OK</div>
+              <!-- <div class="surface btn" onclick="openTileSet(event, 'singleIMG')">OK</div> -->
             </div>
           </div>
         </div>
         <div class="window-actions" id="text" style="display:none">
           <div class="surface btn" onclick="cancelCreateCollectionTileSet()">Cancel</div>
           <div class="surface btn" onclick="createCollectionTileSet()">OK</div>
+          <!-- <div class="surface btn" onclick="openTileSet(event, 'collections')">OK</div> -->
         </div>
       </div>
 
@@ -280,13 +294,14 @@
       <div class="window surface" id="about">
           <div class="window-title-bar">
             <h4>About</h4>
-            <p>The Level Builder is a too for making a map. 
+            <p>The Level Builder is a tool for making a map. 
               It will provide the user with a set of tools to build graphic representations of maps which can be used in games. 
               There are many functions that enables users to easily create and edit maps. 
               Moreover, by logging in, users can easily handle the maps they made.b</p>
           </div>
           <div class="window-actions">
             <p>2020-04-22</p>
+            <p>Puja, Jihye, Ji Won</p>
             <div class="surface btn" onclick="cancelAbout()">OK</div>
           </div>
       </div>
@@ -324,35 +339,35 @@
 var editor;
 
 class Editor{
-	constructor(){
-		this.currentMap;
+   constructor(){
+    this.currentMap;
     this.currentTileset;
     this.currentLayer;
-		this.loadedMapList = new Array();
+    this.loadedMapList = new Array();
     this.loadedTilesetList = new Array();
     this.userName;
-	}
-	
-	loadMap(map){
-		this.currentMap = map;
-		this.loadedMapList.push(map);
-	}
-	loadTileset(tileset){
-		this.loadedTilesetList.push(tileset);
-		this.currentTileset = tileset;
-	}
-	closeMap(){
-		
-	}
-	loadTileset(){
-		
-	}
+   }
+   
+   loadMap(map){
+      this.currentMap = map;
+      this.loadedMapList.push(map);
+   }
+   loadTileset(tileset){
+      this.loadedTilesetList.push(tileset);
+      this.currentTileset = tileset;
+   }
+   closeMap(){
+      
+   }
+   loadTileset(){
+      
+   }
 }
 
 window.onload = (event) => {
-	editor = new Editor();
-	console.log("create editor class");
-	};
+   editor = new Editor();
+   console.log("create editor class");
+   };
 
 </script>
 <script type="text/javascript" src="js/Map.js"></script>
