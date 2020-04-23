@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface MapRepository extends JpaRepository<MapEntity, Integer> {
-    MapEntity findByName(int name); //find map with given name
+    MapEntity findByName(String name); //find map with given name
     List<MapEntity> findByOwnedBy(String username); //find all maps owned by a given user
 }

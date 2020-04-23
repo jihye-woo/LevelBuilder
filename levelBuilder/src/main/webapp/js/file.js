@@ -69,11 +69,10 @@ function createMap() {
   var mapName = document.getElementById("map-name").value;
 
   var newLayer = new TiledLayer(1, "Layer1", mapWidth, mapHeight, mapName, tileWidth, tileHeight);
-  //createNewLayer("tile-layer", "Layer1");
   var newMap = new Map(mapName, mapWidth, mapHeight, tileWidth, tileHeight, newLayer);
 console.log(newLayer);
   // save(newMap, newLayer);
-  // load(newMap.name);
+  loadMap(newMap.id);
 
   editor.currentMap = newMap;
   var grid = new Grid(newLayer);
@@ -324,15 +323,15 @@ function saveLayerProp(layerProp){
   });
 }
 
-function load(fileName){
-  var load_endpoint = "load_file";
-  var helper = new XMLSerializer();
+function loadMap(mapName){
+  var load_endpoint = "load_map";
+  // var helper = new XMLSerializer();s
    $.ajax({
       type : "POST",
       url : "/fileController/" + load_endpoint,
-    data : JSON.stringify({"filename" : fileName}),
+    data : JSON.stringify({"mapName" : mapName}),
     contentType: "application/json",
-    dataType : 'xml',
+    dataType : 'json',
     processData: false, 
     
     error : function(e){
@@ -340,12 +339,13 @@ function load(fileName){
       console.log("XML Loading Failed");
     },
 
-        success : function(data) {
+    success : function(data) {
       console.log(data);
-            console.log("load success!");
+      console.log("load success!");
     }
   });
 }
+
 
 
 // function save(mapXML){
