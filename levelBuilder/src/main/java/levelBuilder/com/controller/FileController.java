@@ -5,14 +5,17 @@ import javax.transaction.Transactional;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import levelBuilder.com.entities.LayerEntity;
+import levelBuilder.com.entities.LayerPropertiesEntity;
 import levelBuilder.com.entities.MapEntity;
+import levelBuilder.com.repositories.LayerPropertiesRepository;
+import levelBuilder.com.repositories.LayerRepository;
 import levelBuilder.com.repositories.MapRepository;
 
 @RestController
@@ -23,6 +26,12 @@ public class FileController {
 	
 	@Autowired
 	MapRepository mapRepository;
+	
+	@Autowired
+	LayerRepository layerRepository;
+	
+	@Autowired
+	LayerPropertiesRepository layerPropRepository;
 	
 	FileController(){
 		
@@ -35,13 +44,28 @@ public class FileController {
 //		return new ResponseEntity<>(userName, HttpStatus.CREATED);
 //	} 
 //	
-	@RequestMapping(value="/save_map", method=RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
+	@RequestMapping(value="/save_map", method=RequestMethod.POST)
 	public ResponseEntity<String> saveMap(@RequestBody MapEntity map) {
 		System.out.println(map);
 		// save map file
 		mapRepository.save(map);
+		return new ResponseEntity<>(map, HttpStatus.CREATED);
+	}
+	@RequestMapping(value="/save_layer", method=RequestMethod.POST)
+	public ResponseEntity<String> saveMap(@RequestBody LayerEntity layer) {
+		System.out.println(layer);
+		// save map file
+		layerRepository.save(layer);
 		return new ResponseEntity<>("", HttpStatus.CREATED);
 	}
+	@RequestMapping(value="/save_layerProp", method=RequestMethod.POST)
+	public ResponseEntity<String> saveMap(@RequestBody LayerPropertiesEntity layerProp) {
+		System.out.println(layerProp);
+		// save map file
+		layerPropRepository.save(layerProp);
+		return new ResponseEntity<>("", HttpStatus.CREATED);
+	}
+	
 	
 	@RequestMapping(value="/load_file", method=RequestMethod.POST)
 	public ResponseEntity<String> loadMap(@RequestBody String jsonFileName) {

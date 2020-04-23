@@ -62,25 +62,26 @@ function aboutLB() {
 function createMap() {
   let mapType = "top";
 
-  var mapWidth = document.getElementById("map-width").value;
-  var mapHeight = document.getElementById("map-height").value;
-  var tileWidth = document.getElementById("tile-width").value;
-  var tileHeight = document.getElementById("tile-height").value;
-  // var mapName = document.getElementById("map-name").value;
-  var mapName = "test.tmx";
+  var mapWidth = parseInt(document.getElementById("map-width").value);
+  var mapHeight = parseInt(document.getElementById("map-height").value);
+  var tileWidth = parseInt(document.getElementById("tile-width").value);
+  var tileHeight = parseInt(document.getElementById("tile-height").value);
+  var mapName = document.getElementById("map-name").value;
+  // var mapName = "test.tmx";
   //var mapName = document.getElementById("map-name").value;
 
   // 1. create Map and Layer objects
-  var newLayer = new TiledLayer(1, "Layer1", mapWidth, mapHeight, tileWidth, tileHeight);
-  console.log(newLayer);
+  var newLayer = new TiledLayer(1, "Layer1", mapWidth, mapHeight, tileWidth, tileHeight, mapName);
   var newMap = new Map(mapName, mapWidth, mapHeight, tileWidth, tileHeight, newLayer);
-  console.log(newMap);
+
   // 2. save data ( ajax request )
-  var mapXML = MapXML(newMap.mapWidth, newMap.mapHeight, newMap.tileWidth, newMap.tileheight, newLayer);
-  console.log(mapXML);
+  // var mapXML = MapXML(newMap.mapWidth, newMap.mapHeight, newMap.tileWidth, newMap.tileheight, newLayer);
+  // console.log(mapXML);
   var jsonMap = getMapJSON(newMap);
-  console.log(jsonMap);
-  save(jsonMap);
+  var jsonLayer = getLayerJSON(newLayer);
+  saveMap(jsonMap);
+  saveLayer(jsonLayer);
+  saveLayerProp(jsonLayer);
 
   // 3. load map
   // load(newMap.name);
@@ -91,26 +92,7 @@ grid.updateCells();
 
   // create map object and load 
   closeWindow(createMapWindow);
-    // // 1. create Map and Layer objects
-    // var newLayer = new TiledLayer(1, "Tile Layer 1", mapWidth, mapHeight);
-    // console.log(newLayer);
-    // var newMap = new Map(mapName, mapWidth, mapHeight, tileWidth, tileHeight, newLayer);
-    // console.log(newMap);
-    // // 2. save data ( ajax request )
-    // var mapXML = MapXML(newMap.mapWidth, newMap.mapHeight, newMap.tileWidth, newMap.tileheight, newLayer);
-    // console.log(mapXML);
-    // var jsonMap = getMapJSON(newMap);
-    // console.log(jsonMap);
-    // save(jsonMap);
-
-  // for(let radio of document.getElementsByClassName("map-perspective")) {if (window.CP.shouldStopExecution(29)){break;}    
-  //   if (radio.checked) {
-  //     mapType = radio.value;
-  //     break;
-  //   }   
-  //   }
 }
-// window.CP.exitedLoop(29);
 
 function createTileSet() {  
   createTilesetXML("filename", "20", "20", "1", "1", "15", "3");
@@ -328,7 +310,7 @@ imageElem.setAttribute("height", newImg.height);
 
 tilesetElem.appendChild(imageElem);
 doc.appendChild(tilesetElem);
-return doc;
+  return doc;
 }
 
 
@@ -352,7 +334,30 @@ function getMapJSON(mapData){
   }
 }
 
-function save(map){
+function getLayerJSON(LayerData){
+  return {
+        "id" : LayerData.id,
+        "name" : LayerData.name,
+        "mapName" : LayerData.mapName,
+        "orderInMap" : LayerData.order,
+        "type" : LayerData.type
+  }
+}
+
+function getLayerPropJSON(LayerData){
+  var layerPropData = LayerData.layerProp;
+  return {
+        "id" : layerPropData.id,
+        "layerId" : LayerData.id,
+        "visible" : layerPropData.visible,
+        "locked" : layerPropData.locked,
+        "opacity" : layerPropData.opacity,
+        "verticalOffset" : layerPropData.verticalOffset,
+        "horizontalOffset" : layerPropData.horizontalOffset
+  }
+}
+
+function saveMap(map){
   console.log(map);
   var save_endpoint = "save_map";
   // var helper = new XMLSerializer();
@@ -366,13 +371,55 @@ function save(map){
       processData: false, 
     
     error : function(e){
-      alert("save error occurred");
-       console.log("XML Saving Failed");
+      alert("save map error occurred");
     },
 
     success : function(data) {
         console.log(data);
-        console.log("save success!");
+        console.log("save map success!");
+    }
+  });
+}
+function saveLayer(layer){
+  console.log(layer);
+  var save_endpoint = "save_layer";
+    $.ajax({
+      type : "POST",
+      contentType: "application/json",
+      url : "/fileController/" + save_endpoint,
+      data : JSON.stringify(layer),
+      dataType : 'json',
+      processData: false,
+    
+    error : function(e){
+      alert("save layer error occurred");
+    },
+
+    success : function(data) {
+        console.log(data);
+        console.log("save layer success!");
+    }
+  });
+}
+
+function saveLayerProp(layerProp){
+  console.log(layerProp);
+  var save_endpoint = "save_layerProp";
+    $.ajax({
+      type : "POST",
+      contentType: "application/json",
+      url : "/fileController/" + save_endpoint,
+      data : JSON.stringify(layerProp),
+      dataType : 'json',
+      processData: false, 
+    
+    error : function(e){
+      alert("save layer error occurred");
+    },
+
+    success : function(data) {
+        console.log(data);
+        console.log("save layer success!");
     }
   });
 }
