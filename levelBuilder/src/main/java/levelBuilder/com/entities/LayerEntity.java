@@ -9,8 +9,6 @@ public class LayerEntity {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
     private String name;
-    private int offsetX;
-    private int offsetY;
     private String mapName;
     private int orderInMap;
     private String type;
@@ -29,22 +27,6 @@ public class LayerEntity {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getOffsetX() {
-        return offsetX;
-    }
-
-    public void setOffsetX(int offsetX) {
-        this.offsetX = offsetX;
-    }
-
-    public int getOffsetY() {
-        return offsetY;
-    }
-
-    public void setOffsetY(int offsetY) {
-        this.offsetY = offsetY;
     }
 
     public String getMapName() {
