@@ -88,6 +88,7 @@ function createMap() {
 editor.currentMap = newMap;
 var grid = new Grid(newLayer);
 grid.updateCells();
+//showList();
 
   // create map object and load 
   closeWindow(createMapWindow);
@@ -144,9 +145,9 @@ function createLayer() {
     // console.log(layerName);
 
   closeWindow(createLayerWindow);
-  showList(layerType, layerName);
-  //createNewLayer(layerType, layerName);
-  console.log("!!");
+  //showList(layerType, layerName);
+  createNewLayer(layerType, layerName);
+  //console.log("!!");
 
   // if (layerType === "object-layer") {
   //   let layer = Map.addLayer(layerType, layerName);

@@ -150,7 +150,7 @@
                 <div class="surface btn req-layer" id="btn-layer-down" title="Move group or layer downwards"
                   onclick="moveLayerDown(this)" disabled="disabled"><i class="fa fa-arrow-down"> </i></div>
                 <div class="surface btn req-layer" id="btn-layer-remove" title="Remove group or layer"
-                  onclick="removeLayerOrGroup(this)" disabled="disabled"><i class="fa fa-trash-o"> </i></div>
+                  onclick="removeLayer()"><i class="fa fa-trash-o"> </i></div>
               </div>
               <div class="project-item-list" id="style-4">
                 <!-- <ul class="project-item-tree" id="myUL"> -->
@@ -161,13 +161,12 @@
 
             <div id="TileSets" class="tabcontent">
                 <div class="project-tools">
-                  <div class="surface btn" id="btn-layer-group" title="Create a new group" onclick="createTileGroup()"><i
+                  <!-- <div class="surface btn" id="btn-layer-group" title="Create a new group" onclick="createTileGroup()"><i
                       class="fa fa-folder"></i></div>
                   <div class="surface btn" id="btn-layer-add" title="Create a layer" onclick="createTile()"><i
-                      class="fa fa-file-o"> </i></div>
-
+                      class="fa fa-file-o"> </i></div> -->
                   <div class="surface btn req-layer" id="btn-layer-remove" title="Remove group or layer"
-                    onclick="removeLayerOrGroup(this)" disabled="disabled"><i class="fa fa-trash-o"> </i></div>
+                    onclick="removeTileSet(this)"><i class="fa fa-trash-o"> </i></div>
                 </div>
                 <div class="project-item-list" id="style-4">
                   <ul class="project-item-tree" id="tileUL"></ul>
