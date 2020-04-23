@@ -11,7 +11,6 @@ class Grid{
     updateCells(){
         // this.canvas.clear();
         this.canvas.drawGrid(this.w, this.h, this.tileWidth, this.tileHeight);
-        console.log("In Grid"+ this.h + ", "+ this.tileHeight);
         // this.tileCursor.draw();
     }
 
@@ -28,10 +27,6 @@ class Canvas{
             layer.fillTiles(row, col, canvas);
             console.log(message);
         });
-        console.log("In Canvas layer.width" + layer.width);
-        console.log("In Canvas layer.height" + layer.height);
-        console.log("In Canvas layer.tileW" + layer.tileW);
-        console.log("In Canvas layer.tileH" + layer.tileH);
         this.w = canvas.width = (layer.width*layer.tileW);
         this.h = canvas.height = (layer.height*layer.tileH);
         document.getElementsByClassName(layer.name)[0].appendChild(canvas);

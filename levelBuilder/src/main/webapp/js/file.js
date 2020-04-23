@@ -68,7 +68,7 @@ function createMap() {
   var tileHeight = parseInt(document.getElementById("tile-height").value);
   var mapName = document.getElementById("map-name").value;
 
-  var newLayer = new TiledLayer(1, "Layer1", mapWidth, mapHeight, tileWidth, tileHeight, mapName);
+  var newLayer = new TiledLayer(1, "Layer1", mapWidth, mapHeight, mapName, tileWidth, tileHeight);
   var newMap = new Map(mapName, mapWidth, mapHeight, tileWidth, tileHeight, newLayer);
 console.log(newLayer);
   // save(newMap, newLayer);
