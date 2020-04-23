@@ -109,11 +109,15 @@ function showLayers(layers){
 
 
 class Layer{
-    constructor(id, name, width, height){
+    constructor(id, name, width, height, mapName){
         this.id = id;
         this.name = name;
         this.width = width;
         this.height = height;
+        this.order = id;
+        this.mapName = mapName;
+        this.layerProp = new LayerProperties(id);
+        this.tilesets = new Array();
     }
 
    // clone(){
@@ -122,12 +126,12 @@ class Layer{
 }
 
 class TiledLayer extends Layer{
-    constructor(id, name, width, height, tileW, tileH){
-        super(id, name, width, height);
+    constructor(id, name, width, height, mapName, tileW, tileH){
+        super(id, name, width, height, mapName);
         this.tileW = tileW;
         this.tileH = tileH;
-        // Array.from(Array(M), () => new Array(N));
         this.csv = Array.from(Array((width)), () => Array((height)));
+        this.type = "TiledLayer";
         var lengthOfCSV = this.csv.length;
         for (var i = 0; i < lengthOfCSV; i += 2) {
             for(var j = 0; j < this.csv[0].length; j +=2){
@@ -149,9 +153,10 @@ class TiledLayer extends Layer{
 }
 
 class ObjectLayer extends Layer{
-    constructor(id, name, width, height){
+    constructor(id, name, width, height, mapName){
         super(id, name, width, height);
         this.objects = new Array(); // insert the MapObject later
+        this.type = "ObjectLayer";
     }
 }
 
@@ -167,3 +172,15 @@ class MapObject{
         this.properties = properties;
     }
 }
+
+class LayerProperties{
+    constructor(){
+        this.id = 0;
+        this.visible = true;
+        this.locked = false;
+        this.opacity = true;
+        this.verticalOffset = 0;
+        this.horizontalOffset = 0;
+    }
+}
+
