@@ -93,6 +93,7 @@ class Layer{
         this.order = id;
         this.mapName = mapName;
         this.layerProp = new LayerProperties(id);
+        this.tilesets = new Array();
     }
 
    // clone(){
@@ -106,7 +107,7 @@ class TiledLayer extends Layer{
         this.tileW = tileW;
         this.tileH = tileH;
         this.csv = Array.from(Array((width)), () => Array((height)));
-        this.type = "tile-layer";
+        this.type = "TiledLayer";
         var lengthOfCSV = this.csv.length;
         for (var i = 0; i < lengthOfCSV; i += 2) {
             for(var j = 0; j < this.csv[0].length; j +=2){
@@ -131,7 +132,7 @@ class ObjectLayer extends Layer{
     constructor(id, name, width, height, mapName){
         super(id, name, width, height);
         this.objects = new Array(); // insert the MapObject later
-        this.type = "object-layer";
+        this.type = "ObjectLayer";
     }
 }
 

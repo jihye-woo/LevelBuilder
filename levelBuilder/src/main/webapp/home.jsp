@@ -187,8 +187,8 @@
       </div>
       <div class="window-body">
          <p>Oriententaion: orthogonal</p>
-         <p>Tile layer format: Base64 (uncompressed)</p>
-         <p>Tile render order: Right Up</p>
+         <p>Tile layer format: CSV</p>
+         <p>Tile render order: Right Down</p>
 
               <label for="fname">Name:</label>
               <input type="text" id="map-name" name="fname">

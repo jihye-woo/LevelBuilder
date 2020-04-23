@@ -49,7 +49,7 @@ public class FileController {
 		System.out.println(map);
 		// save map file
 		mapRepository.save(map);
-		return new ResponseEntity<>(map, HttpStatus.CREATED);
+		return new ResponseEntity<>("", HttpStatus.CREATED);
 	}
 	@RequestMapping(value="/save_layer", method=RequestMethod.POST)
 	public ResponseEntity<String> saveMap(@RequestBody LayerEntity layer) {
@@ -69,7 +69,7 @@ public class FileController {
 	
 	@RequestMapping(value="/load_file", method=RequestMethod.POST)
 	public ResponseEntity<String> loadMap(@RequestBody String jsonFileName) {
-		JSONObject jsonObject = new JSONObject(jsonFileName); 
+		JSONObject jsonObject = new JSONObject(jsonFileName);
 		String fileName = jsonObject.getString("filename");
 		System.out.println(fileName);
 		
