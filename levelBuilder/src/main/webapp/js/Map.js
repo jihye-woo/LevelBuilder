@@ -5,26 +5,34 @@ class Map{
         this.mapHeight = mapHeight;
         this.tileWidth = tileWidth;
         this.tileHeight = tileHeight;
-        this.Layer = new Array(layer);
+        this.LayerList = new Array(layer);
     }
 
     addLayer(layerType, name){
         var newLayer;
-        var id = this.Layer.length;
+        var id = this.LayerList.length;
         // if (layerType == true){ // tiledLayer
         if (layerType === "tile-layer"){ 
           newLayer = new TiledLayer(id, name, this.mapWidth, this.mapHeight, this.tileWidth, this.tileHeight);
         } else {
           newLayer = new ObjectLayer(id, name, this.mapWidth, this.mapHeight);
         }
-        this.Layer.push(newLayer);
+        this.LayerList.push(newLayer);
     }
 
     removeLayer(id){
-        for( var i = this.Layer.length-1; i--;){
-            if ( this.Layer[i].id == id)
-             this.Layer.splice(i, 1);
+        for( var i = 0; i<this.LayerList.length; i++){
+            if ( this.LayerList[i].id == id){
+                console.log("+"+i);
+                this.LayerList.splice(i,1);
+                //this.LayerList.pop();
+               // this.LayerList.splice(i, 1);
             }
+        }
+            // for (i = 0; i < this.LayerList.length; i++) {
+            //     //      var showlist = llist[i].name;
+            //    console.log("~"+this.LayerList[i].id); 
+            // }
     }
 
     //createGroup(){
@@ -41,43 +49,59 @@ class Map{
 function createNewLayer(layerType, name) {
 	var currentMap = editor.currentMap;
 	currentMap.addLayer(layerType, name);
-    var layers = currentMap.layerlist;
-    showList();
-	showLayers(layers);
+    var layers = currentMap.LayerList;
+    
+    // for (i = 0; i < layers.length; i++) {
+    //     //      var showlist = llist[i].name;
+    //    console.log(layers[i].name); 
+    // }
+    showList(layers);
+	//showLayers(layers);
 }
 
-function removeLayer(id){
+function removeLayer(){
+    let id = 1;
 	var currentMap = editor.currentMap;
     currentMap.removeLayer(id);
-    showLayers(layers);
-    //showList();
+    var layers = currentMap.LayerList;
+    //showLayers(layers);
+    showList(layers);
 }
 
-function showList(type, name){
+function showList(Llist){
     var li = document.createElement("li");
-    //var inputValue = document.getElementById("myInput").value;
-    //var inputValue ="Layer";
-    var inputValue = name +"   "+ type;
-   // <i class="fa fa-files-o"></i>
+    for (i = 0; i < Llist.length; i++) {
+     var inputValue = Llist[i].name;
+    }
     var t = document.createTextNode(inputValue);
     li.appendChild(t);
-    // if (inputValue === '') {
-    //   alert("You must write something!");
-    // } else { 
-      document.getElementById("myUL").appendChild(li);
-   // }
+    document.getElementById("myUL").appendChild(li);
+}
+// function showList(type, name){
+//     var li = document.createElement("li");
+//     //var inputValue = document.getElementById("myInput").value;
+//     //var inputValue ="Layer";
+//     var inputValue = name +"   "+ type;
+//    // <i class="fa fa-files-o"></i>
+//     var t = document.createTextNode(inputValue);
+//     li.appendChild(t);
+//     // if (inputValue === '') {
+//     //   alert("You must write something!");
+//     // } else { 
+//       document.getElementById("myUL").appendChild(li);
+//    // }
   
-//     for (i = 0; i < llist.length; i++) {
-//      var showlist = llist[i].name;
-        // var t = document.createTextNode(inputValue);
-        // li.appendChild(t);
+// //     for (i = 0; i < llist.length; i++) {
+// //      var showlist = llist[i].name;
+//         // var t = document.createTextNode(inputValue);
+//         // li.appendChild(t);
 
-//= function() {
-//         var div = this.parentElement;
-//         div.style.display = "none";
-//       }
-//     }
- }
+// //= function() {
+// //         var div = this.parentElement;
+// //         div.style.display = "none";
+// //       }
+// //     }
+//  }
 
 function showLayers(layers){
     // show the layers (UI)
@@ -93,6 +117,7 @@ class Layer{
         this.order = id;
         this.mapName = mapName;
         this.layerProp = new LayerProperties(id);
+        this.tilesets = new Array();
     }
 
    // clone(){
@@ -106,7 +131,7 @@ class TiledLayer extends Layer{
         this.tileW = tileW;
         this.tileH = tileH;
         this.csv = Array.from(Array((width)), () => Array((height)));
-        this.type = "tile-layer";
+        this.type = "TiledLayer";
         var lengthOfCSV = this.csv.length;
         for (var i = 0; i < lengthOfCSV; i += 2) {
             for(var j = 0; j < this.csv[0].length; j +=2){
@@ -131,7 +156,7 @@ class ObjectLayer extends Layer{
     constructor(id, name, width, height, mapName){
         super(id, name, width, height);
         this.objects = new Array(); // insert the MapObject later
-        this.type = "object-layer";
+        this.type = "ObjectLayer";
     }
 }
 

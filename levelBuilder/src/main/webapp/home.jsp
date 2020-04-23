@@ -150,7 +150,7 @@
                 <div class="surface btn req-layer" id="btn-layer-down" title="Move group or layer downwards"
                   onclick="moveLayerDown(this)" disabled="disabled"><i class="fa fa-arrow-down"> </i></div>
                 <div class="surface btn req-layer" id="btn-layer-remove" title="Remove group or layer"
-                  onclick="removeLayerOrGroup(this)" disabled="disabled"><i class="fa fa-trash-o"> </i></div>
+                  onclick="removeLayer()"><i class="fa fa-trash-o"> </i></div>
               </div>
               <div class="project-item-list" id="style-4">
                 <!-- <ul class="project-item-tree" id="myUL"> -->
@@ -161,13 +161,12 @@
 
             <div id="TileSets" class="tabcontent">
                 <div class="project-tools">
-                  <div class="surface btn" id="btn-layer-group" title="Create a new group" onclick="createTileGroup()"><i
+                  <!-- <div class="surface btn" id="btn-layer-group" title="Create a new group" onclick="createTileGroup()"><i
                       class="fa fa-folder"></i></div>
                   <div class="surface btn" id="btn-layer-add" title="Create a layer" onclick="createTile()"><i
-                      class="fa fa-file-o"> </i></div>
-
+                      class="fa fa-file-o"> </i></div> -->
                   <div class="surface btn req-layer" id="btn-layer-remove" title="Remove group or layer"
-                    onclick="removeLayerOrGroup(this)" disabled="disabled"><i class="fa fa-trash-o"> </i></div>
+                    onclick="removeTileSet(this)"><i class="fa fa-trash-o"> </i></div>
                 </div>
                 <div class="project-item-list" id="style-4">
                   <ul class="project-item-tree" id="tileUL"></ul>
@@ -187,8 +186,8 @@
       </div>
       <div class="window-body">
          <p>Oriententaion: orthogonal</p>
-         <p>Tile layer format: Base64 (uncompressed)</p>
-         <p>Tile render order: Right Up</p>
+         <p>Tile layer format: CSV</p>
+         <p>Tile render order: Right Down</p>
 
               <label for="fname">Name:</label>
               <input type="text" id="map-name" name="fname">
@@ -224,7 +223,7 @@
         <div class="window-body">
             <div class="input-header">TileSet </div>
             <label for="fname">File name:</label>
-            <input type="text" id="fname" name="fname"><br><br> 
+            <input type="text" id="TilesetName" name="fname"><br><br> 
           <div class="input-header">Type</div>
           based On TileSet Img: <input type="checkbox" id="basedOnTileSetImg"  onclick="myCheck()">
           collection Of Img: <input type="checkbox" id="collectionOfImg"  onclick="myCheck()">
@@ -255,14 +254,14 @@
             <input type="text" placeholder="eg. 32" id="spacing"/>
           </div>
           <div class="window-actions">
-              <div class="surface btn" onclick="cancelCreateTileSet()">Cancel</div>
-              <div class="surface btn" onclick="createTileSet()">OK</div>
+              <div class="surface btn" onclick="cancelCreateSingleTileSet()">Cancel</div>
+              <div class="surface btn" onclick="createSingleTileSet()">OK</div>
             </div>
           </div>
         </div>
         <div class="window-actions" id="text" style="display:none">
-          <div class="surface btn" onclick="cancelCreateTileSet()">Cancel</div>
-          <div class="surface btn" onclick="createTileSet()">OK</div>
+          <div class="surface btn" onclick="cancelCreateCollectionTileSet()">Cancel</div>
+          <div class="surface btn" onclick="createCollectionTileSet()">OK</div>
         </div>
       </div>
 
@@ -313,7 +312,7 @@
             </div>
             <div class="input-row">
               <label for="input-layer">Layer Name :</label>
-              <input type="text" placeholder="Layer1" id="input-layer"/>
+              <input type="text" placeholder="Layer 1" id="input-layer"/>
             </div>
           </div>
           <div class="window-actions">
