@@ -225,12 +225,6 @@ function mySelect() {
     //   closeWindow(createTileSetWindow);
     // }
 
-    function about(){
-
-    oFReader.onload = function (oFREvent) {
-        document.getElementById("uploadPreview").src = oFREvent.target.result;
-    };
-};
 
 
 function getMapJSON(mapData){
