@@ -1,15 +1,19 @@
 package levelBuilder.com.entities;
 
+import levelBuilder.com.serializable.TiledLayerId;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "TiledLayer")
+@IdClass(TiledLayerId.class)
 public class TiledLayerEntity {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
     private int layerId;
     private int tilewidth;
     private int tileheight;
+    @Id
+    private String mapName;
 
     public int getLayerId() {
         return layerId;
@@ -33,5 +37,13 @@ public class TiledLayerEntity {
 
     public void setTileheight(int tileheight) {
         this.tileheight = tileheight;
+    }
+
+    public String getMapName() {
+        return mapName;
+    }
+
+    public void setMapName(String mapName) {
+        this.mapName = mapName;
     }
 }

@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LayerPropertiesRepository extends JpaRepository<LayerPropertiesEntity, Integer> {
-    LayerPropertiesEntity findByLayerId(int layerId); //find the properties associated with a layer
+    LayerPropertiesEntity findByLayerIdAndMapName(int layerId, String mapName); //find the properties associated with a layer
 }

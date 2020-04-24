@@ -1,14 +1,17 @@
 package levelBuilder.com.entities;
 
+import levelBuilder.com.serializable.LayerId;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "layer")
+@IdClass(LayerId.class)
 public class LayerEntity {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
     private String name;
+    @Id
     private String mapName;
     private int orderInMap;
     private String type;
