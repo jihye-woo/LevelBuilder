@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TiledLayerRepository extends JpaRepository<TiledLayerEntity, Integer> {
-    TiledLayerEntity findByLayerId(int layerId); //find the TiledLayer given the (matching) parent Layer id
+    TiledLayerEntity findByLayerIdAndMapName(int layerId, String mapName); //find the TiledLayer given the (matching) parent Layer id
 }

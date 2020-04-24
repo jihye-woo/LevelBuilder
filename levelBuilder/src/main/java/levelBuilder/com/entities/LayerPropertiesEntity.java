@@ -14,6 +14,7 @@ public class LayerPropertiesEntity {
     private Integer verticalOffset;
     private Integer horizontalOffset;
     private int layerId;
+    private String mapName;
 
     public int getId() {
         return id;
@@ -69,5 +70,13 @@ public class LayerPropertiesEntity {
 
     public void setLayerId(int layerId) {
         this.layerId = layerId;
+    }
+
+    public String getMapName() {
+        return mapName;
+    }
+
+    public void setMapName(String mapName) {
+        this.mapName = mapName;
     }
 }

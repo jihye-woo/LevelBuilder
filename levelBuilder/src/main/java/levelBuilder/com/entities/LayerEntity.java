@@ -6,9 +6,9 @@ import javax.persistence.*;
 @Table(name = "layer")
 public class LayerEntity {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
     private String name;
+    @Id
     private String mapName;
     private int orderInMap;
     private String type;
