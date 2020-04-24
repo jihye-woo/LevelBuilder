@@ -156,35 +156,6 @@ function createCollectionTileSet(){
   closeWindow(createTileSetWindow);
 }
 
-function removeFile() {
-
-  var d = document.getElementById('tilesetplace');
-  var olddiv = document.getElementById("uploadPreview");
-  d.removeChild(olddiv);
-  }
-
-function PreviewImage() {
-  var d = document.getElementById('tilesetplace');
-  var olddiv = document.getElementById("uploadPreview");
-  var oFReader = new FileReader();
-  oFReader.readAsDataURL(document.getElementById("fileElem").files[0]);
-
-  oFReader.onload = function (oFREvent) {
-      //document.getElementById("uploadPreview").src = oFREvent.target.result;
-    olddiv.src =  oFREvent.target.result;
-    d.removeChild(olddiv);
-    };
-};
-
-const fileSelect = document.getElementById("fileSelect"),
-fileElem = document.getElementById("fileElem");
-
-fileSelect.addEventListener("click", function (e) {
-if (fileElem) {
-fileElem.click();
-}
-}, false);
-
 function showWindow(hwnd) {
       hwnd.style.display = "block";
       windowBackgroundTint.style.display = "block";

@@ -37,6 +37,7 @@ class SingleImageTileset extends Tileset{
 		this.tiles = createSingleTiles(image, tileWidth, tileHeight);
 	}
 }
+
 function createSingleTiles(image, tileWidth, tileHeight){
 	// image size
 	//
@@ -46,4 +47,41 @@ function createSingleTiles(image, tileWidth, tileHeight){
 	 
 	// }
 
+	function removeFile() {
 
+		var d = document.getElementById('tilesetplace');
+		var olddiv = document.getElementById("uploadPreview");
+		d.removeChild(olddiv);
+		}
+	  
+	  function PreviewImage() {
+		var d = document.getElementById('tilesetplace');
+		var olddiv = document.getElementById("uploadPreview");
+		var oFReader = new FileReader();
+		oFReader.readAsDataURL(document.getElementById("fileElem").files[0]);
+	  
+		oFReader.onload = function (oFREvent) {
+			//document.getElementById("uploadPreview").src = oFREvent.target.result;
+		  olddiv.src =  oFREvent.target.result;
+		  d.removeChild(olddiv);
+		  };
+	  };
+	  
+	  const fileSelect = document.getElementById("fileSelect"),
+	  fileElem = document.getElementById("fileElem");
+	  
+	  fileSelect.addEventListener("click", function (e) {
+	  if (fileElem) {
+	  fileElem.click();
+	  }
+	  }, false);
+
+
+	//   document.getElementById("myUL").addEventListener("click", function(e) {
+	// 	if (e.target && e.target.matches("li.layerlist")) {
+	// 	  e.target.className = "foo"; // new class name here
+	// 	  //alert("clicked " + e.target.innerText);
+	// 	  selectedLayerName = e.target.innerText;
+	// 	  console.log("clicked  "+e.target.innerText);
+	// 	}
+	//   });

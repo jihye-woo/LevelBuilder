@@ -57,8 +57,6 @@ class Map{
             }
         }
     }
-
-
     
     lowerLayer(Lname){
         var selected;
