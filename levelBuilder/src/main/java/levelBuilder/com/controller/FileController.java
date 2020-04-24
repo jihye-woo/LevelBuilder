@@ -1,7 +1,12 @@
 package levelBuilder.com.controller;
 
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.transaction.Transactional;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 
 import levelBuilder.com.entities.LayerEntity;
 import levelBuilder.com.entities.LayerPropertiesEntity;
@@ -26,6 +32,8 @@ import levelBuilder.com.repositories.MapRepository;
 @Transactional
 public class FileController {
 	
+	ObjectMapper mapper = new ObjectMapper();
+	JSONObject object = new JSONObject();
 	
 	@Autowired
 	MapRepository mapRepository;
@@ -37,7 +45,7 @@ public class FileController {
 	LayerPropertiesRepository layerPropRepository;
 	
 	FileController(){
-		
+		object.put("sending", 0);
 	}
 
 	
@@ -49,44 +57,96 @@ public class FileController {
 //	
 	@RequestMapping(value="/save_map", method=RequestMethod.POST)
 	public ResponseEntity<String> saveMap(@RequestBody MapEntity map) {
-		System.out.println(map);
-		// save map file
+		// save map data
 		mapRepository.save(map);
-		return new ResponseEntity<>("", HttpStatus.CREATED);
+		return new ResponseEntity<>(object.toString(), HttpStatus.CREATED);
 	}
 	@RequestMapping(value="/save_layer", method=RequestMethod.POST)
-	public ResponseEntity<String> saveLayer(@RequestBody LayerEntity layer) {
-		System.out.println(layer);
-		// save map file
-		layerRepository.save(layer);
-		return new ResponseEntity<>("", HttpStatus.CREATED);
+	public ResponseEntity<String> saveLayer(@RequestBody List<LayerEntity> layers) {
+		// save Layer data
+		for(LayerEntity layer : layers)
+			layerRepository.save(layer);
+		
+		return new ResponseEntity<>(object.toString(), HttpStatus.CREATED);
 	}
 	@RequestMapping(value="/save_layerProp", method=RequestMethod.POST)
-	public ResponseEntity<String> saveLayerProp(@RequestBody LayerPropertiesEntity layerProp) {
-		System.out.println(layerProp);
-		// save map file
-		layerPropRepository.save(layerProp);
-		return new ResponseEntity<>("", HttpStatus.CREATED);
+	ResponseEntity<String> saveLayerProp(@RequestBody List<LayerPropertiesEntity> layerProps) {
+		// save Layer data
+		for(LayerPropertiesEntity layerProp : layerProps)
+			layerPropRepository.save(layerProp);
+		
+		return new ResponseEntity<>(object.toString(), HttpStatus.CREATED);
 	}
 	
 	@RequestMapping(value="/load_map", method=RequestMethod.POST)
 	public ResponseEntity<String> loadMap(@RequestBody String jsonFileName) {
-		JSONObject jsonObject = new JSONObject(jsonFileName); 
+		JSONObject jsonObject = new JSONObject(jsonFileName);
 		String mapName = jsonObject.getString("mapName");
-			System.out.println(mapName);
-		MapEntity map = mapRepository.findByName(mapName);
-		ObjectMapper mapper = new ObjectMapper();
 		String mapJson = "";
+		JSONObject result = new JSONObject();
+		
+		// 1. load map
+		MapEntity map = mapRepository.findByName(mapName);
 		try {
 			mapJson = mapper.writeValueAsString(map);
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (JsonProcessingException e1) {
+			e1.printStackTrace();
 		}
-			System.out.println(mapJson);
-		// parsing the xml file and return
-		return new ResponseEntity<>(mapJson, HttpStatus.CREATED);
+		result.put("map", new JSONObject(mapJson));
+		
+		
+		// 2. load layers and layerProperties
+		List<LayerEntity> layers = layerRepository.findByMapName(mapName);
+		JSONArray layerArray = new JSONArray();
+		try {
+			for(LayerEntity layer : layers) {
+				String LayerJson = mapper.writeValueAsString(layer);
+				System.out.println(LayerJson);
+				layerArray.put(new JSONObject(LayerJson));
+//						LayerPropertiesEntity layerProp = layerPropRepository.findByLayerId(layer.getId());
+//						String layerPropJson = mapper.writeValueAsString(layerProp);
+//						JSONObject layerPropOb = new JSONObject(layerPropJson);
+//						layerPropArray.put(layerPropOb);
+			}
+		} catch (JsonProcessingException e) {
+					e.printStackTrace();
+		}
+		result.put("layers", layerArray);
+//		result.put("layerProps", layerPropArray);
+		
+		return new ResponseEntity<>(result.toString(), HttpStatus.CREATED);
 	}
+	
+	@RequestMapping(value="/load_layer", method=RequestMethod.POST)
+	public ResponseEntity<String> loadLayer(@RequestBody String jsonFileName) {
+		JSONObject jsonObject = new JSONObject(jsonFileName);
+		String mapName = jsonObject.getString("mapName");
+		JSONObject result = new JSONObject();
+		
+		// 2. load layers and layerProperties
+		List<LayerEntity> layers = layerRepository.findByMapName(mapName);
+		JSONArray layerArray = new JSONArray();
+//		JSONArray layerPropArray = new JSONArray();
+		try {
+			for(LayerEntity layer : layers) {
+				String LayerJson = mapper.writeValueAsString(layer);
+				System.out.println(LayerJson);
+				layerArray.put(new JSONObject(LayerJson));
+//						LayerPropertiesEntity layerProp = layerPropRepository.findByLayerId(layer.getId());
+//						String layerPropJson = mapper.writeValueAsString(layerProp);
+//						JSONObject layerPropOb = new JSONObject(layerPropJson);
+//						layerPropArray.put(layerPropOb);
+			}
+		} catch (JsonProcessingException e) {
+					e.printStackTrace();
+		}
+		result.put("layers", layerArray);
+//		result.put("layerProps", layerPropArray);
+		System.out.println(result.toString());
+		
+		return new ResponseEntity<>(result.toString(), HttpStatus.CREATED);
+	}
+	
 	
 	
 //	@RequestMapping(value="/load_file", method=RequestMethod.POST)

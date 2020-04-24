@@ -1,3 +1,12 @@
+
+    function createMapXMLFile(xmlFile, name) {
+        var xml = new XMLSerializer().serializeToString(xmlFile);
+        var blob = new Blob([xml], {type: "text/xml;charset=utf-8"});
+        saveAs(blob, name+".tmx");
+  }
+
+
+
 function MapXML(map, layer)
   {
       var doc = document.implementation.createDocument(null, null);
