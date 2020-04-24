@@ -72,7 +72,7 @@ function createMap() {
   var newLayer = new TiledLayer(0, "Layer1", mapWidth, mapHeight, mapName, tileWidth, tileHeight);
   var newMap = new Map(mapName, mapWidth, mapHeight, tileWidth, tileHeight, newLayer);
 
-  save(newMap, newMap.LayerList);
+  saveAll(newMap, newMap.LayerList, mapName);
   
   // loadAll(newMap.id);
 
@@ -125,8 +125,8 @@ function createLayer() {
 }
 
 
-function save(newMap, newLayers){
-  var jsonMap = getMapJSON(newMap);
+function saveAll(newMap, newLayers, mapName){
+  var jsonMap = getMapJSON(newMap, mapName);
   var jsonLayers = getLayerJSON(newLayers);
 
   let saveMapResult = saveMap(jsonMap);
@@ -144,10 +144,24 @@ function save(newMap, newLayers){
   });
 }
 
-function SaveAs(newMap, newLayers){
-  var saveAsName = document.getElementById("saveAsName").value;
-  console.log("saveas "+saveAsName);
+function saveAs(){
+  var map = editor.currentMap;
+  if (map == null){
+    alert("There is no map to save");
+  } else{
+    var saveAsName = document.getElementById("saveAsName").value;
+    saveAll(map, map.LayerList, saveAsName);
+  }
   closeWindow(saveasWindow);
+}
+
+function save(){
+  var map = editor.currentMap;
+  if (map == null){
+    alert("There is no map to save");
+  } else{
+    saveAll(map, map.LayerList, map.id);
+  }
 }
 
 function createCollectionTileSet(){
@@ -157,7 +171,6 @@ function createCollectionTileSet(){
 }
 
 function removeFile() {
-
   var d = document.getElementById('tilesetplace');
   var olddiv = document.getElementById("uploadPreview");
   d.removeChild(olddiv);
@@ -246,10 +259,10 @@ function mySelect() {
 
 
 
-function getMapJSON(mapData){
+function getMapJSON(mapData, mapName){
   return {
           "onwnedBy" : "jh",
-          "name" : mapData.id,
+          "name" : mapName,
           "width" : mapData.mapWidth,
           "height" : mapData.mapHeight,
           "tilewidth" : mapData.tileWidth,

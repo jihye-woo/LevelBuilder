@@ -51,7 +51,7 @@
                 <a href="#" onclick="newTileSet()">New TileSet</a>
                 <a href="#">Share Map</a>
                 <a href="#">Open</a>
-                <a href="#">Save</a>
+                <a href="#" onclick="save()">Save</a>
                 <a href="#" onclick="openSaveAs()">Save As </a>
                 <a href="#">Export</a>
                 <a href="#">Export As</a>
@@ -291,7 +291,7 @@
           </div>
           <div class="window-actions">
             <div class="surface btn" onclick="cancelSaveAs()">Cancel</div>
-            <div class="surface btn" onclick="SaveAs()">OK</div> 
+            <div class="surface btn" onclick="saveAs()">OK</div> 
           </div>
       </div>
 
