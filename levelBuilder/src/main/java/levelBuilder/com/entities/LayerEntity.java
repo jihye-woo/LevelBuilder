@@ -1,9 +1,12 @@
 package levelBuilder.com.entities;
 
+import levelBuilder.com.serializable.LayerId;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "layer")
+@IdClass(LayerId.class)
 public class LayerEntity {
     @Id
     private int id;
