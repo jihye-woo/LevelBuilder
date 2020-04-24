@@ -19,6 +19,7 @@ let createMapWindow = document.querySelector("#create-map-window");
 let createTileSetWindow = document.querySelector("#create-tileset-window");
 let createLayerWindow = document.querySelector("#create-layer-window");
 let aboutWindow = document.querySelector("#about");
+let saveasWindow = document.querySelector("#saveas");
 
 function newMap() {  
 showWindow(createMapWindow);
@@ -42,12 +43,12 @@ function cancelCreateTileSet() {
 function cancelCreateLayer() {  
   closeWindow(createLayerWindow);
 }
-function saveAs() {  
-showWindow(saveas);
+function openSaveAs() {  
+showWindow(saveasWindow);
 }
 
 function cancelSaveAs() {  
-  closeWindow(saveas);
+  closeWindow(saveasWindow);
 }
 
 function aboutLB() {  
@@ -96,6 +97,7 @@ function createLayer() {
         layerType = ele[i].value;
       }
     } 
+    document.getElementById("input-layer").value = "";
     // console.log(layerType);
     // console.log(layerName);
 
@@ -142,19 +144,36 @@ function save(newMap, newLayers){
   });
 }
 
+function SaveAs(newMap, newLayers){
+  var saveAsName = document.getElementById("saveAsName").value;
+  console.log("saveas "+saveAsName);
+  closeWindow(saveasWindow);
+}
+
 function createCollectionTileSet(){
   var collectionName = document.getElementById("TilesetName").value;
   var newLayer = new TiledLayer(0, "Layer1", mapWidth, mapHeight, mapName, tileWidth, tileHeight);
   closeWindow(createTileSetWindow);
 }
 
+function removeFile() {
+
+  var d = document.getElementById('tilesetplace');
+  var olddiv = document.getElementById("uploadPreview");
+  d.removeChild(olddiv);
+  }
+
 function PreviewImage() {
+  var d = document.getElementById('tilesetplace');
+  var olddiv = document.getElementById("uploadPreview");
   var oFReader = new FileReader();
   oFReader.readAsDataURL(document.getElementById("fileElem").files[0]);
 
   oFReader.onload = function (oFREvent) {
-      document.getElementById("uploadPreview").src = oFREvent.target.result;
-  };
+      //document.getElementById("uploadPreview").src = oFREvent.target.result;
+    olddiv.src =  oFREvent.target.result;
+    d.removeChild(olddiv);
+    };
 };
 
 const fileSelect = document.getElementById("fileSelect"),

@@ -1,4 +1,4 @@
-var idL=1;
+var idL=0;
 class Map{
     constructor(id, mapWidth, mapHeight, tileWidth, tileHeight, layer){
         this.id = id;
@@ -33,42 +33,62 @@ class Map{
         }
     }
 
-    duplicateLayers(idd){
-        idd = idd-1;
-        var nameL = this.LayerList[idd].name + " 2";
-        var Lid = this.LayerList[idd].id + 20;
+    duplicateLayers(Lname){
+        var index;
+        for( var i = 0; i<this.LayerList.length; i++){
+            if ( this.LayerList[i].name === Lname){
+                index = i;
+                console.log("print index "+ index);
+            }
+        }
+        var nameL = this.LayerList[index].name + " 2";
+        var Lid = this.LayerList[index].id + 20;
         var newLayer = new TiledLayer(Lid, nameL, this.mapWidth, this.mapHeight, this.mapName, this.tileWidth, this.tileHeight);
-        this.LayerList.splice(idd+1, 0, newLayer);
+        this.LayerList.splice(index+1, 0, newLayer);
     }
 
-    findID(Lname){
+    findLocation(Lname){
         var find;
         for( var i = 0; i<this.LayerList.length; i++){
             if ( this.LayerList[i].name === Lname){
                 console.log("f"+i);
-                find = i+1;
+                find = i;
                 return find;
             }
         }
     }
 
-    // lowerLayer(Lname){
-    //     for( var i = 0; i<this.LayerList.length; i++){
-    //         if ( this.LayerList[i].name === Lname){
-    //             this.LayerList.splice(i+2, 0, this.LayerList[i]);
-    //             this.LayerList.splice(i,1);
-    //         }
-    //     }
-    // }
 
-    // upperLayer(Lname){
-    //     for( var i = 0; i<this.LayerList.length; i++){
-    //         if ( this.LayerList[i].name === Lname){
-    //             this.LayerList.splice(i-2, 0, this.LayerList[i]);
-    //             this.LayerList.splice(i,1);
-    //         }
-    //     }
-    // }
+    
+    lowerLayer(Lname){
+        var selected;
+        var selectedBelow;
+        var index = this.findLocation(Lname);
+        console.log("index clicked "+index);
+        selected = this.LayerList[index];
+        selectedBelow = this.LayerList[index+1];
+        this.LayerList.splice(index+1,1);
+        this.LayerList.splice(index,1);
+        this.LayerList.splice(index, 0, selectedBelow);
+        this.LayerList.splice(index+1, 0, selected);
+    }
+
+    upperLayer(Lname){
+        var selected;
+        var selectedAbove;
+        for( var i = 0; i<this.LayerList.length; i++){
+            if ( this.LayerList[i].name === Lname){
+                //console.log("select index "+ i);
+                selected = this.LayerList[i];
+                selectedAbove = this.LayerList[i-1];
+                this.LayerList.splice(i,1);
+                this.LayerList.splice(i-1,1); 
+                this.LayerList.splice(i-1, 0, selected);
+                this.LayerList.splice(i, 0, selectedAbove);
+               
+            }
+        }
+    }
 
     //createGroup(){
     //
@@ -100,7 +120,7 @@ document.getElementById("myUL").addEventListener("click", function(e) {
       e.target.className = "foo"; // new class name here
       //alert("clicked " + e.target.innerText);
       selectedLayerName = e.target.innerText;
-      console.log("event "+ e.target.innerText);
+      console.log("clicked  "+e.target.innerText);
     }
   });
 
@@ -124,8 +144,8 @@ function showList(Llist){
 
 function duplicateLayer(){
     var currentMap = editor.currentMap;
-    var idd = currentMap.findID(selectedLayerName);
-    currentMap.duplicateLayers(idd);
+    //var idd = currentMap.findLocation(selectedLayerName);
+    currentMap.duplicateLayers(selectedLayerName);
     var layers = currentMap.LayerList;
     // for (var i=0; i<layers.length; i++) {
     //     console.log("d"+ layers[i].name);
@@ -136,7 +156,7 @@ function duplicateLayer(){
 
 function moveLayerDown(){
     var currentMap = editor.currentMap;
-    //var idd = currentMap.findID(selectedLayerName);
+    //var idd = currentMap.findLocation(selectedLayerName);
     currentMap.lowerLayer(selectedLayerName);
     var layers = currentMap.LayerList;
     showList(layers);
@@ -144,7 +164,7 @@ function moveLayerDown(){
 
 function moveLayerUp(){
     var currentMap = editor.currentMap;
-    //var idd = currentMap.findID(selectedLayerName);
+    //var idd = currentMap.findLocation(selectedLayerName);
     currentMap.upperLayer(selectedLayerName);
     var layers = currentMap.LayerList;
     showList(layers);

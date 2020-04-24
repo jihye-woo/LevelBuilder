@@ -52,7 +52,7 @@
                 <a href="#">Share Map</a>
                 <a href="#">Open</a>
                 <a href="#">Save</a>
-                <a href="#" onclick="saveAs()">Save As </a>
+                <a href="#" onclick="openSaveAs()">Save As </a>
                 <a href="#">Export</a>
                 <a href="#">Export As</a>
                 <a href="#">Export As Image</a>
@@ -92,7 +92,7 @@
                       <!-- <a href="#">Add Tile</a> -->
                       <a href="#" id="fileSelect">Add Tile</a>
                       <input type="file" id="fileElem" multiple accept="image/*" style="display:none"onchange="PreviewImage();">
-                      <a href="#">Remove Tile</a>
+                      <a href="#" id="fileRemove" onclick="removeFile();">Remove Tile </a>
                     </div>
                   </div>
                   <div class="dropdown">
@@ -101,7 +101,7 @@
                         <a href="#">User Manual</a>
                         <a href="#" onclick="aboutLB()">About Level Builder</a>
                       </div>
-                    </div>
+                  </div>
       </div>
       <div class="workspace">
         <div class="scene">
@@ -187,8 +187,10 @@
                     onclick="removeTileSet(this)"><i class="fa fa-trash-o"> </i></div>
                 </div>
                 <div class="project-item-list" id="style-4">
+                    <div id="tilesetplace">
                   <!-- <ul id="tileUL"></ul> -->
-                  <img id="uploadPreview" style="width: 80px; height: 80px;" />
+                  <img id="uploadPreview" style="width: 120px; height: 120px;" />
+                  </div>
                 </div>
               </div>
           </div>
@@ -283,12 +285,13 @@
       <div class="window surface" id="saveas">
           <div class="window-title-bar">
             <h4>Save As</h4>
-            <label for="fname">File name:</label>
-            <input type="text" id="fname" name="fname"><br><br> 
+            <div class="newline"></div>
+            <label for="saveAsName">File name:</label>
+            <input type="text" id="saveAsName" name="saveAsName"><br><br> 
           </div>
           <div class="window-actions">
             <div class="surface btn" onclick="cancelSaveAs()">Cancel</div>
-            <div class="surface btn" onclick="SaveAs()">OK</div>
+            <div class="surface btn" onclick="SaveAs()">OK</div> 
           </div>
       </div>
 
