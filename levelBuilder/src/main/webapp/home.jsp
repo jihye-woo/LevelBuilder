@@ -80,8 +80,8 @@
                     <a href="#" onclick="newLayerGroup()">Group</a>
                     <a href="#">Duplicate Layers</a>
                     <a href="#">Remove Layers</a>
-                    <a href="#">Raise Layers</a>
-                    <a href="#">Lower Layers</a>
+                    <a href="#"onclick="moveLayerUp()">Raise Layers</a>
+                    <a href="#"onclick="moveLayerDown()">Lower Layers</a>
                     <a href="#">Show/Hide Layers</a>
                     <a href="#">Lock/Unlock Layers</a>
                   </div>
@@ -89,7 +89,9 @@
                 <div class="dropdown">
                     <button class="dropbtn">TileSet</button>
                     <div class="dropdown-content">
-                      <a href="#">Add Tile</a>
+                      <!-- <a href="#">Add Tile</a> -->
+                      <a href="#" id="fileSelect">Add Tile</a>
+                      <input type="file" id="fileElem" multiple accept="image/*" style="display:none"onchange="PreviewImage();">
                       <a href="#">Remove Tile</a>
                     </div>
                   </div>
@@ -146,9 +148,9 @@
                 <div class="surface btn req-layer" id="btn-layer-duplicate" title="Duplicate layer"
                   onclick="duplicateLayer()"><i class="fa fa-files-o"></i></div>
                 <div class="surface btn req-layer" id="btn-layer-up" title="Move group or layer upwards"
-                  onclick="moveLayerUp(this)" disabled="disabled"><i class="fa fa-arrow-up"></i></div>
+                  onclick="moveLayerUp()"><i class="fa fa-arrow-up"></i></div>
                 <div class="surface btn req-layer" id="btn-layer-down" title="Move group or layer downwards"
-                  onclick="moveLayerDown(this)" disabled="disabled"><i class="fa fa-arrow-down"> </i></div>
+                  onclick="moveLayerDown()"><i class="fa fa-arrow-down"> </i></div>
                 <div class="surface btn req-layer" id="btn-layer-remove" title="Remove group or layer"
                   onclick="removeLayer()"><i class="fa fa-trash-o"> </i></div>
               </div>
@@ -186,8 +188,7 @@
                 </div>
                 <div class="project-item-list" id="style-4">
                   <!-- <ul id="tileUL"></ul> -->
-                  <img id="uploadPreview" style="width: 120px; height: 120px;" />
-                  <input id="uploadImage" type="file" name="myPhoto" onchange="PreviewImage();" />
+                  <img id="uploadPreview" style="width: 80px; height: 80px;" />
                 </div>
               </div>
           </div>

@@ -77,6 +77,8 @@ console.log(newLayer);
   editor.currentMap = newMap;
   var grid = new Grid(newLayer);
   grid.updateCells();
+  var layers = editor.currentMap.LayerList;
+  showList(layers);
 
   // create map object and load 
   closeWindow(createMapWindow);
@@ -125,18 +127,27 @@ function createLayer() {
 
 function createCollectionTileSet(){
   var collectionName = document.getElementById("TilesetName").value;
-  var newLayer = new TiledLayer(1, "Layer1", mapWidth, mapHeight, mapName, tileWidth, tileHeight);
+  // var newLayer = new TiledLayer(1, "Layer1", mapWidth, mapHeight, mapName, tileWidth, tileHeight);
   closeWindow(createTileSetWindow);
 }
 
 function PreviewImage() {
   var oFReader = new FileReader();
-  oFReader.readAsDataURL(document.getElementById("uploadImage").files[0]);
+  oFReader.readAsDataURL(document.getElementById("fileElem").files[0]);
 
   oFReader.onload = function (oFREvent) {
       document.getElementById("uploadPreview").src = oFREvent.target.result;
   };
 };
+
+const fileSelect = document.getElementById("fileSelect"),
+fileElem = document.getElementById("fileElem");
+
+fileSelect.addEventListener("click", function (e) {
+if (fileElem) {
+fileElem.click();
+}
+}, false);
 
 function showWindow(hwnd) {
       hwnd.style.display = "block";
@@ -203,9 +214,14 @@ function mySelect() {
         saveAs(blob, name+".tmx");
   }
 
-    function about(){
+  function PreviewImage() {
+    var oFReader = new FileReader();
+    oFReader.readAsDataURL(document.getElementById("fileElem").files[0]);
 
-    }
+    oFReader.onload = function (oFREvent) {
+        document.getElementById("uploadPreview").src = oFREvent.target.result;
+    };
+};
 
 
 function getMapJSON(mapData){

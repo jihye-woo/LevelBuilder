@@ -1,3 +1,4 @@
+var idL=1;
 class Map{
     constructor(id, mapWidth, mapHeight, tileWidth, tileHeight, layer){
         this.id = id;
@@ -10,32 +11,71 @@ class Map{
 
     addLayer(layerType, name){
         var newLayer;
-        var id = this.LayerList.length;
-        // if (layerType == true){ // tiledLayer
+        //var id = this.LayerList.length;
+        
+        var id = idL + 1;
+        console.log("idL "+ idL + "id: " +id);
         if (layerType === "tile-layer"){ 
           newLayer = new TiledLayer(id, name, this.mapWidth, this.mapHeight, this.tileWidth, this.tileHeight);
         } else {
           newLayer = new ObjectLayer(id, name, this.mapWidth, this.mapHeight);
         }
         this.LayerList.push(newLayer);
+        idL = idL + 1;
     }
 
-    removeLayer(id){
+    removeLayer(Lname){
+        console.log("removeL"+Lname);
         for( var i = 0; i<this.LayerList.length; i++){
-            if ( this.LayerList[i].id === id){
+            if ( this.LayerList[i].name === Lname){
                 this.LayerList.splice(i,1);
             }
         }
     }
 
-    duplicateLayers(id){
-        this.LayerList.splice(id, 0, this.LayerList[id]);
+    duplicateLayers(idd){
+        idd = idd-1;
+        var nameL = this.LayerList[idd].name + " 2";
+        var Lid = this.LayerList[idd].id + 20;
+        var newLayer = new TiledLayer(Lid, nameL, this.mapWidth, this.mapHeight, this.mapName, this.tileWidth, this.tileHeight);
+        this.LayerList.splice(idd+1, 0, newLayer);
     }
+
+    findID(Lname){
+        var find;
+        for( var i = 0; i<this.LayerList.length; i++){
+            if ( this.LayerList[i].name === Lname){
+                console.log("f"+i);
+                find = i+1;
+                return find;
+            }
+        }
+    }
+
+    // lowerLayer(Lname){
+    //     for( var i = 0; i<this.LayerList.length; i++){
+    //         if ( this.LayerList[i].name === Lname){
+    //             this.LayerList.splice(i+2, 0, this.LayerList[i]);
+    //             this.LayerList.splice(i,1);
+    //         }
+    //     }
+    // }
+
+    // upperLayer(Lname){
+    //     for( var i = 0; i<this.LayerList.length; i++){
+    //         if ( this.LayerList[i].name === Lname){
+    //             this.LayerList.splice(i-2, 0, this.LayerList[i]);
+    //             this.LayerList.splice(i,1);
+    //         }
+    //     }
+    // }
 
     //createGroup(){
     //
     //}
 }
+var selectedLayerId;
+var selectedLayerName;
 
 function createNewLayer(layerType, name) {
 	var currentMap = editor.currentMap;
@@ -46,41 +86,68 @@ function createNewLayer(layerType, name) {
 }
 
 function removeLayer(){
-    let id = 2;
-	var currentMap = editor.currentMap;
-    currentMap.removeLayer(id);
+    var currentMap = editor.currentMap;
+    currentMap.removeLayer(selectedLayerName);
     var layers = currentMap.LayerList;
+    for (var i=0; i<layers.length; i++) {
+        console.log("r"+ layers[i].name);
+    }
     showList(layers);
 }
 
+document.getElementById("myUL").addEventListener("click", function(e) {
+    if (e.target && e.target.matches("li.layerlist")) {
+      e.target.className = "foo"; // new class name here
+      //alert("clicked " + e.target.innerText);
+      selectedLayerName = e.target.innerText;
+      console.log("event "+ e.target.innerText);
+    }
+  });
+
 function showList(Llist){
-      var list = document.getElementById("myUL");
+      var list1 = document.getElementById("myUL");
         //var list = document.getElementById("myList");
-        while (list.hasChildNodes()) {
-          list.removeChild(list.firstChild);
+        while (list1.hasChildNodes()) {
+          list1.removeChild(list1.firstChild);
         }
-    // for (i = 0; i < list.length; i++) {
-    //     console.log("@@"+list.childElementCount +"!"+list.childNodes[i]);
-    // }
-            // var list = document.getElementById("myUL");
-            //    list.removeChild(list.childNodes[i]);
+
     for (i = 0; i < Llist.length; i++) {
         var li = document.createElement("li");
         var inputValue = Llist[i].name;
         var t = document.createTextNode(inputValue);
         li.appendChild(t);
+        li.className = "layerlist";
         document.getElementById("myUL").appendChild(li);
     }
-    
+
 }
 
 function duplicateLayer(){
-    let id = 1;
-	var currentMap = editor.currentMap;
-    currentMap.duplicateLayers(id);
+    var currentMap = editor.currentMap;
+    var idd = currentMap.findID(selectedLayerName);
+    currentMap.duplicateLayers(idd);
     var layers = currentMap.LayerList;
+    // for (var i=0; i<layers.length; i++) {
+    //     console.log("d"+ layers[i].name);
+    // }
     showList(layers);
 
+}
+
+function moveLayerDown(){
+    var currentMap = editor.currentMap;
+    //var idd = currentMap.findID(selectedLayerName);
+    currentMap.lowerLayer(selectedLayerName);
+    var layers = currentMap.LayerList;
+    showList(layers);
+}
+
+function moveLayerUp(){
+    var currentMap = editor.currentMap;
+    //var idd = currentMap.findID(selectedLayerName);
+    currentMap.upperLayer(selectedLayerName);
+    var layers = currentMap.LayerList;
+    showList(layers);
 }
 
 function showLayers(layers){
