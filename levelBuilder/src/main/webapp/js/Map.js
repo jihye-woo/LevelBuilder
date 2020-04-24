@@ -222,9 +222,9 @@ class MapObject{
 class LayerProperties{
     constructor(){
         this.id = 0;
-        this.visible = true;
-        this.locked = false;
-        this.opacity = true;
+        this.visible = 1;
+        this.locked = 0;
+        this.opacity = 1;
         this.verticalOffset = 0;
         this.horizontalOffset = 0;
     }
