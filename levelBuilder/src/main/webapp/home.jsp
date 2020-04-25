@@ -261,8 +261,8 @@
             <h4>Save As</h4>
             <div class="surface btn" onclick="cancelSaveAs()"><i class="fa fa-close"></i></div>
             <div class="newline"></div>
-            <label for="saveAsName">File name:</label>
-            <input type="text" id="saveAsName" name="saveAsName"><br><br> 
+            <label for="saveAsName">File Name :</label>
+              <input type="text" placeholder="name" id="saveAsName"/>
           </div>
           <div class="window-actions">
             <div class="surface btn" onclick="cancelSaveAs()">Cancel</div>
@@ -274,9 +274,9 @@
           <div class="window-title-bar">
             <h4>Load</h4>
             <div class="surface btn" onclick="cancelload()"><i class="fa fa-close"></i></div>
-            <div class="newline"></div>
-            <label for="loadFileName">File name:</label>
-            <input type="text" id="loadFileName" name="loadFileName"><br><br> 
+            <div class="newline"></div> 
+            <label for="loadFileName">File Name :</label>
+              <input type="text" placeholder="name" id="loadFileName"/>
           </div>
           <div class="window-actions">
             <div class="surface btn" onclick="cancelload()">Cancel</div>

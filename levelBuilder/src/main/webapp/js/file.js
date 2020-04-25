@@ -218,8 +218,8 @@ function save(){
 }
 
 function loadFile(){
-  var load = document.getElementsByName('loadFileName'); 
-  console.log("loadFileName "+load);
+  var loadFileName = document.getElementById("loadFileName").value; 
+  console.log("loadFileName "+loadFileName);
   closeWindow(loadWindow);
 }
 
@@ -228,32 +228,40 @@ function loadFile(){
 //   var newLayer = new TiledLayer(0, "Layer1", mapWidth, mapHeight, mapName, tileWidth, tileHeight);
 //   closeWindow(createTileSetWindow);
 // }
+var currentTileID;
 
-// function removeFile() {
-//   var d = document.getElementById('tilesetplace');
-//   var olddiv = document.getElementById("uploadPreview");
-//   d.removeChild(olddiv);
-//   }
+function removeFile() {
+  var d = document.getElementById(currentTileSetName);
+  var olddiv = document.getElementById(currentTileID);
+  d.removeChild(olddiv);
+  }
 
   var count =1;
 
   function loadTile() {
     var location ="pre" +count;
-    // console.log("newID"+location);
 
   var img = document.createElement("img");
   img.setAttribute('id', location);
-  img.setAttribute('style', 'width: 180px; height: 120px;');
+  // img.setAttribute('style', 'width: 180px; height: 120px;');
+  img.setAttribute('onload', 'resize(this)');
   document.getElementById(currentTileSetName).appendChild(img);
+
+  document.getElementById(currentTileSetName).addEventListener('click', function (e) {
+    console.log("clickedIMG "+ e.target.id);
+    currentTileID = e.target.id;
+  });
 
   var oFReader = new FileReader();
   oFReader.readAsDataURL(document.getElementById("fileElem").files[0]);
   
   oFReader.onload = function (oFREvent) {
     document.getElementById(location).src = oFREvent.target.result;
+      var myImg = document.getElementById(location);
     };
-    count = count +1;
-    console.log("count "+count);
+
+  count = count +1;
+  console.log("count "+count);
   };	  
 
   const fileSelect = document.getElementById("fileSelect"),
@@ -262,10 +270,30 @@ function loadFile(){
   fileSelect.addEventListener("click", function (e) {
   if (fileElem) {
   fileElem.click();
-  console.log("clickedA");
   }
   }, false);
 
+  function resize(img){
+    var width = img.width;
+    var height = img.height;
+    var maxWidth = 180;   
+    var maxHeight = 120;  
+     
+    if(width > maxWidth || height > maxHeight){
+       if(width > height){
+          resizeWidth = maxWidth;
+          resizeHeight = Math.round((height * resizeWidth) / width);
+       }else{
+          resizeHeight = maxHeight;
+          resizeWidth = Math.round((width * resizeHeight) / height);
+       }
+    }else{
+        resizeWidth = width;
+        resizeHeight = height;
+    }
+    img.width = resizeWidth;
+    img.height = resizeHeight;
+    }
 
 function showWindow(hwnd) {
       hwnd.style.display = "block";
