@@ -179,7 +179,7 @@ function saveAll(newMap, newLayers, mapName){
   $.when(saveMapResult, saveLayerResult, saveLayerPropResult).then(function(){
     loadAll(newMap.id)
     .then(data => {
-      console.log("returned data : "+data);
+      console.log("returned data : " + data);
     })
     .catch(error => {
       console.log(error);
@@ -206,6 +206,16 @@ function save(){
     saveAll(map, map.LayerList, map.id);
   }
 }
+
+function open(){
+  console.log("hi");
+}
+
+// function createCollectionTileSet(){
+//   var collectionName = document.getElementById("TilesetName").value;
+//   var newLayer = new TiledLayer(0, "Layer1", mapWidth, mapHeight, mapName, tileWidth, tileHeight);
+//   closeWindow(createTileSetWindow);
+// }
 
 // function removeFile() {
 //   var d = document.getElementById('tilesetplace');
@@ -294,7 +304,7 @@ function mySelect() {
 
 function getMapJSON(mapData, mapName){
   return {
-          "onwnedBy" : "jh",
+          "onwnedBy" : editor.userName,
           "name" : mapName,
           "width" : mapData.mapWidth,
           "height" : mapData.mapHeight,
@@ -329,7 +339,8 @@ function getLayerJSON(LayerData){
       "locked" : layerPropData.locked,
       "opacity" : layerPropData.opacity,
       "verticalOffset" : layerPropData.verticalOffset,
-      "horizontalOffset" : layerPropData.horizontalOffset
+      "horizontalOffset" : layerPropData.horizontalOffset,
+      "mapName" : layer.mapName
     });
   });
 
@@ -338,6 +349,14 @@ function getLayerJSON(LayerData){
 
   // var helper = new XMLSerializer();
   //helper.serializeToString(mapXML)
+
+function exportMap(){
+  var map = editor.currentMap;
+  var xmlFile = MapXML(map);
+  // open document chooser
+  createMapXMLFile(xmlFile, map);
+  
+}
 
 function saveMap(map){
   var save_endpoint = "save_map";
@@ -401,7 +420,7 @@ function saveLayerProp(layerProp){
 function loadAll(mapName){
   var load_endpoint = "load_map";
   return new Promise((resolve, reject) => {
-  // var helper = new XMLSerializer();s
+  // var helper = new XMLSerializer();
     $.ajax({
         type : "POST",
         url : "/fileController/" + load_endpoint,

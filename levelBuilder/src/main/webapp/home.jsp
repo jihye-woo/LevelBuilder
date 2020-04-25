@@ -19,7 +19,7 @@
 <title>LevelBuilder map editor</title>
 </head>
 
-<body>
+<body">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
   <div class="whole_workspace">
@@ -50,10 +50,10 @@
                 <a href="#" onclick="newMap()">New Map</a>
                 <a href="#" onclick="newTileSet()">New TileSet</a>
                 <a href="#">Share Map</a>
-                <a href="#">Load</a>
+                <a href="#" onclick="open()">Open</a>
                 <a href="#" onclick="save()">Save</a>
                 <a href="#" onclick="openSaveAs()">Save As </a>
-                <a href="#">Export</a>
+                <a href="#" onclick ="exportMap()">Export</a>
                 <a href="#">Export As</a>
                 <a href="#">Export As Image</a>
                 <a href="#">Delete</a>
@@ -344,6 +344,7 @@ class Editor{
 
 window.onload = (event) => {
    editor = new Editor();
+   editor.userName = '${username}';
    console.log("create editor class");
    };
 

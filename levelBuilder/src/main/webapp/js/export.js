@@ -1,14 +1,14 @@
 
-    function createMapXMLFile(xmlFile, name) {
-        var xml = new XMLSerializer().serializeToString(xmlFile);
-        var blob = new Blob([xml], {type: "text/xml;charset=utf-8"});
-        saveAs(blob, name+".tmx");
+function createMapXMLFile(xmlFile, name) {
+    var xml = new XMLSerializer().serializeToString(xmlFile);
+    var blob = new Blob([xml], {type: "text/xml;charset=utf-8"});
+    saveAs(blob, name+".tmx");
   }
 
 
-
-function MapXML(map, layer)
+function MapXML(map)
   {
+      var layers = map.LayerList;
       var doc = document.implementation.createDocument(null, null);
       var mapElem = doc.createElement("map");
       mapElem.setAttribute("version", "1.2");
@@ -21,25 +21,31 @@ function MapXML(map, layer)
       mapElem.setAttribute("tilewidth", map.tileWidth);
       mapElem.setAttribute("tileheight", map.tileHeight);
       mapElem.setAttribute("infinite", "0");
-      mapElem.setAttribute("nextlayerid", Layer.length);
+      mapElem.setAttribute("nextlayerid", layers.length);
       mapElem.setAttribute("nextobjectid", "1");  
 
-      var layerElem = doc.createElement("layer");
-      layerElem.setAttribute("id", "1");
-      layerElem.setAttribute("name", layer.name);
-      layerElem.setAttribute("width", layer.width);
-      layerElem.setAttribute("height", layer.height);
-      
-      if()
-      var dataElem = doc.createElement("data");
-      dataElem.setAttribute("encoding", "csv");
-      var csvArr = layer.csv;
-      var csv = csvArr.join(",");
-      var node = doc.createTextNode(csv);
-
-      mapElem.appendChild(layerElem);
-      layerElem.appendChild(dataElem);
-      dataElem.appendChild(node);
+      layers.forEach(function(layer){
+        if(layer.type == "TiledLayer"){
+            var layerElem = doc.createElement("layer");
+            layerElem.setAttribute("id", layer.id);
+            layerElem.setAttribute("name", layer.name);
+            layerElem.setAttribute("width", layer.width);
+            layerElem.setAttribute("height", layer.height);
+            var dataElem = doc.createElement("data");
+            dataElem.setAttribute("encoding", "csv");
+            var csvArr = layer.csv;
+            var csv = csvArr.join(",");
+            var node = doc.createTextNode(csv);
+            dataElem.appendChild(node);
+            layerElem.appendChild(dataElem);
+        }
+        else{//"ObjectLayer"
+            var layerElem = doc.createElement("objectgroup");
+            layerElem.setAttribute("id", layer.id);
+            layerElem.setAttribute("name", layer.name);
+        }
+        mapElem.appendChild(layerElem);
+     });
       doc.appendChild(mapElem);
       return doc;
   }
