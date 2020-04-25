@@ -180,6 +180,7 @@ function newTabBtn() {
 function saveAll(newMap, newLayers, mapName){
   var jsonMap = getMapJSON(newMap, mapName);
   var jsonLayers = getLayerJSON(newLayers);
+  console.log(jsonMap);
 
   let saveMapResult = saveMap(jsonMap);
   let saveLayerResult = saveLayer(jsonLayers["layers"]);
@@ -314,8 +315,9 @@ function mySelect() {
 
 
 function getMapJSON(mapData, mapName){
+  console.log(editor.userName);
   return {
-          "onwnedBy" : editor.userName,
+          "ownedBy" : editor.userName,
           "name" : mapName,
           "width" : mapData.mapWidth,
           "height" : mapData.mapHeight,
