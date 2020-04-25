@@ -19,7 +19,7 @@
 <title>LevelBuilder map editor</title>
 </head>
 
-<body">
+<body>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
   <div class="whole_workspace">
@@ -50,7 +50,7 @@
                 <a href="#" onclick="newMap()">New Map</a>
                 <a href="#" onclick="newTileSet()">New TileSet</a>
                 <a href="#">Share Map</a>
-                <a href="#" onclick="open()">Open</a>
+                <a href="#" onclick="createload()">Load</a>
                 <a href="#" onclick="save()">Save</a>
                 <a href="#" onclick="openSaveAs()">Save As </a>
                 <a href="#" onclick ="exportMap()">Export</a>
@@ -259,6 +259,7 @@
       <div class="window surface" id="saveas">
           <div class="window-title-bar">
             <h4>Save As</h4>
+            <div class="surface btn" onclick="cancelSaveAs()"><i class="fa fa-close"></i></div>
             <div class="newline"></div>
             <label for="saveAsName">File name:</label>
             <input type="text" id="saveAsName" name="saveAsName"><br><br> 
@@ -266,6 +267,20 @@
           <div class="window-actions">
             <div class="surface btn" onclick="cancelSaveAs()">Cancel</div>
             <div class="surface btn" onclick="saveAs()">OK</div> 
+          </div>
+      </div>
+
+      <div class="window surface" id="loadFile">
+          <div class="window-title-bar">
+            <h4>Load</h4>
+            <div class="surface btn" onclick="cancelload()"><i class="fa fa-close"></i></div>
+            <div class="newline"></div>
+            <label for="loadFileName">File name:</label>
+            <input type="text" id="loadFileName" name="loadFileName"><br><br> 
+          </div>
+          <div class="window-actions">
+            <div class="surface btn" onclick="cancelload()">Cancel</div>
+            <div class="surface btn" onclick="loadFile()">OK</div> 
           </div>
       </div>
 

@@ -20,6 +20,7 @@ let createTileSetWindow = document.querySelector("#create-tileset-window");
 let createLayerWindow = document.querySelector("#create-layer-window");
 let aboutWindow = document.querySelector("#about");
 let saveasWindow = document.querySelector("#saveas");
+let loadWindow = document.querySelector("#loadFile");
 
 function newMap() {  
 showWindow(createMapWindow);
@@ -49,6 +50,14 @@ showWindow(saveasWindow);
 
 function cancelSaveAs() {  
   closeWindow(saveasWindow);
+}
+
+function createload() {  
+  showWindow(loadWindow);
+}
+
+function cancelload() {  
+  closeWindow(loadWindow);
 }
 
 function aboutLB() {  
@@ -207,8 +216,10 @@ function save(){
   }
 }
 
-function open(){
-  console.log("hi");
+function loadFile(){
+  var load = document.getElementsByName('loadFileName'); 
+  console.log("loadFileName "+load);
+  closeWindow(loadWindow);
 }
 
 // function createCollectionTileSet(){
