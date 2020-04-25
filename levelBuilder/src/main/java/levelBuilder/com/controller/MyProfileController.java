@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ public class MyProfileController {
 	@Autowired
     MapSharedWithRepository mapSharedWithRepository;
 
-	@GetMapping("/my-profile")
+	@RequestMapping("/my-profile")
 	public String viewProfile(Model model) {
 		MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		UserEntity user = userRepository.findByUsername(myUserDetails.getUsername());
