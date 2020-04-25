@@ -302,8 +302,8 @@ html, body {
 .project-item-list {
   /* height: calc(100% - 32px); */
   height: 100%;
-  overflow-x: auto;
-  overflow-y: auto;
+  /* overflow-x: auto;
+  overflow-y: auto; */
 }
 
 .tab {

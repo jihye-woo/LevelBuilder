@@ -81,7 +81,7 @@ function createMap() {
   grid.updateCells();
   var layers = editor.currentMap.LayerList;
   showList(layers);
-
+  document.getElementById("map-name").value = "";
   // create map object and load 
   closeWindow(createMapWindow);
 }
@@ -104,26 +104,69 @@ function createLayer() {
   closeWindow(createLayerWindow);
   //showList(layerType, layerName);
   createNewLayer(layerType, layerName);
-  //console.log("!!");
-
-  // if (layerType === "object-layer") {
-  //   let layer = Map.addLayer(layerType, layerName);
-  // } else {
-  //   let layer = Map.addLayer(layerType, layerName);
-  // }
-
-//     var li = document.createElement("li");
-// e(layerName);
-//     li.appendChild(t);
-
-//     if (layerName === '') {
-//       alert("You must write something!");
-//     } else {
-//       document.getElementById("myUL").appendChild(li);
-//     }
   
 }
 
+var currentTileSetName;
+function newTabBtn() {
+  var tilesetName = document.getElementById("TilesetName").value;
+  var btn = document.createElement("BUTTON");
+  btn.setAttribute('class', 'tab-header2');
+  btn.innerHTML = tilesetName;
+  //document.body.appendChild(btn);
+  document.getElementById("newTab").appendChild(btn);
+
+  var workspace = document.createElement("div");
+  workspace.setAttribute('class', 'tilesetContent');
+  workspace.setAttribute('id', tilesetName);
+  document.getElementById("tilesetWorkspace").appendChild(workspace);
+
+  currentTileSetName = tilesetName;
+  document.getElementById("TilesetName").value = "";
+  closeWindow(createTileSetWindow);
+  }
+
+  document.getElementById("newTab").addEventListener("click", function(e) {
+    currentTileSetName = e.target.innerHTML;
+    openTilesetTab(e, e.target.innerHTML);
+    console.log("click tab "+currentTileSetName);
+    
+  });
+
+  function openTilesetTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tilesetContent");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tab-header2");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+  }
+
+  function openTab(evt, cityName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tab-header1");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+  }
+  document.getElementById("defaultOpen").click();
+
+  // function createCollectionTileSet(){
+//   var collectionName = document.getElementById("TilesetName").value;
+//   var newLayer = new TiledLayer(0, "Layer1", mapWidth, mapHeight, mapName, tileWidth, tileHeight);
+//   closeWindow(createTileSetWindow);
+// }
 
 function saveAll(newMap, newLayers, mapName){
   var jsonMap = getMapJSON(newMap, mapName);
@@ -164,11 +207,43 @@ function save(){
   }
 }
 
-function createCollectionTileSet(){
-  var collectionName = document.getElementById("TilesetName").value;
-  var newLayer = new TiledLayer(0, "Layer1", mapWidth, mapHeight, mapName, tileWidth, tileHeight);
-  closeWindow(createTileSetWindow);
-}
+// function removeFile() {
+//   var d = document.getElementById('tilesetplace');
+//   var olddiv = document.getElementById("uploadPreview");
+//   d.removeChild(olddiv);
+//   }
+
+  var count =1;
+
+  function loadTile() {
+    var location ="pre" +count;
+    // console.log("newID"+location);
+
+  var img = document.createElement("img");
+  img.setAttribute('id', location);
+  img.setAttribute('style', 'width: 180px; height: 120px;');
+  document.getElementById(currentTileSetName).appendChild(img);
+
+  var oFReader = new FileReader();
+  oFReader.readAsDataURL(document.getElementById("fileElem").files[0]);
+  
+  oFReader.onload = function (oFREvent) {
+    document.getElementById(location).src = oFREvent.target.result;
+    };
+    count = count +1;
+    console.log("count "+count);
+  };	  
+
+  const fileSelect = document.getElementById("fileSelect"),
+  fileElem = document.getElementById("fileElem");
+  
+  fileSelect.addEventListener("click", function (e) {
+  if (fileElem) {
+  fileElem.click();
+  console.log("clickedA");
+  }
+  }, false);
+
 
 function showWindow(hwnd) {
       hwnd.style.display = "block";
@@ -199,20 +274,6 @@ function mySelect() {
   document.getElementById("order").value = "You ordered a coffee with: " + txt;
 }
 
-    function openTab(evt, cityName) {
-      var i, tabcontent, tablinks;
-      tabcontent = document.getElementsByClassName("tabcontent");
-      for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-      }
-      tablinks = document.getElementsByClassName("tab-header1");
-      for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-      }
-      document.getElementById(cityName).style.display = "block";
-      evt.currentTarget.className += " active";
-    }
-    document.getElementById("defaultOpen").click();
     
     // function openTileSet(evt, tilesetName) {
     //   var i, tileSetcontent, tablinks;

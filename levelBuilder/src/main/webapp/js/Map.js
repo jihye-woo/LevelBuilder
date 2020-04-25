@@ -119,6 +119,8 @@ document.getElementById("myUL").addEventListener("click", function(e) {
       //alert("clicked " + e.target.innerText);
       selectedLayerName = e.target.innerText;
       console.log("clicked  "+e.target.innerText);
+      console.log(e.target);
+      //editor.currentLayer = 
     }
   });
 

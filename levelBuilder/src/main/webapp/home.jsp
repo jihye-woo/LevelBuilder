@@ -50,7 +50,7 @@
                 <a href="#" onclick="newMap()">New Map</a>
                 <a href="#" onclick="newTileSet()">New TileSet</a>
                 <a href="#">Share Map</a>
-                <a href="#">Open</a>
+                <a href="#">Load</a>
                 <a href="#" onclick="save()">Save</a>
                 <a href="#" onclick="openSaveAs()">Save As </a>
                 <a href="#">Export</a>
@@ -91,8 +91,8 @@
                     <div class="dropdown-content">
                       <!-- <a href="#">Add Tile</a> -->
                       <a href="#" id="fileSelect">Add Tile</a>
-                      <input type="file" id="fileElem" multiple accept="image/*" style="display:none"onchange="PreviewImage();">
-                      <a href="#" id="fileRemove" onclick="removeFile();">Remove Tile </a>
+                      <input type="file" id="fileElem" multiple accept="image/*" style="display:none"onchange="loadTile()">
+                      <a href="#" id="fileRemove" onclick="removeFile()">Remove Tile </a>
                     </div>
                   </div>
                   <div class="dropdown">
@@ -161,42 +161,16 @@
           </div>
 
             <div id="TileSets" class="tileSetcontent">
-                <!-- <button class="tab-header2" onclick="openTileSet(event, 'singleIMG')">Single</button>
-                <button class="tab-header2" onclick="openTileSet(event, 'collections')">Collection</button> -->
-
-                <!-- <div id="singleIMG" class="tileSetcontent">
-                    <div class="project-tools">
-                        <!-- <div class="surface btn" id="btn-layer-group" title="Create a new group" onclick="createTileGroup()"><i
-                            class="fa fa-folder"></i></div>
-                        <div class="surface btn" id="btn-layer-add" title="Create a layer" onclick="createTile()"><i
-                            class="fa fa-file-o"> </i></div> -->
-                       <!-- <div class="surface btn req-layer" id="btn-layer-remove" title="Remove group or layer"
-                          onclick="removeTileSet(this)"><i class="fa fa-trash-o"> </i></div>
-                      </div>
-                      <div class="project-item-list" id="style-4">
-                        <ul id="tileUL"></ul>
-                      </div>
-                </div> -->
-                <!-- <div id="collections" class="tileSetcontent"> -->
-                <div class="project-tools">
-                  <!-- <div class="surface btn" id="btn-layer-group" title="Create a new group" onclick="createTileGroup()"><i
-                      class="fa fa-folder"></i></div>
-                  <div class="surface btn" id="btn-layer-add" title="Create a layer" onclick="createTile()"><i
-                      class="fa fa-file-o"> </i></div> -->
-                  <div class="surface btn req-layer" id="btn-layer-remove" title="Remove group or layer"
-                    onclick="removeTileSet(this)"><i class="fa fa-trash-o"> </i></div>
-                </div>
-                <div class="project-item-list" id="style-4">
-                    <div id="tilesetplace">
-                  <!-- <ul id="tileUL"></ul> -->
-                  <img id="uploadPreview" style="width: 120px; height: 120px;" />
-                  </div>
-                </div>
+              <!-- <div class="project-tools"> -->
+                <div id="newTab"> </div>
+              <!-- </div> -->
+              <div class="project-item-list" id="tilesetWorkspace"> 
+              </div>
+                    
               </div>
           </div>
         </div>
 
-      </div>
     </section>
   </div>
 
@@ -269,15 +243,15 @@
             <input type="text" placeholder="eg. 32" id="spacing"/>
           </div>
           <div class="window-actions">
-              <div class="surface btn" onclick="cancelCreateSingleTileSet()">Cancel</div>
+              <div class="surface btn" onclick="cancelCreateTileSet()">Cancel</div>
               <div class="surface btn" onclick="createSingleTileSet()">OK</div>
               <!-- <div class="surface btn" onclick="openTileSet(event, 'singleIMG')">OK</div> -->
             </div>
           </div>
         </div>
         <div class="window-actions" id="text" style="display:none">
-          <div class="surface btn" onclick="cancelCreateCollectionTileSet()">Cancel</div>
-          <div class="surface btn" onclick="createCollectionTileSet()">OK</div>
+          <div class="surface btn" onclick="cancelCreateTileSet()">Cancel</div>
+          <div class="surface btn" onclick="newTabBtn()">OK</div>
           <!-- <div class="surface btn" onclick="openTileSet(event, 'collections')">OK</div> -->
         </div>
       </div>

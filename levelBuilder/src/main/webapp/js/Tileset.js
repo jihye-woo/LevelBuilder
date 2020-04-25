@@ -5,31 +5,46 @@ class Tileset{
        this.mapWidth = mapWidth;
        this.mapHeight = mapHeight;
        this.tileWidth = tileWidth;
-       this.tileHeight = tileHeight;
+	   this.tileHeight = tileHeight;
+	   
    }
+}
+
+class Tile{
+	constructor(source, tileWidth, tileHeight){
+		this.source = source;
+		this.tileWidth = tileWidth;
+		this.tileHeight = tileHeight;
+	}
 }
 
 class CollectionTileset extends Tileset{
 	construtor(name, tileWidth, tileHeight){
-		super();
+		super(id, name, mapWidth, mapHeight, tileWidth, tileHeight);
 		this.name = name;
 		this.tileWidth = tileWidth;
 		this.tileHeight = tileHeight;
 		this.columns =0;
-		this.tiles = new Array();
+		this.tileList= new Array(tile);
 	}
 	updateTileSize(image){
+		//this.tileWidth = largest;
+		//this.tileHeight = largest;
 	// update tileWidth, tileHeight
 	}
-	addTile(){
+	addSingleTile(src, imgW, imgH){
+		var tile;
+		tile = new Tile(src, imgW, imgH);
+		this.tileList.push(tile);
 	}
-	removeTile(){
+	removeSingleTile(){
+		// this.tileList.push(newLayer);
 	}
 }
 
 class SingleImageTileset extends Tileset{
 	construtor(image, margin, spacing, columns){
-		super();
+		super(id, name, mapWidth, mapHeight, tileWidth, tileHeight);
 	    this.image = image;
 		this.margin = margin;
 		this.spacing = spacing;
@@ -46,35 +61,6 @@ function createSingleTiles(image, tileWidth, tileHeight){
 	// function showTileset(){
 	 
 	// }
-
-	function removeFile() {
-
-		var d = document.getElementById('tilesetplace');
-		var olddiv = document.getElementById("uploadPreview");
-		d.removeChild(olddiv);
-		}
-	  
-	  function PreviewImage() {
-		var d = document.getElementById('tilesetplace');
-		var olddiv = document.getElementById("uploadPreview");
-		var oFReader = new FileReader();
-		oFReader.readAsDataURL(document.getElementById("fileElem").files[0]);
-	  
-		oFReader.onload = function (oFREvent) {
-			//document.getElementById("uploadPreview").src = oFREvent.target.result;
-		  olddiv.src =  oFREvent.target.result;
-		  d.removeChild(olddiv);
-		  };
-	  };
-	  
-	  const fileSelect = document.getElementById("fileSelect"),
-	  fileElem = document.getElementById("fileElem");
-	  
-	  fileSelect.addEventListener("click", function (e) {
-	  if (fileElem) {
-	  fileElem.click();
-	  }
-	  }, false);
 
 
 	//   document.getElementById("myUL").addEventListener("click", function(e) {
