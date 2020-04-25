@@ -36,4 +36,23 @@ public class MyProfileController {
 
 		return "myProfile.jsp";
 	}
+
+	@GetMapping("/my-projects")
+	public String viewProjects(Model model) {
+		MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		//get maps this user owns
+		List<MapEntity> userMaps = mapRepository.findByOwnedBy(myUserDetails.getUsername());
+		model.addAttribute("userMaps", userMaps);
+
+		//get all maps shared with this user
+		List<MapSharedWithEntity> shares = mapSharedWithRepository.findByUserName(myUserDetails.getUsername());
+		ArrayList<MapEntity> sharedMaps = new ArrayList<>();
+		for (MapSharedWithEntity share : shares) {
+			//add to the list of maps
+			sharedMaps.add(mapRepository.findByName(share.getMapName()));
+		}
+		model.addAttribute("sharedMaps", sharedMaps);
+
+		return "myProjects.jsp";
+	}
 }
