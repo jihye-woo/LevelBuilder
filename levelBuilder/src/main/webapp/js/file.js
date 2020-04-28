@@ -29,6 +29,7 @@ showWindow(createMapWindow);
 function newTileSet() {  
 showWindow(createTileSetWindow);
 }
+
 function newLayer() {  
   showWindow(createLayerWindow);
   }
@@ -133,6 +134,7 @@ function newTabBtn() {
   currentTileSetName = tilesetName;
   document.getElementById("TilesetName").value = "";
   closeWindow(createTileSetWindow);
+  createCollectionTileset();
   }
 
   document.getElementById("newTab").addEventListener("click", function(e) {
@@ -171,11 +173,6 @@ function newTabBtn() {
   }
   document.getElementById("defaultOpen").click();
 
-  // function createCollectionTileSet(){
-//   var collectionName = document.getElementById("TilesetName").value;
-//   var newLayer = new TiledLayer(0, "Layer1", mapWidth, mapHeight, mapName, tileWidth, tileHeight);
-//   closeWindow(createTileSetWindow);
-// }
 
 function saveAll(newMap, newLayers, mapName){
   var jsonMap = getMapJSON(newMap, mapName);
@@ -223,11 +220,6 @@ function loadFile(){
   closeWindow(loadWindow);
 }
 
-// function createCollectionTileSet(){
-//   var collectionName = document.getElementById("TilesetName").value;
-//   var newLayer = new TiledLayer(0, "Layer1", mapWidth, mapHeight, mapName, tileWidth, tileHeight);
-//   closeWindow(createTileSetWindow);
-// }
 var currentTileID;
 
 function removeFile() {
@@ -323,7 +315,6 @@ function mySelect() {
   }
   document.getElementById("order").value = "You ordered a coffee with: " + txt;
 }
-
     
     // function openTileSet(evt, tilesetName) {
     //   var i, tileSetcontent, tablinks;
@@ -339,7 +330,6 @@ function mySelect() {
     //   evt.currentTarget.className += " active";
     //   closeWindow(createTileSetWindow);
     // }
-
 
 
 function getMapJSON(mapData, mapName){
@@ -484,8 +474,6 @@ function loadAll(mapName){
     });
 });
 }
-
-
 
 // function save(mapXML){
 // $.ajax({

@@ -13,8 +13,8 @@ class Grid{
         this.canvas.drawGrid(this.w, this.h, this.tileWidth, this.tileHeight);
         // this.tileCursor.draw();
     }
-
 }
+
 class Canvas{
     constructor(layer){
          // should be get a layer

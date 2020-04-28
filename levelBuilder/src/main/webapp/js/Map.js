@@ -135,11 +135,18 @@ function showList(Llist){
         var inputValue = Llist[i].name;
         var t = document.createTextNode(inputValue);
         li.appendChild(t);
+
+        var checkbox = document.createElement('input');
+        checkbox.type = "checkbox";
+        checkbox.value = 1;
+        checkbox.name = "todo[]";
+        li.appendChild(checkbox);
+
         li.className = "layerlist";
         document.getElementById("myUL").appendChild(li);
     }
-
 }
+
 
 function duplicateLayer(){
     var currentMap = editor.currentMap;
@@ -214,7 +221,6 @@ class TiledLayer extends Layer{
         this.csv[x][y] = 1;
     }
     
-
 }
 
 class ObjectLayer extends Layer{
