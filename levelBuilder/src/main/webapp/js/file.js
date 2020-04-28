@@ -79,15 +79,14 @@ function createMap() {
   var mapName = document.getElementById("map-name").value;
 
   var newLayer = new TiledLayer(0, "Layer1", mapWidth, mapHeight, mapName, tileWidth, tileHeight);
-  var newMap = new Map(mapName, mapWidth, mapHeight, tileWidth, tileHeight, newLayer);
+  var newMap = new Map(mapName, mapWidth, mapHeight, tileWidth, tileHeight);
+  newMap.LayerList.push(newLayer);
 
   saveAll(newMap, newMap.LayerList, mapName);
   
   // loadAll(newMap.id);
 
   editor.loadMap(newMap);
-  var grid = new Grid(newLayer);
-  grid.updateCells();
   var layers = editor.currentMap.LayerList;
   showList(layers);
   document.getElementById("map-name").value = "";
@@ -190,10 +189,10 @@ function saveAll(newMap, newLayers, mapName){
     loadAll(newMap.id)
     .then(data => {
       console.log("returned data : " + data);
-    })
-    .catch(error => {
-      console.log(error);
-    })
+    });
+    // .catch(error => {
+    //   console.log(error);
+    // })
   });
 }
 
@@ -218,8 +217,32 @@ function save(){
 }
 
 function loadFile(){
-  var loadFileName = document.getElementById("loadFileName").value; 
-  console.log("loadFileName "+loadFileName);
+  var fileName = document.getElementById('loadFileName').value;
+  console.log(fileName);
+  // let loadResult = loadAll(fileName);
+
+  loadAll(fileName)
+  .then(jsonData => {
+    var newMap = parseMapJson(jsonData.map);
+    console.log(newMap);
+    var layers = parseLayerJson(jsonData.layers, newMap);
+    // var layerProps = parseLayerPropJson(jsonData.layerProps, layers);
+    newMap.LayerList = layers;
+    console.log(newMap);
+    editor.loadMap(newMap);
+  });
+
+  // $.when(loadResult).then(function(){
+  //   var jsonData = loadResult;
+  //   console.log(jsonData);
+  //     var map = parseMapJson(jsonData.map);
+  //     console.log(map);
+  //     var layers = parseLayerJson(jsonData.layers, map.mapWidth, map.mapHeight, map.tileWidth, map.tileHeight);
+  //     console.log(layers);
+  //     map.LayerList = layers;
+  //     // var layerProps = parseLayerPropJson(jsonData.layerProps, layers);
+  //     editor.loadMap(map);
+  // });
   closeWindow(loadWindow);
 }
 
@@ -340,6 +363,25 @@ function mySelect() {
     //   closeWindow(createTileSetWindow);
     // }
 
+    function parseMapJson(map){
+      return new Map(map.name, map.width, map.height, map.tilewidth, map.tileheight);
+    }
+    
+    function parseLayerJson(layers, map){
+      var layerList = Array();
+      layers.forEach(function(layer){
+        var layerData = layer;
+        var newLayer;
+        if (layerData.type === "TiledLayer"){ 
+          newLayer = new TiledLayer(layerData.id, layerData.name, map.mapWidth, map.mapHeight, map.id, map.tileWidth, map.tileHeight);
+        } else {
+          newLayer = new ObjectLayer(layerData.id, layerData.name, map.mapWidth, map.mapHeight);
+        }
+        newLayer.order = layerData.orderInMap;
+        layerList.push(newLayer);
+      });
+      return layerList;
+    }
 
 
 function getMapJSON(mapData, mapName){
@@ -387,17 +429,17 @@ function getLayerJSON(LayerData){
 
   return {"layers" : layers, "layerProps" : layerProps};
 }
-
   // var helper = new XMLSerializer();
   //helper.serializeToString(mapXML)
 
 function exportMap(){
   var map = editor.currentMap;
-  var xmlFile = MapXML(map);
+  var xmlFile = mapXML(map);
+
   // open document chooser
-  createMapXMLFile(xmlFile, map);
-  
+  createMapXMLFile(xmlFile, map.id);
 }
+
 
 function saveMap(map){
   var save_endpoint = "save_map";
@@ -458,6 +500,27 @@ function saveLayerProp(layerProp){
 });
 }
 
+// function loadAll(mapName){
+//   var load_endpoint = "load_map";
+//   // var helper = new XMLSerializer();
+//     return $.ajax({
+//       type : "POST",
+//       url : "/fileController/" + load_endpoint,
+//       data : JSON.stringify({"mapName" : mapName}),
+//       contentType: "application/json",
+//       dataType : 'json',
+//       processData: false, 
+      
+//       error : function(error){
+//         alert("load error occurred");
+//         console.log("XML Loading Failed");
+//       },
+
+//       success : function(data) {
+//         console.log(data);
+//         console.log("load success!");
+//       }
+// });
 function loadAll(mapName){
   var load_endpoint = "load_map";
   return new Promise((resolve, reject) => {

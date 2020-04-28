@@ -344,10 +344,16 @@ class Editor{
    loadMap(map){
       this.currentMap = map;
       this.loadedMapList.push(map);
+      this.loadLayer(map.LayerList);
    }
    loadTileset(tileset){
       this.loadedTilesetList.push(tileset);
       this.currentTileset = tileset;
+   }
+   loadLayer(layerList){
+    layerList.forEach(function(layer){
+     layer.canvasInit(); 
+    });
    }
    closeMap(){
       
@@ -358,10 +364,11 @@ class Editor{
 }
 
 window.onload = (event) => {
-   editor = new Editor();
-   editor.userName = '${username}';
-   console.log("create editor class");
-   };
+  editor = new Editor();
+  editor.userName = '${username}';
+  console.log("create editor class");
+  
+};
 
 </script>
 <script type="text/javascript" src="js/Map.js"></script>

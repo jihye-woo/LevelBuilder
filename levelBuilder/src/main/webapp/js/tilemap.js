@@ -7,11 +7,13 @@ class Grid{
         this.tileHeight = layer.tileH;
         this.canvas = new Canvas(layer);
     }
-
-    updateCells(){
+    showGrid(){
         // this.canvas.clear();
         this.canvas.drawGrid(this.w, this.h, this.tileWidth, this.tileHeight);
         // this.tileCursor.draw();
+    }
+    hideGrid(){
+        this.canvas.clearCanvas();
     }
 
 }
@@ -29,9 +31,8 @@ class Canvas{
         });
         this.w = canvas.width = (layer.width*layer.tileW);
         this.h = canvas.height = (layer.height*layer.tileH);
-        document.getElementsByClassName(layer.name)[0].appendChild(canvas);
+        this.grid = document.getElementsByClassName('Layer1')[0].appendChild(canvas);
         this.ctx = canvas.getContext("2d");
-        this.layer = layer;
     }
 
     drawGrid(w, h, tileWidth, tileHeight){
@@ -57,8 +58,11 @@ class Canvas{
 
     }
     drawLine(x1, y1, x2, y2){
-                this.ctx.moveTo(x1, y1);
-                this.ctx.lineTo(x2, y2);
+        this.ctx.moveTo(x1, y1);
+        this.ctx.lineTo(x2, y2);
+    }
+    clearCanvas(){
+        this.ctx.clearRect(0, 0, this.w, this.h);
     }
 }
 

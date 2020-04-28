@@ -6,7 +6,6 @@ class Tileset{
        this.mapHeight = mapHeight;
        this.tileWidth = tileWidth;
 	   this.tileHeight = tileHeight;
-	   
    }
 }
 
