@@ -340,6 +340,8 @@ class Editor{
     this.loadedTilesetList = new Array();
     this.userName;
     this.grid;
+    this.selectedLayerId;
+
    }
    //$("canvas").detach(); remove all canvas
    

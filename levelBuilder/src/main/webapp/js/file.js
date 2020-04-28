@@ -95,8 +95,8 @@ function createMap() {
   var mapName = document.getElementById("map-name").value;
 
   var newLayer = new TiledLayer(0, "Layer1", mapWidth, mapHeight, mapName, tileWidth, tileHeight);
-  var newMap = new Map(mapName, mapWidth, mapHeight, tileWidth, tileHeight);
-  newMap.LayerList.push(newLayer);
+  var newMap = new TiledMap(mapName, mapWidth, mapHeight, tileWidth, tileHeight);
+  newMap.LayerList.set(0, newLayer);
 
   saveAll(newMap, newMap.LayerList, mapName);
   
@@ -336,15 +336,15 @@ function showWindow(hwnd) {
       hwnd.style.display = "block";
       windowBackgroundTint.style.display = "block";
       isWindowOpen = true;
-    }
+}
 
-    function closeWindow(hwnd) {
+function closeWindow(hwnd) {
       hwnd.style.display = "none";
       windowBackgroundTint.style.display = "none";
       isWindowOpen = false;
-    }
+}
 
-  function myFunction() {
+function myFunction() {
   var x = document.getElementById("myFile");
   x.disabled = true;
 }
@@ -378,11 +378,11 @@ function mySelect() {
     // }
 
     function parseMapJson(map){
-      return new Map(map.name, map.width, map.height, map.tilewidth, map.tileheight);
+      return new TiledMap(map.name, map.width, map.height, map.tilewidth, map.tileheight);
     }
     
     function parseLayerJson(layers, map){
-      var layerList = Array();
+      var layerList = new Map();
       layers.forEach(function(layer){
         var layerData = layer;
         var newLayer;
@@ -392,7 +392,7 @@ function mySelect() {
           newLayer = new ObjectLayer(layerData.id, layerData.name, map.mapWidth, map.mapHeight);
         }
         newLayer.order = layerData.orderInMap;
-        layerList.push(newLayer);
+        layerList.set(layerList.size, newLayer);
       });
       return layerList;
     }
