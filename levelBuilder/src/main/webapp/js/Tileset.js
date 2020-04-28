@@ -41,6 +41,12 @@ class CollectionTileset extends Tileset{
 	}
 }
 
+function createCollectionTileSet(){
+  var collectionName = document.getElementById("TilesetName").value;
+  var newLayer = new TiledLayer(0, "Layer1", mapWidth, mapHeight, mapName, tileWidth, tileHeight);
+  closeWindow(createTileSetWindow);
+}
+
 class SingleImageTileset extends Tileset{
 	construtor(image, margin, spacing, columns){
 		super(id, name, mapWidth, mapHeight, tileWidth, tileHeight);

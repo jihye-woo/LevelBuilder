@@ -178,6 +178,11 @@ function showList(Llist){ // Llist == layer lists in current Map
         var inputValue = layer.name;
         var layername = document.createTextNode(inputValue);
         li.appendChild(layername);
+        var checkbox = document.createElement('input');
+        checkbox.type = "checkbox";
+        checkbox.value = 1;
+        checkbox.name = "todo[]";
+        li.appendChild(checkbox);
         li.className = "layerlist";
         document.getElementById("myUL").appendChild(li);
 
