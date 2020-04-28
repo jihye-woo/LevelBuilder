@@ -90,37 +90,32 @@ public class FileController {
 		System.out.println(jsonFileName);
 		JSONObject jsonObject = new JSONObject(jsonFileName);
 		String mapName = jsonObject.getString("mapName");
-		String mapJson = "";
 		JSONObject result = new JSONObject();
+		JSONArray layerArray = new JSONArray();
+		JSONArray layerPropArray = new JSONArray();
 		
 		// 1. load map
 		MapEntity map = mapRepository.findByName(mapName);
-		try {
-			mapJson = mapper.writeValueAsString(map);
-		} catch (JsonProcessingException e1) {
-			e1.printStackTrace();
-		}
-		result.put("map", new JSONObject(mapJson));
-		
-		// 2. load layers and layerProperties
 		List<LayerEntity> layers = layerRepository.findByMapName(mapName);
-		JSONArray layerArray = new JSONArray();
-		JSONArray layerPropArray = new JSONArray();
 		try {
+			String mapJson = mapper.writeValueAsString(map);
+			System.out.println(mapJson);
+			result.put("map", new JSONObject(mapJson));
 			for(LayerEntity layer : layers) {
 				String LayerJson = mapper.writeValueAsString(layer);
 				System.out.println(LayerJson);
 				layerArray.put(new JSONObject(LayerJson));
 				LayerPropertiesEntity layerProp = layerPropRepository.findByLayerIdAndMapName(layer.getId(), mapName);
 				String layerPropJson = mapper.writeValueAsString(layerProp);
-				JSONObject layerPropOb = new JSONObject(layerPropJson);
+				System.out.println(layerPropJson);
+				JSONObject layerPropOb = new JSONObject(new JSONObject(layerPropJson));
 				layerPropArray.put(new JSONObject(layerPropOb));
 			}
-		} catch (JsonProcessingException e) {
-					e.printStackTrace();
+			result.put("layers", layerArray);
+			result.put("layerProps", layerPropArray);
+		} catch (JsonProcessingException e1) {
+			e1.printStackTrace();
 		}
-		result.put("layers", layerArray);
-		result.put("layerProps", layerPropArray);
 		
 		System.out.println(result.toString());
 		

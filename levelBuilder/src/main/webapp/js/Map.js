@@ -1,12 +1,12 @@
 var idL=0;
 class Map{
-    constructor(id, mapWidth, mapHeight, tileWidth, tileHeight, layer){
+    constructor(id, mapWidth, mapHeight, tileWidth, tileHeight){
         this.id = id;
         this.mapWidth = mapWidth;
         this.mapHeight = mapHeight;
         this.tileWidth = tileWidth;
         this.tileHeight = tileHeight;
-        this.LayerList = new Array(layer);
+        this.LayerList = new Array();
     }
 
     addLayer(layerType, name){
@@ -210,9 +210,15 @@ class TiledLayer extends Layer{
                 this.csv[i][j] = 1;
             }
         }
+        this.grid;
     }
+
+    canvasInit(){
+        this.grid = new Grid(this);
+        this.grid.showGrid();
+    }
+
     fillTiles(x, y, canvas){
-        var mapGrid = this.csv;
         var tileW = this.tileW;
         var tileH = this.tileH;
         canvas.getContext("2d").fillStyle = "#800000";
