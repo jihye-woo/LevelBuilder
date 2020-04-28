@@ -65,9 +65,25 @@ function aboutLB() {
   showWindow(aboutWindow);
   }
   
-  function cancelAbout() {  
-    closeWindow(aboutWindow);
-  }
+function cancelAbout() {  
+  closeWindow(aboutWindow);
+}
+
+
+function loadMap(map){
+    editor.grid= new Grid(map.mapWidth, map.mapHeight, map.tileWidth, map.tileHeight);
+    editor.grid.showOrHide();
+    if(editor.currentMap){// if currentMap is existed
+      editor.clearWorkspace();
+    }
+    editor.currentMap = map;
+    editor.loadedMapList.push(map);
+    showList(editor.currentMap.LayerList);
+}
+
+function showHideGird(){
+  editor.grid.showOrHide();
+}
 
 function createMap() {
   let mapType = "top";
@@ -86,11 +102,9 @@ function createMap() {
   
   // loadAll(newMap.id);
 
-  editor.loadMap(newMap);
-  var layers = editor.currentMap.LayerList;
-  showList(layers);
+  loadMap(newMap);
   document.getElementById("map-name").value = "";
-  // create map object and load 
+  // create map object and load
   closeWindow(createMapWindow);
 }
 
@@ -185,15 +199,15 @@ function saveAll(newMap, newLayers, mapName){
   let saveLayerResult = saveLayer(jsonLayers["layers"]);
   let saveLayerPropResult = saveLayerProp(jsonLayers["layerProps"]);
 
-  $.when(saveMapResult, saveLayerResult, saveLayerPropResult).then(function(){
-    loadAll(newMap.id)
-    .then(data => {
-      console.log("returned data : " + data);
-    });
+  //$.when(saveMapResult, saveLayerResult, saveLayerPropResult).then(function(){
+    // loadAll(newMap.id)
+    // .then(data => {
+    //   console.log("returned data : " + data);
+    // });
     // .catch(error => {
     //   console.log(error);
     // })
-  });
+  //});
 }
 
 function saveAs(){
@@ -229,7 +243,7 @@ function loadFile(){
     // var layerProps = parseLayerPropJson(jsonData.layerProps, layers);
     newMap.LayerList = layers;
     console.log(newMap);
-    editor.loadMap(newMap);
+    loadMap(newMap);
   });
 
   // $.when(loadResult).then(function(){

@@ -11,15 +11,15 @@ class Map{
 
     addLayer(layerType, name){
         var newLayer;
-        //var id = this.LayerList.length;
-        
         var id = idL + 1;
         console.log("idL "+ idL + "id: " +id);
         if (layerType === "tile-layer"){ 
-          newLayer = new TiledLayer(id, name, this.mapWidth, this.mapHeight, this.tileWidth, this.tileHeight);
+          newLayer = new TiledLayer(id, name, this.mapWidth, this.mapHeight, this.id, this.tileWidth, this.tileHeight);
+         
         } else {
           newLayer = new ObjectLayer(id, name, this.mapWidth, this.mapHeight);
         }
+        newLayer.canvas.style.zIndex = 0;
         this.LayerList.push(newLayer);
         idL = idL + 1;
     }
@@ -124,12 +124,12 @@ document.getElementById("myUL").addEventListener("click", function(e) {
   });
 
 function showList(Llist){
-      var list1 = document.getElementById("myUL");
-        //var list = document.getElementById("myList");
-        while (list1.hasChildNodes()) {
-          list1.removeChild(list1.firstChild);
-        }
-
+    var list1 = document.getElementById("myUL");
+    //var list = document.getElementById("myList");
+    while (list1.hasChildNodes()) {
+        list1.removeChild(list1.firstChild);
+    }
+    
     for (i = 0; i < Llist.length; i++) {
         var li = document.createElement("li");
         var inputValue = Llist[i].name;
@@ -195,31 +195,16 @@ class TiledLayer extends Layer{
         super(id, name, width, height, mapName);
         this.tileW = tileW;
         this.tileH = tileH;
-        this.csv = Array.from(Array((width)), () => Array((height)));
+        this.csv = Array.from(Array((width)), () => Array((height)).fill(0));
         this.type = "TiledLayer";
-        var lengthOfCSV = this.csv.length;
-        for (var i = 0; i < lengthOfCSV; i += 2) {
-            for(var j = 0; j < this.csv[0].length; j +=2){
-                this.csv[i][j] = 1;
-            }
-        }
-        this.grid;
+        this.canvasLayer = new Canvas(width, height, tileW, tileH, this);
     }
 
-    canvasInit(){
-        this.grid = new Grid(this);
-        this.grid.showGrid();
-    }
-
-    fillTiles(x, y, canvas){
-        var tileW = this.tileW;
-        var tileH = this.tileH;
-        canvas.getContext("2d").fillStyle = "#800000";
-        canvas.getContext("2d").fillRect(tileW*x, tileH*y, tileW, tileH);
-        console.log("call fillTiles");
+    fillTiles(x, y){
+        // this.canvasLayer.canvas.getContext("2d").fillStyle = "#FF9896";
+        this.canvasLayer.canvas.getContext("2d").fillRect(this.tileW*x, this.tileH*y, this.tileW, this.tileH);
         this.csv[x][y] = 1;
     }
-    
 
 }
 
