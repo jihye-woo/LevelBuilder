@@ -10,6 +10,7 @@ public class MapSharedWithEntity {
     private int id;
     private String userName;
     private String mapName;
+    private String sharedByUsername;
 
     public int getId() {
         return id;
@@ -33,5 +34,13 @@ public class MapSharedWithEntity {
 
     public void setMapName(String mapName) {
         this.mapName = mapName;
+    }
+
+    public String getSharedByUsername() {
+        return sharedByUsername;
+    }
+
+    public void setSharedByUsername(String sharedByUsername) {
+        this.sharedByUsername = sharedByUsername;
     }
 }
