@@ -3,6 +3,7 @@
 <!DOCTYPE html>spring
 <!-- <script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
 <link href="css/workSpace.css" rel="stylesheet">
+<link href="css/canvas.css" rel="stylesheet">
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="js/bootstrap.min.js" rel="text/javascript">
 <!-- <link href="js/Map.js" rel="text/javascript"> -->
@@ -43,7 +44,7 @@
 
     </section>
     <section class="app">
-      <div class="menu">
+      <div class="menu" style="z-index : 1000;">
           <div class="dropdown">
               <button class="dropbtn">File</button>
               <div class="dropdown-content">
@@ -84,6 +85,7 @@
                     <a href="#"onclick="moveLayerDown()">Lower Layers</a>
                     <a href="#">Show/Hide Layers</a>
                     <a href="#">Lock/Unlock Layers</a>
+                    <a href="#"onclick="showHideGird()">Show/Hide Grid</a>
                   </div>
                 </div>
                 <div class="dropdown">
@@ -125,10 +127,8 @@
                     class="fa fa-search-plus"></i></div>
               </div>
               <div class="surface editor-border">
-                <div class = "Layer1">
-                  <!-- <script type="text/javascript" src="js/tilemap.js"></script> -->
-                </div>
-                <div class = "Layer2">
+                <div class = "Map">
+                  <div class = "Grid"></div>
                 </div>
               </div>
             </div>
@@ -339,21 +339,15 @@ class Editor{
     this.loadedMapList = new Array();
     this.loadedTilesetList = new Array();
     this.userName;
+    this.grid;
+    this.selectedLayerId;
+
    }
+   //$("canvas").detach(); remove all canvas
    
-   loadMap(map){
-      this.currentMap = map;
-      this.loadedMapList.push(map);
-      this.loadLayer(map.LayerList);
-   }
    loadTileset(tileset){
-      this.loadedTilesetList.push(tileset);
-      this.currentTileset = tileset;
-   }
-   loadLayer(layerList){
-    layerList.forEach(function(layer){
-     layer.canvasInit(); 
-    });
+     this.loadedTilesetList.push(tileset);
+     this.currentTileset = tileset;
    }
    closeMap(){
       
@@ -361,13 +355,20 @@ class Editor{
    loadTileset(){
       
    }
+   clearWorkspace(){
+    var layerList = this.currentMap.LayerList;
+    layerList.forEach(function(layer){
+    var layerCanvas = layer.canvasLayer.canvas;
+      document.getElementsByClassName('Map')[0].removeChild(layerCanvas);
+    });
+  }
+ 
 }
 
 window.onload = (event) => {
   editor = new Editor();
   editor.userName = '${username}';
   console.log("create editor class");
-  
 };
 
 </script>

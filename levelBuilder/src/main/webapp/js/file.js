@@ -66,9 +66,25 @@ function aboutLB() {
   showWindow(aboutWindow);
   }
   
-  function cancelAbout() {  
-    closeWindow(aboutWindow);
-  }
+function cancelAbout() {  
+  closeWindow(aboutWindow);
+}
+
+
+function loadMap(map){
+    editor.grid= new Grid(map.mapWidth, map.mapHeight, map.tileWidth, map.tileHeight);
+    editor.grid.showOrHide();
+    if(editor.currentMap){// if currentMap is existed
+      editor.clearWorkspace();
+    }
+    editor.currentMap = map;
+    editor.loadedMapList.push(map);
+    showList(editor.currentMap.LayerList);
+}
+
+function showHideGird(){
+  editor.grid.showOrHide();
+}
 
 function createMap() {
   let mapType = "top";
@@ -80,18 +96,16 @@ function createMap() {
   var mapName = document.getElementById("map-name").value;
 
   var newLayer = new TiledLayer(0, "Layer1", mapWidth, mapHeight, mapName, tileWidth, tileHeight);
-  var newMap = new Map(mapName, mapWidth, mapHeight, tileWidth, tileHeight);
-  newMap.LayerList.push(newLayer);
+  var newMap = new TiledMap(mapName, mapWidth, mapHeight, tileWidth, tileHeight);
+  newMap.LayerList.set(0, newLayer);
 
   saveAll(newMap, newMap.LayerList, mapName);
   
   // loadAll(newMap.id);
 
-  editor.loadMap(newMap);
-  var layers = editor.currentMap.LayerList;
-  showList(layers);
+  loadMap(newMap);
   document.getElementById("map-name").value = "";
-  // create map object and load 
+  // create map object and load
   closeWindow(createMapWindow);
 }
 
@@ -182,15 +196,15 @@ function saveAll(newMap, newLayers, mapName){
   let saveLayerResult = saveLayer(jsonLayers["layers"]);
   let saveLayerPropResult = saveLayerProp(jsonLayers["layerProps"]);
 
-  $.when(saveMapResult, saveLayerResult, saveLayerPropResult).then(function(){
-    loadAll(newMap.id)
-    .then(data => {
-      console.log("returned data : " + data);
-    });
+  //$.when(saveMapResult, saveLayerResult, saveLayerPropResult).then(function(){
+    // loadAll(newMap.id)
+    // .then(data => {
+    //   console.log("returned data : " + data);
+    // });
     // .catch(error => {
     //   console.log(error);
     // })
-  });
+  //});
 }
 
 function saveAs(){
@@ -226,7 +240,7 @@ function loadFile(){
     // var layerProps = parseLayerPropJson(jsonData.layerProps, layers);
     newMap.LayerList = layers;
     console.log(newMap);
-    editor.loadMap(newMap);
+    loadMap(newMap);
   });
 
   // $.when(loadResult).then(function(){
@@ -314,15 +328,15 @@ function showWindow(hwnd) {
       hwnd.style.display = "block";
       windowBackgroundTint.style.display = "block";
       isWindowOpen = true;
-    }
+}
 
-    function closeWindow(hwnd) {
+function closeWindow(hwnd) {
       hwnd.style.display = "none";
       windowBackgroundTint.style.display = "none";
       isWindowOpen = false;
-    }
+}
 
-  function myFunction() {
+function myFunction() {
   var x = document.getElementById("myFile");
   x.disabled = true;
 }
@@ -355,11 +369,11 @@ function mySelect() {
     // }
 
     function parseMapJson(map){
-      return new Map(map.name, map.width, map.height, map.tilewidth, map.tileheight);
+      return new TiledMap(map.name, map.width, map.height, map.tilewidth, map.tileheight);
     }
     
     function parseLayerJson(layers, map){
-      var layerList = Array();
+      var layerList = new Map();
       layers.forEach(function(layer){
         var layerData = layer;
         var newLayer;
@@ -369,7 +383,7 @@ function mySelect() {
           newLayer = new ObjectLayer(layerData.id, layerData.name, map.mapWidth, map.mapHeight);
         }
         newLayer.order = layerData.orderInMap;
-        layerList.push(newLayer);
+        layerList.set(layerList.size, newLayer);
       });
       return layerList;
     }
