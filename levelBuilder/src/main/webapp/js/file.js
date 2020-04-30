@@ -133,13 +133,13 @@ function newTabBtn() {
   currentTileSetName = tilesetName;
   document.getElementById("TilesetName").value = "";
   closeWindow(createTileSetWindow);
-  createCollectionTileset();
+  // createCollectionTileset();
   }
 
   document.getElementById("newTab").addEventListener("click", function(e) {
     currentTileSetName = e.target.innerHTML;
     openTilesetTab(e, e.target.innerHTML);
-    console.log("click tab "+currentTileSetName);
+    // console.log("click tab "+currentTileSetName);
     
   });
 
@@ -264,6 +264,7 @@ function removeFile() {
 
   document.getElementById(currentTileSetName).addEventListener('click', function (e) {
     console.log("clickedIMG "+ e.target.id);
+    console.log("clicked-src "+ e.target.src);
     currentTileID = e.target.id;
   });
 
@@ -276,7 +277,6 @@ function removeFile() {
     };
 
   count = count +1;
-  console.log("count "+count);
   };	  
 
   const fileSelect = document.getElementById("fileSelect"),

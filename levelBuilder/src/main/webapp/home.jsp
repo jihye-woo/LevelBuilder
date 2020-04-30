@@ -244,7 +244,7 @@
           </div>
           <div class="window-actions">
               <div class="surface btn" onclick="cancelCreateTileSet()">Cancel</div>
-              <div class="surface btn" onclick="createSingleTileSet()">OK</div>
+              <div class="surface btn" onclick="newTabBtn()">OK</div>
               <!-- <div class="surface btn" onclick="openTileSet(event, 'singleIMG')">OK</div> -->
             </div>
           </div>

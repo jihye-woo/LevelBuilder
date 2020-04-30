@@ -221,12 +221,16 @@ class TiledLayer extends Layer{
     fillTiles(x, y, canvas){
         var tileW = this.tileW;
         var tileH = this.tileH;
-        canvas.getContext("2d").fillStyle = "#800000";
-        canvas.getContext("2d").fillRect(tileW*x, tileH*y, tileW, tileH);
+
+        var ctx = canvas.getContext("2d");
+        var img = document.getElementById(currentTileID);
+        // ctx.drawImage(img, tileW*x, tileH*y);
+        ctx.drawImage(img, tileW*x, tileH*y, 50,50);
+        // canvas.getContext("2d").fillStyle = "#800000";
+        // canvas.getContext("2d").fillRect(tileW*x, tileH*y, tileW, tileH);
         console.log("call fillTiles");
         this.csv[x][y] = 1;
     }
-    
 }
 
 class ObjectLayer extends Layer{
