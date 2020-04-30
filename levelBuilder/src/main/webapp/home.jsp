@@ -228,7 +228,7 @@
           <div class="input-header">Image </div> 
           <!-- <label for="fname">Source:</label>
           <input type="text" id="fname" name="fname"> -->
-          <input type="file" id="myFile"> 
+          <input type="file" id="myFile"  multiple accept="image/*"> 
 
           <div class="input-row">
             <label for="tileSet-width">Width :</label>
@@ -244,7 +244,7 @@
           </div>
           <div class="window-actions">
               <div class="surface btn" onclick="cancelCreateTileSet()">Cancel</div>
-              <div class="surface btn" onclick="newTabBtn()">OK</div>
+              <div class="surface btn" onclick="newTabBtn2()">OK</div>
               <!-- <div class="surface btn" onclick="openTileSet(event, 'singleIMG')">OK</div> -->
             </div>
           </div>

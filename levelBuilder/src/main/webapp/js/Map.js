@@ -260,22 +260,11 @@ class TiledLayer extends Layer{
         this.canvasLayer = new Canvas(width, height, tileW, tileH, this);
     }
 
-    // fillTiles(x, y, canvas){
-    //     var tileW = this.tileW;
-    //     var tileH = this.tileH;
-
-    //     var ctx = canvas.getContext("2d");
-    //     var img = document.getElementById(currentTileID);
-    //     // ctx.drawImage(img, tileW*x, tileH*y);
-    //     ctx.drawImage(img, tileW*x, tileH*y, 50,50);
-    //     // canvas.getContext("2d").fillStyle = "#800000";
-    //     // canvas.getContext("2d").fillRect(tileW*x, tileH*y, tileW, tileH);
-    //     console.log("call fillTiles");
-    //     this.csv[x][y] = 1;
-    // }
     fillTiles(x, y){
         // this.canvasLayer.canvas.getContext("2d").fillStyle = "#FF9896";
-        this.canvasLayer.canvas.getContext("2d").fillRect(this.tileW*x, this.tileH*y, this.tileW, this.tileH);
+        //this.canvasLayer.canvas.getContext("2d").fillRect(this.tileW*x, this.tileH*y, this.tileW, this.tileH);
+        var img = document.getElementById(currentTileID);
+        this.canvasLayer.canvas.getContext("2d").drawImage(img, this.tileW*x, this.tileH*y);
         this.csv[x][y] = 1;
     }
 

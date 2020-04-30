@@ -150,12 +150,68 @@ function newTabBtn() {
   // createCollectionTileset();
   }
 
+  function newTabBtn2() {
+    var tilesetName = document.getElementById("TilesetName").value;
+    var imageFile = document.getElementById("myFile").value;
+    var tilesetH = document.getElementById("tileSet-height").value;
+    var tilesetW = document.getElementById("tileSet-width").value;
+    var margin = document.getElementById("margin").value;
+    var spacing = document.getElementById("spacing").value;
+    var btn = document.createElement("BUTTON");
+    btn.setAttribute('class', 'tab-header2');
+    btn.innerHTML = tilesetName;
+    //document.body.appendChild(btn);
+    document.getElementById("newTab").appendChild(btn);
+  
+    var workspace = document.createElement("div");
+    workspace.setAttribute('class', 'tilesetContent');
+    workspace.setAttribute('id', tilesetName);
+    document.getElementById("tilesetWorkspace").appendChild(workspace);
+  
+    currentTileSetName = tilesetName;
+    document.getElementById("TilesetName").value = "";
+    closeWindow(createTileSetWindow);
+   createSingleTileset()
+   document.getElementById("myFile").value = "";
+   document.getElementById("tileSet-height").value = "";
+   document.getElementById("tileSet-width").value = "";
+   document.getElementById("margin").value = "";
+   document.getElementById("spacing").value = "";
+    }
+
   document.getElementById("newTab").addEventListener("click", function(e) {
     currentTileSetName = e.target.innerHTML;
     openTilesetTab(e, e.target.innerHTML);
-    // console.log("click tab "+currentTileSetName);
+    //console.log("click tab "+currentTileSetName);
     
   });
+
+  var single =1;
+  function createSingleTileset(){
+  
+      var singlecount ="single" +single;
+  
+    var img = document.createElement("img");
+    img.setAttribute('id', singlecount); //
+   // img.setAttribute('onload', 'resize(this)');
+    document.getElementById(currentTileSetName).appendChild(img);
+  
+    document.getElementById(currentTileSetName).addEventListener('click', function (e) {
+      console.log("clickedIMG "+ e.target.id);
+      console.log("clicked-src "+ e.target.src);
+    // currentTileID = e.target.id;
+    });
+  
+    var oFReader = new FileReader();
+    oFReader.readAsDataURL(document.getElementById("myFile").files[0]);
+    
+    oFReader.onload = function (oFREvent) {
+      document.getElementById(singlecount).src = oFREvent.target.result;
+        var myImg = document.getElementById(singlecount);
+      };
+  
+    single = single +1;
+  }
 
   function openTilesetTab(evt, tabName) {
     var i, tabcontent, tablinks;
