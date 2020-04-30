@@ -187,31 +187,152 @@ function newTabBtn() {
   });
 
   var single =1;
+const PUZZLE_DIFFICULTY =5;
+const PUZZLE_HOVER_TINT = '#009900';
+ 
+var _canvas;
+var _stage;
+ 
+var _img;
+var _tiles;
+var _puzzleWidth;
+var _puzzleHeight;
+var __tilesWidth;
+var __tilesHeight;
+var _currentTile;
+var _currentDropTile;
+ 
+var _mouse;
+var singlecount ="single" +single;
   function createSingleTileset(){
   
-      var singlecount ="single" +single;
+      console.log("1@ ");
+      //PUZZLE_DIFFICULTY = document.getElementById();
   
-    var img = document.createElement("img");
-    img.setAttribute('id', singlecount); //
+    var canvas = document.createElement("canvas");
+    canvas.setAttribute('id', singlecount); //
    // img.setAttribute('onload', 'resize(this)');
-    document.getElementById(currentTileSetName).appendChild(img);
-  
-    document.getElementById(currentTileSetName).addEventListener('click', function (e) {
-      console.log("clickedIMG "+ e.target.id);
-      console.log("clicked-src "+ e.target.src);
-    // currentTileID = e.target.id;
-    });
+    document.getElementById(currentTileSetName).appendChild(canvas);
+
+       _img = new Image();
+    //_img.addEventListener('load',onImage,false);
+    //_img.src = "apple.png";
   
     var oFReader = new FileReader();
     oFReader.readAsDataURL(document.getElementById("myFile").files[0]);
     
     oFReader.onload = function (oFREvent) {
-      document.getElementById(singlecount).src = oFREvent.target.result;
-        var myImg = document.getElementById(singlecount);
+      var src;
+      src = oFREvent.target.result;
+      init(src);
       };
-  
-    single = single +1;
+
   }
+  function init(src){
+    _img = new Image();
+    _img.addEventListener('load',onImage,false);
+    _img.src = src;
+}
+
+function onImage(e){
+  _tileWidth = Math.floor(_img.width / PUZZLE_DIFFICULTY)
+  _tileHeight = Math.floor(_img.height / PUZZLE_DIFFICULTY)
+  _puzzleWidth = _tileWidth * PUZZLE_DIFFICULTY;
+  _puzzleHeight = _tileHeight * PUZZLE_DIFFICULTY;
+  setCanvas();
+  initPuzzle();
+}
+
+  function setCanvas(){
+    _canvas = document.getElementById(singlecount);
+    _stage = _canvas.getContext('2d');
+    _canvas.width = _puzzleWidth;
+    _canvas.height = _puzzleHeight;
+    _canvas.style.border = "1px solid black";
+    single = single +1;
+}
+
+function initPuzzle(){
+    _tiles = [];
+    _mouse = {x:0,y:0};
+    _currentTile = null;
+    _currentDropTile = null;
+    _stage.drawImage(_img, 0, 0, _puzzleWidth, _puzzleHeight, 0, 0, _puzzleWidth, _puzzleHeight);
+    buildTiles();
+}
+
+function buildTiles(){
+  var i;
+  var tile;
+  var xPos = 0;
+  var yPos = 0;
+  //xPos, yPos : current position in the puzzle where the tile should be drawn
+  //sx, sy : point in out image where we will begin to dray from.
+  for(i = 0;i < PUZZLE_DIFFICULTY * PUZZLE_DIFFICULTY;i++){
+      tile = {};
+      tile.sx = xPos;
+      tile.sy = yPos;
+      _tiles.push(tile);
+      xPos += _tileWidth;
+      if(xPos >= _puzzleWidth){
+          xPos = 0;
+          yPos += _tileHeight;
+      }
+  }
+  drawPuzzle();
+}
+
+
+function drawPuzzle(){
+  _stage.clearRect(0,0,_puzzleWidth,_puzzleHeight);
+  var i;
+  var tile;
+  var xPos = 0;
+  var yPos = 0;
+  for(i = 0;i < _tiles.length;i++){
+      tile = _tiles[i];
+      tile.xPos = xPos;
+      tile.yPos = yPos;
+      _stage.drawImage(_img, tile.sx, tile.sy, _tileWidth, _tileHeight, xPos, yPos, _tileWidth, _tileHeight);
+      _stage.strokeRect(xPos, yPos, _tileWidth,_tileHeight);
+      xPos += _tileWidth;
+      if(xPos >= _puzzleWidth){
+          xPos = 0;
+          yPos += _tileHeight;
+      }
+  }
+  document.onmousedown = onPuzzleClick;
+}
+
+
+function onPuzzleClick(e){
+  if(e.layerX || e.layerX == 0){
+      _mouse.x = e.layerX - _canvas.offsetLeft;
+      _mouse.y = e.layerY - _canvas.offsetTop;
+  }
+  else if(e.offsetX || e.offsetX == 0){
+      _mouse.x = e.offsetX - _canvas.offsetLeft;
+      _mouse.y = e.offsetY - _canvas.offsetTop;
+  }
+  _currentTile = checkTileClicked();
+  console.log("clickedT: "+_currentTile);
+}
+
+function checkTileClicked(){
+  var i;
+  var tile;
+  for(i = 0;i < _tiles.length;i++){
+      tile = _tiles[i];
+      if(_mouse.x < tile.xPos || _mouse.x > (tile.xPos + _tileWidth) || _mouse.y < tile.yPos || _mouse.y > (tile.yPos + _tileHeight)){
+          //tile NOT HIT
+      }
+      else{
+          console.log("@ "+ i);
+          return tile;
+      }
+  }
+  return null;
+}
 
   function openTilesetTab(evt, tabName) {
     var i, tabcontent, tablinks;
