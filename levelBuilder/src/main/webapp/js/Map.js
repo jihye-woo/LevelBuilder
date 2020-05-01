@@ -25,113 +25,42 @@ class TiledMap{
         idL = idL + 1;
     }
 
-    removeLayer(Lname){
-        console.log("removeL"+Lname);
-        for( var i = 0; i<this.LayerList.length; i++){
-            if ( this.LayerList.get(i).name === Lname){
-                this.LayerList.splice(i,1);
-            }
-        }
+    removeLayer(targetId){
+        this.LayerList.delete(targetId);
     }
 
-    duplicateLayers(Lname){
-        var index;
-        for( var i = 0; i<this.LayerList.length; i++){
-            if ( this.LayerList.get(i).name === Lname){
-                index = i;
-                console.log("print index "+ index);
-            }
-        }
-        var nameL = this.LayerList.get(index).name + " 2";
-        var Lid = this.LayerList.get(index).id + 20;
-        var newLayer = new TiledLayer(Lid, nameL, this.mapWidth, this.mapHeight, this.mapName, this.tileWidth, this.tileHeight);
-        this.LayerList.splice(index+1, 0, newLayer);
+    duplicateLayers(targetId){
+        let targetLayer = this.LayerList.get(targetId);
+        let index = this.LayerList.size;
+        var newLayer = Object.assign({}, targetLayer, {id : index});
+        this.LayerList.set(index, newLayer);
     }
 
-    findLocation(Lname){
-        var find;
-        for( var i = 0; i<this.LayerList.length; i++){
-            if ( this.LayerList.get(i).name === Lname){
-                console.log("f"+i);
-                find = i;
-                return find;
-            }
-        }
+    updateOrder(targetId, layers, move){
+        layers.get(targetId).order  = targetId-1;
+        layers.get(targetId+move).order  = targetId;
+            
+        // update LayerList order
+        var temp = layers.get(targetId);
+        layers.set(targetId, layers.get(targetId+move));
+        layers.set(targetId+move, temp);
+        
+        editor.selectedLayerId = targetId +move;
+        showList(layers);
     }
     
-    lowerLayer(){
-        var selectedLayerId = editor.selectedLayerId;
-        var layers = editor.currentMap.LayerList;
-
-        if(selectedLayerId < layers.size-1){
-            // update order value in Layer object
-            layers.get(selectedLayerId).order = selectedLayerId+1;
-            layers.get(selectedLayerId+1).order = selectedLayerId;
-
-            // update LayerList order
-            var temp = layers.get(selectedLayerId);
-            layers.set(selectedLayerId, layers.get(selectedLayerId+1));
-            layers.set(selectedLayerId+1, temp);
-
-            editor.selectedLayerId = selectedLayerId+1;
-            showList(layers);
+    lowerLayer(targetId, layers){
+        if(targetId < layers.size-1){
+            this.updateOrder(targetId, layers, 1);
         }
     }
-    // lowerLayer(Lname){
-    //     var selected;
-    //     var selectedBelow;
 
-    //     var index = this.findLocation(Lname);
-    //     console.log("index clicked "+index);
-    //     selected = this.LayerList[index];
-    //     selectedBelow = this.LayerList[index+1];
-    //     this.LayerList.splice(index+1,1);
-    //     this.LayerList.splice(index,1);
-    //     this.LayerList.splice(index, 0, selectedBelow);
-    //     this.LayerList.splice(index+1, 0, selected);
-    // }
-
-    upperLayer(selectedLayerId){
-        var selectedLayerId = editor.selectedLayerId;
-        var layers = editor.currentMap.LayerList;
-        if(selectedLayerId> 0){
-            // update order value in Layer object
-            layers.get(selectedLayerId).order  = selectedLayerId-1;
-            layers.get(selectedLayerId-1).order  = selectedLayerId;
-            
-            // update LayerList order
-            var temp = layers.get(selectedLayerId);
-            layers.set(selectedLayerId, layers.get(selectedLayerId-1));
-            layers.set(selectedLayerId-1, temp);
-            console.log(selectedLayerId);
-            editor.selectedLayerId = selectedLayerId -1;
-            console.log(selectedLayerId);
-
-            showList(layers);
+    upperLayer(targetId, layers){
+        if(targetId> 0){
+           this.updateOrder(targetId, layers, -1);
         }
     }
-    // upperLayer(Lname){
-    //     var selected;
-    //     var selectedAbove;
-    //     for( var i = 0; i<this.LayerList.length; i++){
-    //         if ( this.LayerList[i].name === Lname){
-    //             //console.log("select index "+ i);
-    //             selected = this.LayerList[i];
-    //             selectedAbove = this.LayerList[i-1];
-    //             this.LayerList.splice(i,1);
-    //             this.LayerList.splice(i-1,1); 
-    //             this.LayerList.splice(i-1, 0, selected);
-    //             this.LayerList.splice(i, 0, selectedAbove);
-               
-    //         }
-    //     }
-    // }
-
-    //createGroup(){
-    //
-    //}
 }
-
 
 
 
@@ -144,13 +73,13 @@ function createNewLayer(layerType, name) {
 }
 
 function removeLayer(){
-    var currentMap = editor.currentMap;
-    currentMap.removeLayer(selectedLayerName);
-    var layers = currentMap.LayerList;
-    for (var i=0; i<layers.length; i++) {
-        console.log("r"+ layers.get(i).name);
+    var targetId = editor.selectedLayerId;
+    if(targetId != null){
+        editor.currentMap.removeLayer(editor.selectedLayerId);
+        showList(editor.currentMap.LayerList);
+    } else {
+        alert("There is no layer to remove");
     }
-    showList(layers);
 }
 
 document.getElementById("myUL").addEventListener("click", function(e) {
@@ -159,9 +88,6 @@ document.getElementById("myUL").addEventListener("click", function(e) {
     //   alert("clicked " + e.target.innerText);
       editor.selectedLayerId = parseInt(e.target.id);
       selectedLayerName = e.target.innerText;
-      console.log("clicked  "+e.target.innerText);
-      console.log(editor.selectedLayerId);
-      console.log(e.target);
     }
   });
 
@@ -178,55 +104,55 @@ function showList(Llist){ // Llist == layer lists in current Map
         var inputValue = layer.name;
         var layername = document.createTextNode(inputValue);
         li.appendChild(layername);
-        var checkbox = document.createElement('input');
-        checkbox.type = "checkbox";
-        checkbox.value = 1;
-        checkbox.name = "todo[]";
-        li.appendChild(checkbox);
+        var visibleButton = createVisibleButton(layer);
+        li.appendChild(visibleButton);
         li.className = "layerlist";
         document.getElementById("myUL").appendChild(li);
 
         // reorder the real canvas layer 
         layer.canvasLayer.canvas.style.zIndex = layer.order;
     });
-    
-
 }
-// function showList(Llist){ // Llist == layer lists in current Map
-//     var list1 = document.getElementById("myUL");
-//     //var list = document.getElementById("myList");
-//     while (list1.hasChildNodes()) {
-//         list1.removeChild(list1.firstChild);
-//     }
-    
-//     for (i = 0; i < Llist.length; i++) {
-//         var li = document.createElement("li");
-//         li.id = Llist[i].id;
-//         li.setAttribute("order", Llist[i].order);
-//         var inputValue = Llist[i].name;
-//         var t = document.createTextNode(inputValue);
-//         li.appendChild(t);
-//         li.className = "layerlist";
-//         document.getElementById("myUL").appendChild(li);
-//     }
 
-// }
+function createVisibleButton(layer){
+    var visibleButton = document.createElement('i');
+    var result = "fa-eye";
+    var toggleValue = "fa-eye-slash";
+    if (!layer.layerProp.isVisible()){
+        [result, toggleValue] = [toggleValue, result];
+    }
+    visibleButton.className = "fa "+result;
+    visibleButton.id = layer.order;
+    visibleButton.addEventListener("click", function(e){
+        e.target.classList.toggle(toggleValue);
+        layer.layerProp.changeVisible(layer);
+    });
+    return visibleButton;
+}
+
 
 function duplicateLayer(){
-    // currentMap.duplicateLayers(selectedLayerName);
-    editor.currentMap.duplicateLayers(selectedLayerName);
-    showList(editor.currentMap.LayerList);
+    var targetId = editor.selectedLayerId;
+    if(targetId != null){
+        editor.currentMap.duplicateLayers(targetId);
+        showList(editor.currentMap.LayerList);
+    } else {
+        alert("There is no layer to duplicate");
+    }
 
 }
 
 function moveLayerDown(){
-    editor.currentMap.lowerLayer();
-    // showList(editor.currentMap.LayerList);
+    var selectedLayerId = editor.selectedLayerId;
+    var layers = editor.currentMap.LayerList;
+
+    editor.currentMap.lowerLayer(selectedLayerId, layers);
 }
 
 function moveLayerUp(){
-    editor.currentMap.upperLayer();
-    // showList(editor.currentMap.LayerList);
+    var selectedLayerId = editor.selectedLayerId;
+    var layers = editor.currentMap.LayerList;
+    editor.currentMap.upperLayer(selectedLayerId, layers);
 }
 
 function showLayers(layers){
@@ -299,6 +225,22 @@ class LayerProperties{
         this.opacity = 1;
         this.verticalOffset = 0;
         this.horizontalOffset = 0;
+    }
+
+    isVisible(){
+        if(this.visible == 1){
+            return "fa fa-eye";
+        }
+        return "fa fa-eye-slash";
+    }
+    changeVisible(layer){
+        if(this.visible == 1){
+            this.visible = 0;
+            layer.canvasLayer.hideCanvas();
+        } else{
+            this.visible = 1;
+            layer.canvasLayer.showCanvas(layer);
+        } 
     }
 }
 
