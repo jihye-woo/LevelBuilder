@@ -43,10 +43,12 @@ class Grid{
         this.ctx.moveTo(x1, y1);
         this.ctx.lineTo(x2, y2);
     }
+
     hideGrid(){
         this.ctx.clearRect(0, 0, this.w, this.h);
         this.show = false;
     }
+
     showOrHide(){
         if(this.show == true){
             this.hideGrid();
@@ -73,6 +75,12 @@ class Canvas{
         this.h = canvas.height = (height*tileH);
         this.canvas = document.getElementsByClassName('Map')[0].appendChild(canvas);
         this.ctx = canvas.getContext("2d");
+    }
+    hideCanvas(){
+        this.ctx.clearRect(0, 0, this.w, this.h);
+    }
+    showCanvas(layer){
+        console.log("showCanvas, will be implemented after tileset function is done");
     }
 }
 

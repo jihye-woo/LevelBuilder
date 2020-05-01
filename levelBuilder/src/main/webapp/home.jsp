@@ -21,8 +21,8 @@
 </head>
 
 <body>
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
+  <script src="https://kit.fontawesome.com/48f90dece2.js" crossorigin="anonymous"></script>
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" /> -->
   <div class="whole_workspace">
     <section id="side-bar">
       <a id="toggle-home">
@@ -54,8 +54,8 @@
                 <a href="#" onclick="createload()">Load</a>
                 <a href="#" onclick="save()">Save</a>
                 <a href="#" onclick="openSaveAs()">Save As </a>
-                <a href="#" onclick ="exportMap()">Export</a>
-                <a href="#">Export As</a>
+                <a href="#" onclick ="exportMap()">Export Map</a>
+                <a href="#" onclick ="openExportAs()">Export As Map</a>
                 <a href="#">Export As Image</a>
                 <a href="#">Delete</a>
                 <a href="#">Recent Files</a>
@@ -266,9 +266,23 @@
           </div>
           <div class="window-actions">
             <div class="surface btn" onclick="cancelSaveAs()">Cancel</div>
-            <div class="surface btn" onclick="saveAs()">OK</div> 
+            <div class="surface btn" onclick="saveAsMap()">OK</div> 
           </div>
       </div>
+
+      <div class="window surface" id="exportas">
+        <div class="window-title-bar">
+          <h4>Save As</h4>
+          <div class="surface btn" onclick="cancelExportAs()"><i class="fa fa-close"></i></div>
+          <div class="newline"></div>
+          <label for="exportAsName">File Name :</label>
+            <input type="text" placeholder="name" id="exportAsName"/>
+        </div>
+        <div class="window-actions">
+          <div class="surface btn" onclick="cancelExportAs()">Cancel</div>
+          <div class="surface btn" onclick="exportAsMap()">OK</div> 
+        </div>
+    </div>
 
       <div class="window surface" id="loadFile">
           <div class="window-title-bar">
@@ -374,9 +388,10 @@ window.onload = (event) => {
 </script>
 <script type="text/javascript" src="js/Map.js"></script>
 <script type="text/javascript" src="js/tilemap.js"></script>
+<script type="text/javascript" src="js/export.js"></script>
+<!-- <script type="text/javascript" src="js/file.js"></script> -->
+<!-- <script type="text/javascript" src="js/npm.js"></script> -->
 <script type="text/javascript" src="js/Tileset.js"></script>
-<script type="text/javascript" src="js/exprot.js"></script>
-<script type="text/javascript" src="js/npm.js"></script>
 <script type="text/javascript" src="js/FileSaver.js"></script>
 <script type="text/javascript" src="js/file.js"></script>
 

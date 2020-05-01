@@ -374,7 +374,7 @@ function saveAll(newMap, newLayers, mapName){
   //});
 }
 
-function saveAs(){
+function saveAsMap(){
   var map = editor.currentMap;
   if (map == null){
     alert("There is no map to save");
@@ -609,14 +609,6 @@ function getLayerJSON(LayerData){
 }
   // var helper = new XMLSerializer();
   //helper.serializeToString(mapXML)
-
-function exportMap(){
-  var map = editor.currentMap;
-  var xmlFile = mapXML(map);
-
-  // open document chooser
-  createMapXMLFile(xmlFile, map.id);
-}
 
 
 function saveMap(map){
