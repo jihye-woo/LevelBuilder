@@ -26,17 +26,31 @@ class CollectionTileset extends Tileset{
 		this.columns =0;
 		this.tileList= new Array(tile);
 	}
-	updateTileSize(image){
-		//this.tileWidth = largest;
-		//this.tileHeight = largest;
-	// update tileWidth, tileHeight
+
+	updateTileSize(Theight, Twidth){
+		var maxWidth = this.tileWidth;   
+		var maxHeight = this.tileHeight;  
+		 
+		if(Twidth > maxWidth || Theight > maxHeight){
+		   if(Twidth > maxWidth){
+			  maxWidth = Twidth;
+		   }
+		   if(Theight > maxHeight){
+			  maxHeight = Theight;
+		   }
+		}
+			this.tileWidth = maxWidth;
+			this.tileHeight = maxHeight;
+			console.log("update "+ this.tileHeight + this.tileWidth);
 	}
-	addSingleTile(src, imgW, imgH){
+
+	addCollectionTile(src, imgW, imgH){
 		var tile;
 		tile = new Tile(src, imgW, imgH);
 		this.tileList.push(tile);
 	}
-	removeSingleTile(){
+
+	removeCollectionTile(){
 		// this.tileList.push(newLayer);
 	}
 }
