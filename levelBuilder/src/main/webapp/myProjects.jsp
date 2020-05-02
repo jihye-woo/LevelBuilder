@@ -1,5 +1,10 @@
+<%--References I used:
+ - Bootstrap template info below
+ - Used JSTL for a for loop: https://stackoverflow.com/questions/15839335/using-for-loop-inside-of-a-jsp
+ - https://hellokoding.com/registration-and-login-example-with-spring-security-spring-boot-spring-data-jpa-hsql-jsp/
+--%>
+
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <link href="css/myProjects.css" rel="stylesheet">
 
 <!DOCTYPE html>

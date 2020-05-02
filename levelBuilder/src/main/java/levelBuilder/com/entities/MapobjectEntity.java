@@ -16,6 +16,7 @@ public class MapobjectEntity {
     private int width;
     private byte[] image; //image is stored as LONGBLOB in MySQL -> need to convert to image
     private int objectLayerId;
+    private String mapName;
 
     public int getId() {
         return id;
@@ -79,5 +80,13 @@ public class MapobjectEntity {
 
     public void setObjectLayerId(int objectLayerId) {
         this.objectLayerId = objectLayerId;
+    }
+
+    public String getMapName() {
+        return mapName;
+    }
+
+    public void setMapName(String mapName) {
+        this.mapName = mapName;
     }
 }
