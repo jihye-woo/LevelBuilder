@@ -1,3 +1,7 @@
+/* References I used:
+   - https://stackabuse.com/spring-security-email-verification-registration/
+*/
+
 package levelBuilder.com.entities;
 
 import javax.persistence.Entity;

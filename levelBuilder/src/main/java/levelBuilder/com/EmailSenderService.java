@@ -1,3 +1,6 @@
+/* References I used:
+   - https://stackabuse.com/spring-security-email-verification-registration/
+*/
 package levelBuilder.com;
 
 import org.springframework.beans.factory.annotation.Autowired;

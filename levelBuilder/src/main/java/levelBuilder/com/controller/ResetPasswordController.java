@@ -1,3 +1,7 @@
+/* References I used:
+   - https://stackabuse.com/spring-security-forgot-password-functionality/
+*/
+
 package levelBuilder.com.controller;
 
 import levelBuilder.com.entities.ConfirmationTokenEntity;

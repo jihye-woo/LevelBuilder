@@ -1,3 +1,7 @@
+/* References I used:
+   - https://attacomsian.com/blog/spring-data-jpa-composite-primary-key#
+*/
+
 package levelBuilder.com.serializable;
 
 import levelBuilder.com.entities.ObjectLayerEntity;
