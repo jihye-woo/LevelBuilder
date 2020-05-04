@@ -10,7 +10,7 @@ public class HomeController {
 
 	@GetMapping("/")
 	public String start(){
-		return "startPage.html";
+		return "startPage.jsp";
 	}
 
 	@GetMapping("home")
