@@ -186,7 +186,7 @@ class TiledLayer extends Layer{
         this.canvasLayer = new Canvas(width, height, tileW, tileH, this);
     }
 
-    fillTiles(x, y){
+    fillTiles(x, y, canvas){
         // this.canvasLayer.canvas.getContext("2d").fillStyle = "#FF9896";
         //this.canvasLayer.canvas.getContext("2d").fillRect(this.tileW*x, this.tileH*y, this.tileW, this.tileH);
         var img = document.getElementById(currentTileID);
