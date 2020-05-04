@@ -48,7 +48,7 @@ public class ForgotUsernameController {
 		mailMessage.setFrom("levelbuilder416@gmail.com");
 		mailMessage.setText("Your Level Builder username is: " + existingUser.getUsername()
 				+ "\nClick the following link to log in: "
-				+ "http://localhost:8080/login");
+				+ "http://levelbuilder.azurewebsites.net/login");
 
 		// Send the email
 		emailSenderService.sendEmail(mailMessage);

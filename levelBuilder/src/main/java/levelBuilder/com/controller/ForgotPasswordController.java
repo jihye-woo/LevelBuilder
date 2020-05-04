@@ -58,7 +58,7 @@ public class ForgotPasswordController {
 		mailMessage.setSubject("Level Builder: Password Reset Request");
 		mailMessage.setFrom("levelbuilder416@gmail.com");
 		mailMessage.setText("Please follow the link to complete your password reset: "
-				+ "http://localhost:8080/confirm-reset?token="+confirmationToken.getConfirmationToken());
+				+ "http://levelbuilder.azurewebsites.net/confirm-reset?token="+confirmationToken.getConfirmationToken());
 
 		// Send the email
 		emailSenderService.sendEmail(mailMessage);
