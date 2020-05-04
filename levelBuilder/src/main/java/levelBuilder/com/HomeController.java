@@ -8,6 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeController {
 
+	@GetMapping("/")
+	public String start(){
+		return "startPage.html";
+	}
+
 	@GetMapping("home")
 	public String home(Model model) {
 //		System.out.println("hi");
