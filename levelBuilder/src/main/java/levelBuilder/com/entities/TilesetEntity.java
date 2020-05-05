@@ -10,6 +10,7 @@ public class TilesetEntity {
     private int id;
     private String name;
     private String mapName;
+    private String ownedBy;
 
     public int getId() {
         return id;
@@ -33,5 +34,13 @@ public class TilesetEntity {
 
     public void setMapName(String mapName) {
         this.mapName = mapName;
+    }
+
+    public String getOwnedBy() {
+        return ownedBy;
+    }
+
+    public void setOwnedBy(String ownedBy) {
+        this.ownedBy = ownedBy;
     }
 }
