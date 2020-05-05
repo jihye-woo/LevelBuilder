@@ -183,11 +183,15 @@ function newTabBtn() {
   });
 
   var loadImg;
+  var canvasT
      function createSingleTileset(){
      
-       var canvas = document.createElement("canvas");
-       canvas.setAttribute('id', singlecanvas); 
-       document.getElementById(currentTileSetName).appendChild(canvas);
+      canvasT = document.createElement("canvas");
+      canvasT.setAttribute('id', singlecanvas); 
+      canvasT2 = document.createElement("canvas");
+      canvasT2.setAttribute('id', singlecanvas+"2"); 
+      document.getElementById(currentTileSetName).appendChild(canvasT);
+      document.getElementById(currentTileSetName).appendChild(canvasT2);
       
        var oFReader = new FileReader();
        oFReader.readAsDataURL(document.getElementById("myFile").files[0]);
@@ -207,34 +211,37 @@ function newTabBtn() {
    var totalWidth;
    var totalHeight;
    var tilesetCanvas;
+   var tilesetCanvas2;
    var ctxT;
- 
+   var tilelistToCopy;
+
    function loadImgage(e){
      tileInputHeight = Number(document.getElementById("tileSet-height").value);
      tileInputWidth = Number(document.getElementById("tileSet-width").value);
      var margin = Number(document.getElementById("margin").value);
      var spacing = Number(document.getElementById("spacing").value);
-    //  colT = Math.floor(loadImg.width / tileInputWidth);
-    //  rowT = Math.floor(loadImg.height / tileInputHeight);
      colT = Math.floor(loadImg.width / (tileInputWidth+spacing));
      rowT = Math.floor(loadImg.height / (tileInputHeight+spacing));
      totalWidth = tileInputWidth * colT;
      totalHeight = tileInputHeight * rowT;
  
     tilesetCanvas = document.getElementById(singlecanvas);
-    console.log("canvas size "+totalWidth+totalHeight);
+    tilesetCanvas2 = document.getElementById(singlecanvas+"2");
+    //console.log("canvas size "+totalWidth+totalHeight);
      ctxT = tilesetCanvas.getContext('2d');
+     ctxTbase = tilesetCanvas2.getContext('2d');
      tilesetCanvas.width = totalWidth;
      tilesetCanvas.height = totalHeight;
+     tilesetCanvas2.width = loadImg.width;
+     tilesetCanvas2.height = loadImg.height;
      tilesetCanvas.style.border = "1px solid black";
-     //ctxT.drawImage(loadImg, 0, 0, totalWidth, totalHeight, 0, 0, totalWidth, totalHeight);
-     createSingleTiles(loadImg, tileInputWidth, tileInputHeight, margin, spacing);
-console.log("fine"); 
+     ctxTbase.drawImage(loadImg, 0, 0, loadImg.width, loadImg.height, 0, 0, loadImg.width, loadImg.height);
+     tilelistToCopy = createSingleTiles(loadImg, tileInputWidth, tileInputHeight, margin, spacing);
+    drawTile();
     }
   
     var tileList;
     function createSingleTiles(image, tileWidth, tileHeight, margin, spacing){
-      var i;
       var tile;
       var xPos =0;
       var yPos =0;
@@ -242,28 +249,68 @@ console.log("fine");
       tileList =[];
       var plus = tileWidth+ spacing;
       var plusH = tileHeight +spacing;
-      // var col = Math.floor(loadImg.width / (tileWidth+spacing));
-      // var row = Math.floor(loadImg.height / (tileHeight+spacing));
-      console.log("colrow "+ colT + rowT);
       
-      for(i = 0;i < colT * rowT ;i++){
+      for(var i = 0;i < colT * rowT; i++){
             tile = {};
             tile.xPos = xPos;
             tile.yPos = yPos;
             tile.tw = tileWidth;
             tile.th = tileHeight;
             tileList.push(tile);
-            xPos += xPos + plus;
-            console.log("ss"+ xPos);
+            xPos += plus;
             limit = loadImg.width-tile.tw;
-            //console.log("#"+zz);
-            if(xPos >= limit){
+
+            if(totalWidth !=loadImg.width){
+              if(xPos >= limit){
                 xPos = 0;
-                yPos += yPos + plusH;
-                console.log("sy"+ yPos);
+                yPos += plusH;
+              }
             }
-        }
+            else{
+              if(xPos >= loadImg.width){
+                xPos = 0;
+                yPos += plusH;
+              }
+            }
       }
+        return tileList;
+      }
+
+var index;
+      function drawTile(){
+        var tile;
+        var startXPos = 0;
+        var startYPos = 0;
+        var imgGet;
+        for(var i = 0;i < tileList.length;i++){
+            tile = tileList[i];
+          //  console.log("print "+tile.xPos +" "+ tile.yPos +" start "+ startXPos +" "+ startYPos);
+            imgGet = ctxTbase.getImageData(tile.xPos, tile.yPos, tile.tw, tile.th);
+            ctxT.putImageData(imgGet, startXPos, startYPos);
+            ctxT.strokeRect(startXPos, startYPos, tile.tw, tile.th);
+            startXPos += tile.tw;
+              if(startXPos >= totalWidth){
+                startXPos = 0;
+                startYPos += tile.th;
+              }
+            }
+        var list = document.getElementById(currentTileSetName);
+        list.removeChild(list.childNodes[1]);
+        canvasT.addEventListener('click', function(event) {
+          var mousePos = getMousePos(canvasT, event);
+          var row = Math.floor(mousePos.x/tile.tw);
+          var col = Math.floor(mousePos.y/tile.th);
+          var message = 'Mouse clicked: ' + row  + ',' + col;
+          console.log(message);
+          index = getIndex(col, row);
+          console.log("index "+index);
+      });
+    }
+
+    function getIndex(col, row){
+      var i = colT*col +row;
+      return i;
+    }
 
   function openTilesetTab(evt, tabName) {
     var i, tabcontent, tablinks;
