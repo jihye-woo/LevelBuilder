@@ -215,6 +215,7 @@ function newTabBtn() {
    var tilesetCanvas2;
    var ctxT;
    var tileList;
+   var imgSource;
 
    function loadImage(e){
      tileInputHeight = Number(document.getElementById("tileSet-height").value);
@@ -227,7 +228,8 @@ function newTabBtn() {
  
     tilesetCanvas = document.getElementById(singlecanvas);
     tilesetCanvas2 = document.getElementById(singlecanvas+"2");
-    //console.log("canvas size "+totalWidth+totalHeight);
+    //imgSource = document.getElementById(singlecanvas).toDataURL();
+    //console.log("SSource "+ imgSource);
      ctxT = tilesetCanvas.getContext('2d');
      ctxTbase = tilesetCanvas2.getContext('2d');
      tilesetCanvas.width = totalWidth;
@@ -260,8 +262,8 @@ var index;
             }
         var list = document.getElementById(currentTileSetName);
         list.removeChild(list.childNodes[1]);
-        canvasT.addEventListener('click', function(event) {
-          var mousePos = getMousePos(canvasT, event);
+        list.addEventListener('click', function(event) {
+          var mousePos = getMousePos(list, event);
           var row = Math.floor(mousePos.x/tile.tw);
           var col = Math.floor(mousePos.y/tile.th);
           index = getIndex(col, row);
