@@ -2,8 +2,10 @@ package levelBuilder.com.controller;
 
 import levelBuilder.com.MyUserDetails;
 import levelBuilder.com.entities.MapSharedWithEntity;
+import levelBuilder.com.entities.TilesetSharedWithEntity;
 import levelBuilder.com.entities.UserEntity;
 import levelBuilder.com.repositories.MapSharedWithRepository;
+import levelBuilder.com.repositories.TilesetSharedWithRepository;
 import levelBuilder.com.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
