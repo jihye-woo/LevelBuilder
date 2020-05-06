@@ -168,6 +168,7 @@ function newTabBtn() {
     workspace.setAttribute('class', 'tilesetContent');
     workspace.setAttribute('id', tilesetName);
     document.getElementById("tilesetWorkspace").appendChild(workspace);
+    
   
     currentTileSetName = tilesetName;
     singlecanvas =currentTileSetName +single;
@@ -200,7 +201,7 @@ function newTabBtn() {
          loadImg = new Image();
          loadImg.src = oFREvent.target.result;
          
-       loadImg.addEventListener('load',loadImgage,false);
+       loadImg.addEventListener('load',loadImage,false);
          };
      }
    
@@ -213,12 +214,11 @@ function newTabBtn() {
    var tilesetCanvas;
    var tilesetCanvas2;
    var ctxT;
-   var tilelistToCopy;
+   var tileList;
 
-   function loadImgage(e){
+   function loadImage(e){
      tileInputHeight = Number(document.getElementById("tileSet-height").value);
      tileInputWidth = Number(document.getElementById("tileSet-width").value);
-     var margin = Number(document.getElementById("margin").value);
      var spacing = Number(document.getElementById("spacing").value);
      colT = Math.floor(loadImg.width / (tileInputWidth+spacing));
      rowT = Math.floor(loadImg.height / (tileInputHeight+spacing));
@@ -236,45 +236,9 @@ function newTabBtn() {
      tilesetCanvas2.height = loadImg.height;
      tilesetCanvas.style.border = "1px solid black";
      ctxTbase.drawImage(loadImg, 0, 0, loadImg.width, loadImg.height, 0, 0, loadImg.width, loadImg.height);
-     tilelistToCopy = createSingleTiles(loadImg, tileInputWidth, tileInputHeight, margin, spacing);
+     tileList = createSingleTiles(loadImg, tileInputWidth, tileInputHeight, margin, spacing);
     drawTile();
     }
-  
-    var tileList;
-    function createSingleTiles(image, tileWidth, tileHeight, margin, spacing){
-      var tile;
-      var xPos =0;
-      var yPos =0;
-      var limit;
-      tileList =[];
-      var plus = tileWidth+ spacing;
-      var plusH = tileHeight +spacing;
-      
-      for(var i = 0;i < colT * rowT; i++){
-            tile = {};
-            tile.xPos = xPos;
-            tile.yPos = yPos;
-            tile.tw = tileWidth;
-            tile.th = tileHeight;
-            tileList.push(tile);
-            xPos += plus;
-            limit = loadImg.width-tile.tw;
-
-            if(totalWidth !=loadImg.width){
-              if(xPos >= limit){
-                xPos = 0;
-                yPos += plusH;
-              }
-            }
-            else{
-              if(xPos >= loadImg.width){
-                xPos = 0;
-                yPos += plusH;
-              }
-            }
-      }
-        return tileList;
-      }
 
 var index;
       function drawTile(){
@@ -300,8 +264,6 @@ var index;
           var mousePos = getMousePos(canvasT, event);
           var row = Math.floor(mousePos.x/tile.tw);
           var col = Math.floor(mousePos.y/tile.th);
-          var message = 'Mouse clicked: ' + row  + ',' + col;
-          console.log(message);
           index = getIndex(col, row);
           console.log("index "+index);
       });

@@ -390,7 +390,6 @@ window.onload = (event) => {
 <script type="text/javascript" src="js/Tileset.js"></script>
 <script type="text/javascript" src="js/tilemap.js"></script>
 <script type="text/javascript" src="js/export.js"></script>
-<!-- <script type="text/javascript" src="js/file.js"></script> -->
 <!-- <script type="text/javascript" src="js/npm.js"></script> -->
 <script type="text/javascript" src="js/FileSaver.js"></script>
 <script type="text/javascript" src="js/file.js"></script>
