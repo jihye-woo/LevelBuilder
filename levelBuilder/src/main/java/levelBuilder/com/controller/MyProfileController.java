@@ -29,6 +29,12 @@ public class MyProfileController {
 	@Autowired
     MapSharedWithRepository mapSharedWithRepository;
 
+    @Autowired
+    TilesetRepository tilesetRepository;
+
+    @Autowired
+    TilesetSharedWithRepository tilesetSharedWithRepository;
+
 	@RequestMapping("/my-profile")
 	public String viewProfile(Model model) {
 		MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -56,4 +62,23 @@ public class MyProfileController {
 
 		return "myProjects.jsp";
 	}
+
+    @GetMapping("/my-tilesets")
+    public String viewTilesets(Model model) {
+        MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //get tilesets this user owns
+        List<TilesetEntity> userTilesets = tilesetRepository.findByOwnedBy(myUserDetails.getUsername());
+        model.addAttribute("userTilesets", userTilesets);
+
+        //get all tilesets shared with the user
+        List<TilesetSharedWithEntity> shares = tilesetSharedWithRepository.findByUserName(myUserDetails.getUsername());
+        ArrayList<TilesetEntity> sharedTilesets = new ArrayList<>();
+        for (TilesetSharedWithEntity share : shares) {
+            //add to the list of maps
+            sharedTilesets.add(tilesetRepository.findById(share.getTilesetId()));
+        }
+        model.addAttribute("sharedTilesets", sharedTilesets);
+
+        return "myTilesets.jsp";
+    }
 }

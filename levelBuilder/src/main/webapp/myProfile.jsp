@@ -43,6 +43,7 @@
         <a href="/home">Workspace</a>
         <a href="/my-profile">Profile</a>
         <a href="/my-projects">My Projects</a>
+        <a href="/my-tilesets">My Tilesets</a>
         <a href="/logout">Logout</a>
 
     </div>
