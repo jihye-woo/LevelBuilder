@@ -54,7 +54,7 @@
       <div class="container">
         <h1 class="masthead-heading mb-0">Welcome</h1>
         <h2 class="masthead-subheading mb-0">Start with Level Builder!</h2>
-        <a href="/home" class="btn btn-primary btn-xl rounded-pill mt-5">Start</a>
+        <a href="/my-profile" class="btn btn-primary btn-xl rounded-pill mt-5">Start</a>
       </div>
     </div>
     <div class="bg-circle-1 bg-circle"></div>
