@@ -8,6 +8,8 @@ class TiledMap{
         this.tileWidth = tileWidth;
         this.tileHeight = tileHeight;
         this.LayerList = new Map();
+        this.nextgid = 1;
+        this.selectedTilesetList = new Array();
     }
 
     addLayer(layerType, name){
@@ -61,8 +63,6 @@ class TiledMap{
         }
     }
 }
-
-
 
 function createNewLayer(layerType, name) {
 	var currentMap = editor.currentMap;

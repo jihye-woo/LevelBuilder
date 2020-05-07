@@ -130,6 +130,12 @@ function createLayer() {
   
 }
 
+function createTileSet(name, image, imgWidth, imgHeight, tileWidth, tileHeight, spacing, columns, tilecount){
+  var newTileset = new SingleImageTileset(name, image, imgWidth, imgHeight, tileWidth, tileHeight, spacing, columns, tilecount);
+  editor.loadTileset(newTileset);
+  // saveAll(newMap, newMap.LayerList, mapName);
+}
+
 var currentTileSetName;
 function newTabBtn() {
   var tilesetName = document.getElementById("TilesetName").value;
@@ -153,14 +159,15 @@ function newTabBtn() {
   var singlecanvas;
   var imgSource;
   var tileList;
+  var tilesetH;
+  var tilesetW;
+  var spacing;
 
   function newTabBtn2() {
     var tilesetName = document.getElementById("TilesetName").value;
-    // var imageFile = document.getElementById("myFile").value;
-    var tilesetH = document.getElementById("tileSet-height").value;
-    var tilesetW = document.getElementById("tileSet-width").value;
-    // var margin = document.getElementById("margin").value;
-    // var spacing = document.getElementById("spacing").value;
+    tilesetH = Number(document.getElementById("tileSet-height").value);
+    tilesetW = Number(document.getElementById("tileSet-width").value);
+    spacing = Number(document.getElementById("spacing").value);
     var btn = document.createElement("BUTTON");
     btn.setAttribute('class', 'tab-header2');
     btn.innerHTML = tilesetName;
@@ -186,19 +193,38 @@ function newTabBtn() {
     singlecanvas = currentTileSetName+"1";
     imgSource = document.getElementById(singlecanvas).toDataURL(); 
     loadImg.src = imgSource;
-    // tileList = createSingleTiles(loadImg, tileInputWidth, tileInputHeight, margin, spacing);
+    editor.currentTileset = getTileset(currentTileSetName);
   });
+
+  function getTileset(tabName){
+    var tileSet;
+    var tilesetList = editor.loadedTilesetList;
+    for(var i=0; i<tilesetList.length; i++){
+      if(tilesetList[i].name == tabName){
+        tileSet = tilesetList[i];
+      }
+    }
+    return tileSet;
+  }
 
   var loadImg;
   var canvasT
      function createSingleTileset(){
-     
       canvasT = document.createElement("canvas");
       canvasT.setAttribute('id', singlecanvas); 
       canvasT2 = document.createElement("canvas");
       canvasT2.setAttribute('id', singlecanvas+"2"); 
       document.getElementById(currentTileSetName).appendChild(canvasT);
       document.getElementById(currentTileSetName).appendChild(canvasT2);
+      var getCanvas = document.getElementById(currentTileSetName+"1");
+
+      getCanvas.addEventListener('click', function(event) {
+        var mousePos = getMousePos(getCanvas, event);
+        var row = Math.floor(mousePos.x/tilesetW);
+        var col = Math.floor(mousePos.y/tilesetH);
+        index = getIndex(col, row);
+        console.log("index "+index +" img "+currentTileSetName);
+    });
       
        var oFReader = new FileReader();
        oFReader.readAsDataURL(document.getElementById("myFile").files[0]);
@@ -211,8 +237,6 @@ function newTabBtn() {
          };
      }
    
-   var tileInputWidth;
-   var tileInputHeight;
    var colT;
    var rowT;
    var totalWidth;
@@ -222,14 +246,11 @@ function newTabBtn() {
    var ctxT;
 
    function loadImage(e){
-     tileInputHeight = Number(document.getElementById("tileSet-height").value);
-     tileInputWidth = Number(document.getElementById("tileSet-width").value);
-     var spacing = Number(document.getElementById("spacing").value);
-     colT = Math.floor(loadImg.width / (tileInputWidth+spacing));
-     rowT = Math.floor(loadImg.height / (tileInputHeight+spacing));
-     totalWidth = tileInputWidth * colT;
-     totalHeight = tileInputHeight * rowT;
- 
+     colT = Math.floor(loadImg.width / (tilesetW+spacing));
+     rowT = Math.floor(loadImg.height / (tilesetH+spacing));
+     totalWidth = tilesetW * colT;
+     totalHeight = tilesetH * rowT;
+     var tilecount = colT * rowT; 
     tilesetCanvas = document.getElementById(singlecanvas);
     tilesetCanvas2 = document.getElementById(singlecanvas+"2");
     imgSource = document.getElementById(singlecanvas).toDataURL();    
@@ -240,8 +261,10 @@ function newTabBtn() {
      tilesetCanvas2.width = loadImg.width;
      tilesetCanvas2.height = loadImg.height;
      tilesetCanvas.style.border = "1px solid black";
+     createTileSet(currentTileSetName, imgSource, loadImg.width, loadImg.height, tilesetW, tilesetH, spacing, colT, tilecount);
      ctxTbase.drawImage(loadImg, 0, 0, loadImg.width, loadImg.height, 0, 0, loadImg.width, loadImg.height);
-     tileList = createSingleTiles(loadImg, tileInputWidth, tileInputHeight, margin, spacing);
+     tileList = createSingleTiles(currentTileSetName, imgSource, tilesetW, tilesetH, spacing);
+    //  tileList = editor.currentTileset.createSingleTiles(currentTileSetName, imgSource, tilesetW, tilesetH, spacing);
     drawTile();
     }
 
@@ -253,9 +276,9 @@ var index;
         var imgGet;
         for(var i = 0;i < tileList.length;i++){
             tile = tileList[i];
-          //  console.log("print "+tile.xPos +" "+ tile.yPos +" start "+ startXPos +" "+ startYPos);
             imgGet = ctxTbase.getImageData(tile.xPos, tile.yPos, tile.tw, tile.th);
             ctxT.putImageData(imgGet, startXPos, startYPos);
+            // ctxT.drawImage(loadImg, tile.startX, tile.startY, tile.tileWidth, tile.tileHeight, startXPos, startYPos, tile.tileWidth, tile.tileHeight);
             ctxT.strokeRect(startXPos, startYPos, tile.tw, tile.th);
             startXPos += tile.tw;
               if(startXPos >= totalWidth){
@@ -265,13 +288,6 @@ var index;
             }
         var list = document.getElementById(currentTileSetName);
         list.removeChild(list.childNodes[1]);
-        list.addEventListener('click', function(event) {
-          var mousePos = getMousePos(list, event);
-          var row = Math.floor(mousePos.x/tile.tw);
-          var col = Math.floor(mousePos.y/tile.th);
-          index = getIndex(col, row);
-          console.log("index "+index +" img "+currentTileSetName);
-      });
     }
 
     function getIndex(col, row){

@@ -229,16 +229,12 @@
           <!-- <label for="fname">Source:</label>
           <input type="text" id="fname" name="fname"> -->
           <input type="file" id="myFile"  multiple accept="image/*"> 
-
+          <div class="newline"></div>
           <div class="input-row">
             <label for="tileSet-width">Width :</label>
             <input type="text" placeholder="eg. 32" id="tileSet-width"/>
             <label for="tileSet-height">Height:</label>
             <input type="text" placeholder="eg. 32" id="tileSet-height"/>
-          </div>
-          <div class="input-row">
-            <label for="margin">Margin :</label>
-            <input type="text" placeholder="eg. 32" id="margin"/>
             <label for="spacing">Spacing:</label>
             <input type="text" placeholder="eg. 32" id="spacing"/>
           </div>
@@ -363,12 +359,11 @@ class Editor{
      this.loadedTilesetList.push(tileset);
      this.currentTileset = tileset;
    }
+
    closeMap(){
       
    }
-   loadTileset(){
-      
-   }
+   
    clearWorkspace(){
     var layerList = this.currentMap.LayerList;
     layerList.forEach(function(layer){
@@ -376,7 +371,6 @@ class Editor{
       document.getElementsByClassName('Map')[0].removeChild(layerCanvas);
     });
   }
- 
 }
 
 window.onload = (event) => {
