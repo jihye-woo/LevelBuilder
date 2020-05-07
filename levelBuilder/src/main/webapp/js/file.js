@@ -82,9 +82,11 @@ function loadMap(map){
     showList(editor.currentMap.LayerList);
 }
 
-function showHideGird(){
+var gridVisIcon = document.getElementById("gridVisability");
+gridVisIcon.addEventListener("click", function(){
   editor.grid.showOrHide();
-}
+});
+
 
 function createMap() {
   let mapType = "top";
@@ -121,8 +123,8 @@ function createLayer() {
       }
     } 
     document.getElementById("input-layer").value = "";
-    // console.log(layerType);
-    // console.log(layerName);
+    console.log(layerType);
+    console.log(layerName);
 
   closeWindow(createLayerWindow);
   //showList(layerType, layerName);

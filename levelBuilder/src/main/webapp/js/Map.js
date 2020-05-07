@@ -16,7 +16,7 @@ class TiledMap{
         var newLayer;
         var id = idL + 1;
         console.log("idL "+ idL + "id: " +id);
-        if (layerType === "tile-layer"){ 
+        if (layerType === "tileLayer"){ 
           newLayer = new TiledLayer(id, name, this.mapWidth, this.mapHeight, this.id, this.tileWidth, this.tileHeight);
          
         } else {
@@ -183,7 +183,7 @@ class TiledLayer extends Layer{
         this.tileH = tileH;
         this.csv = Array.from(Array((width)), () => Array((height)).fill(0));
         this.type = "TiledLayer";
-        this.canvasLayer = new Canvas(width, height, tileW, tileH, this);
+        this.canvasLayer = new TiledCanvas(width, height, tileW, tileH, this);
     }
 
     fillTiles(x, y, canvas){
@@ -201,9 +201,20 @@ class TiledLayer extends Layer{
 
 class ObjectLayer extends Layer{
     constructor(id, name, width, height, mapName){
-        super(id, name, width, height);
+        super(id, name, width, height, mapName);
         this.objects = new Array(); // insert the MapObject later
         this.type = "ObjectLayer";
+        this.canvasW = document.getElementsByClassName("editor-container")[0].clientWidth;
+        this.canvasH = document.getElementsByClassName("editor-container")[0].clientHeight;
+        this.canvasLayer = new ObjectCanvas(this.canvasW, this.canvasH, this);
+    }
+    fillObject(x, y){
+        // this.canvasLayer.canvas.getContext("2d").fillStyle = "#FF9896";
+        // this.canvasLayer.canvas.getContext("2d").fillRect(this.tileW*x, this.tileH*y, this.tileW, this.tileH);
+        // var img = document.getElementById(currentTileID);
+        var img = new Image(64, 64);
+        img.src = 'gemRedStroked.png';
+        this.canvasLayer.canvas.getContext("2d").drawImage(img, x, y);
     }
 }
 
