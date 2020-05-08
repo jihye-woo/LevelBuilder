@@ -1,5 +1,7 @@
 package levelBuilder.com.entities;
 
+import levelBuilder.com.serializable.TilesetId;
+
 import javax.persistence.*;
 
 @Entity
@@ -18,14 +20,6 @@ public class TilesetEntity {
     private int tilewidth;
     private int tileheight;
     private int tilecount;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

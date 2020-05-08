@@ -79,7 +79,7 @@ public class MyProfileController {
         ArrayList<TilesetEntity> sharedTilesets = new ArrayList<>();
         for (TilesetSharedWithEntity share : shares) {
             //add to the list of maps
-            sharedTilesets.add(tilesetRepository.findById(share.getTilesetId()));
+            //sharedTilesets.add(tilesetRepository.findById(share.getTilesetId()));
         }
         model.addAttribute("sharedTilesets", sharedTilesets);
 

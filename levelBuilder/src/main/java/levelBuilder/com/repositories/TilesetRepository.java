@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface TilesetRepository extends JpaRepository<TilesetEntity, Integer> {
     List<TilesetEntity> findByOwnedBy(String ownedBy); //find all tilesets owned by a given username
-    TilesetEntity findByNameAndOwnedBy(String name, String ownedBy); 
+    TilesetEntity findByNameAndOwnedBy(String name, String ownedBy);
 }

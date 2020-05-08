@@ -30,6 +30,6 @@ public class TilesetId implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         TilesetId tilesetId = (TilesetId) o;
         return name.equals(tilesetId.name) &&
-                mapName.equals(tilesetId.ownedBy);
+                ownedBy.equals(tilesetId.ownedBy);
     }
 }
