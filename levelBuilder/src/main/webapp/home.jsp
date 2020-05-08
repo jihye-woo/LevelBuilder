@@ -290,7 +290,7 @@
           </div>
           <div class="window-actions">
             <div class="surface btn" onclick="cancelload()">Cancel</div>
-            <div class="surface btn" onclick="loadFile()">OK</div> 
+            <div class="surface btn" onclick="loadAll_Map()">OK</div> 
           </div>
       </div>
 

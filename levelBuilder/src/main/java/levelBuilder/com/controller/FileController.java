@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import levelBuilder.com.entities.ImagesAddedToTilesetEntity;
 import levelBuilder.com.entities.LayerEntity;
 import levelBuilder.com.entities.LayerPropertiesEntity;
 import levelBuilder.com.entities.MapEntity;
 import levelBuilder.com.entities.TilesetEntity;
+import levelBuilder.com.repositories.ImagesAddedToTilesetRepository;
 import levelBuilder.com.repositories.LayerPropertiesRepository;
 import levelBuilder.com.repositories.LayerRepository;
 import levelBuilder.com.repositories.MapRepository;
@@ -49,6 +51,9 @@ public class FileController {
 	
 	@Autowired
 	TilesetRepository tilesetRepository;
+	
+	@Autowired
+	ImagesAddedToTilesetRepository imagesAddedToTilesetRepository;
 	
 	FileController(){
 		object.put("sending", 0);
@@ -125,6 +130,15 @@ public class FileController {
 	public ResponseEntity<String> saveTileset(@RequestBody TilesetEntity tileset) {
 		// save map data
 		tilesetRepository.save(tileset);
+		return new ResponseEntity<>(object.toString(), HttpStatus.CREATED);
+	}
+	
+	
+	@RequestMapping(value="/save_image", method=RequestMethod.POST)
+	public ResponseEntity<String> saveImage(@RequestBody ImagesAddedToTilesetEntity imageData) {
+//		System.out.println(imageData);
+		// save map data
+		imagesAddedToTilesetRepository.save(imageData);
 		return new ResponseEntity<>(object.toString(), HttpStatus.CREATED);
 	}
 	

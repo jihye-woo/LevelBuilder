@@ -1,7 +1,12 @@
 package levelBuilder.com.entities;
 
-import javax.persistence.*;
-import java.util.Arrays;
+import java.util.Base64;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "ImagesAddedToTileset")
@@ -25,8 +30,8 @@ public class ImagesAddedToTilesetEntity {
         return image;
     }
 
-    public void setImage(byte[] image) {
-        this.image = image;
+    public void setImage(String encodedWithBase64) {
+        this.image = Base64.getMimeDecoder().decode(encodedWithBase64.split(",")[1]);
     }
 
     public String getTilesetName() {

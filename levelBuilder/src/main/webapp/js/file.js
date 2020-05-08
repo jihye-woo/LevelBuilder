@@ -103,7 +103,7 @@ function createMap() {
 
   saveAll_Map(newMap, newMap.LayerList, mapName);
   
-  // loadAll(newMap.id);
+  // loadDataFromDB(newMap.id);
 
   loadMap(newMap);
   document.getElementById("map-name").value = "";
@@ -333,9 +333,12 @@ var index;
   }
   document.getElementById("defaultOpen").click();
 
-function saveAll_Tileset(newTileset){
+async function saveAll_Tileset(newTileset){
   let jsonTileset = getTilesetJSON(newTileset);
+  let jsonImage = await getImageJSON(newTileset);
+  console.log(jsonImage);
   saveDataToDB(jsonTileset, "save_tileset");
+  saveDataToDB(jsonImage, "save_image");
 }
 
 function saveAll_Map(newMap, newLayers, mapName){
@@ -348,7 +351,7 @@ function saveAll_Map(newMap, newLayers, mapName){
   let saveLayerPropResult = saveDataToDB(jsonLayers["layerProps"], "save_layerProp");
 
   //$.when(saveMapResult, saveLayerResult, saveLayerPropResult).then(function(){
-    // loadAll(newMap.id)
+    // loadDataFromDB(newMap.id)
     // .then(data => {
     //   console.log("returned data : " + data);
     // });
@@ -378,12 +381,10 @@ function save(){
   }
 }
 
-function loadFile(){
+function loadAll_Map(){
   var fileName = document.getElementById('loadFileName').value;
-  console.log(fileName);
-  // let loadResult = loadAll(fileName);
-
-  loadAll(fileName)
+  var loadMapJSON = {"mapName" : fileName};
+  loadDataFromDB(loadMapJSON, "load_map")
   .then(jsonData => {
     var newMap = parseMapJson(jsonData.map);
     console.log(newMap);
@@ -393,8 +394,18 @@ function loadFile(){
     console.log(newMap);
     loadMap(newMap);
   });
-
   closeWindow(loadWindow);
+}
+
+function loadAll_Tileset(){
+  var fileName = document.getElementById('loadTilesetName').value;
+  var loadTilesetJSON = {"name" : fileName};
+  loadDataFromDB(loadTilesetJSON, "load_map")
+  .then(jsonData => {
+    var newTileset = parseTilesetJson(jsonData.tileset);
+    editor.loadTileset(newTileset);
+    console.log(newTileset);
+  });
 }
 
 var currentTileID;
@@ -520,6 +531,13 @@ function parseLayerJson(layers, map){
   return layerList;
 }
 
+function parseTilesetJson(tileset){
+  var newTileset = new SingleImageTileset(tileset.name, image, tileset.imagewidth, tileset.imageheight, 
+    tileset.tilewidth, tileset.tileheight, tileset.spacing, tileset.columns, tileset.tilecount);
+    return newTileset;
+}
+
+
 function getMapJSON(mapData, mapName){
   console.log(editor.userName);
   return {
@@ -607,8 +625,41 @@ function getTilesetJSON(tileset){
   }
 }
 
+function getImageJSON(tileset, mime = "image/png"){
+  var imageJson = { 
+    // "id" : 0,
+    "tilesetName" : tileset.name,
+    "tilesetOwnedBy" : editor.userName
+  };
+  
+  convertImageToBase64(tileset.image, mime).then(function(result){
+    imageJson["image"] = result;
+  }, function(error){
+    alert("fail to encoding image data");
+  });
+  return imageJson;
+}
+
+
+let convertImageToBase64 = function(image, mime){
+  return new Promise ((resolve) => {
+    var canvas = document.createElement('canvas');
+    var ctx = canvas.getContext('2d');
+    canvas.width = image.width;
+    canvas.height = image.height;
+    ctx.drawImage(image, 0, 0);
+    resolve(canvas.toDataURL());
+    // canvas.toBlob(function(blob){
+    //   blobImage = blob;
+    //   console.log(blob);
+    // }, mime);
+    // var dataURL = canvas.toDataURL(mime);
+  });
+}
 
 function saveDataToDB(savingData, save_endpoint){
+  console.log(JSON.stringify(savingData));
+  console.log(savingData);
     return $.ajax({
       type : "POST",
       contentType: "application/json",
@@ -627,26 +678,23 @@ function saveDataToDB(savingData, save_endpoint){
 });
 }
 
-function loadAll(mapName){
-  var load_endpoint = "load_map";
+
+function loadDataFromDB(requestJSON, load_endpoint){
   return new Promise((resolve, reject) => {
-  // var helper = new XMLSerializer();
     $.ajax({
         type : "POST",
         url : "/fileController/" + load_endpoint,
-      data : JSON.stringify({"mapName" : mapName}),
+      data : JSON.stringify(requestJSON),
       contentType: "application/json",
       dataType : 'json',
       processData: false, 
       
       error : function(error){
         alert("load error occurred");
-        console.log("XML Loading Failed");
         reject(error);
       },
 
       success : function(data) {
-        console.log(data);
         console.log("load success!");
         resolve(data);
       }

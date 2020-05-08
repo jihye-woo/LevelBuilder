@@ -2,6 +2,8 @@ class Tileset{
 	constructor(name, src, imgWidth, imgHeight, tileWidth, tileHeight, spacing){
 	   this.name = name;
 	   this.src = src;
+	   this.image = new Image();
+	   this.image.src = src;
        this.imgWidth = imgWidth;
        this.imgHeight = imgHeight;
        this.tileWidth = tileWidth;
@@ -27,7 +29,7 @@ class SingleImageTileset extends Tileset{
 		this.spacing = spacing;
 		this.columns = columns;
 		this.tilecount = tilecount;
-		this.tileList= new Array(); 
+		this.tileList= new Array();
 	}
 
 	addTile(id, src, startX, startY, tw, th){
@@ -79,7 +81,7 @@ class CollectionTileset extends Tileset{
 		this.name = name;
 		this.tileWidth = tileWidth;
 		this.tileHeight = tileHeight;
-		this.columns =0;
+		this.columns = 0;
 		this.tileList= new Array(tile);
 	}
 
