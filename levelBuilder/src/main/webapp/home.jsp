@@ -358,8 +358,18 @@ class Editor{
    //$("canvas").detach(); remove all canvas
    
    loadTileset(tileset){
-     this.loadedTilesetList.push(tileset);
-     this.currentTileset = tileset;
+     if(isExist){
+      this.loadedTilesetList.push(tileset);
+      this.currentTileset = tileset;
+    }
+   }
+   isExist(list, target){
+     list.forEach(function(loadedtileset){
+      if(loadedtileset.name == target.name){
+        return true;
+      }
+    });
+    return false;
    }
 
    closeMap(){

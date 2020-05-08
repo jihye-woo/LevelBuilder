@@ -388,8 +388,8 @@ function save(){
 }
 
 function loadFile(){
-  var selectMap = document.getElementById("selectLoadMap");
-  var selectTileset = document.getElementById("selectLoadTileset");
+  var selectMap = document.getElementById("selectLoadMap").checked
+  var selectTileset = document.getElementById("selectLoadTileset").checked
   if(selectMap.checked == true){
     loadAll_Map();
   } else if(selectTileset == true){
@@ -564,8 +564,9 @@ function parseImageJson(imageData){
 }
 
 function parseTilesetJson(tileset, newImage){
-  var newTileset = new SingleImageTileset(tileset.name, "", newImage, tileset.imagewidth, tileset.imageheight, 
+  var newTileset = new SingleImageTileset(tileset.name, newImage, tileset.imagewidth, tileset.imageheight, 
     tileset.tilewidth, tileset.tileheight, tileset.spacing, tileset.columns, tileset.tilecount);
+    editor.loadTileset(newTileset);
     return newTileset;
 }
 
@@ -727,6 +728,7 @@ function loadDataFromDB(requestJSON, load_endpoint){
       },
 
       success : function(data) {
+        console.log(data);
         console.log("load success!");
         resolve(data);
       }

@@ -179,8 +179,9 @@ public class FileController {
 //		for(ImagesAddedToTilesetEntity img : images) {
 //			
 //		}
+		System.out.println(result.toString());
 		
-		return new ResponseEntity<>(object.toString(), HttpStatus.CREATED);
+		return new ResponseEntity<>(result.toString(), HttpStatus.CREATED);
 	}
 //	@RequestMapping(value="/load_layer", method=RequestMethod.POST)
 //	public ResponseEntity<String> loadLayer(@RequestBody String jsonFileName) {
