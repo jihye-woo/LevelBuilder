@@ -2,8 +2,7 @@ class Tileset{
 	constructor(name, src, imgWidth, imgHeight, tileWidth, tileHeight, spacing){
 	   this.name = name;
 	   this.src = src;
-	   this.image = new Image();
-	   this.image.src = src;
+	   this.image;
        this.imgWidth = imgWidth;
        this.imgHeight = imgHeight;
        this.tileWidth = tileWidth;

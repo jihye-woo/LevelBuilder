@@ -142,6 +142,46 @@ public class FileController {
 		return new ResponseEntity<>(object.toString(), HttpStatus.CREATED);
 	}
 	
+	@RequestMapping(value="/load_tileset", method=RequestMethod.POST)
+	public ResponseEntity<String> loadTileset(@RequestBody String jsonFileName) {
+		JSONObject jsonObject = new JSONObject(jsonFileName);
+		String name = jsonObject.getString("name");
+		String username = jsonObject.getString("username");
+		JSONObject result = new JSONObject();
+		
+		// 1. load tileset
+		TilesetEntity tileset = tilesetRepository.findByNameAndOwnedBy(name, username);
+		
+		// 2. load image
+		List<ImagesAddedToTilesetEntity> images 
+		= imagesAddedToTilesetRepository.findByTilesetNameAndTilesetOwnedBy(name, username);
+		
+		try {
+			
+			// 3. convert to json and put into the jsonobject
+			
+			// 3-1. tileset
+			String tilesetJson = mapper.writeValueAsString(tileset);
+			System.out.println(tilesetJson);
+			result.put("tileset", new JSONObject(tilesetJson));
+			
+			// 3-2 image
+			// image should be one (because for now we only consider single image tileset)
+			String imageJson = mapper.writeValueAsString(images.get(0));
+			System.out.println(imageJson);
+			result.put("image", new JSONObject(imageJson));
+			
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		
+		
+//		for(ImagesAddedToTilesetEntity img : images) {
+//			
+//		}
+		
+		return new ResponseEntity<>(object.toString(), HttpStatus.CREATED);
+	}
 //	@RequestMapping(value="/load_layer", method=RequestMethod.POST)
 //	public ResponseEntity<String> loadLayer(@RequestBody String jsonFileName) {
 //		JSONObject jsonObject = new JSONObject(jsonFileName);

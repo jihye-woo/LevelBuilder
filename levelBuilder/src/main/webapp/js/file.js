@@ -416,12 +416,16 @@ function loadAll_Map(){
 }
 
 function loadAll_Tileset(){
-  var fileName = document.getElementById('loadTilesetName').value;
-  var loadTilesetJSON = {"name" : fileName};
-  loadDataFromDB(loadTilesetJSON, "load_map")
+  var fileName = document.getElementById('loadFileName').value;
+  var loadTilesetJSON = {"name" : fileName, "username" : editor.userName};
+  loadDataFromDB(loadTilesetJSON, "load_tileset")
   .then(jsonData => {
-    var newTileset = parseTilesetJson(jsonData.tileset);
-    editor.loadTileset(newTileset);
+    return parseImageJson(jsonData.image);
+  }).then(newImage => {
+    console.log(newImage);
+    var newTileset = parseTilesetJson(jsonData.tileset, newImage);
+    console.log(newTileset);
+    // editor.loadTileset(newTileset);
     console.log(newTileset);
   });
 }
@@ -549,8 +553,18 @@ function parseLayerJson(layers, map){
   return layerList;
 }
 
-function parseTilesetJson(tileset){
-  var newTileset = new SingleImageTileset(tileset.name, image, tileset.imagewidth, tileset.imageheight, 
+function parseImageJson(imageData){
+  return new Promise((resolve, reject)=> {
+    var newImage = new Image();
+    newImage.onload = function(){
+      newImage.src = imageData.image;
+      resolve(newImage);
+    };
+  });
+}
+
+function parseTilesetJson(tileset, newImage){
+  var newTileset = new SingleImageTileset(tileset.name, "", newImage, tileset.imagewidth, tileset.imageheight, 
     tileset.tilewidth, tileset.tileheight, tileset.spacing, tileset.columns, tileset.tilecount);
     return newTileset;
 }
