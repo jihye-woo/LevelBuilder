@@ -10,7 +10,8 @@ public class ImagesAddedToTilesetEntity {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
     private byte[] image; //image is stored as LONGBLOB in MySQL -> need to convert to image
-    private int tilesetId;
+    private String tilesetName;
+    private String tilesetOwnedBy;
 
     public int getId() {
         return id;
@@ -28,11 +29,19 @@ public class ImagesAddedToTilesetEntity {
         this.image = image;
     }
 
-    public int getTilesetId() {
-        return tilesetId;
+    public String getTilesetName() {
+        return tilesetName;
     }
 
-    public void setTilesetId(int tilesetId) {
-        this.tilesetId = tilesetId;
+    public void setTilesetName(String tilesetName) {
+        this.tilesetName = tilesetName;
+    }
+
+    public String getTilesetOwnedBy() {
+        return tilesetOwnedBy;
+    }
+
+    public void setTilesetOwnedBy(String tilesetOwnedBy) {
+        this.tilesetOwnedBy = tilesetOwnedBy;
     }
 }

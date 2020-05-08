@@ -12,5 +12,5 @@ public interface TilesetSharedWithRepository extends JpaRepository<TilesetShared
     TilesetSharedWithEntity has userName and tilesetId fields
     Can iterate through these to get all tilesets a user has access to
     */
-    List<TilesetSharedWithEntity> findByUserName(String username);
+    List<TilesetSharedWithEntity> findBySharedWithUsername(String sharedWithUsername);
 }

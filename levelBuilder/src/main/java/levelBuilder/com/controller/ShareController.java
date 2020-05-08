@@ -84,8 +84,8 @@ public class ShareController {
 		}
 
 		TilesetSharedWithEntity share = new TilesetSharedWithEntity();
-		share.setTilesetId(Integer.parseInt(tilesetId)); //turn tilesetId String into an int
-		share.setUserName(existingUser.getUsername());
+//		share.setTilesetId(Integer.parseInt(tilesetId)); //turn tilesetId String into an int
+//		share.setUserName(existingUser.getUsername());
 
 		MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		share.setSharedByUsername(myUserDetails.getUsername()); //the person who shared is the one currently logged in

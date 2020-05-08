@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository //for these repositories, we don't need to implement the methods as long as we name them "findBy--" correctly
 public interface ImagesAddedToTilesetRepository extends JpaRepository<ImagesAddedToTilesetEntity, Integer> {
-    List<ImagesAddedToTilesetEntity> findByTilesetId(int tilesetId); //find all the images associated with a certain tileset
+    List<ImagesAddedToTilesetEntity> findByTilesetNameAndTilesetOwnedBy(String tilesetName, String tilesetOwnedBy);
 }

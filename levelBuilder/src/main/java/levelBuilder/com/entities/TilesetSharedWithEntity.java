@@ -8,9 +8,10 @@ public class TilesetSharedWithEntity {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
-    private String userName;
-    private int tilesetId;
     private String sharedByUsername;
+    private String sharedWithUsername;
+    private String tilesetName;
+    private String tilesetOwnedBy;
 
     public int getId() {
         return id;
@@ -20,27 +21,35 @@ public class TilesetSharedWithEntity {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public int getTilesetId() {
-        return tilesetId;
-    }
-
-    public void setTilesetId(int tilesetId) {
-        this.tilesetId = tilesetId;
-    }
-
     public String getSharedByUsername() {
         return sharedByUsername;
     }
 
     public void setSharedByUsername(String sharedByUsername) {
         this.sharedByUsername = sharedByUsername;
+    }
+
+    public String getSharedWithUsername() {
+        return sharedWithUsername;
+    }
+
+    public void setSharedWithUsername(String sharedWithUsername) {
+        this.sharedWithUsername = sharedWithUsername;
+    }
+
+    public String getTilesetName() {
+        return tilesetName;
+    }
+
+    public void setTilesetName(String tilesetName) {
+        this.tilesetName = tilesetName;
+    }
+
+    public String getTilesetOwnedBy() {
+        return tilesetOwnedBy;
+    }
+
+    public void setTilesetOwnedBy(String tilesetOwnedBy) {
+        this.tilesetOwnedBy = tilesetOwnedBy;
     }
 }
