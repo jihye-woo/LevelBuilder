@@ -429,7 +429,7 @@ function loadAll_Tileset(){
     // document.getElementsByClassName('Grid')[0].appendChild(newImage);
     var newTileset = parseTilesetJson(tilesetJson, newImage);
     console.log(newTileset);
-    editor.loadTileset(newTileset);
+    // editor.loadTileset(newTileset);
   });
 }
 

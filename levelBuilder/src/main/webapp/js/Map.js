@@ -96,9 +96,26 @@ function showList(Llist){ // Llist == layer lists in current Map
     while (list1.hasChildNodes()) {
         list1.removeChild(list1.firstChild);
     }
-    
-    Llist.forEach(function(layer){ // listing by order
-        // reorder the layer list
+    // var newl = reverseList(Llist);
+    // Llist.forEach(function(layer){ // listing by order
+    //     // reorder the layer list
+    //     var li = document.createElement("li");
+    //     li.id = layer.order;
+    //     var inputValue = layer.name;
+    //     var layername = document.createTextNode(inputValue);
+    //     li.appendChild(layername);
+    //     var visibleButton = createVisibleButton(layer);
+    //     li.appendChild(visibleButton);
+    //     li.className = "layerlist";
+    //     document.getElementById("myUL").appendChild(li);
+
+    //     // reorder the real canvas layer 
+    //     layer.canvasLayer.canvas.style.zIndex = li.id;
+    //     // console.log("order "+ layer.order + " vs "+li.id);
+    // });
+
+    for(var i=Llist.size-1; i>-1; i--){
+        var layer = Llist.get(i);
         var li = document.createElement("li");
         li.id = layer.order;
         var inputValue = layer.name;
@@ -111,8 +128,7 @@ function showList(Llist){ // Llist == layer lists in current Map
 
         // reorder the real canvas layer 
         layer.canvasLayer.canvas.style.zIndex = li.id;
-        // console.log("order "+ layer.order + " vs "+li.id);
-    });
+    }
 }
 
 function createVisibleButton(layer){
