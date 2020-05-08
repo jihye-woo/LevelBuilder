@@ -162,6 +162,7 @@ function newTabBtn() {
   var tilesetH;
   var tilesetW;
   var spacing;
+  var getCanvas;
 
   function newTabBtn2() {
     var tilesetName = document.getElementById("TilesetName").value;
@@ -190,10 +191,14 @@ function newTabBtn() {
   document.getElementById("newTab").addEventListener("click", function(e) {
     currentTileSetName = e.target.innerHTML;
     openTilesetTab(e, e.target.innerHTML); 
-    singlecanvas = currentTileSetName+"1";
-    imgSource = document.getElementById(singlecanvas).toDataURL(); 
-    loadImg.src = imgSource;
+    // singlecanvas = currentTileSetName+"1";
+    // imgSource = document.getElementById(singlecanvas).toDataURL(); 
+    // loadImg.src = imgSource;
     editor.currentTileset = getTileset(currentTileSetName);
+    // canvasT = document.getElementById(currentTileSetName+"1");
+    getCanvas = document.getElementById(currentTileSetName+"1");
+    tilesetH = editor.currentTileset.tileList[0].tileHeight;
+    tilesetW = editor.currentTileset.tileList[0].tileWidth;
   });
 
   function getTileset(tabName){
@@ -216,7 +221,7 @@ function newTabBtn() {
       canvasT2.setAttribute('id', singlecanvas+"2"); 
       document.getElementById(currentTileSetName).appendChild(canvasT);
       document.getElementById(currentTileSetName).appendChild(canvasT2);
-      var getCanvas = document.getElementById(currentTileSetName+"1");
+      getCanvas = document.getElementById(currentTileSetName+"1");
 
       getCanvas.addEventListener('click', function(event) {
         var mousePos = getMousePos(getCanvas, event);
@@ -236,7 +241,7 @@ function newTabBtn() {
        loadImg.addEventListener('load',loadImage,false);
          };
      }
-   
+
    var colT;
    var rowT;
    var totalWidth;
@@ -253,7 +258,8 @@ function newTabBtn() {
      var tilecount = colT * rowT; 
     tilesetCanvas = document.getElementById(singlecanvas);
     tilesetCanvas2 = document.getElementById(singlecanvas+"2");
-    imgSource = document.getElementById(singlecanvas).toDataURL();    
+    // imgSource = document.getElementById(singlecanvas).toDataURL();    
+     imgSource = loadImg.src;
      ctxT = tilesetCanvas.getContext('2d');
      ctxTbase = tilesetCanvas2.getContext('2d');
      tilesetCanvas.width = totalWidth;

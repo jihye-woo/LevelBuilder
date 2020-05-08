@@ -188,13 +188,17 @@ class TiledLayer extends Layer{
 
     fillTiles(x, y, canvas){
         // this.canvasLayer.canvas.getContext("2d").fillStyle = "#FF9896";
-        //this.canvasLayer.canvas.getContext("2d").fillRect(this.tileW*x, this.tileH*y, this.tileW, this.tileH);
+        // this.canvasLayer.canvas.getContext("2d").fillRect(this.tileW*x, this.tileH*y, this.tileW, this.tileH);
         // After clicking collection of Images ->
         // var img = document.getElementById(currentTileID);
         // this.canvasLayer.canvas.getContext("2d").drawImage(img, this.tileW*x, this.tileH*y);
         // var imgTo = ctxT.getImageData(tileList[index].xPos, tileList[index].yPos, tileList[index].tw, tileList[index].th)
         //this.canvasLayer.canvas.getContext("2d").putImageData(imgToDraw, this.tileW*x, this.tileH*y);
-        this.canvasLayer.canvas.getContext("2d").drawImage(loadImg,tileList[index].xPos, tileList[index].yPos,tileList[index].tw, tileList[index].th, this.tileW*x, this.tileH*y, tileList[index].tw, tileList[index].th );
+        tileList = editor.currentTileset.tileList;
+        var imgg = new Image();
+        // console.log("fill "+editor.currentTileset.tileList[index].src );
+        imgg.src = editor.currentTileset.tileList[index].src;
+        this.canvasLayer.canvas.getContext("2d").drawImage(imgg,tileList[index].startX, tileList[index].startY,tileList[index].tileWidth, tileList[index].tileHeight, this.tileW*x, this.tileH*y, tileList[index].tileWidth, tileList[index].tileHeight );
         this.csv[x][y] = 1;
     }
 }
