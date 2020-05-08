@@ -1,8 +1,6 @@
 package levelBuilder.com.controller;
 
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -11,7 +9,6 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,16 +16,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 
-import levelBuilder.com.MyUserDetails;
 import levelBuilder.com.entities.LayerEntity;
 import levelBuilder.com.entities.LayerPropertiesEntity;
 import levelBuilder.com.entities.MapEntity;
-import levelBuilder.com.entities.UserEntity;
+import levelBuilder.com.entities.TilesetEntity;
 import levelBuilder.com.repositories.LayerPropertiesRepository;
 import levelBuilder.com.repositories.LayerRepository;
 import levelBuilder.com.repositories.MapRepository;
+import levelBuilder.com.repositories.TilesetRepository;
 import levelBuilder.com.repositories.UserRepository;
 
 @RestController
@@ -50,6 +46,9 @@ public class FileController {
 	
 	@Autowired
 	LayerPropertiesRepository layerPropRepository;
+	
+	@Autowired
+	TilesetRepository tilesetRepository;
 	
 	FileController(){
 		object.put("sending", 0);
@@ -120,6 +119,13 @@ public class FileController {
 		System.out.println(result.toString());
 		
 		return new ResponseEntity<>(result.toString(), HttpStatus.CREATED);
+	}
+	
+	@RequestMapping(value="/save_tileset", method=RequestMethod.POST)
+	public ResponseEntity<String> saveTileset(@RequestBody TilesetEntity tileset) {
+		// save map data
+		tilesetRepository.save(tileset);
+		return new ResponseEntity<>(object.toString(), HttpStatus.CREATED);
 	}
 	
 //	@RequestMapping(value="/load_layer", method=RequestMethod.POST)
