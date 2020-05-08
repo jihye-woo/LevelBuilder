@@ -268,7 +268,7 @@ function newTabBtn() {
     tilesetCanvas = document.getElementById(singlecanvas);
     tilesetCanvas2 = document.getElementById(singlecanvas+"2");
     // imgSource = document.getElementById(singlecanvas).toDataURL();    
-     imgSource = loadImg.src;
+    //  imgSource = loadImg.src;
      ctxT = tilesetCanvas.getContext('2d');
      ctxTbase = tilesetCanvas2.getContext('2d');
      tilesetCanvas.width = totalWidth;
@@ -276,9 +276,9 @@ function newTabBtn() {
      tilesetCanvas2.width = loadImg.width;
      tilesetCanvas2.height = loadImg.height;
      tilesetCanvas.style.border = "1px solid black";
-     createTileSet(currentTileSetName, imgSource, loadImg.width, loadImg.height, tilesetW, tilesetH, spacing, colT, tilecount);
+     createTileSet(currentTileSetName, loadImg, loadImg.width, loadImg.height, tilesetW, tilesetH, spacing, colT, tilecount);
      ctxTbase.drawImage(loadImg, 0, 0, loadImg.width, loadImg.height, 0, 0, loadImg.width, loadImg.height);
-     tileList = createSingleTiles(currentTileSetName, imgSource, tilesetW, tilesetH, spacing);
+     tileList = createSingleTiles(currentTileSetName, loadImg, tilesetW, tilesetH, spacing);
     //  tileList = editor.currentTileset.createSingleTiles(currentTileSetName, imgSource, tilesetW, tilesetH, spacing);
     drawTile();
     }

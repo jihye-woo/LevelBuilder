@@ -110,7 +110,8 @@ function showList(Llist){ // Llist == layer lists in current Map
         document.getElementById("myUL").appendChild(li);
 
         // reorder the real canvas layer 
-        layer.canvasLayer.canvas.style.zIndex = layer.order;
+        layer.canvasLayer.canvas.style.zIndex = li.id;
+        // console.log("order "+ layer.order + " vs "+li.id);
     });
 }
 
