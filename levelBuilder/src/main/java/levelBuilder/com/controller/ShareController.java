@@ -63,7 +63,7 @@ public class ShareController {
 	}
 
 	@GetMapping("/share-tileset")
-	public String shareTileset(@RequestParam("tilesetId") String tilesetId, Model model) {
+	public String shareTileset(@RequestParam("tilesetName") String tilesetName, @RequestParam("ownedBy") String ownedBy, Model model) {
 
 		model.addAttribute("userToShareWith", new UserEntity());
 		return "shareTileset.jsp";
@@ -71,7 +71,7 @@ public class ShareController {
 
 	//share a tileset with a user
 	@PostMapping("/share-tileset")
-	public String shareTileset(@RequestParam("tilesetId") String tilesetId, @ModelAttribute("userToShareWith") UserEntity user, BindingResult bindingResult) {
+	public String shareTileset(@RequestParam("tilesetName") String tilesetName, @RequestParam("ownedBy") String ownedBy, @ModelAttribute("userToShareWith") UserEntity user, BindingResult bindingResult) {
 		UserEntity existingUser = userRepository.findByEmail(user.getEmail());
 
 		if (existingUser == null){ //email doesnt exist
@@ -84,8 +84,9 @@ public class ShareController {
 		}
 
 		TilesetSharedWithEntity share = new TilesetSharedWithEntity();
-//		share.setTilesetId(Integer.parseInt(tilesetId)); //turn tilesetId String into an int
-//		share.setUserName(existingUser.getUsername());
+		share.setTilesetName(tilesetName);
+		share.setTilesetOwnedBy(ownedBy);
+		share.setSharedWithUsername(existingUser.getUsername());
 
 		MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		share.setSharedByUsername(myUserDetails.getUsername()); //the person who shared is the one currently logged in
