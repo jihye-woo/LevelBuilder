@@ -358,19 +358,20 @@ class Editor{
    //$("canvas").detach(); remove all canvas
    
    loadTileset(tileset){
-     if(isExist){
+    //  if(!this.isExist()){
       this.loadedTilesetList.push(tileset);
       this.currentTileset = tileset;
-    }
+    // }
    }
-   isExist(list, target){
-     list.forEach(function(loadedtileset){
-      if(loadedtileset.name == target.name){
-        return true;
-      }
-    });
-    return false;
-   }
+  //  isExist(){
+  //   var list = this.loadedTilesetList;
+  //   list.forEach(function(loadedtileset){
+  //     if(list.name == target.name){
+  //       return true;
+  //     }
+  //   });
+  //   return false;
+  //  }
 
    closeMap(){
       

@@ -81,6 +81,7 @@ function loadMap(map){
     editor.grid= new Grid(map.mapWidth, map.mapHeight, map.tileWidth, map.tileHeight);
     editor.grid.showOrHide();
     if(editor.currentMap){// if currentMap is existed
+      console.log("run");
       editor.clearWorkspace();
     }
     editor.currentMap = map;
@@ -418,15 +419,17 @@ function loadAll_Map(){
 function loadAll_Tileset(){
   var fileName = document.getElementById('loadFileName').value;
   var loadTilesetJSON = {"name" : fileName, "username" : editor.userName};
+  var tilesetJson;
   loadDataFromDB(loadTilesetJSON, "load_tileset")
   .then(jsonData => {
+    tilesetJson = jsonData.tileset;
     return parseImageJson(jsonData.image);
   }).then(newImage => {
     console.log(newImage);
-    var newTileset = parseTilesetJson(jsonData.tileset, newImage);
+    // document.getElementsByClassName('Grid')[0].appendChild(newImage);
+    var newTileset = parseTilesetJson(tilesetJson, newImage);
     console.log(newTileset);
-    // editor.loadTileset(newTileset);
-    console.log(newTileset);
+    editor.loadTileset(newTileset);
   });
 }
 
@@ -553,13 +556,15 @@ function parseLayerJson(layers, map){
   return layerList;
 }
 
-function parseImageJson(imageData){
+function parseImageJson(imageData, mime = "image/png", imgWidth, imgHeight){
   return new Promise((resolve, reject)=> {
-    var newImage = new Image();
+    URL.createObjectURL(new Blob([imageData] , {type:mime}));
+    var newImage = new Image(imgWidth, imgHeight);
     newImage.onload = function(){
-      newImage.src = imageData.image;
       resolve(newImage);
     };
+    newImage.src = 'data:'+ mime + ';base64,'+ imageData.image;
+    // newImage.src = imageData.image;
   });
 }
 
