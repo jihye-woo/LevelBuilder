@@ -287,10 +287,12 @@
             <div class="newline"></div> 
             <label for="loadFileName">File Name :</label>
               <input type="text" placeholder="name" id="loadFileName"/>
+              Load Map: <input type="checkbox" id="selectLoadMap" onclick = "selectLoadOption(this.id)">
+              Load Tileset: <input type="checkbox" id="selectLoadTileset" onclick="selectLoadOption(this.id)">
           </div>
           <div class="window-actions">
             <div class="surface btn" onclick="cancelload()">Cancel</div>
-            <div class="surface btn" onclick="loadAll_Map()">OK</div> 
+            <div class="surface btn" onclick="loadFile()">OK</div> 
           </div>
       </div>
 

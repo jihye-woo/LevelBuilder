@@ -14,6 +14,12 @@ function myCheck() {
   }
 }
 
+function selectLoadOption(selectedId){
+  (selectedId == "selectLoadMap")? 
+    document.getElementById("selectLoadTileset").checked = false 
+  : document.getElementById("selectLoadMap").checked = false;
+}
+
 let windowBackgroundTint = document.querySelector(".window-tint");
 let createMapWindow = document.querySelector("#create-map-window");
 let createTileSetWindow = document.querySelector("#create-tileset-window");
@@ -381,6 +387,18 @@ function save(){
   }
 }
 
+function loadFile(){
+  var selectMap = document.getElementById("selectLoadMap");
+  var selectTileset = document.getElementById("selectLoadTileset");
+  if(selectMap.checked == true){
+    loadAll_Map();
+  } else if(selectTileset == true){
+    loadAll_Tileset();
+  } else{
+    alert("Please select the type of file to load!");
+  }
+}
+
 function loadAll_Map(){
   var fileName = document.getElementById('loadFileName').value;
   var loadMapJSON = {"mapName" : fileName};
@@ -626,7 +644,7 @@ function getTilesetJSON(tileset){
 }
 
 function getImageJSON(tileset, mime = "image/png"){
-  var imageJson = { 
+  var imageJson = {
     // "id" : 0,
     "tilesetName" : tileset.name,
     "tilesetOwnedBy" : editor.userName
