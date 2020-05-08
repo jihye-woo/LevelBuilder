@@ -1,4 +1,3 @@
-
 class Grid{
     constructor(width, height, tileW, tileH){
         let canvas = document.createElement("canvas");

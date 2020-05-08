@@ -529,6 +529,7 @@ function mySelect() {
         } else {
           newLayer = new ObjectLayer(layerData.id, layerData.name, map.mapWidth, map.mapHeight);
         }
+        newLayer.csv = convertCSVToArray(layer.csv, Array(map.mapWidth), map.mapHeight);
         newLayer.order = layerData.orderInMap;
         layerList.set(layerList.size, newLayer);
       });
@@ -550,10 +551,35 @@ function getMapJSON(mapData, mapName){
   }
 }
 
+function convertArrayToCSV(csvArray, csv = ""){
+  csvArray.forEach(function(rowArray) {
+    let rowText = rowArray.join(",");
+    csv += rowText + "\n";
+});
+  csv.replace("undefined", "");
+  return csv;
+}
+
+function convertCSVToArray(csv, csvArray, size){
+  let result = new Array();
+  csvArray = csv.split("\n", size);
+  csvArray.forEach(function(rowText){
+    let rowArray = new Array(size);
+    // each row in rowArray
+    // 1. turns into String (like "0,0,0,0,0,0,0")
+    rowArray = rowText.split(',');
+    // 2. turns into integers
+    rowArray = rowArray.map(num => parseInt(num, 10));
+    // 3. push to the return variable
+    result.push(rowArray);
+  });
+  return result;
+}
+
 function getLayerJSON(LayerData){
   let layers = [];
   let layerProps = [];
-  
+
   LayerData.forEach(function(layer){
     console.log(layer);
     layers.push({
@@ -561,7 +587,8 @@ function getLayerJSON(LayerData){
       "name" : layer.name,
       "mapName" : layer.mapName,
       "orderInMap" : layer.order,
-      "type" : layer.type
+      "type" : layer.type,
+      "csv" : convertArrayToCSV(layer.csv)
     });
     
     let layerPropData = layer.layerProp;
