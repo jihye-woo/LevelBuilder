@@ -1,4 +1,3 @@
-
 class Grid{
     constructor(width, height, tileW, tileH){
         let canvas = document.createElement("canvas");
@@ -58,7 +57,7 @@ class Grid{
     }
 
 }
-class Canvas{
+class TiledCanvas{
     constructor(width, height, tileW, tileH, layer){
          // should be get a layer
         let canvas = document.createElement("canvas");
@@ -83,7 +82,32 @@ class Canvas{
         console.log("showCanvas, will be implemented after tileset function is done");
     }
 }
+class ObjectCanvas{
+    constructor(width, height, layer){
+         // should be get a layer
+        let canvas = document.createElement("canvas");
+        canvas.id = layer.id;
+        canvas.addEventListener('click', function(event) {
+            var mousePos = getMousePos(canvas, event);
+            var row = Math.floor(mousePos.x);
+            var col = Math.floor(mousePos.y);
+            var message = 'Mouse position: ' + row  + ',' + col;
 
+            layer.fillObject(row, col);
+            console.log(message);
+        });
+        this.w = canvas.width = width;
+        this.h = canvas.height = height;
+        this.canvas = document.getElementsByClassName('Map')[0].appendChild(canvas);
+        this.ctx = canvas.getContext("2d");
+    }
+    hideCanvas(){
+        this.ctx.clearRect(0, 0, this.w, this.h);
+    }
+    showCanvas(layer){
+        console.log("showCanvas, will be implemented after tileset function is done");
+    }
+}
 class Tilecursor{
         constructor(canvas, x, y, tileWidth, tileHeight){
             this.canvas = canvas;
