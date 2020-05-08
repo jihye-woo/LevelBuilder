@@ -76,11 +76,9 @@ class TiledCanvas{
         this.ctx = canvas.getContext("2d");
     }
     hideCanvas(){
-        // this.ctx.clearRect(0, 0, this.w, this.h);
-        this.canvas.style.display="none";
+        document.getElementById(this.canvas.id).style.display="none";
     }
     showCanvas(layer){
-        // console.log("showCanvas, will be implemented after tileset function is done");
         this.canvas.style.display="block";
     }
 }

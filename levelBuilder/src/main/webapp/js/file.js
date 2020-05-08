@@ -150,6 +150,7 @@ function newTabBtn() {
   var workspace = document.createElement("div");
   workspace.setAttribute('class', 'tilesetContent');
   workspace.setAttribute('id', tilesetName);
+  workspace.setAttribute('style', 'max-height: 220px; max-width:560px; overflow: scroll;');
   document.getElementById("tilesetWorkspace").appendChild(workspace);
 
   currentTileSetName = tilesetName;
