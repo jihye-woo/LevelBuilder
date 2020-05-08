@@ -339,7 +339,7 @@
           </div>
         </div>
 <script>
-var editor;
+let editor;
 
 class Editor{
    constructor(){

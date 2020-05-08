@@ -334,7 +334,7 @@ var index;
 
 function saveAll_Tileset(newTileset){
   let jsonTileset = getTilesetJSON(newTileset);
-  saveTileset(jsonTileset);
+  saveDataToDB(jsonTileset, "save_tileset");
 }
 
 function saveAll_Map(newMap, newLayers, mapName){
@@ -342,9 +342,9 @@ function saveAll_Map(newMap, newLayers, mapName){
   let jsonLayers = getLayerJSON(newLayers);
   console.log(jsonMap);
 
-  let saveMapResult = saveMap(jsonMap);
-  let saveLayerResult = saveLayer(jsonLayers["layers"]);
-  let saveLayerPropResult = saveLayerProp(jsonLayers["layerProps"]);
+  let saveMapResult = saveDataToDB(jsonMap, "save_map");
+  let saveLayerResult = saveDataToDB(jsonLayers["layers"], "save_layer");
+  let saveLayerPropResult = saveDataToDB(jsonLayers["layerProps"], "save_layerProp");
 
   //$.when(saveMapResult, saveLayerResult, saveLayerPropResult).then(function(){
     // loadAll(newMap.id)
@@ -600,79 +600,19 @@ function getTilesetJSON(tileset){
     "imagewidth" : tileset.imgWidth,
     "imageheight" : tileset.imgHeight,
     "columns" : tileset.columns,
+    "counts" : tileset.tilecount,
     "tilewidth" : tileset.tileWidth,
     "tileheight" : tileset.tileHeight
   }
 }
 
-function saveMap(map){
-  var save_endpoint = "save_map";
+
+function saveDataToDB(savingData, save_endpoint){
     return $.ajax({
       type : "POST",
       contentType: "application/json",
       url : "/fileController/" + save_endpoint,
-      data : JSON.stringify(map),
-      dataType : 'json',
-      processData: false, 
-      
-      error : function(error){
-        return error;
-      },
-      success : function(data) {
-        console.log(data);
-        return data;
-      }
-    });
-}
-
-function saveLayer(layer){
-  var save_endpoint = "save_layer";
-    return $.ajax({
-      type : "POST",
-      contentType: "application/json",
-      url : "/fileController/" + save_endpoint,
-      data : JSON.stringify(layer),
-      dataType : 'json',
-      processData: false,
-    
-      error : function(error){
-        return error;
-      },
-      success : function(data) {
-        console.log(data);
-        return data;
-      }
-  });
-}
-
-function saveLayerProp(layerProp){
-  var save_endpoint = "save_layerProp";
-    return $.ajax({
-      type : "POST",
-      contentType: "application/json",
-      url : "/fileController/" + save_endpoint,
-      data : JSON.stringify(layerProp),
-      dataType : 'json',
-      processData: false, 
-    
-      error : function(error){
-        return error;
-      },
-      success : function(data) {
-        console.log(data);
-        return data;
-      }
-});
-}
-
-
-function saveTileset(tileset){
-  var save_endpoint = "save_tileset";
-    return $.ajax({
-      type : "POST",
-      contentType: "application/json",
-      url : "/fileController/" + save_endpoint,
-      data : JSON.stringify(layerProp),
+      data : JSON.stringify(savingData),
       dataType : 'json',
       processData: false, 
     
