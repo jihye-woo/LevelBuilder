@@ -24,6 +24,9 @@ class Tile{
 class SingleImageTileset extends Tileset{
 	constructor(name, src, imgWidth, imgHeight, tileWidth, tileHeight, spacing, columns, tilecount){
 		super(name, src, imgWidth, imgHeight, tileWidth, tileHeight);
+		this.spacing = spacing;
+		this.columns = columns;
+		this.tilecount = tilecount;
 		this.tileList= new Array(); 
 	}
 
