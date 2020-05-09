@@ -1,5 +1,6 @@
 package levelBuilder.com.controller;
 
+import levelBuilder.com.EmailSenderService;
 import levelBuilder.com.MyUserDetails;
 import levelBuilder.com.entities.MapSharedWithEntity;
 import levelBuilder.com.entities.TilesetSharedWithEntity;
@@ -8,6 +9,7 @@ import levelBuilder.com.repositories.MapSharedWithRepository;
 import levelBuilder.com.repositories.TilesetSharedWithRepository;
 import levelBuilder.com.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +30,9 @@ public class ShareController {
 
 	@Autowired
 	TilesetSharedWithRepository tilesetSharedWithRepository;
+
+	@Autowired
+	EmailSenderService emailSenderService;
 
 	@GetMapping("/share")
 	public String validateToken(@RequestParam("mapName") String mapName, Model model) {
@@ -58,6 +63,15 @@ public class ShareController {
 		share.setSharedByUsername(myUserDetails.getUsername()); //the person who shared is the one currently logged in!!
 
 		mapSharedWithRepository.save(share);
+
+		//send email notifying user
+		SimpleMailMessage email = new SimpleMailMessage();
+		email.setFrom("levelbuilder416@gmail.com");
+		email.setTo(existingUser.getEmail()); //send to the user who it has been shared with
+		email.setSubject(myUserDetails.getUsername() + " has shared a project with you");
+		email.setText(myUserDetails.getUsername() + " has shared with you a project titled: " + mapName  +
+				"\nLog in to Level Builder to view: " + "http://levelbuilder.azurewebsites.net/my-projects");
+		emailSenderService.sendEmail(email);
 
 		return "shareSuccess.jsp";
 	}
@@ -92,6 +106,15 @@ public class ShareController {
 		share.setSharedByUsername(myUserDetails.getUsername()); //the person who shared is the one currently logged in
 
 		tilesetSharedWithRepository.save(share);
+
+		//send email notifying user
+		SimpleMailMessage email = new SimpleMailMessage();
+		email.setFrom("levelbuilder416@gmail.com");
+		email.setTo(existingUser.getEmail()); //send to the user who it has been shared with
+		email.setSubject(myUserDetails.getUsername() + " has shared a tileset with you");
+		email.setText(myUserDetails.getUsername() + " has shared with you a tileset titled: " + tilesetName  +
+				"\nLog in to Level Builder to view: " + "http://levelbuilder.azurewebsites.net/my-tilesets");
+		emailSenderService.sendEmail(email);
 
 		return "shareTilesetSuccess.jsp";
 	}
