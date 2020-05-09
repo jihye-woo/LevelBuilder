@@ -148,9 +148,9 @@
                 <div class="surface btn req-layer" id="btn-layer-duplicate" title="Duplicate layer"
                   onclick="duplicateLayer()"><i class="fa fa-files-o"></i></div>
                 <div class="surface btn req-layer" id="btn-layer-up" title="Move group or layer upwards"
-                  onclick="moveLayerDown()"><i class="fa fa-arrow-up"></i></div>
+                  onclick="moveLayerUp()"><i class="fa fa-arrow-up"></i></div>
                 <div class="surface btn req-layer" id="btn-layer-down" title="Move group or layer downwards"
-                  onclick="moveLayerUp()"><i class="fa fa-arrow-down"> </i></div>
+                  onclick="moveLayerDown()"><i class="fa fa-arrow-down"> </i></div>
                 <div class="surface btn req-layer" id="btn-layer-remove" title="Remove group or layer"
                   onclick="removeLayer()"><i class="fa fa-trash-o"> </i></div>
               </div>

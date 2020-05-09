@@ -1,4 +1,5 @@
 var idL=0;
+var dup=2;
 var selectedLayerName;
 class TiledMap{
     constructor(id, mapWidth, mapHeight, tileWidth, tileHeight){
@@ -37,13 +38,15 @@ class TiledMap{
 
     duplicateLayers(targetId){
         let targetLayer = this.LayerList.get(targetId);
+        let newName = targetLayer.name + "(" + dup + ")";
         let index = this.LayerList.size;
-        var newLayer = Object.assign({}, targetLayer, {id : index});
+        var newLayer = Object.assign({}, targetLayer, {name: newName, id : index});
         this.LayerList.set(index, newLayer);
+        dup += 1;
     }
 
     updateOrder(targetId, layers, move){
-        layers.get(targetId).order  = targetId-1;
+        layers.get(targetId).order  = targetId+move;
         layers.get(targetId+move).order  = targetId;
             
         // update LayerList order
@@ -56,14 +59,18 @@ class TiledMap{
     }
     
     lowerLayer(targetId, layers){
-        if(targetId < layers.size-1){
-            this.updateOrder(targetId, layers, 1);
+        if(targetId > 0){
+            this.updateOrder(targetId, layers, -1);
+        }else {
+            alert("Cannot lower layer");
         }
     }
 
     upperLayer(targetId, layers){
-        if(targetId> 0){
-           this.updateOrder(targetId, layers, -1);
+        if(targetId < layers.size-1){
+           this.updateOrder(targetId, layers, 1);
+        }else {
+            alert("Cannot upper layer");
         }
     }
 }
@@ -73,7 +80,6 @@ function createNewLayer(layerType, name) {
 	currentMap.addLayer(layerType, name);
     var layers = currentMap.LayerList;
     showList(layers);
-	//showLayers(layers);
 }
 
 function removeLayer(){
@@ -88,8 +94,6 @@ function removeLayer(){
 
 document.getElementById("myUL").addEventListener("click", function(e) {
     if (e.target && e.target.matches("li.layerlist")) {
-    //   e.target.className = "foo"; // new class name here
-    //   alert("clicked " + e.target.innerText);
       editor.selectedLayerId = parseInt(e.target.id);
       selectedLayerName = e.target.innerText;
     }
@@ -166,7 +170,6 @@ function duplicateLayer(){
 function moveLayerDown(){
     var selectedLayerId = editor.selectedLayerId;
     var layers = editor.currentMap.LayerList;
-
     editor.currentMap.lowerLayer(selectedLayerId, layers);
 }
 
@@ -174,10 +177,6 @@ function moveLayerUp(){
     var selectedLayerId = editor.selectedLayerId;
     var layers = editor.currentMap.LayerList;
     editor.currentMap.upperLayer(selectedLayerId, layers);
-}
-
-function showLayers(layers){
-    // show the layers (UI)
 }
 
 class Layer{
