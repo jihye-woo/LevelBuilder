@@ -12,6 +12,10 @@ class TiledMap{
         this.selectedTilesetList = new Array();
     }
 
+    updateNextGid(size){
+        this.nextgid = this.nextgid + size;
+    }
+
     addLayer(layerType, name){
         var newLayer;
         var id = idL + 1;

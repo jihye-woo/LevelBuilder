@@ -189,26 +189,23 @@ function newTabBtn() {
     workspace.setAttribute('id', tilesetName);
     document.getElementById("tilesetWorkspace").appendChild(workspace);
     
-  
     currentTileSetName = tilesetName;
     singlecanvas =currentTileSetName +single;
     document.getElementById("TilesetName").value = "";
     closeWindow(createTileSetWindow);
-    createSingleTileset();
-   document.getElementById("myFile").value = "";
+    createTilesetCanvas();
+    document.getElementById("myFile").value = "";
     }
 
   document.getElementById("newTab").addEventListener("click", function(e) {
     currentTileSetName = e.target.innerHTML;
     openTilesetTab(e, e.target.innerHTML); 
-    // singlecanvas = currentTileSetName+"1";
-    // imgSource = document.getElementById(singlecanvas).toDataURL(); 
-    // loadImg.src = imgSource;
     editor.currentTileset = getTileset(currentTileSetName);
-    // canvasT = document.getElementById(currentTileSetName+"1");
     getCanvas = document.getElementById(currentTileSetName+"1");
     tilesetH = editor.currentTileset.tileList[0].tileHeight;
     tilesetW = editor.currentTileset.tileList[0].tileWidth;
+    spacing = editor.currentTileset.spacing;
+    colT = Math.floor(editor.currentTileset.imgWidth/ (tilesetW+spacing));
   });
 
   function getTileset(tabName){
@@ -224,7 +221,7 @@ function newTabBtn() {
 
   var loadImg;
   var canvasT
-     function createSingleTileset(){
+     function createTilesetCanvas(){
       canvasT = document.createElement("canvas");
       canvasT.setAttribute('id', singlecanvas); 
       canvasT2 = document.createElement("canvas");
@@ -259,15 +256,16 @@ function newTabBtn() {
    var tilesetCanvas;
    var tilesetCanvas2;
    var ctxT;
+   var tilecount;
 
    function loadImage(e){
      colT = Math.floor(loadImg.width / (tilesetW+spacing));
      rowT = Math.floor(loadImg.height / (tilesetH+spacing));
      totalWidth = tilesetW * colT;
      totalHeight = tilesetH * rowT;
-     var tilecount = colT * rowT; 
-    tilesetCanvas = document.getElementById(singlecanvas);
-    tilesetCanvas2 = document.getElementById(singlecanvas+"2");
+     tilecount = colT * rowT; 
+     tilesetCanvas = document.getElementById(singlecanvas);
+     tilesetCanvas2 = document.getElementById(singlecanvas+"2");
     // imgSource = document.getElementById(singlecanvas).toDataURL();    
     //  imgSource = loadImg.src;
      ctxT = tilesetCanvas.getContext('2d');
@@ -277,11 +275,15 @@ function newTabBtn() {
      tilesetCanvas2.width = loadImg.width;
      tilesetCanvas2.height = loadImg.height;
      tilesetCanvas.style.border = "1px solid black";
-     createTileSet(currentTileSetName, loadImg, loadImg.width, loadImg.height, tilesetW, tilesetH, spacing, colT, tilecount);
+     createSingleTileSetTiles();
      ctxTbase.drawImage(loadImg, 0, 0, loadImg.width, loadImg.height, 0, 0, loadImg.width, loadImg.height);
-     tileList = createSingleTiles(currentTileSetName, loadImg, tilesetW, tilesetH, spacing);
-    //  tileList = editor.currentTileset.createSingleTiles(currentTileSetName, imgSource, tilesetW, tilesetH, spacing);
-    drawTile();
+     drawTile();
+    openTilesetTab(e, currentTileSetName); 
+    }
+
+    function createSingleTileSetTiles(){
+      createTileSet(currentTileSetName, loadImg, loadImg.width, loadImg.height, tilesetW, tilesetH, spacing, colT, tilecount);
+      tileList = createSingleTiles(currentTileSetName, loadImg, tilesetW, tilesetH, spacing);
     }
 
 var index;
