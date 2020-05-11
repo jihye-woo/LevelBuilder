@@ -211,7 +211,7 @@
       </div>
     </div>
 
-    <div class="window surface" id="create-tileset-window">
+    <div class="window surface" id="create-tileset-window" style="z-index : 1000;">
         <div class="window-title-bar">
           <h4>New TileSet</h4>
           <div class="surface btn" onclick="cancelCreateTileSet()"><i class="fa fa-close"></i></div>

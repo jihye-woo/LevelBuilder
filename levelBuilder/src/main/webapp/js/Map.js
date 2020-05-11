@@ -33,6 +33,15 @@ class TiledMap{
     }
 
     removeLayer(targetId){
+        var layer = this.LayerList.get(targetId);
+        layer.canvasLayer.hideCanvas();
+        // var layList = this.LayerList;
+        
+        // var i=targetId;
+        while(layer.order<this.LayerList.size-1){
+            this.upperLayer(targetId, this.LayerList);
+
+        }
         this.LayerList.delete(targetId);
     }
 
@@ -40,7 +49,8 @@ class TiledMap{
         let targetLayer = this.LayerList.get(targetId);
         let newName = targetLayer.name + "(" + dup + ")";
         let index = this.LayerList.size;
-        var newLayer = Object.assign({}, targetLayer, {name: newName, id : index});
+        var newLayer = Object.assign({}, targetLayer, {name: newName, id : index, order: index});
+        // var newLayer = new TiledLayer(index, newName, this.mapWidth, this.mapHeight, this.id, this.tileWidth, this.tileHeight);
         this.LayerList.set(index, newLayer);
         dup += 1;
     }
@@ -55,7 +65,7 @@ class TiledMap{
         layers.set(targetId+move, temp);
         
         editor.selectedLayerId = targetId +move;
-        showList(layers);
+        // showList(layers);
     }
     
     lowerLayer(targetId, layers){
@@ -76,8 +86,8 @@ class TiledMap{
 }
 
 function createNewLayer(layerType, name) {
-	var currentMap = editor.currentMap;
-	currentMap.addLayer(layerType, name);
+   var currentMap = editor.currentMap;
+   currentMap.addLayer(layerType, name);
     var layers = currentMap.LayerList;
     showList(layers);
 }
@@ -104,23 +114,6 @@ function showList(Llist){ // Llist == layer lists in current Map
     while (list1.hasChildNodes()) {
         list1.removeChild(list1.firstChild);
     }
-    // var newl = reverseList(Llist);
-    // Llist.forEach(function(layer){ // listing by order
-    //     // reorder the layer list
-    //     var li = document.createElement("li");
-    //     li.id = layer.order;
-    //     var inputValue = layer.name;
-    //     var layername = document.createTextNode(inputValue);
-    //     li.appendChild(layername);
-    //     var visibleButton = createVisibleButton(layer);
-    //     li.appendChild(visibleButton);
-    //     li.className = "layerlist";
-    //     document.getElementById("myUL").appendChild(li);
-
-    //     // reorder the real canvas layer 
-    //     layer.canvasLayer.canvas.style.zIndex = li.id;
-    //     // console.log("order "+ layer.order + " vs "+li.id);
-    // });
 
     for(var i=Llist.size-1; i>-1; i--){
         var layer = Llist.get(i);
@@ -171,12 +164,14 @@ function moveLayerDown(){
     var selectedLayerId = editor.selectedLayerId;
     var layers = editor.currentMap.LayerList;
     editor.currentMap.lowerLayer(selectedLayerId, layers);
+    showList(layers);
 }
 
 function moveLayerUp(){
     var selectedLayerId = editor.selectedLayerId;
     var layers = editor.currentMap.LayerList;
     editor.currentMap.upperLayer(selectedLayerId, layers);
+    showList(layers);
 }
 
 class Layer{
@@ -281,4 +276,3 @@ class LayerProperties{
         } 
     }
 }
-

@@ -179,22 +179,31 @@ function newTabBtn() {
     tilesetH = Number(document.getElementById("tileSet-height").value);
     tilesetW = Number(document.getElementById("tileSet-width").value);
     spacing = Number(document.getElementById("spacing").value);
-    var btn = document.createElement("BUTTON");
+    createNewtab(tilesetName, tilesetH, tilesetW, spacing);
+    var read = document.getElementById("myFile").files[0];
+    readImageFile(read);
+    document.getElementById("TilesetName").value = "";
+    closeWindow(createTileSetWindow);
+    document.getElementById("myFile").value = "";
+    }
+
+  function createNewtab(name, tHeight, tWidth, spacing){
+      var btn = document.createElement("BUTTON");
     btn.setAttribute('class', 'tab-header2');
-    btn.innerHTML = tilesetName;
+    btn.innerHTML = name;
     document.getElementById("newTab").appendChild(btn);
   
     var workspace = document.createElement("div");
     workspace.setAttribute('class', 'tilesetContent');
-    workspace.setAttribute('id', tilesetName);
+    workspace.setAttribute('id', name);
     document.getElementById("tilesetWorkspace").appendChild(workspace);
     
-    currentTileSetName = tilesetName;
+    currentTileSetName = name;
     singlecanvas =currentTileSetName +single;
-    document.getElementById("TilesetName").value = "";
-    closeWindow(createTileSetWindow);
+
     createTilesetCanvas();
-    document.getElementById("myFile").value = "";
+    // var read = document.getElementById("myFile").files[0];
+    // readImageFile(read);
     }
 
   document.getElementById("newTab").addEventListener("click", function(e) {
@@ -237,16 +246,19 @@ function newTabBtn() {
         index = getIndex(col, row);
         console.log("index "+index +" img "+currentTileSetName);
     });
+     }
+
+     function readImageFile(read){
+      var oFReader = new FileReader();
+      oFReader.readAsDataURL(read);
+      // oFReader.readAsDataURL(document.getElementById("myFile").files[0]);
       
-       var oFReader = new FileReader();
-       oFReader.readAsDataURL(document.getElementById("myFile").files[0]);
-       
-       oFReader.onload = function (oFREvent) {
-         loadImg = new Image();
-         loadImg.src = oFREvent.target.result;
-         
-       loadImg.addEventListener('load',loadImage,false);
-         };
+      oFReader.onload = function (oFREvent) {
+        loadImg = new Image();
+        loadImg.src = oFREvent.target.result;
+        
+      loadImg.addEventListener('load',loadImage,false);
+        };
      }
 
    var colT;
@@ -275,16 +287,34 @@ function newTabBtn() {
      tilesetCanvas2.width = loadImg.width;
      tilesetCanvas2.height = loadImg.height;
      tilesetCanvas.style.border = "1px solid black";
-     createSingleTileSetTiles();
+     createTileSet(currentTileSetName, loadImg, loadImg.width, loadImg.height, tilesetW, tilesetH, spacing, colT, tilecount);
+     tileList = createSingleTiles(currentTileSetName, loadImg, tilesetW, tilesetH, spacing);
      ctxTbase.drawImage(loadImg, 0, 0, loadImg.width, loadImg.height, 0, 0, loadImg.width, loadImg.height);
      drawTile();
     openTilesetTab(e, currentTileSetName); 
     }
 
-    function createSingleTileSetTiles(){
-      createTileSet(currentTileSetName, loadImg, loadImg.width, loadImg.height, tilesetW, tilesetH, spacing, colT, tilecount);
-      tileList = createSingleTiles(currentTileSetName, loadImg, tilesetW, tilesetH, spacing);
-    }
+    function loadImageDB(e){
+      colT = Math.floor(loadImg.width / (tilesetW+spacing));
+     rowT = Math.floor(loadImg.height / (tilesetH+spacing));
+     totalWidth = tilesetW * colT;
+     totalHeight = tilesetH * rowT;
+     tilecount = colT * rowT; 
+     tilesetCanvas = document.getElementById(singlecanvas);
+     tilesetCanvas2 = document.getElementById(singlecanvas+"2");
+     ctxT = tilesetCanvas.getContext('2d');
+     ctxTbase = tilesetCanvas2.getContext('2d');
+     tilesetCanvas.width = totalWidth;
+     tilesetCanvas.height = totalHeight;
+     tilesetCanvas2.width = loadImg.width;
+     tilesetCanvas2.height = loadImg.height;
+     tilesetCanvas.style.border = "1px solid black";
+     tileList = createSingleTiles(currentTileSetName, loadImg, tilesetW, tilesetH, spacing);
+     ctxTbase.drawImage(loadImg, 0, 0, loadImg.width, loadImg.height, 0, 0, loadImg.width, loadImg.height);
+     drawTile();
+    // openTilesetTab(e, currentTileSetName); 
+    //  openTilesetTab(e, currentTileSetName); 
+     }
 
 var index;
       function drawTile(){
@@ -418,6 +448,7 @@ function loadAll_Map(){
   closeWindow(loadWindow);
 }
 
+var loadedImg;
 function loadAll_Tileset(){
   var fileName = document.getElementById('loadFileName').value;
   var loadTilesetJSON = {"name" : fileName, "username" : editor.userName};
@@ -430,9 +461,19 @@ function loadAll_Tileset(){
     console.log(newImage);
     // document.getElementsByClassName('Grid')[0].appendChild(newImage);
     var newTileset = parseTilesetJson(tilesetJson, newImage);
-    console.log(newTileset);
+    // console.log("new@ "+ newTileset);
     // editor.loadTileset(newTileset);
-  });
+    var currentTS = editor.currentTileset;
+  createNewtab(currentTS.name, currentTS.tileHeight, currentTS.tileWidth, currentTS.spacing); 
+   loadImg = new Image();
+  loadImg.src = currentTS.image.src;
+  tilesetH = currentTS.tileHeight;
+  tilesetW = currentTS.tileWidth;
+  spacing = currentTS.spacing;        
+  loadImg.addEventListener('load',loadImageDB,false);
+  // loadImageDB(loadedImg);
+});
+  closeWindow(loadWindow);
 }
 
 var currentTileID;
