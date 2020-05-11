@@ -23,6 +23,7 @@ class TiledMap{
         console.log("idL "+ idL + "id: " +id);
         if (layerType === "tileLayer"){ 
           newLayer = new TiledLayer(id, name, this.mapWidth, this.mapHeight, this.id, this.tileWidth, this.tileHeight);
+          newLayer.order = editor.currentMap.LayerList.size;
          
         } else {
           newLayer = new ObjectLayer(id, name, this.mapWidth, this.mapHeight);
@@ -35,14 +36,18 @@ class TiledMap{
     removeLayer(targetId){
         var layer = this.LayerList.get(targetId);
         layer.canvasLayer.hideCanvas();
-        // var layList = this.LayerList;
-        
-        // var i=targetId;
-        while(layer.order<this.LayerList.size-1){
-            this.upperLayer(targetId, this.LayerList);
-
+         
+        //  var layerList = this.LayerList;
+        for(var i=0; i<this.LayerList.size; i++){
+            var check = this.LayerList.get(i).order;
+            if(check>layer.order){
+               this.LayerList.get(i).order -= 1;
+               var temp = this.LayerList.get(i);
+                // this.LayerList.set(i, this.LayerList.get(i-1));
+                this.LayerList.set(i-1, temp);
+            }
         }
-        this.LayerList.delete(targetId);
+        this.LayerList.delete(this.LayerList.size-1);      
     }
 
     duplicateLayers(targetId){
@@ -95,7 +100,7 @@ function createNewLayer(layerType, name) {
 function removeLayer(){
     var targetId = editor.selectedLayerId;
     if(targetId != null){
-        editor.currentMap.removeLayer(editor.selectedLayerId);
+        editor.currentMap.removeLayer(targetId);
         showList(editor.currentMap.LayerList);
     } else {
         alert("There is no layer to remove");
