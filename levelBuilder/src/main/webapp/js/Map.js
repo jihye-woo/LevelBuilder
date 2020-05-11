@@ -14,7 +14,7 @@ class TiledMap{
     }
 
     updateNextGid(size){
-        this.nextgid = this.nextgid + size;
+            this.nextgid = this.nextgid + size;
     }
 
     addLayer(layerType, name){
@@ -211,10 +211,10 @@ class TiledLayer extends Layer{
         //this.canvasLayer.canvas.getContext("2d").putImageData(imgToDraw, this.tileW*x, this.tileH*y);
         tileList = editor.currentTileset.tileList;
         var imgg = new Image();
-        // console.log("fill "+editor.currentTileset.tileList[index].src );
         imgg.src = editor.currentTileset.tileList[index].src;
         this.canvasLayer.canvas.getContext("2d").drawImage(imgg,tileList[index].startX, tileList[index].startY,tileList[index].tileWidth, tileList[index].tileHeight, this.tileW*x, this.tileH*y, tileList[index].tileWidth, tileList[index].tileHeight );
-        this.csv[x][y] = 1;
+        this.csv[x][y] = index + editor.currentMap.nextgid;
+        editor.currentMap.updateNextGid(editor.currentTileset.tilecount);
     }
 }
 

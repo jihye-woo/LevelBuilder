@@ -312,7 +312,6 @@ function newTabBtn() {
      tileList = createSingleTiles(currentTileSetName, loadImg, tilesetW, tilesetH, spacing);
      ctxTbase.drawImage(loadImg, 0, 0, loadImg.width, loadImg.height, 0, 0, loadImg.width, loadImg.height);
      drawTile();
-    // openTilesetTab(e, currentTileSetName); 
     //  openTilesetTab(e, currentTileSetName); 
      }
 
