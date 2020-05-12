@@ -3,11 +3,14 @@ class Grid{
         let canvas = document.createElement("canvas");
         this.grid = document.getElementsByClassName('Grid')[0].appendChild(canvas);
         this.ctx = canvas.getContext("2d");
-        this.w = canvas.width = (width*tileW);
-        this.h = canvas.height = (height*tileH);
+        this.w = (width*tileW);
+        this.h = (height*tileH);
+        this.canvasW = canvas.width = window.innerWidth;
+        this.canvasH = canvas.height = window.innerHeight;
         this.tileWidth = tileW;
         this.tileHeight = tileH;
         this.show = false;
+        this.isDragging = false;
     }
 
     resize(width, height, tileW, tileH){
@@ -15,7 +18,8 @@ class Grid{
         this.h = canvas.height = (height*tileH);
     }
  
-    showGrid(){
+    showGrid(offsetX=0, offsetY=0){
+        this.ctx.clearRect(0,0,this.canvasW, this.canvasH);
         let cols = this.w/this.tileWidth | 0;
         let rows = this.h/this.tileHeight | 0;
         
@@ -23,12 +27,12 @@ class Grid{
         this.ctx.strokeStyle = "lightgrey";
         this.ctx.beginPath();
 
-        for(let x =0 ; x<=cols * this.tileWidth ; x+=this.tileWidth) {
-            this.drawLine(x, 0, x, this.w);
+        for(let x =offsetX ; x<=offsetX+(cols * this.tileWidth) ; x+=this.tileWidth) {
+            this.drawLine(x, offsetY, x, offsetY+this.w);
         }
 
-        for(let y =0 ; y<=rows * this.tileHeight ; y+=this.tileHeight) {
-            this.drawLine(0, y, this.h, y);
+        for(let y =offsetY ; y<=offsetY+(rows * this.tileHeight) ; y+=this.tileHeight) {
+            this.drawLine(offsetX, y, offsetX+this.h, y);
         }
         this.ctx.stroke();
         this.ctx.beginPath();
@@ -56,7 +60,37 @@ class Grid{
         }
     }
 
+    onDragEvent(){
+        var gridCanvas = this.grid;
+        if(gridCanvas){
+            gridCanvas.addEventListener('mousedown', this.dragStart);
+            gridCanvas.addEventListener('mousemove', this.dragging);
+            gridCanvas.addEventListener('mouseup', this.dragEnd);
+        }
+    }
+
+    offDragEvent(){
+        var gridCanvas = this.grid;
+        gridCanvas.removeEventListener('mousedown', this.dragStart);
+        gridCanvas.removeEventListener('mousemove', this.dragging);
+        gridCanvas.removeEventListener('mouseup', this.dragEnd);
+    }
+
+    dragStart(e){
+       editor.grid.isDragging = true;
+    }
+
+    dragging(e){
+        if(editor.grid.isDragging){
+            var target = editor.grid;
+            target.showGrid(e.offsetX, e.offsetY);
+        }
+    }
+    dragEnd(e){
+        editor.grid.isDragging = false;
+    }
 }
+
 class TiledCanvas{
     constructor(width, height, tileW, tileH, layer){
          // should be get a layer

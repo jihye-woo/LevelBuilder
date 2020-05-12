@@ -373,20 +373,10 @@ class Editor{
    //$("canvas").detach(); remove all canvas
    
    loadTileset(tileset){
-    //  if(!this.isExist()){
       this.loadedTilesetList.push(tileset);
       this.currentTileset = tileset;
-    // }
    }
-  //  isExist(){
-  //   var list = this.loadedTilesetList;
-  //   list.forEach(function(loadedtileset){
-  //     if(list.name == target.name){
-  //       return true;
-  //     }
-  //   });
-  //   return false;
-  //  }
+ 
 
    closeMap(){
       
@@ -411,6 +401,7 @@ window.onload = (event) => {
 <script type="text/javascript" src="js/Map.js"></script>
 <script type="text/javascript" src="js/Tileset.js"></script>
 <script type="text/javascript" src="js/tilemap.js"></script>
+<script type="text/javascript" src="js/editor.js"></script>
 <script type="text/javascript" src="js/export.js"></script>
 <!-- <script type="text/javascript" src="js/npm.js"></script> -->
 <script type="text/javascript" src="js/FileSaver.js"></script>
