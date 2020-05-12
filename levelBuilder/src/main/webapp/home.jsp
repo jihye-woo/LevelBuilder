@@ -119,9 +119,9 @@
                   onclick="selectEditorTool('brush')"><i class="fa fa-paint-brush"></i></div>
                 <div class="surface btn" id="btn-editor-eraser" title="(2) Eraser tool - erase tile data"
                   onclick="selectEditorTool('eraser')"><i class="fa fa-eraser"></i></div>
-                <div class="surface btn" id="btn-editor-move"
+                <div class="surface btn" id="btn-editor-move" value = "doNotMove"
                   title="(3) Drag tool - pan around the map editor, you can also hold down (alt)"
-                  onclick="selectEditorTool('move')"><i class="fa fa-arrows"></i></div>
+                  onclick="moveGrid(this)"><i class="fa fa-arrows"></i></div>
                 <div class="surface btn" id="btn-editor-zout" title="(-) Zoom out" onclick="zoomOut()"><i
                     class="fa fa-search-minus"></i></div>
                 <div class="surface btn" id="btn-editor-zin" title="(+) Zoom in" onclick="zoomIn()"><i

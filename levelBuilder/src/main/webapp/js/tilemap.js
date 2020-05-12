@@ -9,7 +9,7 @@ class Grid{
         this.canvasH = canvas.height = window.innerHeight;
         this.tileWidth = tileW;
         this.tileHeight = tileH;
-        this.show = false;
+        this.show = true;
         this.isDragging = false;
     }
 
@@ -18,7 +18,7 @@ class Grid{
         this.h = canvas.height = (height*tileH);
     }
  
-    showGrid(offsetX=0, offsetY=0){
+    showGrid(offsetX=10, offsetY=10){
         this.ctx.clearRect(0,0,this.canvasW, this.canvasH);
         let cols = this.w/this.tileWidth | 0;
         let rows = this.h/this.tileHeight | 0;
@@ -47,16 +47,12 @@ class Grid{
         this.ctx.lineTo(x2, y2);
     }
 
-    hideGrid(){
-        this.ctx.clearRect(0, 0, this.w, this.h);
-        this.show = false;
-    }
-
     showOrHide(){
         if(this.show == true){
-            this.hideGrid();
+            document.getElementsByClassName('Grid')[0].style.display = "none";
+            this.show = false;
         } else{
-            this.showGrid();
+            document.getElementsByClassName('Grid')[0].style.display = "block";
         }
     }
 

@@ -1,10 +1,13 @@
-function selectEditorTool(commendAction){
-    if(commendAction == 'move'){
+function moveGrid(element){
+    var currentState = element.getAttribute('value');
+    if(currentState == 'doNotMove'){
+        element.setAttribute('value','move');
         editor.grid.onDragEvent();
-        document.getElementById('btn-editor-move').onclick = selectEditorTool('donotMove');
-    } 
-    else if(commendAction == 'donotMove'){
+        document.getElementsByClassName('Grid')[0].style.zIndex = 999;
+    }
+    else if(currentState == 'move'){
+        element.setAttribute("value","doNotMove");
         editor.grid.offDragEvent();
-        document.getElementById('btn-editor-move').onclick = selectEditorTool('move');
+        document.getElementsByClassName('Grid')[0].style.zIndex = 0;
     }
 }
