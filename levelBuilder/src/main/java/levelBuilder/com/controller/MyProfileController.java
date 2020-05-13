@@ -15,7 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
@@ -25,19 +28,19 @@ import java.util.List;
 @Controller
 public class MyProfileController {
 	@Autowired
-    UserRepository userRepository;
+	UserRepository userRepository;
 
 	@Autowired
-    MapRepository mapRepository;
+	MapRepository mapRepository;
 
 	@Autowired
-    MapSharedWithRepository mapSharedWithRepository;
+	MapSharedWithRepository mapSharedWithRepository;
 
-    @Autowired
-    TilesetRepository tilesetRepository;
+	@Autowired
+	TilesetRepository tilesetRepository;
 
-    @Autowired
-    TilesetSharedWithRepository tilesetSharedWithRepository;
+	@Autowired
+	TilesetSharedWithRepository tilesetSharedWithRepository;
 
 	@RequestMapping("/my-profile")
 	public String viewProfile(Model model) {
@@ -46,6 +49,70 @@ public class MyProfileController {
 		model.addAttribute("user", user);
 
 		return "myProfile.jsp";
+	}
+
+	@GetMapping("/my-profile-edit")
+	public String showEditProfile(Model model) {
+		MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		UserEntity user = userRepository.findByUsername(myUserDetails.getUsername());
+		model.addAttribute("user", user);
+
+		return "myProfileEdit.jsp";
+	}
+
+	@PostMapping("/my-profile-edit")
+	public String editProfile(@ModelAttribute("user") UserEntity updatedUser, BindingResult bindingResult) {
+		boolean errors = false;
+		if (updatedUser.getName().equals("")){
+			errors = true;
+			bindingResult.rejectValue("name", "Cannot be blank", "Cannot be blank");
+		}if (updatedUser.getUsername().equals("")){
+			errors = true;
+			bindingResult.rejectValue("username", "Cannot be blank", "Cannot be blank");
+		}if (updatedUser.getEmail().equals("")){
+			errors = true;
+			bindingResult.rejectValue("email", "Cannot be blank", "Cannot be blank");
+		}if (updatedUser.getBirthdate()==null){
+			errors = true;
+			bindingResult.rejectValue("birthdate", "Cannot be blank", "Cannot be blank");
+		}if (updatedUser.getPhonenumber()==null){
+			errors = true;
+			bindingResult.rejectValue("phonenumber", "Cannot be blank", "Cannot be blank");
+		}
+
+		//If username/email changed (not the same as logged in user), check if available
+		MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		UserEntity oldUser = userRepository.findByUsername(myUserDetails.getUsername());
+		if(!updatedUser.getUsername().equals(oldUser.getUsername())){
+			UserEntity existing = userRepository.findByUsername(updatedUser.getUsername());
+			if(existing!=null){//someone already uses this username
+				errors = true;
+				bindingResult.rejectValue("username", "Username Already Exists", "Username Already Exists");
+			}
+		}
+
+		if(!updatedUser.getEmail().equals(oldUser.getEmail())){
+			UserEntity existing = userRepository.findByUsername(updatedUser.getEmail());
+			if(existing!=null){//someone already uses this email
+				errors = true;
+				bindingResult.rejectValue("email", "Email Already Associated With an Account", "Email Already Associated With an Account");
+			}
+		}
+
+		if (errors){ //show any errors
+			return "myProfileEdit.jsp";
+		}
+
+		//save changes
+		oldUser.setName(updatedUser.getName());
+		oldUser.setUsername(updatedUser.getUsername());
+		oldUser.setEmail(updatedUser.getEmail());
+		oldUser.setBirthdate(updatedUser.getBirthdate());
+		oldUser.setPhonenumber(updatedUser.getPhonenumber());
+		userRepository.save(oldUser);
+
+		//make user log out and log back in to update changes
+		return "redirect:/logout";
 	}
 
 	@GetMapping("/my-projects")
@@ -67,8 +134,8 @@ public class MyProfileController {
 		return "myProjects.jsp";
 	}
 
-    @GetMapping("/my-tilesets")
-    public String viewTilesets(Model model) {
+	@GetMapping("/my-tilesets")
+	public String viewTilesets(Model model) {
 		MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		//get tilesets this user owns
 		List<TilesetEntity> userTilesets = tilesetRepository.findByOwnedBy(myUserDetails.getUsername());
@@ -85,5 +152,5 @@ public class MyProfileController {
 		model.addAttribute("sharedTilesets", sharedTilesets);
 
 		return "myTilesets.jsp";
-    }
+	}
 }
