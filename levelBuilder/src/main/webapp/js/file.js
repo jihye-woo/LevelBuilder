@@ -112,6 +112,7 @@ function cancelAbout() {
 
 
 function loadMap(map){
+  editor.clearWorkspace();
     editor.grid= new Grid(map.mapWidth, map.mapHeight, map.tileWidth, map.tileHeight);
     editor.grid.showGrid();
     if(editor.currentMap){// if currentMap is existed
@@ -130,6 +131,7 @@ var gridVisIcon = document.getElementById("gridVisability");
 
 
 function createMap() {
+  // workspace should be removed
   let mapType = "top";
 
   var mapWidth = parseInt(document.getElementById("map-width").value);

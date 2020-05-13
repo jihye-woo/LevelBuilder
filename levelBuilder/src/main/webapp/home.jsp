@@ -376,18 +376,19 @@ class Editor{
       this.loadedTilesetList.push(tileset);
       this.currentTileset = tileset;
    }
- 
 
-   closeMap(){
+  //  closeMap(){
       
-   }
+  //  }
    
    clearWorkspace(){
-    var layerList = this.currentMap.LayerList;
-    layerList.forEach(function(layer){
-    var layerCanvas = layer.canvasLayer.canvas;
-      document.getElementsByClassName('Map')[0].removeChild(layerCanvas);
-    });
+    $("canvas").detach();
+    if(this.currentMap){
+      this.currentMap = null;
+      this.currentLayer = null;
+      this.selectedLayerId = null;
+      this.grid =  null;
+    }
   }
 }
 
