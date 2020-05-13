@@ -57,6 +57,8 @@ class Grid{
     }
 
 }
+ var col;
+ var row;
 class TiledCanvas{
     constructor(width, height, tileW, tileH, layer){
          // should be get a layer
@@ -64,11 +66,19 @@ class TiledCanvas{
         canvas.id = layer.id;
         canvas.addEventListener('click', function(event) {
             var mousePos = getMousePos(canvas, event);
-            var row = Math.floor(mousePos.x/tileW);
-            var col = Math.floor(mousePos.y/tileH);
+             row = Math.floor(mousePos.x/tileW);
+             col = Math.floor(mousePos.y/tileH);
             var message = 'Mouse position: ' + row  + ',' + col;
-            layer.fillTiles(row, col, canvas);
             console.log(message);
+            if(active == 0){
+                console.log("active 00");
+                getTWTH();
+                layer.eraseTile(row, col, canvas, tsH, tsW);
+            }
+            else{
+                console.log("active 11");
+                layer.fillTiles(row, col, canvas);
+            } 
         });
         this.w = canvas.width = (width*tileW);
         this.h = canvas.height = (height*tileH);
@@ -80,6 +90,9 @@ class TiledCanvas{
     }
     showCanvas(layer){
         this.canvas.style.display="block";
+    }
+    getCSVvalue(){
+        return editor.currentMap.LayerList.get(editor.currentMap.LayerList.size-1).csv[col][row];
     }
 }
 class ObjectCanvas{

@@ -1,3 +1,37 @@
+function getTilesetwithName(nameT) {
+  var list = editor.loadedTilesetList;
+  var tileset;
+  
+  for(var i=0; i<list.length; i++){
+    if(list[i].name == nameT){
+      tileset = list[i];
+    }
+  }return tileset;
+}
+
+var active =1;
+var tsH;
+var tsW;
+function EraseTile(x) {
+if(active ==1){
+  x.className += " active";
+  active = 0;
+  }else{
+    x.className = x.className.replace(" active", "");
+    active=1;
+  }
+}
+
+function getTWTH(){
+  var llist = editor.currentMap.LayerList;
+  var layer = llist.get(llist.size-1);
+  var csvTile = layer.canvasLayer.getCSVvalue();
+  console.log("VVV "+ csvTile);
+  var a = getKey(csvTile-index);
+  var tilesett = getTilesetwithName(a);
+  tsH = tilesett.tileHeight;
+  tsW = tilesett.tileWidth;
+}
 
 function myCheck() {
   var checkBox = document.getElementById("collectionOfImg");

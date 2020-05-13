@@ -229,6 +229,24 @@ class TiledLayer extends Layer{
         editor.currentMap.updateNextGid(editor.currentTileset.name, editor.currentTileset.tilecount);
         this.csv[x][y] = index + Number(editor.currentMap.selectedTilesetList.get(editor.currentTileset.name));
     }
+
+    eraseTile(x, y, canvas,th, tw){
+        console.log("ERASE" + x +"@" +y);
+        this.canvasLayer.canvas.getContext("2d").clearRect(x*tw, y*th, tw, th);
+        this.csv[x][y] = 0;
+    }
+}
+
+function getKey(val){
+    var map = editor.currentMap.selectedTilesetList;
+    var b;
+    map.forEach(function(value, key) {
+        if(value == val){
+            console.log(key + ' = ' + value)
+            b =key
+        }
+      })
+      return b;
 }
 
 class ObjectLayer extends Layer{

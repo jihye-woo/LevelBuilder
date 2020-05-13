@@ -111,13 +111,13 @@
           <div class="surface tab">
             <div class="editor-container">
               <div class="editor-tools">
-                <div class="surface btn active" id="btn-editor-cursor"
+                <div class="surface btn" id="btn-editor-cursor"
                   title="Selector tool - select objects to edit their properties" onclick="selectEditorTool('cursor')">
                   <i class="fa fa-mouse-pointer"></i></div>
-                <div class="surface btn" id="btn-editor-brush" title="(1) Brush tool - paint tiles"
+                <div class="surface btn" id="btn-editor-brush" title="Brush tool - paint tiles"
                   onclick="selectEditorTool('brush')"><i class="fa fa-paint-brush"></i></div>
-                <div class="surface btn" id="btn-editor-eraser" title="(2) Eraser tool - erase tile data"
-                  onclick="selectEditorTool('eraser')"><i class="fa fa-eraser"></i></div>
+                <div class="surface btn" id="eraser" title="Eraser tool - erase tile data"
+                  onclick="EraseTile(this)"><i class="fa fa-eraser"></i></div>
                 <div class="surface btn" id="btn-editor-move"
                   title="(3) Drag tool - pan around the map editor, you can also hold down (alt)"
                   onclick="selectEditorTool('move')"><i class="fa fa-arrows"></i></div>
@@ -141,8 +141,8 @@
 
           <div id="MapLayers" class="tabcontent">
               <div class="project-tools">
-                <div class="surface btn" id="btn-layer-group" title="Create a new group" onclick="createLayerGroup()" disabled="disabled"><i
-                    class="fa fa-folder"></i></div>
+                <!-- <div class="surface btn" id="btn-layer-group" title="Create a new group" onclick="createLayerGroup()" disabled="disabled"><i
+                    class="fa fa-folder"></i></div> -->
                 <div class="surface btn" id="btn-layer-add" title="Create a layer" onclick="newLayer()"><i
                     class="fa fa-file-o"> </i></div>
                 <div class="surface btn req-layer" id="btn-layer-duplicate" title="Duplicate layer"
