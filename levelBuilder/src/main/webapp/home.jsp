@@ -192,18 +192,18 @@
         <div class="input-header">Map size</div>
         <div class="input-row">
           <label for="map-width">Width :</label>
-          <input type="text" placeholder="eg. 32" id="map-width"/>
+          <label><input type="text" placeholder="eg. 32" id="map-width"/>columns</label>
 
           <label for="map-height">Height:</label>
-          <input type="text" placeholder="eg. 32" id="map-height"/>
+          <label><input type="text" placeholder="eg. 32" id="map-height"/>rows</label>
         </div>
         <div class="input-header">Tile size</div>
         <div class="input-row">
           <label for="tile-width">Width :</label>
-          <input type="text" placeholder="eg. 32" id="tile-width"/>
+          <label><input type="text" placeholder="eg. 32" id="tile-width"/> px</label>
 
           <label for="tile-height">Height:</label>
-          <input type="text" placeholder="eg. 32" id="tile-height"/>
+          <label><input type="text" placeholder="eg. 32" id="tile-height"/>px</label>
         </div>
       </div>
       <div class="window-actions">
