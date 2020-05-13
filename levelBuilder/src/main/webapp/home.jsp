@@ -55,7 +55,8 @@
                 <a href="#" onclick="save()">Save</a>
                 <a href="#" onclick="openSaveAs()">Save As </a>
                 <a href="#" onclick ="exportMap()">Export Map</a>
-                <a href="#" onclick ="openExportAs()">Export As Map</a>
+                <a href="#" onclick ="openExportAsMap()">Export As Map</a>
+                <a href="#" onclick ="openExportAsTileset()">Export As Tileset</a>
                 <a href="#">Export As Image</a>
                 <a href="#">Delete</a>
                 <a href="#">Recent Files</a>
@@ -118,9 +119,9 @@
                   onclick="selectEditorTool('brush')"><i class="fa fa-paint-brush"></i></div>
                 <div class="surface btn" id="eraser" title="Eraser tool - erase tile data"
                   onclick="EraseTile(this)"><i class="fa fa-eraser"></i></div>
-                <div class="surface btn" id="btn-editor-move"
+                <div class="surface btn" id="btn-editor-move" value = "doNotMove"
                   title="(3) Drag tool - pan around the map editor, you can also hold down (alt)"
-                  onclick="selectEditorTool('move')"><i class="fa fa-arrows"></i></div>
+                  onclick="moveGrid(this)"><i class="fa fa-arrows"></i></div>
                 <div class="surface btn" id="btn-editor-zout" title="(-) Zoom out" onclick="zoomOut()"><i
                     class="fa fa-search-minus"></i></div>
                 <div class="surface btn" id="btn-editor-zin" title="(+) Zoom in" onclick="zoomIn()"><i
@@ -266,17 +267,31 @@
           </div>
       </div>
 
-      <div class="window surface" id="exportas">
+      <div class="window surface" id="exportas_map">
         <div class="window-title-bar">
-          <h4>Save As</h4>
-          <div class="surface btn" onclick="cancelExportAs()"><i class="fa fa-close"></i></div>
+          <h4>Export Map As</h4>
+          <div class="surface btn" onclick="cancelExportAsMap()"><i class="fa fa-close"></i></div>
           <div class="newline"></div>
-          <label for="exportAsName">File Name :</label>
-            <input type="text" placeholder="name" id="exportAsName"/>
+          <label for="exportAsName_map">File Name :</label>
+            <input type="text" placeholder="name" id="exportAsName_map"/>
         </div>
         <div class="window-actions">
-          <div class="surface btn" onclick="cancelExportAs()">Cancel</div>
+          <div class="surface btn" onclick="cancelExportAsMap()">Cancel</div>
           <div class="surface btn" onclick="exportAsMap()">OK</div> 
+        </div>
+    </div>
+
+      <div class="window surface" id="exportas_tileset">
+        <div class="window-title-bar">
+          <h4>Export Tileset As</h4>
+          <div class="surface btn" onclick="cancelExportAsTileset()"><i class="fa fa-close"></i></div>
+          <div class="newline"></div>
+          <label for="exportAsName_tileset">File Name :</label>
+            <input type="text" placeholder="name" id="exportAsName_tileset"/>
+        </div>
+        <div class="window-actions">
+          <div class="surface btn" onclick="cancelExportAsTileset()">Cancel</div>
+          <div class="surface btn" onclick="exportAsTileset()">OK</div> 
         </div>
     </div>
 
@@ -358,20 +373,10 @@ class Editor{
    //$("canvas").detach(); remove all canvas
    
    loadTileset(tileset){
-    //  if(!this.isExist()){
       this.loadedTilesetList.push(tileset);
       this.currentTileset = tileset;
-    // }
    }
-  //  isExist(){
-  //   var list = this.loadedTilesetList;
-  //   list.forEach(function(loadedtileset){
-  //     if(list.name == target.name){
-  //       return true;
-  //     }
-  //   });
-  //   return false;
-  //  }
+ 
 
    closeMap(){
       
@@ -396,6 +401,7 @@ window.onload = (event) => {
 <script type="text/javascript" src="js/Map.js"></script>
 <script type="text/javascript" src="js/Tileset.js"></script>
 <script type="text/javascript" src="js/tilemap.js"></script>
+<script type="text/javascript" src="js/editor.js"></script>
 <script type="text/javascript" src="js/export.js"></script>
 <!-- <script type="text/javascript" src="js/npm.js"></script> -->
 <script type="text/javascript" src="js/FileSaver.js"></script>

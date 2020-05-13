@@ -113,7 +113,7 @@ function cancelAbout() {
 
 function loadMap(map){
     editor.grid= new Grid(map.mapWidth, map.mapHeight, map.tileWidth, map.tileHeight);
-    editor.grid.showOrHide();
+    editor.grid.showGrid();
     if(editor.currentMap){// if currentMap is existed
       console.log("run");
       editor.clearWorkspace();
@@ -124,7 +124,7 @@ function loadMap(map){
 }
 
 var gridVisIcon = document.getElementById("gridVisability");
-gridVisIcon.addEventListener("click", function(){
+  gridVisIcon.addEventListener("click", function(){
   editor.grid.showOrHide();
 });
 
@@ -454,9 +454,9 @@ function save(){
 }
 
 function loadFile(){
-  var selectMap = document.getElementById("selectLoadMap").checked
-  var selectTileset = document.getElementById("selectLoadTileset").checked
-  if(selectMap.checked == true){
+  var selectMap = document.getElementById("selectLoadMap").checked;
+  var selectTileset = document.getElementById("selectLoadTileset").checked;
+  if(selectMap == true){
     loadAll_Map();
   } else if(selectTileset == true){
     loadAll_Tileset();

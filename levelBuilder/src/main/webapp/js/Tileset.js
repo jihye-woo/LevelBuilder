@@ -1,5 +1,5 @@
 class Tileset{
-	constructor(name, image, imgWidth, imgHeight, tileWidth, tileHeight, spacing){
+	constructor(name, image, imgWidth, imgHeight, tileWidth, tileHeight){
 	   this.name = name;
 	  //  this.src = src;
 	   this.image = image;
@@ -7,7 +7,6 @@ class Tileset{
        this.imgHeight = imgHeight;
        this.tileWidth = tileWidth;
 	   this.tileHeight = tileHeight;
-	   this.spacing = spacing;
    }
 }
 

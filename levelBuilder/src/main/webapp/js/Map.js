@@ -10,7 +10,7 @@ class TiledMap{
         this.tileHeight = tileHeight;
         this.LayerList = new Map();
         this.nextgid = 1;
-        this.selectedTilesetList = new Map();
+        this.selectedTilesetList = new Map(); // key : tileset name / value : gid
     }
     updateNextGid(selectedName, size){
         if(this.selectedTilesetList.size ==0){
