@@ -12,6 +12,7 @@ public class TiledLayerEntity {
     private int layerId;
     private int tilewidth;
     private int tileheight;
+    
     @Id
     private String mapName;
 

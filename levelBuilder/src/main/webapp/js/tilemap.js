@@ -18,21 +18,21 @@ class Grid{
         this.h = canvas.height = (height*tileH);
     }
  
-    showGrid(offsetX=10, offsetY=10){
+    showGrid(offsetX=0, offsetY=0){
         this.ctx.clearRect(0,0,this.canvasW, this.canvasH);
-        let cols = this.w/this.tileWidth | 0;
-        let rows = this.h/this.tileHeight | 0;
+        let rows = this.w/this.tileWidth | 0;
+        let cols = this.h/this.tileHeight | 0;
         
         this.ctx.save();
         this.ctx.strokeStyle = "lightgrey";
         this.ctx.beginPath();
 
-        for(let x =offsetX ; x<=offsetX+(cols * this.tileWidth) ; x+=this.tileWidth) {
-            this.drawLine(x, offsetY, x, offsetY+this.w);
+        for(let y =offsetY ; y<=offsetY+(cols * this.tileHeight) ; y+=this.tileHeight) {
+            this.drawLine(y, offsetY, y, offsetY+this.h);
         }
 
-        for(let y =offsetY ; y<=offsetY+(rows * this.tileHeight) ; y+=this.tileHeight) {
-            this.drawLine(offsetX, y, offsetX+this.h, y);
+        for(let x =offsetX ; x<=offsetX+(rows * this.tileWidth) ; x+=this.tileWidth) {
+            this.drawLine(offsetX, x, offsetX+this.w, x);
         }
         this.ctx.stroke();
         this.ctx.beginPath();
