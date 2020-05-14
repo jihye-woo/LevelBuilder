@@ -28,12 +28,13 @@ class Grid{
         this.ctx.beginPath();
 
         for(let y =offsetY ; y<=offsetY+(cols * this.tileHeight) ; y+=this.tileHeight) {
-            this.drawLine(y, offsetY, y, offsetY+this.h);
+            this.drawLine(offsetX, y, offsetX+this.w, y);
         }
 
         for(let x =offsetX ; x<=offsetX+(rows * this.tileWidth) ; x+=this.tileWidth) {
-            this.drawLine(offsetX, x, offsetX+this.w, x);
+            this.drawLine(x, offsetY, x, offsetY+this.h);
         }
+
         this.ctx.stroke();
         this.ctx.beginPath();
         this.ctx.strokeStyle = "black";
