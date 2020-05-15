@@ -34,9 +34,9 @@
             <button id="gridVisability"><i class="fa fa-eye" aria-hidden="true"></i></button>
             <!-- <span class="tooltiptext">Control view</span> -->
           </li>
-          <li data ="history" id="tool-history">
+          <!-- <li data ="history" id="tool-history">
             <img src="img/tool/history.png">
-          </li>
+          </li> -->
         </ul>
       </div>
     </section>
@@ -89,19 +89,18 @@
                     <!-- <a href="#"onclick="showHideGird()">Show/Hide Grid</a> -->
                   </div>
                 </div>
-                <div class="dropdown">
+                <!-- <div class="dropdown">
                     <button class="dropbtn">TileSet</button>
                     <div class="dropdown-content">
-                      <!-- <a href="#">Add Tile</a> -->
                       <a href="#" id="fileSelect">Add Tile</a>
                       <input type="file" id="fileElem" multiple accept="image/*" style="display:none"onchange="loadTile()">
                       <a href="#" id="fileRemove" onclick="removeFile()">Remove Tile </a>
                     </div>
-                  </div>
+                  </div> -->
                   <div class="dropdown">
                       <button class="dropbtn">About</button>
                       <div class="dropdown-content">
-                        <a href="#">User Manual</a>
+                        <!-- <a href="#">User Manual</a> -->
                         <a href="#" onclick="aboutLB()">About Level Builder</a>
                       </div>
                   </div>
@@ -221,10 +220,11 @@
             <div class="input-header">TileSet </div>
             <label for="fname">File name:</label>
             <input type="text" id="TilesetName" name="fname"><br><br> 
-          <div class="input-header">Type</div>
-          based On TileSet Img: <input type="checkbox" id="basedOnTileSetImg"  onclick="myCheck()">
-          collection Of Img: <input type="checkbox" id="collectionOfImg"  onclick="myCheck()">
-          <div class="input-row" id="txt" style="display:none">
+          <div class="input-header">Tileset Image</div>
+          <!-- based On TileSet Img: <input type="checkbox" id="basedOnTileSetImg"  onclick="myCheck()">
+          collection Of Img: <input type="checkbox" id="collectionOfImg"  onclick="myCheck()"> -->
+          <!-- <div class="input-row" id="txt" style="display:none"> -->
+              <div class="input-row" id="txt">
           <div class="newline"></div>
           <div class="input-header">Image </div> 
           <!-- <label for="fname">Source:</label>
@@ -233,24 +233,23 @@
           <div class="newline"></div>
           <div class="input-row">
             <label for="tileSet-width">Width :</label>
-            <input type="text" placeholder="eg. 32" id="tileSet-width"/>
+            <label><input type="text" placeholder="eg. 32" id="tileSet-width"/> px</label>
             <label for="tileSet-height">Height:</label>
-            <input type="text" placeholder="eg. 32" id="tileSet-height"/>
+            <label><input type="text" placeholder="eg. 32" id="tileSet-height"/> px</label>
             <label for="spacing">Spacing:</label>
-            <input type="text" placeholder="eg. 32" id="spacing"/>
+            <label><input type="text" placeholder="eg. 32" id="spacing"/> px</label>
           </div>
           <div class="window-actions">
               <div class="surface btn" onclick="cancelCreateTileSet()">Cancel</div>
               <div class="surface btn" onclick="newTabBtn2()">OK</div>
-              <!-- <div class="surface btn" onclick="openTileSet(event, 'singleIMG')">OK</div> -->
-            </div>
+          </div>
           </div>
         </div>
-        <div class="window-actions" id="text" style="display:none">
+        <!-- <div class="window-actions" id="text" style="display:none">
           <div class="surface btn" onclick="cancelCreateTileSet()">Cancel</div>
           <div class="surface btn" onclick="newTabBtn()">OK</div>
-          <!-- <div class="surface btn" onclick="openTileSet(event, 'collections')">OK</div> -->
-        </div>
+           <div class="surface btn" onclick="openTileSet(event, 'collections')">OK</div> 
+        </div> -->
       </div>
 
       <div class="window surface" id="saveas">
@@ -335,16 +334,11 @@
             <!-- <p>Warning: Creating a new layer will discard your current progress!</p> -->
             <div class="input-header">Select</div>
             <div class="input-row">
-              <!-- <input class="map-perspective" id="tile-layer" name="layer-obj" type="radio" value="tile-layer" checked="checked"/> -->
-              <!-- <label for="tile-layer">Tile Layer</label> -->
-              <input type="radio" name="layerType" onclick="myFunction(this.value)" value="tileLayer">tile layer<br>
-              
+              <input type="radio" name="layerType" onclick="myFunction(this.value)" value="tileLayer" checked>tile layer<br>
             </div>
-            <div class="input-row">
-              <!-- <input class="map-perspective" id="object-layer" name="layer-obj" value="object-layer" type="radio"/> -->
+            <!-- <div class="input-row">
               <input type="radio" name="layerType" onclick="myFunction(this.value)" value="objectLayer">object layer<br>
-              <!-- <label for="object-layer">Object Layer</label> -->
-            </div>
+            </div> -->
             <div class="input-row">
               <label for="input-layer">Layer Name :</label>
               <input type="text" placeholder="Layer 1" id="input-layer"/>

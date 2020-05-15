@@ -26,9 +26,10 @@ function getTWTH(){
   var llist = editor.currentMap.LayerList;
   var layer = llist.get(llist.size-1);
   var csvTile = layer.canvasLayer.getCSVvalue();
-  console.log("VVV "+ csvTile);
+  console.log("CSV "+ csvTile);
   var a = getKey(csvTile-index);
   var tilesett = getTilesetwithName(a);
+  console.log("D "+ tilesett.name);
   tsH = tilesett.tileHeight;
   tsW = tilesett.tileWidth;
 }

@@ -227,13 +227,13 @@ class TiledLayer extends Layer{
         imgg.src = editor.currentTileset.tileList[index].src;
         this.canvasLayer.canvas.getContext("2d").drawImage(imgg,tileList[index].startX, tileList[index].startY,tileList[index].tileWidth, tileList[index].tileHeight, this.tileW*x, this.tileH*y, tileList[index].tileWidth, tileList[index].tileHeight );
         editor.currentMap.updateNextGid(editor.currentTileset.name, editor.currentTileset.tilecount);
-        this.csv[x][y] = index + Number(editor.currentMap.selectedTilesetList.get(editor.currentTileset.name));
+        this.csv[y][x] = index + Number(editor.currentMap.selectedTilesetList.get(editor.currentTileset.name));
     }
 
     eraseTile(x, y, canvas,th, tw){
         console.log("ERASE" + x +"@" +y);
         this.canvasLayer.canvas.getContext("2d").clearRect(x*tw, y*th, tw, th);
-        this.csv[x][y] = 0;
+        this.csv[y][x] = 0;
     }
 }
 

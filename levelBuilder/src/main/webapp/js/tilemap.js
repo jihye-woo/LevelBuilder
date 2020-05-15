@@ -102,6 +102,8 @@ class TiledCanvas{
             console.log(message);
             if(active == 0){
                 console.log("active 00");
+                index = getIndex(col, row);
+                console.log("index! "+index );
                 getTWTH();
                 layer.eraseTile(row, col, canvas, tsH, tsW);
             }
