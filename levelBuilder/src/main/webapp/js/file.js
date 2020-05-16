@@ -113,15 +113,16 @@ function cancelAbout() {
 
 
 function loadMap(map){
-    editor.grid= new Grid(map.mapWidth, map.mapHeight, map.tileWidth, map.tileHeight);
-    editor.grid.showGrid();
-    if(editor.currentMap){// if currentMap is existed
-      console.log("run");
-      editor.clearWorkspace();
-    }
-    editor.currentMap = map;
-    editor.loadedMapList.push(map);
-    showList(editor.currentMap.LayerList);
+  console.log(map);
+  if(editor.currentMap){// if currentMap is existed
+    console.log("run");
+    editor.clearWorkspace();
+  }
+  editor.grid= new Grid(map.mapWidth, map.mapHeight, map.tileWidth, map.tileHeight);
+  editor.grid.showGrid();
+  editor.currentMap = map;
+  editor.loadedMapList.push(map);
+  showList(editor.currentMap.LayerList);
 }
 
 var gridVisIcon = document.getElementById("gridVisability");
@@ -418,12 +419,16 @@ async function saveAll_Tileset(newTileset){
 function saveAll_Map(newMap, newLayers, mapName){
   let jsonMap = getMapJSON(newMap, mapName);
   let jsonLayers = getLayerJSON(newLayers);
-  console.log(jsonMap);
 
   let saveMapResult = saveDataToDB(jsonMap, "save_map");
   let saveLayerResult = saveDataToDB(jsonLayers["layers"], "save_layer");
-  let saveLayerPropResult = saveDataToDB(jsonLayers["layerProps"], "save_layerProp");
+  // let saveLayerPropResult = saveDataToDB(jsonLayers["layerProps"], "save_layerProp");
 
+  if(newMap.selectedTilesetList.size != 0){
+    let jsonTilsetInMap = getTilesetInMapJSON(newMap);
+    console.log(jsonTilsetInMap);
+    let saveTilesetInMapResult = saveDataToDB(jsonTilsetInMap, "save_tilesetInMap");
+  }
   //$.when(saveMapResult, saveLayerResult, saveLayerPropResult).then(function(){
     // loadDataFromDB(newMap.id)
     // .then(data => {
@@ -471,10 +476,8 @@ function loadAll_Map_Helper(loadMapJSON) {
     loadDataFromDB(loadMapJSON, "load_map")
         .then(jsonData => {
             var newMap = parseMapJson(jsonData.map);
-            console.log(newMap);
-            var layers = parseLayerJson(jsonData.layers, newMap);
-            // var layerProps = parseLayerPropJson(jsonData.layerProps, layers);
-            newMap.LayerList = layers;
+            parseLayerJson(jsonData.layers, newMap);
+            parseTilesetInMapJson(jsonData.tilesetsInMap, newMap);
             console.log(newMap);
             loadMap(newMap);
         });
@@ -495,10 +498,7 @@ function loadAll_Tileset_Helper(loadTilesetJSON) {
             return parseImageJson(jsonData.image);
         }).then(newImage => {
         console.log(newImage);
-        // document.getElementsByClassName('Grid')[0].appendChild(newImage);
         var newTileset = parseTilesetJson(tilesetJson, newImage);
-        // console.log("new@ "+ newTileset);
-        // editor.loadTileset(newTileset);
         var currentTS = editor.currentTileset;
         createNewtab(currentTS.name, currentTS.tileHeight, currentTS.tileWidth, currentTS.spacing);
         loadImg = new Image();
@@ -507,7 +507,6 @@ function loadAll_Tileset_Helper(loadTilesetJSON) {
         tilesetW = currentTS.tileWidth;
         spacing = currentTS.spacing;
         loadImg.addEventListener('load',loadImageDB,false);
-        // loadImageDB(loadedImg);
     });
 }
 
@@ -639,7 +638,7 @@ function parseLayerJson(layers, map){
     newLayer.order = layerData.orderInMap;
     layerList.set(layerList.size, newLayer);
   });
-  return layerList;
+  map.LayerList = layerList;
 }
 
 function parseImageJson(imageData, mime = "image/png", imgWidth, imgHeight){
@@ -659,6 +658,15 @@ function parseTilesetJson(tileset, newImage){
     tileset.tilewidth, tileset.tileheight, tileset.spacing, tileset.columns, tileset.tilecount);
     editor.loadTileset(newTileset);
     return newTileset;
+}
+
+function parseTilesetInMapJson(tilesetsInMap, map){
+  let tilesetList = map.selectedTilesetList;
+  tilesetsInMap.forEach(function(tileset){
+    var tilesetName = tileset.tilesetName;
+    tilesetList.set(tilesetName, tileset.gid);
+    loadAll_Tileset_Helper( {"name" : tilesetName, "username" : tileset.username});
+  });
 }
 
 
@@ -704,10 +712,9 @@ function convertCSVToArray(csv, csvArray, size){
 
 function getLayerJSON(LayerData){
   let layers = [];
-  let layerProps = [];
+  // let layerProps = [];
 
   LayerData.forEach(function(layer){
-    console.log(layer);
     layers.push({
       "id" : layer.id,
       "name" : layer.name,
@@ -717,21 +724,21 @@ function getLayerJSON(LayerData){
       "csv" : convertArrayToCSV(layer.csv)
     });
     
-    let layerPropData = layer.layerProp;
-    console.log(layerPropData);
-    layerProps.push({
-      "id" : layerPropData.id,
-      "layerId" : layer.id,
-      "visible" : layerPropData.visible,
-      "locked" : layerPropData.locked,
-      "opacity" : layerPropData.opacity,
-      "verticalOffset" : layerPropData.verticalOffset,
-      "horizontalOffset" : layerPropData.horizontalOffset,
-      "mapName" : layer.mapName
-    });
+    // let layerPropData = layer.layerProp;
+    // layerProps.push({
+    //   "id" : layerPropData.id,
+    //   "layerId" : layer.id,
+    //   "visible" : layerPropData.visible,
+    //   "locked" : layerPropData.locked,
+    //   "opacity" : layerPropData.opacity,
+    //   "verticalOffset" : layerPropData.verticalOffset,
+    //   "horizontalOffset" : layerPropData.horizontalOffset,
+    //   "mapName" : layer.mapName
+    // });
   });
 
-  return {"layers" : layers, "layerProps" : layerProps};
+  return {"layers" : layers};
+  // return {"layers" : layers, "layerProps" : layerProps};
 }
 
 function getTilesetJSON(tileset){
@@ -747,6 +754,24 @@ function getTilesetJSON(tileset){
     "tilewidth" : tileset.tileWidth,
     "tileheight" : tileset.tileHeight
   }
+}
+
+function getTilesetInMapJSON(mapData){
+  let tilesetsInMap = [];
+  let tilesetList = mapData.selectedTilesetList;
+  console.log(tilesetList);
+
+  for (var [tilesetName, gid] of tilesetList) {
+    tilesetsInMap.push({
+      "mapName" : mapData.id,
+      "tilesetName" : tilesetName,
+      "username": editor.userName,
+      "gid": gid
+    });
+
+  }
+  console.log(tilesetsInMap);
+  return tilesetsInMap;
 }
 
 function getImageJSON(tileset, mime = "image/png"){

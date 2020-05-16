@@ -25,7 +25,7 @@
   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" /> -->
   <div class="whole_workspace">
     <section id="side-bar">
-      <a id="toggle-home">
+      <a href="/my-profile" id="toggle-home">
         <button id="homeButton"><i class="fa fa-home" tooltip = "toggle-home" flow = "right"></i></button>
       </a>
       <div class ="vertical-align">
@@ -371,10 +371,6 @@ class Editor{
       this.currentTileset = tileset;
    }
 
-  //  closeMap(){
-      
-  //  }
-   
    clearWorkspace(){
     $("canvas").detach();
     if(this.currentMap){

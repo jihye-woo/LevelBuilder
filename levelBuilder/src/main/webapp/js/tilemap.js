@@ -54,6 +54,7 @@ class Grid{
             this.show = false;
         } else{
             document.getElementsByClassName('Grid')[0].style.display = "block";
+            this.show = true;
         }
     }
 
@@ -127,6 +128,7 @@ class TiledCanvas{
         return editor.currentMap.LayerList.get(editor.currentMap.LayerList.size-1).csv[col][row];
     }
 }
+
 class ObjectCanvas{
     constructor(width, height, layer){
          // should be get a layer
@@ -146,12 +148,12 @@ class ObjectCanvas{
         this.canvas = document.getElementsByClassName('Map')[0].appendChild(canvas);
         this.ctx = canvas.getContext("2d");
     }
-    hideCanvas(){
-        this.ctx.clearRect(0, 0, this.w, this.h);
-    }
-    showCanvas(layer){
-        console.log("showCanvas, will be implemented after tileset function is done");
-    }
+    // hideCanvas(){
+    //     this.ctx.clearRect(0, 0, this.w, this.h);
+    // }
+    // showCanvas(layer){
+    //     console.log("showCanvas, will be implemented after tileset function is done");
+    // }
 }
 class Tilecursor{
         constructor(canvas, x, y, tileWidth, tileHeight){

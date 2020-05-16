@@ -22,10 +22,12 @@ import levelBuilder.com.entities.LayerEntity;
 import levelBuilder.com.entities.LayerPropertiesEntity;
 import levelBuilder.com.entities.MapEntity;
 import levelBuilder.com.entities.TilesetEntity;
+import levelBuilder.com.entities.TilesetInMapEntity;
 import levelBuilder.com.repositories.ImagesAddedToTilesetRepository;
 import levelBuilder.com.repositories.LayerPropertiesRepository;
 import levelBuilder.com.repositories.LayerRepository;
 import levelBuilder.com.repositories.MapRepository;
+import levelBuilder.com.repositories.TilesetInMapRepository;
 import levelBuilder.com.repositories.TilesetRepository;
 import levelBuilder.com.repositories.UserRepository;
 
@@ -51,6 +53,9 @@ public class FileController {
 	
 	@Autowired
 	TilesetRepository tilesetRepository;
+	
+	@Autowired
+	TilesetInMapRepository tilesetInMapRepository;
 	
 	@Autowired
 	ImagesAddedToTilesetRepository imagesAddedToTilesetRepository;
@@ -91,32 +96,34 @@ public class FileController {
 	
 	@RequestMapping(value="/load_map", method=RequestMethod.POST)
 	public ResponseEntity<String> loadMap(@RequestBody String jsonFileName) {
-		System.out.println(jsonFileName);
+//		System.out.println(jsonFileName);
 		JSONObject jsonObject = new JSONObject(jsonFileName);
 		String mapName = jsonObject.getString("mapName");
 		JSONObject result = new JSONObject();
 		JSONArray layerArray = new JSONArray();
-		JSONArray layerPropArray = new JSONArray();
+		JSONArray tilesetInMapArray = new JSONArray();
 		
 		// 1. load map
 		MapEntity map = mapRepository.findByName(mapName);
+		
 		List<LayerEntity> layers = layerRepository.findByMapName(mapName);
+		List<TilesetInMapEntity> tilesetsInMap = tilesetInMapRepository.findByMapName(mapName);
 		try {
 			String mapJson = mapper.writeValueAsString(map);
 			System.out.println(mapJson);
 			result.put("map", new JSONObject(mapJson));
 			for(LayerEntity layer : layers) {
 				String LayerJson = mapper.writeValueAsString(layer);
-				System.out.println(LayerJson);
+//				System.out.println(LayerJson);
 				layerArray.put(new JSONObject(LayerJson));
-				LayerPropertiesEntity layerProp = layerPropRepository.findByLayerIdAndMapName(layer.getId(), mapName);
-				String layerPropJson = mapper.writeValueAsString(layerProp);
-				System.out.println(layerPropJson);
-				JSONObject layerPropOb = new JSONObject(new JSONObject(layerPropJson));
-				layerPropArray.put(new JSONObject(layerPropOb));
 			}
 			result.put("layers", layerArray);
-			result.put("layerProps", layerPropArray);
+			for(TilesetInMapEntity tileset : tilesetsInMap) {
+				String tilesetJson = mapper.writeValueAsString(tileset);
+				System.out.println(tilesetJson);
+				tilesetInMapArray.put(new JSONObject(tilesetJson));
+			}
+			result.put("tilesetsInMap", tilesetInMapArray);
 		} catch (JsonProcessingException e1) {
 			e1.printStackTrace();
 		}
@@ -126,12 +133,24 @@ public class FileController {
 		return new ResponseEntity<>(result.toString(), HttpStatus.CREATED);
 	}
 	
+	
 	@RequestMapping(value="/save_tileset", method=RequestMethod.POST)
 	public ResponseEntity<String> saveTileset(@RequestBody TilesetEntity tileset) {
 		// save map data
 		tilesetRepository.save(tileset);
 		return new ResponseEntity<>(object.toString(), HttpStatus.CREATED);
 	}
+	
+	@RequestMapping(value="/save_tilesetInMap", method=RequestMethod.POST)
+	public ResponseEntity<String> saveTilesetInMap(@RequestBody List<TilesetInMapEntity> tilesetsInMap) {
+		System.out.println(tilesetsInMap);
+		// save tileset data which is in the map
+		for(TilesetInMapEntity tilesetInMap : tilesetsInMap)
+			tilesetInMapRepository.save(tilesetInMap);
+		
+		return new ResponseEntity<>(object.toString(), HttpStatus.CREATED);
+	}
+	
 	
 	
 	@RequestMapping(value="/save_image", method=RequestMethod.POST)
@@ -183,6 +202,10 @@ public class FileController {
 		
 		return new ResponseEntity<>(result.toString(), HttpStatus.CREATED);
 	}
+	
+	
+	
+	
 //	@RequestMapping(value="/load_layer", method=RequestMethod.POST)
 //	public ResponseEntity<String> loadLayer(@RequestBody String jsonFileName) {
 //		JSONObject jsonObject = new JSONObject(jsonFileName);
