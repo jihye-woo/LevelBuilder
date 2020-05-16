@@ -126,7 +126,7 @@
                 <div class="surface btn" id="btn-editor-zin" title="(+) Zoom in" onclick="zoomIn()"><i
                     class="fa fa-search-plus"></i></div>
               </div>
-              <div class="surface editor-border">
+              <div class="surface editor-border" style =" overflow: scroll;">
                 <div class = "Map">
                   <div class = "Grid"></div>
                 </div>
@@ -174,7 +174,7 @@
     </section>
   </div>
 
-  <div class="window-tint">       </div>
+  <!-- <div class="window-tint">       </div> -->
   <div class="window surface" id="create-map-window">
       <div class="window-title-bar">
         <h4>New map</h4>
