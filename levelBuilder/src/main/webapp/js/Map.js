@@ -147,7 +147,9 @@ function showList(Llist){ // Llist == layer lists in current Map
         var layername = document.createTextNode(inputValue);
         li.appendChild(layername);
         var visibleButton = createVisibleButton(layer);
+        var lockButton = createLockButton(layer);
         li.appendChild(visibleButton);
+        li.appendChild(lockButton);
         li.className = "layerlist";
         document.getElementById("myUL").appendChild(li);
 
@@ -171,11 +173,26 @@ function createVisibleButton(layer){
     visibleButton.id = layer.order;
     visibleButton.addEventListener("click", function(e){
         e.target.classList.toggle(toggleValue);
-        layer.layerProp.changeVisible(layer);
+        layer.layerProp.changeVisible(layer);;
     });
     return visibleButton;
 }
 
+function createLockButton(layer){
+    var lockButton = document.createElement('i');
+    var result = "fa-lock";
+    var toggleValue = "fa-lock-open";
+    if (!layer.layerProp.isUnlock()){
+        [result, toggleValue] = [toggleValue, result];
+    }
+    lockButton.className = "fa "+result;
+    lockButton.id = layer.order;
+    lockButton.addEventListener("click", function(e){
+        e.target.classList.toggle(toggleValue);
+        layer.layerProp.changetoLock(layer);
+    });
+    return lockButton;
+}
 
 function duplicateLayer(){
     var targetId = editor.selectedLayerId;
@@ -274,7 +291,7 @@ class TiledLayer extends Layer{
     paintTiles(){
         // editor has all info for tileset and map
         let canvasLoad = document.createElement("canvas");
-        canvasLoad.id = layer.id;
+        canvasLoad.id = this.layer.id;
         canvasLoad.style.position = "position"; 
         canvasLoad.style.left = "0px";
         canvasLoad.style.top = "0px";
@@ -310,8 +327,12 @@ class TiledLayer extends Layer{
             for(var j=0; j<loadmapH; j++){
                 if(this.layer.csv[i][j] !=0){
                     // csv 값으로 gid 가져옴 
+                    var gid = editor.currentMap.csvGid.get(this.layer.csv[i][j]);
+                    var Tsname = getKey(gid);
                     //gid로 tileset name -> gettileset();
+                    var TS = getTilesetwithName(Tsname);
                     //csv[][] 위치에 해당 그림 draw
+                    this.ctx.drawImage();
                 }
             }
             // tile = tileList[i];
@@ -376,7 +397,7 @@ class LayerProperties{
     constructor(){
         this.id = 0;
         this.visible = 1;
-        this.locked = 0;
+        this.locked = 1;
         this.opacity = 1;
         this.verticalOffset = 0;
         this.horizontalOffset = 0;
@@ -395,6 +416,21 @@ class LayerProperties{
         } else{
             this.visible = 1;
             layer.canvasLayer.showCanvas(layer);
+        } 
+    }
+    isUnlock(){
+        if(this.locked == 1){
+            return "fa fa-lock-open";
+        }
+        return "fa fa-lock";
+    }
+    changetoLock(layer){
+        if(this.locked == 1){
+            this.locked = 0;
+            // layer.canvasLayer.hideCanvas();
+        } else{
+            this.locked = 1;
+            // layer.canvasLayer.showCanvas(layer);
         } 
     }
 }

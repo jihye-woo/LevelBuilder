@@ -119,7 +119,7 @@
                 <div class="surface btn" id="eraser" title="Eraser tool - erase tile data"
                   onclick="EraseTile(this)"><i class="fa fa-eraser"></i></div>
                 <div class="surface btn" id="btn-editor-move" value = "doNotMove"
-                  title="(3) Drag tool - pan around the map editor, you can also hold down (alt)"
+                  title="Drag tool - pan around the map editor, you can also hold down (alt)"
                   onclick="moveGrid(this)"><i class="fa fa-arrows"></i></div>
                 <div class="surface btn" id="btn-editor-zout" title="(-) Zoom out" onclick="zoomOut()"><i
                     class="fa fa-search-minus"></i></div>
@@ -175,7 +175,7 @@
   </div>
 
   <div class="window-tint">       </div>
-  <div class="window surface" id="create-map-window">
+  <div class="window surface" id="create-map-window" style="z-index : 1000;">
       <div class="window-title-bar">
         <h4>New map</h4>
         <div class="surface btn" onclick="cancelCreateMap()"><i class="fa fa-close"></i></div>
@@ -252,7 +252,7 @@
         </div> -->
       </div>
 
-      <div class="window surface" id="saveas">
+      <div class="window surface" id="saveas" style="z-index : 1000;">
           <div class="window-title-bar">
             <h4>Save As</h4>
             <div class="surface btn" onclick="cancelSaveAs()"><i class="fa fa-close"></i></div>
@@ -266,7 +266,7 @@
           </div>
       </div>
 
-      <div class="window surface" id="exportas_map">
+      <div class="window surface" id="exportas_map" style="z-index : 1000;">
         <div class="window-title-bar">
           <h4>Export Map As</h4>
           <div class="surface btn" onclick="cancelExportAsMap()"><i class="fa fa-close"></i></div>
@@ -280,7 +280,7 @@
         </div>
     </div>
 
-      <div class="window surface" id="exportas_tileset">
+      <div class="window surface" id="exportas_tileset" style="z-index : 1000;">
         <div class="window-title-bar">
           <h4>Export Tileset As</h4>
           <div class="surface btn" onclick="cancelExportAsTileset()"><i class="fa fa-close"></i></div>
@@ -294,7 +294,7 @@
         </div>
     </div>
 
-      <div class="window surface" id="loadFile">
+      <div class="window surface" id="loadFile" style="z-index : 1000;">
           <div class="window-title-bar">
             <h4>Load</h4>
             <div class="surface btn" onclick="cancelload()"><i class="fa fa-close"></i></div>
@@ -310,7 +310,7 @@
           </div>
       </div>
 
-      <div class="window surface" id="about">
+      <div class="window surface" id="about" style="z-index : 1000;">
           <div class="window-title-bar">
             <h4>About</h4>
             <p>The Level Builder is a tool for making a map. 
