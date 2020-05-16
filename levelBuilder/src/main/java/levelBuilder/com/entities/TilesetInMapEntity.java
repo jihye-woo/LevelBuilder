@@ -17,7 +17,8 @@ public class TilesetInMapEntity {
     private String tilesetName;
     @Id
     private String username; //owner of the tileset
-    private int gid;
+    private int firstgid;
+    private int globalId;
 
     public String getMapName() {
         return mapName;
@@ -43,11 +44,19 @@ public class TilesetInMapEntity {
         this.username = username;
     }
 
-    public int getGid() {
-        return gid;
+    public int getFirstgid() {
+        return firstgid;
     }
 
-    public void setGid(int gid) {
-        this.gid = gid;
+    public void setFirstgid(int firstgid) {
+        this.firstgid = firstgid;
+    }
+
+    public int getGlobalId() {
+        return globalId;
+    }
+
+    public void setGlobalId(int globalId) {
+        this.globalId = globalId;
     }
 }
