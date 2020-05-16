@@ -474,12 +474,23 @@ function loadFile(){
 function loadAll_Map_Helper(loadMapJSON) {
     loadDataFromDB(loadMapJSON, "load_map")
         .then(jsonData => {
-            var newMap = parseMapJson(jsonData.map);
-            parseLayerJson(jsonData.layers, newMap);
-            parseTilesetInMapJson(jsonData.tilesetsInMap, newMap);
-            console.log(newMap);
-            loadMap(newMap);
+            var loadedMap = parseMapJson(jsonData.map);
+            // save tileset info in map
+            parseTilesetInMapJson(jsonData.tilesetsInMap, loadedMap);
+            // save layers in map
+            parseLayerJson(jsonData.layers, loadedMap);
+            // add and show layer canvases on the map
+            loadMap(loadedMap);
+            // paint all layers on the map
+            paintAllLayers(loadedMap.LayerList);
         });
+}
+
+function paintAllLayers(loadedLayers){
+  for (let [layerId, layer] of loadedLayers) {
+    // paint a single layer
+    layer.paintTiles();
+  }
 }
 
 function loadAll_Map(){
@@ -626,15 +637,14 @@ function parseMapJson(map){
 function parseLayerJson(layers, map){
   var layerList = new Map();
   layers.forEach(function(layer){
-  var layerData = layer;
   var newLayer;
-  if (layerData.type === "TiledLayer"){ 
-    newLayer = new TiledLayer(layerData.id, layerData.name, map.mapWidth, map.mapHeight, map.id, map.tileWidth, map.tileHeight);
+  if (layer.type === "TiledLayer"){ 
+    newLayer = new TiledLayer(layer.id, layer.name, map.mapWidth, map.mapHeight, map.id, map.tileWidth, map.tileHeight);
   } else {
-    newLayer = new ObjectLayer(layerData.id, layerData.name, map.mapWidth, map.mapHeight);
+    newLayer = new ObjectLayer(layer.id, layer.name, map.mapWidth, map.mapHeight);
   }
     newLayer.csv = convertCSVToArray(layer.csv, Array(map.mapWidth), map.mapHeight);
-    newLayer.order = layerData.orderInMap;
+    newLayer.order = layer.orderInMap;
     layerList.set(layerList.size, newLayer);
   });
   map.LayerList = layerList;

@@ -267,6 +267,10 @@ class TiledLayer extends Layer{
             this.csv[y][x] = 0;
         // }
     }
+    paintTiles(){
+        // editor has all info for tileset and map
+
+    }
 }
 
 function getKey(val){
