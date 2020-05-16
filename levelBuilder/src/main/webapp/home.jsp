@@ -386,10 +386,32 @@ class Editor{
   }
 }
 
+function handleLoadMapRequest(){
+    var queryString = window.location.search;
+    var urlParams = new URLSearchParams(queryString);
+    if (urlParams.has('load_map')) {
+        var loadMapJSON = {"mapName" : urlParams.get('load_map')};
+        loadAll_Map_Helper(loadMapJSON);
+    }
+}
+
+function handleLoadTilesetRequest(){
+    var queryString = window.location.search;
+    var urlParams = new URLSearchParams(queryString);
+    if (urlParams.has('load_tileset') && urlParams.has('owned_by')) {
+        var loadTilesetJSON = {"name" : urlParams.get('load_tileset'), "username" : urlParams.get('owned_by')};
+        loadAll_Tileset_Helper(loadTilesetJSON);
+    }
+}
+
 window.onload = (event) => {
   editor = new Editor();
   editor.userName = '${username}';
   console.log("create editor class");
+
+  //Load a map or tileset if parameters exist in the URL
+  handleLoadMapRequest();
+  handleLoadTilesetRequest();
 };
 
 </script>
