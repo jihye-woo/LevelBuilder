@@ -79,13 +79,13 @@
                   <button class="dropbtn">Layers</button>
                   <div class="dropdown-content">
                     <a href="#" onclick="newLayer()">New</a>
-                    <a href="#" onclick="newLayerGroup()">Group</a>
-                    <a href="#">Duplicate Layers</a>
+                    <!-- <a href="#" onclick="newLayerGroup()">Group</a> -->
+                    <!-- <a href="#">Duplicate Layers</a> -->
                     <a href="#">Remove Layers</a>
                     <a href="#"onclick="moveLayerUp()">Raise Layers</a>
                     <a href="#"onclick="moveLayerDown()">Lower Layers</a>
-                    <a href="#">Show/Hide Layers</a>
-                    <a href="#">Lock/Unlock Layers</a>
+                    <!-- <a href="#">Show/Hide Layers</a> -->
+                    <!-- <a href="#">Lock/Unlock Layers</a> -->
                     <!-- <a href="#"onclick="showHideGird()">Show/Hide Grid</a> -->
                   </div>
                 </div>
@@ -145,8 +145,8 @@
                     class="fa fa-folder"></i></div> -->
                 <div class="surface btn" id="btn-layer-add" title="Create a layer" onclick="newLayer()"><i
                     class="fa fa-file-o"> </i></div>
-                <div class="surface btn req-layer" id="btn-layer-duplicate" title="Duplicate layer"
-                  onclick="duplicateLayer()"><i class="fa fa-files-o"></i></div>
+                <!-- <div class="surface btn req-layer" id="btn-layer-duplicate" title="Duplicate layer"
+                  onclick="duplicateLayer()"><i class="fa fa-files-o"></i></div> -->
                 <div class="surface btn req-layer" id="btn-layer-up" title="Move group or layer upwards"
                   onclick="moveLayerUp()"><i class="fa fa-arrow-up"></i></div>
                 <div class="surface btn req-layer" id="btn-layer-down" title="Move group or layer downwards"

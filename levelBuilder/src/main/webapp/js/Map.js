@@ -11,6 +11,7 @@ class TiledMap{
         this.LayerList = new Map();
         this.nextgid = 1;
         this.selectedTilesetList = new Map(); // key : tileset name / value : gid
+        this.csvGid = new Map(); // key: csv / value: gid
     }
     updateNextGid(selectedName, size){
         if(this.selectedTilesetList.size ==0){
@@ -21,6 +22,16 @@ class TiledMap{
             if(!(this.selectedTilesetList.has(selectedName))){
                 this.selectedTilesetList.set(selectedName,this.nextgid); 
                 this.nextgid = this.nextgid + size;
+            }
+        }
+    }
+    updateCSVGid(csvValue, gidValue){
+        if(this.csvGid.size ==0){
+            this.csvGid.set(csvValue, gidValue); 
+        }  
+        else{
+            if(!(this.csvGid.has(csvValue))){
+                this.csvGid.set(csvValue, gidValue); 
             }
         }
     }
@@ -227,13 +238,33 @@ class TiledLayer extends Layer{
         imgg.src = editor.currentTileset.tileList[index].src;
         this.canvasLayer.canvas.getContext("2d").drawImage(imgg,tileList[index].startX, tileList[index].startY,tileList[index].tileWidth, tileList[index].tileHeight, this.tileW*x, this.tileH*y, tileList[index].tileWidth, tileList[index].tileHeight );
         editor.currentMap.updateNextGid(editor.currentTileset.name, editor.currentTileset.tilecount);
-        this.csv[y][x] = index + Number(editor.currentMap.selectedTilesetList.get(editor.currentTileset.name));
+        var ggid = Number(editor.currentMap.selectedTilesetList.get(editor.currentTileset.name));
+        this.csv[y][x] = index + ggid;
+        editor.currentMap.updateCSVGid(index + ggid, ggid);
     }
 
     eraseTile(x, y, canvas,th, tw){
-        console.log("ERASE" + x +"@" +y);
-        this.canvasLayer.canvas.getContext("2d").clearRect(x*tw, y*th, tw, th);
-        this.csv[y][x] = 0;
+        var mapH = editor.currentMap.tileHeight;
+        var mapW = editor.currentMap.tileWidth;
+        var ctxx =this.canvasLayer.canvas.getContext("2d");
+        // if (th>mapH || tw>mapW){
+        //     if(th>mapH){
+        //         this.canvasLayer.canvas.getContext("2d").clearRect(x*mapW, y*mapH, mapW, mapH);
+        //         this.csv[y][x] = 0;
+        //         var imgH = ctxx.getImageData(x*mapW, (y+1)*mapH, tw, th-mapH);
+        //         ctxx.putImageData(imgH, x*mapW, (y+1)*mapH);
+        //     }
+        //     if(tw>mapW){
+        //         this.canvasLayer.canvas.getContext("2d").clearRect(x*mapW, y*mapH, mapW, mapH);
+        //         this.csv[y][x] = 0;
+        //         var imgW = ctxx.getImageData((x+1)*mapW, y*mapH, tw-mapW, th);
+        //         ctxx.putImageData(imgW, (x+1)*mapW, y*mapH);
+        //     }
+        // }
+        // else{
+            this.canvasLayer.canvas.getContext("2d").clearRect(x*mapW, y*mapH, tw+1, th+1);
+            this.csv[y][x] = 0;
+        // }
     }
 }
 
