@@ -467,48 +467,56 @@ function loadFile(){
   }
 }
 
+function loadAll_Map_Helper(loadMapJSON) {
+    loadDataFromDB(loadMapJSON, "load_map")
+        .then(jsonData => {
+            var newMap = parseMapJson(jsonData.map);
+            console.log(newMap);
+            var layers = parseLayerJson(jsonData.layers, newMap);
+            // var layerProps = parseLayerPropJson(jsonData.layerProps, layers);
+            newMap.LayerList = layers;
+            console.log(newMap);
+            loadMap(newMap);
+        });
+}
+
 function loadAll_Map(){
-  var fileName = document.getElementById('loadFileName').value;
-  var loadMapJSON = {"mapName" : fileName};
-  loadDataFromDB(loadMapJSON, "load_map")
-  .then(jsonData => {
-    var newMap = parseMapJson(jsonData.map);
-    console.log(newMap);
-    var layers = parseLayerJson(jsonData.layers, newMap);
-    // var layerProps = parseLayerPropJson(jsonData.layerProps, layers);
-    newMap.LayerList = layers;
-    console.log(newMap);
-    loadMap(newMap);
-  });
-  closeWindow(loadWindow);
+    var fileName = document.getElementById('loadFileName').value;
+    var loadMapJSON = {"mapName" : fileName};
+    loadAll_Map_Helper(loadMapJSON);
+    closeWindow(loadWindow);
+}
+
+function loadAll_Tileset_Helper(loadTilesetJSON) {
+    var tilesetJson;
+    loadDataFromDB(loadTilesetJSON, "load_tileset")
+        .then(jsonData => {
+            tilesetJson = jsonData.tileset;
+            return parseImageJson(jsonData.image);
+        }).then(newImage => {
+        console.log(newImage);
+        // document.getElementsByClassName('Grid')[0].appendChild(newImage);
+        var newTileset = parseTilesetJson(tilesetJson, newImage);
+        // console.log("new@ "+ newTileset);
+        // editor.loadTileset(newTileset);
+        var currentTS = editor.currentTileset;
+        createNewtab(currentTS.name, currentTS.tileHeight, currentTS.tileWidth, currentTS.spacing);
+        loadImg = new Image();
+        loadImg.src = currentTS.image.src;
+        tilesetH = currentTS.tileHeight;
+        tilesetW = currentTS.tileWidth;
+        spacing = currentTS.spacing;
+        loadImg.addEventListener('load',loadImageDB,false);
+        // loadImageDB(loadedImg);
+    });
 }
 
 var loadedImg;
 function loadAll_Tileset(){
-  var fileName = document.getElementById('loadFileName').value;
-  var loadTilesetJSON = {"name" : fileName, "username" : editor.userName};
-  var tilesetJson;
-  loadDataFromDB(loadTilesetJSON, "load_tileset")
-  .then(jsonData => {
-    tilesetJson = jsonData.tileset;
-    return parseImageJson(jsonData.image);
-  }).then(newImage => {
-    console.log(newImage);
-    // document.getElementsByClassName('Grid')[0].appendChild(newImage);
-    var newTileset = parseTilesetJson(tilesetJson, newImage);
-    // console.log("new@ "+ newTileset);
-    // editor.loadTileset(newTileset);
-    var currentTS = editor.currentTileset;
-  createNewtab(currentTS.name, currentTS.tileHeight, currentTS.tileWidth, currentTS.spacing); 
-   loadImg = new Image();
-  loadImg.src = currentTS.image.src;
-  tilesetH = currentTS.tileHeight;
-  tilesetW = currentTS.tileWidth;
-  spacing = currentTS.spacing;        
-  loadImg.addEventListener('load',loadImageDB,false);
-  // loadImageDB(loadedImg);
-});
-  closeWindow(loadWindow);
+    var fileName = document.getElementById('loadFileName').value;
+    var loadTilesetJSON = {"name" : fileName, "username" : editor.userName};
+    loadAll_Tileset_Helper(loadTilesetJSON);
+    closeWindow(loadWindow);
 }
 
 var currentTileID;
