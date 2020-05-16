@@ -174,7 +174,7 @@
     </section>
   </div>
 
-  <!-- <div class="window-tint">       </div> -->
+  <div class="window-tint">       </div>
   <div class="window surface" id="create-map-window">
       <div class="window-title-bar">
         <h4>New map</h4>
