@@ -138,8 +138,8 @@ function showList(Llist){ // Llist == layer lists in current Map
     while (list1.hasChildNodes()) {
         list1.removeChild(list1.firstChild);
     }
-
-    for(var i=Llist.size-1; i>-1; i--){
+    var topLayerIndex = Llist.size-1;
+    for(var i=topLayerIndex; i>-1; i--){
         var layer = Llist.get(i);
         var li = document.createElement("li");
         li.id = layer.order;
@@ -154,6 +154,10 @@ function showList(Llist){ // Llist == layer lists in current Map
         // reorder the real canvas layer 
         layer.canvasLayer.canvas.style.zIndex = li.id;
     }
+    var topCanvasStyle = Llist.get(topLayerIndex).canvasLayer.canvas.style;
+    var x = parseInt(topCanvasStyle.left.replace("px", ""));
+    var y = parseInt(topCanvasStyle.top.replace("px", ""));
+    editor.grid.showGrid(x, y);
 }
 
 function createVisibleButton(layer){

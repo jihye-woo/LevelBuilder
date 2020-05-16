@@ -81,7 +81,12 @@ class Grid{
     dragging(e){
         if(editor.grid.isDragging){
             var target = editor.grid;
-            target.showGrid(e.offsetX, e.offsetY);
+            var layerList = editor.currentMap.LayerList;
+            var topLayerIndex = layerList.size-1;
+            var [x, y] = [e.offsetX, e.offsetY];
+            target.showGrid(x, y);
+            layerList.get(topLayerIndex).canvasLayer.canvas.style.left = x+"px";
+            layerList.get(topLayerIndex).canvasLayer.canvas.style.top = y+"px";
         }
     }
     dragEnd(e){
@@ -92,9 +97,11 @@ class Grid{
  var row;
 class TiledCanvas{
     constructor(width, height, tileW, tileH, layer){
-         // should be get a layer
         let canvas = document.createElement("canvas");
         canvas.id = layer.id;
+        canvas.style.position = "position"; 
+        canvas.style.left = "0px";
+        canvas.style.top = "0px";
         canvas.addEventListener('click', function(event) {
             var mousePos = getMousePos(canvas, event);
              row = Math.floor(mousePos.x/tileW);
