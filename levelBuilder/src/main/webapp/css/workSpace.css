@@ -128,8 +128,6 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow-x: auto;
-  overflow-y: auto;
 }
 
 .window-title-bar, .tile-tools, .project-tools, .editor-tools {
