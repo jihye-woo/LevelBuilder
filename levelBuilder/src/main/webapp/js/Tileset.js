@@ -26,7 +26,7 @@ class SingleImageTileset extends Tileset{
 		super(name, image, imgWidth, imgHeight, tileWidth, tileHeight);
 		this.spacing = spacing;
 		this.columns = columns;
-		this.tilecount = tilecount;
+		this.tilecount = columns*Math.floor(imgHeight / (tileHeight+spacing));
 		this.tileList= new Array();
 	}
 
@@ -43,7 +43,7 @@ function createSingleTiles(tileSetName, image, tileWidth, tileHeight, spacing){
   var yPos =0;
   var limit;
   var tileList =[];
-  var plus = tileWidth+ spacing;
+  var plus = tileWidth + spacing;
   var plusH = tileHeight +spacing;
   
   for(var i = 0;i < colT * rowT; i++){

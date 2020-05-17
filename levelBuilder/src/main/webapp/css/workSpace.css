@@ -656,7 +656,7 @@ opacity: 50;
 
 
 .tab {
-overflow: hidden;
+overflow: auto;
 border: 1px solid rgb(75, 73, 73);
 background-color: #292727;
 }
