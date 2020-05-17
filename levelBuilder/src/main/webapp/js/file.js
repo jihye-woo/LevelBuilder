@@ -800,7 +800,6 @@ function getTilesetInMapJSON(mapData){
       "tilesetName" : getKey(fristgid),
       "username": editor.userName,
       "firstgid" : fristgid,
-      "gid": gid,
       "globalId" : gid
     });
   }

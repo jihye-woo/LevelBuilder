@@ -3,7 +3,7 @@ function moveGrid(element){
     var layerList = editor.currentMap.LayerList;
     var topLayerIndex = layerList.size-1;
     var targetLayer = layerList.get(topLayerIndex);
-    if(targetLayer.layerProp.locked == 1){
+    if(targetLayer.layerProp.locked == 0){
         if(currentState == 'doNotMove'){
             element.className += " active";
             element.setAttribute('value','move');
@@ -14,7 +14,7 @@ function moveGrid(element){
             element.className = element.className.replace(" active", "");
             element.setAttribute("value","doNotMove");
             editor.grid.offDragEvent();
-            document.getElementsByClassName('Grid')[0].style.zIndex = 0;
+            document.getElementsByClassName('Grid')[0].style.zIndex = "";
         }
     }
 }

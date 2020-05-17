@@ -18,6 +18,7 @@ public class TilesetInMapEntity {
     @Id
     private String username; //owner of the tileset
     private int firstgid;
+    @Id
     private int globalId;
 
     public String getMapName() {

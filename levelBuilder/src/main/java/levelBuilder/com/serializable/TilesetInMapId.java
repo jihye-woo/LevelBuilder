@@ -11,19 +11,21 @@ public class TilesetInMapId implements Serializable {
     private String mapName;
     private String tilesetName;
     private String username;
+    private int globalId;
 
     public TilesetInMapId(){
     }
 
-    public TilesetInMapId(String mapName, String tilesetName, String username) {
+    public TilesetInMapId(String mapName, String tilesetName, String username, int globalId) {
         this.mapName = mapName;
         this.tilesetName = tilesetName;
         this.username = username;
+        this.globalId = globalId;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(mapName, tilesetName, username);
+        return Objects.hash(mapName, tilesetName, username, globalId);
     }
 
     @Override
@@ -33,6 +35,7 @@ public class TilesetInMapId implements Serializable {
         TilesetInMapId tilesetInMapId = (TilesetInMapId) o;
         return mapName.equals(tilesetInMapId.mapName) &&
                 tilesetName.equals(tilesetInMapId.tilesetName) &&
-                username.equals(tilesetInMapId.username);
+                username.equals(tilesetInMapId.username) &&
+                globalId==tilesetInMapId.globalId;
     }
 }
