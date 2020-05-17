@@ -18,4 +18,7 @@ public interface MapSharedWithRepository extends JpaRepository<MapSharedWithEnti
     Can then create a list of maps that a user has acces to
     */
     List<MapSharedWithEntity> findByUserName(String username);
+
+    /*Determine if a given user has access to a specific map*/
+    MapSharedWithEntity findByMapNameAndUserName(String mapName, String sharedWithUsername);
 }

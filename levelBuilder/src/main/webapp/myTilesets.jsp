@@ -71,8 +71,9 @@
                                 <button type="button" class="btn btn-sm btn-outline-secondary"><a
                                         href="/home?export_tileset=${tileset.name}&owned_by=${tileset.ownedBy}">Export</a></button>
                                 <button type="button" class="btn btn-sm btn-outline-secondary"><a
-                                        href="/share-tileset?tilesetName=${tileset.name}&ownedBy=${tileset.ownedBy}">Share</a>
-                                </button>
+                                        href="/share-tileset?tilesetName=${tileset.name}&ownedBy=${tileset.ownedBy}">Share</a></button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary"
+                                        onclick="deleteTileset('${tileset.name}', '${tileset.ownedBy}')">Delete</button>
                             </div>
                         </div>
                     </div>
@@ -108,8 +109,9 @@
                                 <button type="button" class="btn btn-sm btn-outline-secondary"><a
                                         href="/home?export_tileset=${tileset.name}&owned_by=${tileset.ownedBy}">Export</a></button>
                                 <button type="button" class="btn btn-sm btn-outline-secondary"><a
-                                        href="/share-tileset?tilesetName=${tileset.name}&ownedBy=${tileset.ownedBy}">Share</a>
-                                </button>
+                                        href="/share-tileset?tilesetName=${tileset.name}&ownedBy=${tileset.ownedBy}">Share</a></button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary"
+                                        onclick="removeTileset('${tileset.name}', '${tileset.ownedBy}')">Remove</button>
                             </div>
                         </div>
                     </div>
@@ -119,6 +121,22 @@
     </div>
 
 </div>
+
+<script type="text/javascript">
+    function deleteTileset(tilesetName, ownedBy) {
+        var conf = confirm("Are you sure you want to delete this tileset? All users who this tileset has been shared with will also lose access to it.");
+        if(conf == true){
+            window.location.replace("/delete-tileset?tilesetName=" + tilesetName + "&ownedBy=" + ownedBy);
+        }
+    }
+
+    function removeTileset(tilesetName, ownedBy) {
+        var conf = confirm("Are you sure you want to remove this tileset? You will no longer have access to it.");
+        if(conf == true){
+            window.location.replace("/delete-tileset?tilesetName=" + tilesetName + "&ownedBy=" + ownedBy);
+        }
+    }
+</script>
 
 </body>
 </html>

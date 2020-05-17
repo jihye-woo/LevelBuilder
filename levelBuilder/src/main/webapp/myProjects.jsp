@@ -80,6 +80,8 @@
                                         href="/home?export_map=${map.name}">Export</a></button>
                                 <button type="button" class="btn btn-sm btn-outline-secondary"><a
                                         href="/share?mapName=${map.name}">Share</a></button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary"
+                                        onclick="deleteMap('${map.name}')">Delete</button>
                             </div>
                                 <%--                    <small class="text-muted">9 mins</small>--%>
                         </div>
@@ -119,6 +121,8 @@
                                         href="/home?export_map=${map.name}">Export</a></button>
                                 <button type="button" class="btn btn-sm btn-outline-secondary"><a
                                         href="/share?mapName=${map.name}">Share</a></button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary"
+                                        onclick="removeMap('${map.name}')">Remove</button>
                             </div>
                                 <%--                    <small class="text-muted">9 mins</small>--%>
                         </div>
@@ -131,6 +135,22 @@
     </div>
 
 </div>
+
+<script type="text/javascript">
+    function deleteMap(mapName) {
+        var conf = confirm("Are you sure you want to delete this project? All users who this project has been shared with will also lose access to it.");
+        if(conf == true){
+            window.location.replace("/delete-map?mapName=" + mapName);
+        }
+    }
+
+    function removeMap(mapName) {
+        var conf = confirm("Are you sure you want to remove this project? You will no longer have access to it.");
+        if(conf == true){
+            window.location.replace("/delete-map?mapName=" + mapName);
+        }
+    }
+</script>
 
 </body>
 </html>
