@@ -69,6 +69,8 @@
                                 <button type="button" class="btn btn-sm btn-outline-secondary"><a
                                         href="/home?load_tileset=${tileset.name}&owned_by=${tileset.ownedBy}">Edit</a></button>
                                 <button type="button" class="btn btn-sm btn-outline-secondary"><a
+                                        href="/home?export_tileset=${tileset.name}&owned_by=${tileset.ownedBy}">Export</a></button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary"><a
                                         href="/share-tileset?tilesetName=${tileset.name}&ownedBy=${tileset.ownedBy}">Share</a>
                                 </button>
                             </div>
@@ -103,6 +105,8 @@
                             <div class="btn-group">
                                 <button type="button" class="btn btn-sm btn-outline-secondary"><a
                                         href="/home?load_tileset=${tileset.name}&owned_by=${tileset.ownedBy}">Edit</a></button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary"><a
+                                        href="/home?export_tileset=${tileset.name}&owned_by=${tileset.ownedBy}">Export</a></button>
                                 <button type="button" class="btn btn-sm btn-outline-secondary"><a
                                         href="/share-tileset?tilesetName=${tileset.name}&ownedBy=${tileset.ownedBy}">Share</a>
                                 </button>

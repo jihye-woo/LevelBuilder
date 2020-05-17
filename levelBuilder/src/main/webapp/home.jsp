@@ -382,22 +382,27 @@ class Editor{
   }
 }
 
-function handleLoadMapRequest(){
-    var queryString = window.location.search;
-    var urlParams = new URLSearchParams(queryString);
-    if (urlParams.has('load_map')) {
-        var loadMapJSON = {"mapName" : urlParams.get('load_map')};
-        loadAll_Map_Helper(loadMapJSON);
-    }
+function handleLoadMapRequest(mapName){
+    var loadMapJSON = {"mapName" : mapName};
+    loadAll_Map_Helper(loadMapJSON);
+
 }
 
-function handleLoadTilesetRequest(){
-    var queryString = window.location.search;
-    var urlParams = new URLSearchParams(queryString);
-    if (urlParams.has('load_tileset') && urlParams.has('owned_by')) {
-        var loadTilesetJSON = {"name" : urlParams.get('load_tileset'), "username" : urlParams.get('owned_by')};
-        loadAll_Tileset_Helper(loadTilesetJSON);
-    }
+function handleLoadTilesetRequest(tileSetName, username){
+    var loadTilesetJSON = {"name" : tileSetName, "username" : username};
+    loadAll_Tileset_Helper(loadTilesetJSON);
+}
+
+function handleExportMapRequest(mapName){
+    var loadMapJSON = {"mapName": mapName};
+    loadAll_Map_Helper(loadMapJSON);
+    setTimeout(exportMap, 2000); //wait until map has loaded to start exporting
+}
+
+function handleExportTilesetRequest(tileSetName, username){
+    var loadTilesetJSON = {"name" : tileSetName, "username" : username};
+    loadAll_Tileset_Helper(loadTilesetJSON);
+    setTimeout(exportTileset, 2000, tileSetName); //wait until tileset has loaded to start exporting
 }
 
 window.onload = (event) => {
@@ -405,9 +410,18 @@ window.onload = (event) => {
   editor.userName = '${username}';
   console.log("create editor class");
 
-  //Load a map or tileset if parameters exist in the URL
-  handleLoadMapRequest();
-  handleLoadTilesetRequest();
+  //If parameters exist in the URL, handle request
+  var queryString = window.location.search;
+  var urlParams = new URLSearchParams(queryString);
+  if(urlParams.has('load_map')) {
+      handleLoadMapRequest(urlParams.get('load_map'));
+  } else if(urlParams.has('load_tileset') && urlParams.has('owned_by')) {
+      handleLoadTilesetRequest(urlParams.get('load_tileset'), urlParams.get('owned_by'));
+  } else if(urlParams.has('export_map')) {
+      handleExportMapRequest(urlParams.get('export_map'));
+  } else if(urlParams.has('export_tileset') && urlParams.has('owned_by')) {
+      handleExportTilesetRequest(urlParams.get('export_tileset'), urlParams.get('owned_by'));
+  }
 };
 
 </script>

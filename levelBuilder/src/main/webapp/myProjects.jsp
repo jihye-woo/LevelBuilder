@@ -77,6 +77,8 @@
                                 <button type="button" class="btn btn-sm btn-outline-secondary"><a
                                         href="/home?load_map=${map.name}">Edit</a></button>
                                 <button type="button" class="btn btn-sm btn-outline-secondary"><a
+                                        href="/home?export_map=${map.name}">Export</a></button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary"><a
                                         href="/share?mapName=${map.name}">Share</a></button>
                             </div>
                                 <%--                    <small class="text-muted">9 mins</small>--%>
@@ -114,6 +116,8 @@
                                 <button type="button" class="btn btn-sm btn-outline-secondary"><a
                                         href="/home?load_map=${map.name}">Edit</a></button>
                                 <button type="button" class="btn btn-sm btn-outline-secondary"><a
+                                        href="/home?export_map=${map.name}">Export</a></button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary"><a
                                         href="/share?mapName=${map.name}">Share</a></button>
                             </div>
                                 <%--                    <small class="text-muted">9 mins</small>--%>
@@ -127,8 +131,6 @@
     </div>
 
 </div>
-
-<script type="text/javascript" src="js/file.js"></script>
 
 </body>
 </html>
