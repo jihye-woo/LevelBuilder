@@ -81,12 +81,13 @@ class Grid{
     dragging(e){
         if(editor.grid.isDragging){
             var target = editor.grid;
+            var [x, y] = [e.offsetX, e.offsetY];
             var layerList = editor.currentMap.LayerList;
             var topLayerIndex = layerList.size-1;
-            var [x, y] = [e.offsetX, e.offsetY];
+            var targetLayer = layerList.get(topLayerIndex);
             target.showGrid(x, y);
-            layerList.get(topLayerIndex).canvasLayer.canvas.style.left = x+"px";
-            layerList.get(topLayerIndex).canvasLayer.canvas.style.top = y+"px";
+            targetLayer.canvasLayer.canvas.style.left = x+"px";
+            targetLayer.canvasLayer.canvas.style.top = y+"px";
         }
     }
     dragEnd(e){

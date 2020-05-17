@@ -397,7 +397,7 @@ class LayerProperties{
     constructor(){
         this.id = 0;
         this.visible = 1;
-        this.locked = 1;
+        this.locked = 0;
         this.opacity = 1;
         this.verticalOffset = 0;
         this.horizontalOffset = 0;
