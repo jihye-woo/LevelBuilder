@@ -141,8 +141,9 @@ public class FileController {
 	public ResponseEntity<String> saveTilesetInMap(@RequestBody List<TilesetInMapEntity> tilesetsInMap) {
 		System.out.println(tilesetsInMap);
 		// save tileset data which is in the map
-		for(TilesetInMapEntity tilesetInMap : tilesetsInMap)
+		for(TilesetInMapEntity tilesetInMap : tilesetsInMap) {
 			tilesetInMapRepository.save(tilesetInMap);
+		}
 		
 		return new ResponseEntity<>(object.toString(), HttpStatus.CREATED);
 	}
