@@ -90,10 +90,9 @@ public class ShareController {
 		//make sure the user doesnt already have access to the map
 		//the user mustn't be the owner or already been shared
 		boolean alreadyShared = false;
-		MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		MapEntity map = mapRepository.findByName(mapName);
 
-		if (map.getOwnedBy().equals(myUserDetails.getUsername())){ //if user is owner, they have access
+		if (map.getOwnedBy().equals(existingUser.getUsername())){ //if user is owner, they have access
 			alreadyShared = true;
 		}
 
@@ -115,7 +114,8 @@ public class ShareController {
 		MapSharedWithEntity share = new MapSharedWithEntity();
 		share.setMapName(mapName);
 		share.setUserName(existingUser.getUsername());
-		share.setSharedByUsername(myUserDetails.getUsername()); //the person who shared is the one currently logged in!!
+		MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		share.setSharedByUsername(myUserDetails.getUsername()); //the person who shared is the one currently logged in
 
 		mapSharedWithRepository.save(share);
 
@@ -175,16 +175,15 @@ public class ShareController {
 		//make sure the user doesnt already have access to the tileset
 		//the user mustn't be the owner or already been shared
 		boolean alreadyShared = false;
-		MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		TilesetEntity tileset = tilesetRepository.findByNameAndOwnedBy(tilesetName, ownedBy);
 
-		if (tileset.getOwnedBy().equals(myUserDetails.getUsername())){ //if user is owner, they have access
+		if (tileset.getOwnedBy().equals(existingUser.getUsername())){ //if user is owner, they have access
 			alreadyShared = true;
 		}
 
 		ArrayList<TilesetSharedWithEntity> shares = (ArrayList<TilesetSharedWithEntity>) tilesetSharedWithRepository.findBySharedWithUsername(ownedBy);
 		for (TilesetSharedWithEntity share:shares) {
-			if (share.getSharedWithUsername().equals(myUserDetails.getUsername())) { //if tileset was shared with user, they have access
+			if (share.getSharedWithUsername().equals(existingUser.getUsername())) { //if tileset was shared with user, they have access
 				alreadyShared = true;
 				break;
 			}
@@ -201,6 +200,7 @@ public class ShareController {
 		share.setTilesetName(tilesetName);
 		share.setTilesetOwnedBy(ownedBy);
 		share.setSharedWithUsername(existingUser.getUsername());
+		MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		share.setSharedByUsername(myUserDetails.getUsername()); //the person who shared is the one currently logged in
 
 		tilesetSharedWithRepository.save(share);
