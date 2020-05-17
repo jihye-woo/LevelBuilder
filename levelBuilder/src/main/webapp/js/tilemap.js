@@ -103,20 +103,8 @@ class TiledCanvas{
         canvas.style.position = "position"; 
         canvas.style.left = "0px";
         canvas.style.top = "0px";
-        canvas.addEventListener('click', function(event) {
-            var mousePos = getMousePos(canvas, event);
-             row = Math.floor(mousePos.x/tileW);
-             col = Math.floor(mousePos.y/tileH);
-            var message = 'Mouse position: ' + row  + ',' + col;
-            console.log(message);
-            if(active == 0){
-                getTWTH();
-                layer.eraseTile(row, col, canvas, tsH, tsW);
-            }
-            else{
-                layer.fillTiles(row, col, canvas);
-            } 
-        });
+        canvas.addEventListener("click", addEvent);
+
         this.w = canvas.width = (width*tileW);
         this.h = canvas.height = (height*tileH);
         this.canvas = document.getElementsByClassName('Map')[0].appendChild(canvas);
@@ -131,6 +119,28 @@ class TiledCanvas{
     getCSVvalue(){
         return editor.currentMap.LayerList.get(editor.currentMap.LayerList.size-1).csv[col][row];
     }
+    removeEvent(){
+        this.canvas.removeEventListener('click', addEvent);
+    }
+    addEventAgain(layer){
+        this.canvas.addEventListener("click", addEvent);
+    }
+}
+function addEvent(){
+    var current = editor.currentMap;
+    var topLayerIndex = current.LayerList.size-1;
+    var mousePos = getMousePos(current.LayerList.get(topLayerIndex).canvasLayer.canvas, event);
+    row = Math.floor(mousePos.x/current.tileWidth);
+    col = Math.floor(mousePos.y/current.tileHeight);
+   var message = 'Mouse position: ' + row  + ',' + col;
+   console.log(message);
+   if(active == 0){
+       getTWTH();
+       current.LayerList.get(topLayerIndex).eraseTile(row, col, current.LayerList.get(topLayerIndex).canvasLayer.canvas, tsH, tsW);
+   }
+   else{
+    current.LayerList.get(topLayerIndex).fillTiles(row, col, current.LayerList.get(topLayerIndex).canvasLayer.canvas);
+   }
 }
 
 class ObjectCanvas{

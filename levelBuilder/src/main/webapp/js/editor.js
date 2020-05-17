@@ -21,3 +21,9 @@ function moveGrid(element){
 
 editor.currentMap.LayerList.get(0).canvasLayer.canvas
 // editor.currentMap.LayerList.get(editor.selectedLayerId).canvasLayer.canvas;
+
+// function lock(){
+//     if(targetLayer){
+
+//     }
+// }

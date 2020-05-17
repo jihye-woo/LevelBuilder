@@ -10,7 +10,7 @@ class TiledMap{
         this.tileHeight = tileHeight;
         this.LayerList = new Map();
         this.nextgid = 1;
-        this.selectedTilesetList = new Map(); // key : tileset name / value : gid
+        this.selectedTilesetList = new Map(); // key : tileset name / value : firstGid
         this.csvGid = new Map(); // key: globalID / value: firstGid
     }
     updateNextGid(selectedName, size){
@@ -183,6 +183,7 @@ function createLockButton(layer){
     var result = "fa-lock";
     var toggleValue = "fa-lock-open";
     if (!layer.layerProp.isUnlock()){
+        console.log("change");
         [result, toggleValue] = [toggleValue, result];
     }
     lockButton.className = "fa "+result;
@@ -427,10 +428,10 @@ class LayerProperties{
     changetoLock(layer){
         if(this.locked == 1){
             this.locked = 0;
-            // layer.canvasLayer.hideCanvas();
+            layer.canvasLayer.addEventAgain(layer);
         } else{
             this.locked = 1;
-            // layer.canvasLayer.showCanvas(layer);
+            layer.canvasLayer.removeEvent();
         } 
     }
 }
