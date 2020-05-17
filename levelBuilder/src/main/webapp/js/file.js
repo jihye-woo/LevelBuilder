@@ -423,7 +423,7 @@ function saveAll_Map(newMap, newLayers, mapName){
   let saveLayerResult = saveDataToDB(jsonLayers["layers"], "save_layer");
   // let saveLayerPropResult = saveDataToDB(jsonLayers["layerProps"], "save_layerProp");
 
-  if(newMap.selectedTilesetList.size != 0){
+  if(newMap.csvGid.size != 0){
     let jsonTilsetInMap = getTilesetInMapJSON(newMap);
     console.log(jsonTilsetInMap);
     let saveTilesetInMapResult = saveDataToDB(jsonTilsetInMap, "save_tilesetInMap");
@@ -476,6 +476,7 @@ function loadAll_Map_Helper(loadMapJSON) {
         .then(jsonData => {
             var loadedMap = parseMapJson(jsonData.map);
             // save tileset info in map
+
             parseTilesetInMapJson(jsonData.tilesetsInMap, loadedMap);
             // save layers in map
             parseLayerJson(jsonData.layers, loadedMap);
@@ -670,12 +671,32 @@ function parseTilesetJson(tileset, newImage){
 }
 
 function parseTilesetInMapJson(tilesetsInMap, map){
-  let tilesetList = map.selectedTilesetList;
-  tilesetsInMap.forEach(function(tileset){
-    var tilesetName = tileset.tilesetName;
-    tilesetList.set(tilesetName, tileset.gid);
-    loadAll_Tileset_Helper( {"name" : tilesetName, "username" : tileset.username});
+  let gidList = map.csvGid;
+  var tilesetList = map.selectedTilesetList;
+  tilesetsInMap.forEach(function(paintedtile){
+    var tilesetName = paintedtile.tilesetName;
+    var firstgid = paintedtile.firstgid;
+
+    // 1. set csvGid
+    gidList.set(paintedtile.globalId, firstgid);
+
+    // 2. set selectedTilesetList
+
+    // 2-1) if tilesetList already has current tileset info
+    //      pass the rest of the code below and keep looping
+    console.log(tilesetName);
+    if(!tilesetList.has(tilesetName)){
+      console.log(tilesetName + " in!");
+      // 2-2) else set the tileset info
+      loadTilesetInMap(tilesetList, tilesetName, firstgid, paintedtile.username);
+    }
+
   });
+}
+
+function loadTilesetInMap(tilesetList, tilesetName, firstgid, username){
+  tilesetList.set(tilesetName, firstgid);
+  loadAll_Tileset_Helper( {"name" : tilesetName, "username" : username});
 }
 
 
@@ -767,39 +788,23 @@ function getTilesetJSON(tileset){
 
 function getTilesetInMapJSON(mapData){
   let tilesetsInMap = [];
-  let tilesetList = mapData.selectedTilesetList;
-  console.log(tilesetList);
+  let gidList = mapData.csvGid;
 
-  for (var [tilesetName, gid] of tilesetList) {
+  for (var [gid, fristgid] of gidList) {
     tilesetsInMap.push({
       "mapName" : mapData.id,
-      "tilesetName" : tilesetName,
+      "tilesetName" : getKey(fristgid),
       "username": editor.userName,
-      "gid": gid
+      "firstgid" : fristgid,
+      "gid": gid,
+      "globalId" : gid
     });
-
   }
   console.log(tilesetsInMap);
   return tilesetsInMap;
 }
 
-function getImageJSON(tileset, mime = "image/png"){
-  var imageJson = {
-    // "id" : 0,
-    "tilesetName" : tileset.name,
-    "tilesetOwnedBy" : editor.userName
-  };
-  
-  convertImageToBase64(tileset.image, mime).then(function(result){
-    imageJson["image"] = result;
-  }, function(error){
-    alert("fail to encoding image data");
-  });
-  return imageJson;
-}
-
-
-let convertImageToBase64 = function(image, mime){
+function convertImageToBase64(image, mime){
   return new Promise ((resolve) => {
     var canvas = document.createElement('canvas');
     var ctx = canvas.getContext('2d');
@@ -814,6 +819,22 @@ let convertImageToBase64 = function(image, mime){
     // var dataURL = canvas.toDataURL(mime);
   });
 }
+
+function getImageJSON(tileset, mime = "image/png"){
+  var imageJson = {
+    // "id" : 0,
+    "tilesetName" : tileset.name,
+    "tilesetOwnedBy" : editor.userName
+  };
+
+  convertImageToBase64(tileset.image, mime).then(function(result){
+    imageJson["image"] = result;
+  }, function(error){
+    alert("fail to encoding image data");
+  });
+  return imageJson;
+}
+
 
 function saveDataToDB(savingData, save_endpoint){
   console.log(JSON.stringify(savingData));

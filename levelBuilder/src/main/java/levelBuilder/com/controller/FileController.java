@@ -96,7 +96,6 @@ public class FileController {
 	
 	@RequestMapping(value="/load_map", method=RequestMethod.POST)
 	public ResponseEntity<String> loadMap(@RequestBody String jsonFileName) {
-//		System.out.println(jsonFileName);
 		JSONObject jsonObject = new JSONObject(jsonFileName);
 		String mapName = jsonObject.getString("mapName");
 		JSONObject result = new JSONObject();
@@ -110,17 +109,14 @@ public class FileController {
 		List<TilesetInMapEntity> tilesetsInMap = tilesetInMapRepository.findByMapName(mapName);
 		try {
 			String mapJson = mapper.writeValueAsString(map);
-			System.out.println(mapJson);
 			result.put("map", new JSONObject(mapJson));
 			for(LayerEntity layer : layers) {
 				String LayerJson = mapper.writeValueAsString(layer);
-//				System.out.println(LayerJson);
 				layerArray.put(new JSONObject(LayerJson));
 			}
 			result.put("layers", layerArray);
 			for(TilesetInMapEntity tileset : tilesetsInMap) {
 				String tilesetJson = mapper.writeValueAsString(tileset);
-				System.out.println(tilesetJson);
 				tilesetInMapArray.put(new JSONObject(tilesetJson));
 			}
 			result.put("tilesetsInMap", tilesetInMapArray);
@@ -151,8 +147,6 @@ public class FileController {
 		return new ResponseEntity<>(object.toString(), HttpStatus.CREATED);
 	}
 	
-	
-	
 	@RequestMapping(value="/save_image", method=RequestMethod.POST)
 	public ResponseEntity<String> saveImage(@RequestBody ImagesAddedToTilesetEntity imageData) {
 //		System.out.println(imageData);
@@ -176,7 +170,6 @@ public class FileController {
 		= imagesAddedToTilesetRepository.findByTilesetNameAndTilesetOwnedBy(name, username);
 		
 		try {
-			
 			// 3. convert to json and put into the jsonobject
 			
 			// 3-1. tileset

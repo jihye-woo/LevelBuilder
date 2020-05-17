@@ -166,27 +166,22 @@ function createVisibleButton(layer){
     var visibleButton = document.createElement('i');
     var result = "fa-eye";
     var toggleValue = "fa-eye-slash";
-    if (!layer.layerProp.isVisible()){
-        [result, toggleValue] = [toggleValue, result];
-    }
+    // if (!layer.layerProp.isVisible()){
+    //     [result, toggleValue] = [toggleValue, result];
+    // }
     visibleButton.className = "fa "+result;
     visibleButton.id = layer.order;
     visibleButton.addEventListener("click", function(e){
         e.target.classList.toggle(toggleValue);
-        layer.layerProp.changeVisible(layer);;
+        layer.layerProp.changeVisible(layer);
     });
     return visibleButton;
 }
 
 function createLockButton(layer){
     var lockButton = document.createElement('i');
-    var result = "fa-lock";
     var toggleValue = "fa-lock-open";
-    if (!layer.layerProp.isUnlock()){
-        console.log("change");
-        [result, toggleValue] = [toggleValue, result];
-    }
-    lockButton.className = "fa "+result;
+    lockButton.className = "fa fa-lock fa-lock-open";
     lockButton.id = layer.order;
     lockButton.addEventListener("click", function(e){
         e.target.classList.toggle(toggleValue);
@@ -292,6 +287,7 @@ class TiledLayer extends Layer{
     paintTiles(){
         // editor has all info for tileset and map
         let canvasLoad = document.createElement("canvas");
+        console.log(this);
         canvasLoad.id = this.layer.id;
         canvasLoad.style.position = "position"; 
         canvasLoad.style.left = "0px";
@@ -398,18 +394,12 @@ class LayerProperties{
     constructor(){
         this.id = 0;
         this.visible = 1;
-        this.locked = 0;
+        this.locked = 0; // 0: locked false(unlocked) / 1 : locked true(locked)
         this.opacity = 1;
         this.verticalOffset = 0;
         this.horizontalOffset = 0;
     }
 
-    isVisible(){
-        if(this.visible == 1){
-            return "fa fa-eye";
-        }
-        return "fa fa-eye-slash";
-    }
     changeVisible(layer){
         if(this.visible == 1){
             this.visible = 0;
@@ -419,19 +409,16 @@ class LayerProperties{
             layer.canvasLayer.showCanvas(layer);
         } 
     }
-    isUnlock(){
-        if(this.locked == 1){
-            return "fa fa-lock-open";
-        }
-        return "fa fa-lock";
-    }
+  
     changetoLock(layer){
-        if(this.locked == 1){
+        console.log("before " + this.locked);
+        if(this.locked == 1){ 
             this.locked = 0;
             layer.canvasLayer.addEventAgain(layer);
         } else{
             this.locked = 1;
             layer.canvasLayer.removeEvent();
         } 
+        console.log("after " +this.locked);
     }
 }
