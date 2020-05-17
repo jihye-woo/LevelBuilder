@@ -142,13 +142,13 @@ public class ShareController {
 			hasAccess = true;
 		}
 
-		ArrayList<TilesetSharedWithEntity> shares = (ArrayList<TilesetSharedWithEntity>) tilesetSharedWithRepository.findBySharedWithUsername(ownedBy);
-		for (TilesetSharedWithEntity share:shares) {
-			if (share.getSharedWithUsername().equals(myUserDetails.getUsername())) { //if tileset was shared with user, they have access
-				hasAccess = true;
-				break;
-			}
-		}
+        ArrayList<TilesetSharedWithEntity> shares = (ArrayList<TilesetSharedWithEntity>) tilesetSharedWithRepository.findByTilesetNameAndTilesetOwnedBy(tilesetName, ownedBy);
+        for (TilesetSharedWithEntity share:shares) {
+            if (share.getSharedWithUsername().equals(myUserDetails.getUsername())) { //if tileset was shared with user, they have access
+                hasAccess = true;
+                break;
+            }
+        }
 
 		if (!hasAccess){
 			return "/my-tilesets";
@@ -181,18 +181,18 @@ public class ShareController {
 			alreadyShared = true;
 		}
 
-		ArrayList<TilesetSharedWithEntity> shares = (ArrayList<TilesetSharedWithEntity>) tilesetSharedWithRepository.findBySharedWithUsername(ownedBy);
-		for (TilesetSharedWithEntity share:shares) {
-			if (share.getSharedWithUsername().equals(existingUser.getUsername())) { //if tileset was shared with user, they have access
-				alreadyShared = true;
-				break;
-			}
-		}
+        ArrayList<TilesetSharedWithEntity> shares = (ArrayList<TilesetSharedWithEntity>) tilesetSharedWithRepository.findByTilesetNameAndTilesetOwnedBy(tilesetName, ownedBy);
+        for (TilesetSharedWithEntity share:shares) {
+            if (share.getSharedWithUsername().equals(existingUser.getUsername())) { //if tileset was shared with user, they have access
+                alreadyShared = true;
+                break;
+            }
+        }
 
 		if (alreadyShared){ //display error
 			bindingResult.rejectValue("email", "Already shared with this user", "Already shared with this user");
 			bindingResult.rejectValue("username", "Already shared with this user", "Already shared with this user");
-			return "share.jsp";
+			return "shareTileset.jsp";
 		}
 
 		//otherwise, share this tileset with the specified user
