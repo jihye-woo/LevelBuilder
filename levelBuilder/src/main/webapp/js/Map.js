@@ -285,64 +285,30 @@ class TiledLayer extends Layer{
         // }
     }
     paintTiles(){
-        // editor has all info for tileset and map
-        let canvasLoad = document.createElement("canvas");
-        console.log(this);
-        canvasLoad.id = this.layer.id;
-        canvasLoad.style.position = "position"; 
-        canvasLoad.style.left = "0px";
-        canvasLoad.style.top = "0px";
-        var loadTW = this.layer.tileW;
-        var loadTH = this.layer.tileH;
-        var loadmapW = this.layer.width;
-        var loadmapH = this.layer.height;
-
-        canvasLoad.addEventListener('click', function(event) {
-            var mousePos = getMousePos(canvasLoad, event);
-             row = Math.floor(mousePos.x/loadTW);
-             col = Math.floor(mousePos.y/loadTH);
-            var message = 'Mouse position: ' + row  + ',' + col;
-            console.log(message);
-            // if(active == 0){
-            //     getTWTH();
-            //     layer.eraseTile(row, col, canvasLoad, tsH, tsW);
-            // }
-            // else{
-            //     layer.fillTiles(row, col, canvasLoad);
-            // } 
-        });
-        this.w = canvasLoad.width = (loadmapW*loadTW);
-        this.h = canvasLoad.height = (loadmapH*loadTH);
-        this.canvasLoad = document.getElementsByClassName('Map')[0].appendChild(canvasLoad);
-        this.ctx = canvasLoad.getContext("2d");
-
-        var tile;
-        var startXPos = 0;
-        var startYPos = 0;
-        var imgGet;
+        var loadmapW = this.width;
+        var loadmapH = this.height;
+        var can = this.canvasLayer.canvas;
+        var ctx = can.getContext("2d");
+        console.log("paint called");
         for(var i=0; i<loadmapW; i++){
             for(var j=0; j<loadmapH; j++){
-                if(this.layer.csv[i][j] !=0){
-                    // csv 값으로 gid 가져옴 
-                    var gid = editor.currentMap.csvGid.get(this.layer.csv[i][j]);
-                    var Tsname = getKey(gid);
-                    //gid로 tileset name -> gettileset();
-                    var TS = getTilesetwithName(Tsname);
+                console.log(this.csv);
+                console.log("[][] "+ this.csv[i][j]);
+                if(this.csv[i][j] !=0){
+                    var firstgid = editor.currentMap.csvGid.get(this.csv[i][j]);
+                    console.log("[][] "+i +j + "firstgid "+ firstgid);
+                    console.log("leng "+ editor.loadedTilesetList.length);
+                    var Tsname = getKey(firstgid);
+                    // var TS = getTilesetwithName(Tsname);
+                    // console.log(TS);
                     //csv[][] 위치에 해당 그림 draw
-                    this.ctx.drawImage();
+                    var loadedImg = new Image();
+                    loadedImg.src = TS.image.src;
+                    ctx.drawImage(loadedImg, i*TS.tileWidth, j*TS.tileHeight, TS.tileWidth, TS.tileHeight,i*TS.tileWidth, j*TS.tileHeight, TS.tileWidth, TS.tileHeight);
                 }
             }
-            // tile = tileList[i];
-            // imgGet = ctxTbase.getImageData(tile.xPos, tile.yPos, tile.tw, tile.th);
-            // ctxT.putImageData(imgGet, startXPos, startYPos);
-            // // ctxT.drawImage(loadImg, tile.startX, tile.startY, tile.tileWidth, tile.tileHeight, startXPos, startYPos, tile.tileWidth, tile.tileHeight);
-            // ctxT.strokeRect(startXPos, startYPos, tile.tw, tile.th);
-            // startXPos += tile.tw;
-            //   if(startXPos >= totalWidth){
-            //     startXPos = 0;
-            //     startYPos += tile.th;
-            //   }
-            }
+        }
+
     }
 }
 

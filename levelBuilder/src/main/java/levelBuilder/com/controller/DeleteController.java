@@ -46,8 +46,8 @@ public class DeleteController {
         MapEntity map = mapRepository.findByName(mapName);
 
         if (map==null){ //map doesnt exist
-			return "redirect:/my-projects"; //redirect back to projects page
-		}
+         return "redirect:/my-projects"; //redirect back to projects page
+      }
 
         if (map.getOwnedBy().equals(myUserDetails.getUsername())) { //if the user owns this map, delete from database
             mapRepository.delete(map);
@@ -59,42 +59,42 @@ public class DeleteController {
         }
 
         else{//if user has been shared this map, just remove their shared access from database
-			MapSharedWithEntity share = mapSharedWithRepository.findByMapNameAndUserName(mapName, myUserDetails.getUsername());
-			if (share != null){ //make sure they actually do have share access
-				mapSharedWithRepository.delete(share);
-			}
-		}
+         MapSharedWithEntity share = mapSharedWithRepository.findByMapNameAndUserName(mapName, myUserDetails.getUsername());
+         if (share != null){ //make sure they actually do have share access
+            mapSharedWithRepository.delete(share);
+         }
+      }
 
         return "redirect:/my-projects"; //redirect back to projects page
     }
 
     @GetMapping("/delete-tileset")
     public String shareTileset(@RequestParam("tilesetName") String tilesetName, @RequestParam("ownedBy") String ownedBy) {
-		MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		TilesetEntity tileset = tilesetRepository.findByNameAndOwnedBy(tilesetName, ownedBy);
+      MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+      TilesetEntity tileset = tilesetRepository.findByNameAndOwnedBy(tilesetName, ownedBy);
 
-		if(tileset==null){ //tileset doesnt exist
-			return "redirect:/my-tilesets"; //redirect back to tilesets page
-		}
+      if(tileset==null){ //tileset doesnt exist
+         return "redirect:/my-tilesets"; //redirect back to tilesets page
+      }
 
-		if (tileset.getOwnedBy().equals(myUserDetails.getUsername())) { //if the user owns this tileset, delete from database
-			tilesetRepository.delete(tileset);
-			//remove everyone's access to the old tileset
-			ArrayList<TilesetSharedWithEntity> shares = (ArrayList<TilesetSharedWithEntity>) tilesetSharedWithRepository
-					.findByTilesetNameAndTilesetOwnedBy(tilesetName, myUserDetails.getUsername());
-			for (TilesetSharedWithEntity share : shares) {
-				tilesetSharedWithRepository.delete(share);
-			}
-		}
+      if (tileset.getOwnedBy().equals(myUserDetails.getUsername())) { //if the user owns this tileset, delete from database
+         tilesetRepository.delete(tileset);
+         //remove everyone's access to the old tileset
+         ArrayList<TilesetSharedWithEntity> shares = (ArrayList<TilesetSharedWithEntity>) tilesetSharedWithRepository
+               .findByTilesetNameAndTilesetOwnedBy(tilesetName, myUserDetails.getUsername());
+         for (TilesetSharedWithEntity share : shares) {
+            tilesetSharedWithRepository.delete(share);
+         }
+      }
 
-		else{//if user has been shared this tileset, just remove their shared access from database
-			TilesetSharedWithEntity share = tilesetSharedWithRepository
-					.findByTilesetNameAndTilesetOwnedByAndSharedWithUsername(tilesetName, ownedBy, myUserDetails.getUsername());
-			if (share != null){ //make sure they actually do have share access
-				tilesetSharedWithRepository.delete(share);
-			}
-		}
+      else{//if user has been shared this tileset, just remove their shared access from database
+         TilesetSharedWithEntity share = tilesetSharedWithRepository
+               .findByTilesetNameAndTilesetOwnedByAndSharedWithUsername(tilesetName, ownedBy, myUserDetails.getUsername());
+         if (share != null){ //make sure they actually do have share access
+            tilesetSharedWithRepository.delete(share);
+         }
+      }
 
-		return "redirect:/my-tilesets"; //redirect back to tilesets page
+      return "redirect:/my-tilesets"; //redirect back to tilesets page
     }
 }

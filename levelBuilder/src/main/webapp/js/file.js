@@ -1,7 +1,7 @@
 function getTilesetwithName(nameT) {
   var list = editor.loadedTilesetList;
   var tileset;
-  
+  console.log("function callsed "+list.length);
   for(var i=0; i<list.length; i++){
     if(list[i].name == nameT){
       tileset = list[i];
@@ -131,7 +131,6 @@ var gridVisIcon = document.getElementById("gridVisability");
 
 
 function createMap() {
-  // workspace should be removed
   let mapType = "top";
 
   var mapWidth = parseInt(document.getElementById("map-width").value);
@@ -149,7 +148,12 @@ function createMap() {
   // loadDataFromDB(newMap.id);
 
   loadMap(newMap);
+  //remove inputs
   document.getElementById("map-name").value = "";
+  document.getElementById("map-width").value = "";
+  document.getElementById("map-height").value = "";
+  document.getElementById("tile-width").value = "";
+  document.getElementById("tile-height").value = "";
   // create map object and load
   closeWindow(createMapWindow);
 }
@@ -348,7 +352,7 @@ function newTabBtn() {
      tileList = createSingleTiles(currentTileSetName, loadImg, tilesetW, tilesetH, spacing);
      ctxTbase.drawImage(loadImg, 0, 0, loadImg.width, loadImg.height, 0, 0, loadImg.width, loadImg.height);
      drawTile();
-    //  openTilesetTab(e, currentTileSetName); 
+     openTilesetTab(e, currentTileSetName); 
      }
 
 var index;

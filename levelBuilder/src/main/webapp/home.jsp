@@ -58,9 +58,9 @@
                 <a href="#" onclick ="openExportAsMap()">Export As Map</a>
                 <a href="#" onclick ="openExportAsTileset()">Export As Tileset</a>
                 <a href="#">Export As Image</a>
-                <a href="#">Delete</a>
+                <!-- <a href="#">Delete</a>
                 <a href="#">Recent Files</a>
-                <a href="#">Close All</a>
+                <a href="#">Close All</a> -->
               </div>
             </div>
             <div class="dropdown">
@@ -68,11 +68,11 @@
                 <div class="dropdown-content">
                   <a href="#">Undo</a>
                   <a href="#">Redo</a>
-                  <a href="#">Cut</a>
+                  <!-- <a href="#">Cut</a>
                   <a href="#">Copy</a>
-                  <a href="#">Paste</a>
-                  <a href="#">Select All</a>
-                  <a href="#">Delete</a>
+                  <a href="#">Paste</a> -->
+                  <!-- <a href="#">Select All</a>
+                  <a href="#">Delete</a> -->
                 </div>
               </div>
               <div class="dropdown">
