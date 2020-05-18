@@ -140,13 +140,13 @@ function createMap() {
     }
 
     var inputWrong = false;
-    if(isNaN(document.getElementById("map-width").value)){
+    if(isNaN(document.getElementById("map-width").value) || "" == document.getElementById("map-width").value){
         inputWrong = true;
-    } else if(isNaN(document.getElementById("map-height").value)){
+    } else if(isNaN(document.getElementById("map-height").value) || "" == document.getElementById("map-height").value){
         inputWrong = true;
-    } else if(isNaN(document.getElementById("tile-width").value)){
+    } else if(isNaN(document.getElementById("tile-width").value) || "" == document.getElementById("tile-width").value){
         inputWrong = true;
-    } else if(isNaN(document.getElementById("tile-height").value)){
+    } else if(isNaN(document.getElementById("tile-height").value) || "" == document.getElementById("tile-height").value){
         inputWrong = true;
     }
 
@@ -495,6 +495,10 @@ function saveAsMap(){
     alert("There is no map to save");
   } else{
     var saveAsName = document.getElementById("saveAsName").value;
+    if("" == saveAsName){
+        alert("Invalid input. Please enter a name for this map.");
+        return;
+    }
     saveAll_Map(map, map.LayerList, saveAsName);
   }
   closeWindow(saveasWindow);
@@ -510,6 +514,11 @@ function save(){
 }
 
 function loadFile(){
+    if("" == document.getElementById('loadFileName').value){
+        alert("Invalid input. Please enter a name for this map/tileset.");
+        return;
+    }
+
   var selectMap = document.getElementById("selectLoadMap").checked;
   var selectTileset = document.getElementById("selectLoadTileset").checked;
   if(selectMap == true){

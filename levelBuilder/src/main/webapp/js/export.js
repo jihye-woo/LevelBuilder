@@ -47,11 +47,19 @@ function exportTileset(filename){
 
 function exportAsMap(){
     var fileName = document.getElementById("exportAsName_map").value;
+    if("" == fileName){
+        alert("Invalid input. Please enter a name for this map.");
+        return;
+    }
     exportMap(fileName);
 }
 
 function exportAsTileset(){
     var fileName = document.getElementById("exportAsName_tileset").value;
+    if("" == fileName){
+        alert("Invalid input. Please enter a name for this tileset.");
+        return;
+    }
     exportTileset(fileName);
 }
 
