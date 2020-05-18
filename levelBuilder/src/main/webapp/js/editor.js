@@ -24,33 +24,34 @@ editor.currentMap.LayerList.get(0).canvasLayer.canvas;
 
 var ratioX;
 var ratioY;
-var canScaleX ;
-var canScaleY;
-
 function zoomIn(){
-    ratioX =2;
-    ratioY =2;
-    // canScaleX =1;
-    // canScaleY =1;
-    console.log("scale "+ canScaleX+canScaleY);
-    // if (canScaleX < 20){
+    // ratioX =2;
+    // ratioY =2;
+
+    console.log("scale "+ editor.canScaleX+editor.canScaleY);
+    if (editor.zoomcount < 3){
+        editor.zoomcount += 1;
+        ratioX = Math.pow(editor.canScaleX, editor.zoomcount);
+        ratioY = Math.pow(editor.canScaleY, editor.zoomcount);
+        console.log("hmm "+ Math.pow(editor.canScaleX, editor.zoomcount));
         zoomRedraw(editor.currentMap.LayerList, ratioX, ratioY);
-    // }else{
-    //     alert("Cannot zoom in anymore!");
-    // }
+    }else{
+        alert("Cannot zoom in anymore!");
+    }
 }
 
 function zoomOut(){
-    ratioX =0.5;
-    ratioY =0.5;
-    canScaleX =1;
-    canScaleY =1;
-    console.log("scale "+ canScaleX+canScaleY);
-    // if (canScaleX > 0.4){
+    // ratioX =0.5;
+    // ratioY =0.5;
+    console.log("scale "+ editor.canScaleX+editor.canScaleY);
+    if (ratioX > -2){
+        editor.zoomcount -= 1;
+        ratioX = Math.pow(editor.canScaleX, editor.zoomcount);
+        ratioY = Math.pow(editor.canScaleY, editor.zoomcount);
         zoomRedraw(editor.currentMap.LayerList, ratioX, ratioY);
-    // }else{
-    //     alert("Cannot zoom out anymore!");
-    // }
+    }else{
+        alert("Cannot zoom out anymore!");
+    }
 }
 
 function zoomRedraw(layers, x, y){
@@ -61,10 +62,11 @@ function zoomRedraw(layers, x, y){
         ctx.clearRect(0,0,can.width, can.height);
         can.height = can.height *y;
         can.width = can.width *x;
-        canScaleX = canScaleX *x;
-        canScaleY = canScaleY *y;
-        ctx.scale(canScaleX,canScaleY);
-        console.log("S "+canScaleX + canScaleY);
+        editor.grid.zoomGrid();
+        // editor.canScaleX = editor.canScaleX *x;
+        // editor.canScaleY = editor.canScaleY *y;
+        ctx.scale(x,y);
+        // console.log("S "+editor.canScaleX + editor.canScaleY);
       layer.paintTiles();
       layer.canvasLayer.zoomInEvent(layer);
     }

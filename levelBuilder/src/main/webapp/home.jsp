@@ -362,6 +362,9 @@ class Editor{
     this.userName;
     this.grid;
     this.selectedLayerId;
+    this.canScaleX =2;
+    this.canScaleY =2;
+    this.zoomcount =0;
 
    }
    //$("canvas").detach(); remove all canvas

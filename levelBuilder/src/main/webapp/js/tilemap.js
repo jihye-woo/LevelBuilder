@@ -43,6 +43,33 @@ class Grid{
         this.show = true;
 
     }
+
+    zoomGrid(offsetX=0, offsetY=0){
+        this.ctx.clearRect(0,0,this.canvasW, this.canvasH);
+        let rows = (this.w*ratioX)/(this.tileWidth*ratioX) | 0;
+        let cols = (this.h*ratioY)/(this.tileHeight*ratioY) | 0;
+        
+        this.ctx.save();
+        this.ctx.strokeStyle = "lightgrey";
+        this.ctx.beginPath();
+
+        for(let y =offsetY ; y<=offsetY+(cols * (this.tileHeight*ratioY)) ; y+=(this.tileHeight*ratioY)) {
+            this.drawLine(offsetX, y, offsetX+(this.w*ratioX), y);
+        }
+
+        for(let x =offsetX ; x<=offsetX+(rows * (this.tileWidth*ratioX)) ; x+=(this.tileWidth*ratioX)) {
+            this.drawLine(x, offsetY, x, offsetY+(this.h*ratioY));
+        }
+
+        this.ctx.stroke();
+        this.ctx.beginPath();
+        this.ctx.strokeStyle = "black";
+        this.ctx.strokeRect(0, 0, cols, rows);
+        this.ctx.restore();
+        this.show = true;
+
+    }
+
     drawLine(x1, y1, x2, y2){
         this.ctx.moveTo(x1, y1);
         this.ctx.lineTo(x2, y2);
@@ -149,8 +176,8 @@ function zoomEvent(){
     var current = editor.currentMap;
     var topLayerIndex = current.LayerList.size-1;
     var mousePos = getMousePos(current.LayerList.get(topLayerIndex).canvasLayer.canvas, event);
-    row = Math.floor(mousePos.x/(current.tileWidth*ratioX));
-    col = Math.floor(mousePos.y/(current.tileHeight*ratioY));
+    row = Math.floor(mousePos.x/(current.tileWidth*ratioY));
+    col = Math.floor(mousePos.y/(current.tileHeight*ratioX));
    var message = 'Mouse position: ' + row  + ',' + col;
    console.log(message);
    if(active == 0){
