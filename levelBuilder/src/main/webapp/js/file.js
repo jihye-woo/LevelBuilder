@@ -531,23 +531,32 @@ function loadFile(){
   }
 }
 
-function loadAll_Map_Helper(loadMapJSON) {
+async function loadAll_Map_Helper(loadMapJSON) {
     loadDataFromDB(loadMapJSON, "load_map")
         .then(jsonData => {
             var loadedMap = parseMapJson(jsonData.map);
-            // save tileset info in map
 
-            parseTilesetInMapJson(jsonData.tilesetsInMap, loadedMap);
-            // save layers in map
             parseLayerJson(jsonData.layers, loadedMap);
-            // add and show layer canvases on the map
+
             loadMap(loadedMap);
+            // parseTilesetInMapJson(jsonData.tilesetsInMap, loadedMap);
+            // var tilesetNameIter = loadedMap.selectedTilesetList;
+            // var username = editor.userName;
+            // let chain = Promise.resolve();
+            // for (let [tilesetName, firstgid] of tilesetNameIter) {
+            //   console.log(0);
+            //   chain = chain.then(()=> loadAll_Tileset_Helper( {"name" : tilesetName, "username" : username}));
+            //   console.log(2);
+            // }
+            parseTilesetInMapJson(jsonData.tilesetsInMap, loadedMap)
+            .then(()=> paintAllLayers(loadedMap.LayerList));
+            // add and show layer canvases on the map
             // paint all layers on the map
-            paintAllLayers(loadedMap.LayerList);
         });
 }
 
 function paintAllLayers(loadedLayers){
+  console.log(3);
   for (let [layerId, layer] of loadedLayers) {
     // paint a single layer
     layer.paintTiles();
@@ -561,24 +570,28 @@ function loadAll_Map(){
     closeWindow(loadWindow);
 }
 
-function loadAll_Tileset_Helper(loadTilesetJSON) {
+async function loadAll_Tileset_Helper(loadTilesetJSON) {
     var tilesetJson;
-    loadDataFromDB(loadTilesetJSON, "load_tileset")
+    await loadDataFromDB(loadTilesetJSON, "load_tileset")
         .then(jsonData => {
             tilesetJson = jsonData.tileset;
             return parseImageJson(jsonData.image);
         }).then(newImage => {
-        console.log(newImage);
-        var newTileset = parseTilesetJson(tilesetJson, newImage);
-        var currentTS = editor.currentTileset;
-        createNewtab(currentTS.name, currentTS.tileHeight, currentTS.tileWidth, currentTS.spacing);
-        loadImg = new Image();
-        loadImg.src = currentTS.image.src;
-        tilesetH = currentTS.tileHeight;
-        tilesetW = currentTS.tileWidth;
-        spacing = currentTS.spacing;
-        loadImg.addEventListener('load',loadImageDB,false);
+          // return new Promise((resolve, reject)=> {
+            var newTileset = parseTilesetJson(tilesetJson, newImage);
+            var currentTS = editor.currentTileset;
+            createNewtab(currentTS.name, currentTS.tileHeight, currentTS.tileWidth, currentTS.spacing);
+            loadImg = new Image();
+            loadImg.src = currentTS.image.src;
+            tilesetH = currentTS.tileHeight;
+            tilesetW = currentTS.tileWidth;
+            spacing = currentTS.spacing;
+            loadImg.addEventListener('load',loadImageDB,false);
+            // resolve(loadImg);
+            console.log(1);
+          // });
     });
+    return Promise.resolve('compelet');
 }
 
 var loadedImg;
@@ -730,33 +743,38 @@ function parseTilesetJson(tileset, newImage){
     return newTileset;
 }
 
-function parseTilesetInMapJson(tilesetsInMap, map){
-  let gidList = map.csvGid;
-  var tilesetList = map.selectedTilesetList;
+async function loadtilesetPromise(tilesetNameIter) {
+  var username = editor.userName;
+  // for (let [tilesetName, firstgid] of tilesetNameIter) {
+    var tilesetNames = Array.from(tilesetNameIter.keys());
+    console.log(0);
+    var complete = await Promise.all(tilesetNames.map((tilesetName)=>loadAll_Tileset_Helper( {"name" : tilesetName, "username" : username})));
+    console.log(2);
+  // }
+   return Promise.resolve();
+}
+
+async function parseTilesetInMapJson(tilesetsInMap, map){
+    var username = editor.userName;
+    loadTilesetInMap(tilesetsInMap, map.csvGid, map.selectedTilesetList);
+    var tilesetNameIter = map.selectedTilesetList;
+    // var username = editor.userName;
+    var complete = await loadtilesetPromise(tilesetNameIter);
+    return complete;
+  // return map.selectedTilesetList;
+}
+
+ 
+
+function loadTilesetInMap(tilesetsInMap, gidList, tilesetList){
   tilesetsInMap.forEach(function(paintedtile){
     var tilesetName = paintedtile.tilesetName;
     var firstgid = paintedtile.firstgid;
-
-    // 1. set csvGid
     gidList.set(paintedtile.globalId, firstgid);
-
-    // 2. set selectedTilesetList
-
-    // 2-1) if tilesetList already has current tileset info
-    //      pass the rest of the code below and keep looping
-    console.log(tilesetName);
     if(!tilesetList.has(tilesetName)){
-      console.log(tilesetName + " in!");
-      // 2-2) else set the tileset info
-      loadTilesetInMap(tilesetList, tilesetName, firstgid, paintedtile.username);
+      tilesetList.set(tilesetName, firstgid);
     }
-
   });
-}
-
-function loadTilesetInMap(tilesetList, tilesetName, firstgid, username){
-  tilesetList.set(tilesetName, firstgid);
-  loadAll_Tileset_Helper( {"name" : tilesetName, "username" : username});
 }
 
 
@@ -904,6 +922,7 @@ function saveDataToDB(savingData, save_endpoint){
       url : "/fileController/" + save_endpoint,
       data : JSON.stringify(savingData),
       dataType : 'json',
+      async: false,
       processData: false, 
     
       error : function(error){
