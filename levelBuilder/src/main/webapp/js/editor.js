@@ -22,25 +22,38 @@ function moveGrid(element){
 editor.currentMap.LayerList.get(0).canvasLayer.canvas;
 // editor.currentMap.LayerList.get(editor.selectedLayerId).canvasLayer.canvas;
 
-// var scaleX= editor.currentMap.mapWidth * editor.currentMap.tileWidth;
-// var scaleY= editor.currentMap.mapHeight * editor.currentMap.tileHeight;
 var ratioX;
 var ratioY;
+var canScaleX ;
+var canScaleY;
+
 function zoomIn(){
     ratioX =2;
     ratioY =2;
-     zoomRedraw(editor.currentMap.LayerList, ratioX, ratioY);
+    // canScaleX =1;
+    // canScaleY =1;
+    console.log("scale "+ canScaleX+canScaleY);
+    // if (canScaleX < 20){
+        zoomRedraw(editor.currentMap.LayerList, ratioX, ratioY);
+    // }else{
+    //     alert("Cannot zoom in anymore!");
+    // }
 }
 
 function zoomOut(){
     ratioX =0.5;
     ratioY =0.5;
-    zoomRedraw(editor.currentMap.LayerList, ratioX, ratioY);
+    canScaleX =1;
+    canScaleY =1;
+    console.log("scale "+ canScaleX+canScaleY);
+    // if (canScaleX > 0.4){
+        zoomRedraw(editor.currentMap.LayerList, ratioX, ratioY);
+    // }else{
+    //     alert("Cannot zoom out anymore!");
+    // }
 }
 
 function zoomRedraw(layers, x, y){
-    var scaleX;
-    var scaleY;
     for (let [layerId, layer] of layers) {
         layer.canvasLayer.removeEvent();
         var can = layer.canvasLayer.canvas;
@@ -48,7 +61,10 @@ function zoomRedraw(layers, x, y){
         ctx.clearRect(0,0,can.width, can.height);
         can.height = can.height *y;
         can.width = can.width *x;
-        ctx.scale(x,y);
+        canScaleX = canScaleX *x;
+        canScaleY = canScaleY *y;
+        ctx.scale(canScaleX,canScaleY);
+        console.log("S "+canScaleX + canScaleY);
       layer.paintTiles();
       layer.canvasLayer.zoomInEvent(layer);
     }

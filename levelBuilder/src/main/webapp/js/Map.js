@@ -287,17 +287,21 @@ class TiledLayer extends Layer{
                 if(this.csv[i][j] !=0){
                     var firstgid = editor.currentMap.csvGid.get(this.csv[i][j]);
                     var Tsname = getKey(firstgid);
-                    var TS = getTilesetwithName(Tsname);
-                    //csv[][] 위치에 해당 그림 draw
+                     TS = getTilesetwithName(Tsname);
+                    var localID = this.csv[i][j] - firstgid;
+                    console.log("local "+localID);
                     var loadedImg = new Image();
                     loadedImg.src = TS.image.src;
-                    ctx.drawImage(loadedImg, j*TS.tileWidth, i*TS.tileHeight, TS.tileWidth, TS.tileHeight,j*TS.tileWidth, i*TS.tileHeight, TS.tileWidth, TS.tileHeight);
+                    console.log("[][]= "+this.csv[i][j] +" i "+ i +" j "+j);
+                    // console.log("tile "+ TS.tileList);
+                    ctx.drawImage(loadedImg, TS.tileList[localID].startX, TS.tileList[localID].startY, TS.tileWidth, TS.tileHeight,j*this.tileW, i*this.tileH, TS.tileWidth, TS.tileHeight);
+                    console.log("sx "+ TS.tileList[localID].startX + "sy "+ TS.tileList[localID].startY );
                 }
             }
         }
     }
 }
-
+var TS;
 function getKey(val){
     var map = editor.currentMap.selectedTilesetList;
     var b;
