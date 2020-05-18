@@ -22,26 +22,35 @@ function moveGrid(element){
 editor.currentMap.LayerList.get(0).canvasLayer.canvas;
 // editor.currentMap.LayerList.get(editor.selectedLayerId).canvasLayer.canvas;
 
-var scaleX;
-var scaleY;
+// var scaleX= editor.currentMap.mapWidth * editor.currentMap.tileWidth;
+// var scaleY= editor.currentMap.mapHeight * editor.currentMap.tileHeight;
+var ratioX;
+var ratioY;
 function zoomIn(){
-    scaleX = 2;
-    scaleY = 2;
-    redrawWorkspace(editor.currentMap.LayerList);
+     ratioX = 2;
+     ratioY = 2;
+    redrawWorkspace(editor.currentMap.LayerList, ratioX, ratioY);
 }
 
 function zoomOut(){
-    scaleX = 0.5;
-    scaleY = 0.5;
-    redrawWorkspace(editor.currentMap.LayerList);
+     ratioX = 0.5;
+     ratioY = 0.5;
+    //  scaleX = can.width;
+    //  scaleY =can.height;
+    //  console.log("scale "+ scaleX + " / "+scaleY);
+    redrawWorkspace(editor.currentMap.LayerList, ratioX, ratioY);
 }
 
-function redrawWorkspace(layers){
+function redrawWorkspace(layers, x, y){
+    var scaleX;
+    var scaleY;
     for (let [layerId, layer] of layers) {
         var can = layer.canvasLayer.canvas;
         var ctx = can.getContext("2d");
         ctx.clearRect(0,0,can.width, can.height);
-        ctx.scale(can.width*scaleX, can.height*scaleY);
+        can.height = can.height *y;
+        can.width = can.width *x;
+        ctx.scale(x,y);
       layer.paintTiles();
     }
   }
