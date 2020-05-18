@@ -291,7 +291,6 @@ class TiledLayer extends Layer{
                     //csv[][] 위치에 해당 그림 draw
                     var loadedImg = new Image();
                     loadedImg.src = TS.image.src;
-                    console.log("i "+ i + " j "+j);
                     ctx.drawImage(loadedImg, j*TS.tileWidth, i*TS.tileHeight, TS.tileWidth, TS.tileHeight,j*TS.tileWidth, i*TS.tileHeight, TS.tileWidth, TS.tileHeight);
                 }
             }
@@ -304,7 +303,6 @@ function getKey(val){
     var b;
     map.forEach(function(value, key) {
         if(value == val){
-            console.log(key + ' = ' + value)
             b =key
         }
       })

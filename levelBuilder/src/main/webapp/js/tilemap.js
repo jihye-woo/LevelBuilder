@@ -125,6 +125,9 @@ class TiledCanvas{
     addEventAgain(layer){
         this.canvas.addEventListener("click", addEvent);
     }
+    zoomInEvent(){
+        this.canvas.addEventListener("click", zoomEvent);
+    }
 }
 function addEvent(){
     var current = editor.currentMap;
@@ -132,6 +135,22 @@ function addEvent(){
     var mousePos = getMousePos(current.LayerList.get(topLayerIndex).canvasLayer.canvas, event);
     row = Math.floor(mousePos.x/current.tileWidth);
     col = Math.floor(mousePos.y/current.tileHeight);
+   var message = 'Mouse position: ' + row  + ',' + col;
+   console.log(message);
+   if(active == 0){
+       getTWTH();
+       current.LayerList.get(topLayerIndex).eraseTile(row, col, current.LayerList.get(topLayerIndex).canvasLayer.canvas, tsH, tsW);
+   }
+   else{
+    current.LayerList.get(topLayerIndex).fillTiles(row, col, current.LayerList.get(topLayerIndex).canvasLayer.canvas);
+   }
+}
+function zoomEvent(){
+    var current = editor.currentMap;
+    var topLayerIndex = current.LayerList.size-1;
+    var mousePos = getMousePos(current.LayerList.get(topLayerIndex).canvasLayer.canvas, event);
+    row = Math.floor(mousePos.x/(current.tileWidth*ratioX));
+    col = Math.floor(mousePos.y/(current.tileHeight*ratioY));
    var message = 'Mouse position: ' + row  + ',' + col;
    console.log(message);
    if(active == 0){

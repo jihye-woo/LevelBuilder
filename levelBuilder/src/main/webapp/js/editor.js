@@ -27,24 +27,22 @@ editor.currentMap.LayerList.get(0).canvasLayer.canvas;
 var ratioX;
 var ratioY;
 function zoomIn(){
-     ratioX = 2;
-     ratioY = 2;
-    redrawWorkspace(editor.currentMap.LayerList, ratioX, ratioY);
+    ratioX =2;
+    ratioY =2;
+     zoomRedraw(editor.currentMap.LayerList, ratioX, ratioY);
 }
 
 function zoomOut(){
-     ratioX = 0.5;
-     ratioY = 0.5;
-    //  scaleX = can.width;
-    //  scaleY =can.height;
-    //  console.log("scale "+ scaleX + " / "+scaleY);
-    redrawWorkspace(editor.currentMap.LayerList, ratioX, ratioY);
+    ratioX =0.5;
+    ratioY =0.5;
+    zoomRedraw(editor.currentMap.LayerList, ratioX, ratioY);
 }
 
-function redrawWorkspace(layers, x, y){
+function zoomRedraw(layers, x, y){
     var scaleX;
     var scaleY;
     for (let [layerId, layer] of layers) {
+        layer.canvasLayer.removeEvent();
         var can = layer.canvasLayer.canvas;
         var ctx = can.getContext("2d");
         ctx.clearRect(0,0,can.width, can.height);
@@ -52,5 +50,6 @@ function redrawWorkspace(layers, x, y){
         can.width = can.width *x;
         ctx.scale(x,y);
       layer.paintTiles();
+      layer.canvasLayer.zoomInEvent(layer);
     }
   }
