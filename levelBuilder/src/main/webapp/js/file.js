@@ -170,8 +170,6 @@ function createLayer() {
       }
     } 
     document.getElementById("input-layer").value = "";
-    console.log(layerType);
-    console.log(layerName);
 
   closeWindow(createLayerWindow);
   //showList(layerType, layerName);
@@ -225,6 +223,9 @@ function newTabBtn() {
     document.getElementById("TilesetName").value = "";
     closeWindow(createTileSetWindow);
     document.getElementById("myFile").value = "";
+    document.getElementById("tileSet-height").value = "";
+    document.getElementById("tileSet-width").value = "";
+    document.getElementById("spacing").value = "";
     }
 
   function createNewtab(name, tHeight, tWidth, spacing){

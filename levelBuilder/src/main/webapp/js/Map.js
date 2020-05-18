@@ -243,13 +243,6 @@ class TiledLayer extends Layer{
     }
 
     fillTiles(x, y, canvas){
-        // this.canvasLayer.canvas.getContext("2d").fillStyle = "#FF9896";
-        // this.canvasLayer.canvas.getContext("2d").fillRect(this.tileW*x, this.tileH*y, this.tileW, this.tileH);
-        // After clicking collection of Images ->
-        // var img = document.getElementById(currentTileID);
-        // this.canvasLayer.canvas.getContext("2d").drawImage(img, this.tileW*x, this.tileH*y);
-        // var imgTo = ctxT.getImageData(tileList[index].xPos, tileList[index].yPos, tileList[index].tw, tileList[index].th)
-        //this.canvasLayer.canvas.getContext("2d").putImageData(imgToDraw, this.tileW*x, this.tileH*y);
         tileList = editor.currentTileset.tileList;
         var imgg = new Image();
         imgg.src = editor.currentTileset.tileList[index].src;
@@ -289,17 +282,16 @@ class TiledLayer extends Layer{
         var loadmapH = this.height;
         var can = this.canvasLayer.canvas;
         var ctx = can.getContext("2d");
-        console.log("paint called");
+        // console.log("paint called");
         for(var i=0; i<loadmapW; i++){
             for(var j=0; j<loadmapH; j++){
-                console.log(this.csv);
                 console.log("[][] "+ this.csv[i][j]);
                 if(this.csv[i][j] !=0){
                     var firstgid = editor.currentMap.csvGid.get(this.csv[i][j]);
                     console.log("[][] "+i +j + "firstgid "+ firstgid);
-                    console.log("leng "+ editor.loadedTilesetList.length);
+                    // console.log("leng "+ editor.loadedTilesetList.length);
                     var Tsname = getKey(firstgid);
-                    // var TS = getTilesetwithName(Tsname);
+                    var TS = getTilesetwithName(Tsname);
                     // console.log(TS);
                     //csv[][] 위치에 해당 그림 draw
                     var loadedImg = new Image();
@@ -308,7 +300,6 @@ class TiledLayer extends Layer{
                 }
             }
         }
-
     }
 }
 
