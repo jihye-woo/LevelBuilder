@@ -133,6 +133,28 @@ var gridVisIcon = document.getElementById("gridVisability");
 function createMap() {
   let mapType = "top";
 
+    //if any errors in inputs, inform user
+    if("" == document.getElementById("map-name").value){
+        alert("Invalid input. Please enter a name for this map.");
+        return;
+    }
+
+    var inputWrong = false;
+    if(isNaN(document.getElementById("map-width").value)){
+        inputWrong = true;
+    } else if(isNaN(document.getElementById("map-height").value)){
+        inputWrong = true;
+    } else if(isNaN(document.getElementById("tile-width").value)){
+        inputWrong = true;
+    } else if(isNaN(document.getElementById("tile-height").value)){
+        inputWrong = true;
+    }
+
+    if(inputWrong){
+        alert("Invalid input. Please enter integer values for map width/height and tile width/height.");
+        return;
+    }
+
   var mapWidth = parseInt(document.getElementById("map-width").value);
   var mapHeight = parseInt(document.getElementById("map-height").value);
   var tileWidth = parseInt(document.getElementById("tile-width").value);
@@ -215,6 +237,30 @@ function newTabBtn() {
   var getCanvas;
 
   function newTabBtn2() {
+      //if any errors in inputs, inform user
+      if("" == document.getElementById("TilesetName").value){
+          alert("Invalid input. Please enter a name for this tileset.");
+          return;
+      }
+      if(document.getElementById("myFile").files[0] == null){
+          alert("Please select a file.");
+          return;
+      }
+
+      var inputWrong = false;
+      if(isNaN(document.getElementById("tileSet-height").value) || "" == document.getElementById("tileSet-height").value){
+          inputWrong = true;
+      } else if(isNaN(document.getElementById("tileSet-width").value) || "" == document.getElementById("tileSet-width").value){
+          inputWrong = true;
+      } else if(isNaN(document.getElementById("spacing").value) || "" == document.getElementById("spacing").value){
+          inputWrong = true;
+      }
+
+      if(inputWrong){
+          alert("Invalid input. Please enter integer values for tileset width/height and spacing.");
+          return;
+      }
+
     var tilesetName = document.getElementById("TilesetName").value;
     tilesetH = Number(document.getElementById("tileSet-height").value);
     tilesetW = Number(document.getElementById("tileSet-width").value);
