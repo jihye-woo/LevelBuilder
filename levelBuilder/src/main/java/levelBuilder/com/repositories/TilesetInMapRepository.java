@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface TilesetInMapRepository extends JpaRepository<TilesetInMapEntity, Integer> {
     List<TilesetInMapEntity> findByMapName(String mapName); //find all the tilesets in a given map name
+    List<TilesetInMapEntity> findByTilesetNameAndUsername(String tilesetName, String username); //find all the maps a tileset is used in
 }
