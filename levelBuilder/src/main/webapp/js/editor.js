@@ -25,32 +25,34 @@ editor.currentMap.LayerList.get(0).canvasLayer.canvas;
 var ratioX;
 var ratioY;
 function zoomIn(){
-    // ratioX =2;
-    // ratioY =2;
-
-    console.log("scale "+ editor.canScaleX+editor.canScaleY);
     if (editor.zoomcount < 3){
         editor.zoomcount += 1;
         ratioX = Math.pow(editor.canScaleX, editor.zoomcount);
         ratioY = Math.pow(editor.canScaleY, editor.zoomcount);
-        console.log("hmm "+ Math.pow(editor.canScaleX, editor.zoomcount));
+        console.log("zoomin@@@ "+ editor.zoomcount);
         zoomRedraw(editor.currentMap.LayerList, ratioX, ratioY);
+        console.log("@@@zoomin@@@ "+ editor.zoomcount);
     }else{
         alert("Cannot zoom in anymore!");
+        ratioX = Math.pow(editor.canScaleX, editor.zoomcount);
+        ratioY = Math.pow(editor.canScaleY, editor.zoomcount);
+        zoomRedraw(editor.currentMap.LayerList, ratioX, ratioY);
     }
 }
 
 function zoomOut(){
-    // ratioX =0.5;
-    // ratioY =0.5;
-    console.log("scale "+ editor.canScaleX+editor.canScaleY);
-    if (ratioX > -2){
+    if (ratioX > -3){
         editor.zoomcount -= 1;
         ratioX = Math.pow(editor.canScaleX, editor.zoomcount);
         ratioY = Math.pow(editor.canScaleY, editor.zoomcount);
+        console.log("zoomout@@@ "+ editor.zoomcount);
         zoomRedraw(editor.currentMap.LayerList, ratioX, ratioY);
+        console.log("###zoomout@@@ "+ editor.zoomcount);
     }else{
         alert("Cannot zoom out anymore!");
+        // ratioX = Math.pow(editor.canScaleX, editor.zoomcount);
+        // ratioY = Math.pow(editor.canScaleY, editor.zoomcount);
+        // zoomRedraw(editor.currentMap.LayerList, ratioX, ratioY);
     }
 }
 
@@ -60,8 +62,8 @@ function zoomRedraw(layers, x, y){
         var can = layer.canvasLayer.canvas;
         var ctx = can.getContext("2d");
         ctx.clearRect(0,0,can.width, can.height);
-        can.height = can.height *y;
-        can.width = can.width *x;
+        can.height = can.height *editor.canScaleY;
+        can.width = can.width *editor.canScaleX;
         editor.grid.zoomGrid();
         // editor.canScaleX = editor.canScaleX *x;
         // editor.canScaleY = editor.canScaleY *y;

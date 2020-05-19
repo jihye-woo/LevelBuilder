@@ -60,14 +60,12 @@ class Grid{
         for(let x =offsetX ; x<=offsetX+(rows * (this.tileWidth*ratioX)) ; x+=(this.tileWidth*ratioX)) {
             this.drawLine(x, offsetY, x, offsetY+(this.h*ratioY));
         }
-
         this.ctx.stroke();
         this.ctx.beginPath();
         this.ctx.strokeStyle = "black";
         this.ctx.strokeRect(0, 0, cols, rows);
         this.ctx.restore();
         this.show = true;
-
     }
 
     drawLine(x1, y1, x2, y2){
