@@ -532,6 +532,7 @@ function loadFile(){
   } else{
     alert("Please select the type of file to load!");
   }
+  document.getElementById('loadFileName').value ="";
 }
 
 async function loadAll_Map_Helper(loadMapJSON) {
@@ -564,6 +565,7 @@ function paintAllLayers(loadedLayers){
     // paint a single layer
     layer.paintTiles();
   }
+  updateGidAfterLoad();
 }
 
 function loadAll_Map(){

@@ -24,35 +24,36 @@ editor.currentMap.LayerList.get(0).canvasLayer.canvas;
 
 var ratioX;
 var ratioY;
+var scaleX;
+var scaleY;
 function zoomIn(){
     if (editor.zoomcount < 3){
         editor.zoomcount += 1;
+        scaleX = 2;
+        scaleY = 2;
         ratioX = Math.pow(editor.canScaleX, editor.zoomcount);
         ratioY = Math.pow(editor.canScaleY, editor.zoomcount);
-        console.log("zoomin@@@ "+ editor.zoomcount);
+        console.log("@@zoominCount "+ editor.zoomcount+"rX "+ ratioX+"rY "+ratioY);
         zoomRedraw(editor.currentMap.LayerList, ratioX, ratioY);
-        console.log("@@@zoomin@@@ "+ editor.zoomcount);
     }else{
         alert("Cannot zoom in anymore!");
-        ratioX = Math.pow(editor.canScaleX, editor.zoomcount);
-        ratioY = Math.pow(editor.canScaleY, editor.zoomcount);
-        zoomRedraw(editor.currentMap.LayerList, ratioX, ratioY);
+        // ratioX = Math.pow(editor.canScaleX, editor.zoomcount);
+        // ratioY = Math.pow(editor.canScaleY, editor.zoomcount);
+        // zoomRedraw(editor.currentMap.LayerList, ratioX, ratioY);
     }
 }
 
 function zoomOut(){
-    if (ratioX > -3){
+    if (editor.zoomcount > -3){
         editor.zoomcount -= 1;
+        scaleX = 0.5;
+        scaleY = 0.5;
         ratioX = Math.pow(editor.canScaleX, editor.zoomcount);
         ratioY = Math.pow(editor.canScaleY, editor.zoomcount);
-        console.log("zoomout@@@ "+ editor.zoomcount);
+        console.log("@zoomOUTCount "+ editor.zoomcount+"rX "+ ratioX+"rY "+ratioY);
         zoomRedraw(editor.currentMap.LayerList, ratioX, ratioY);
-        console.log("###zoomout@@@ "+ editor.zoomcount);
     }else{
         alert("Cannot zoom out anymore!");
-        // ratioX = Math.pow(editor.canScaleX, editor.zoomcount);
-        // ratioY = Math.pow(editor.canScaleY, editor.zoomcount);
-        // zoomRedraw(editor.currentMap.LayerList, ratioX, ratioY);
     }
 }
 
@@ -62,8 +63,8 @@ function zoomRedraw(layers, x, y){
         var can = layer.canvasLayer.canvas;
         var ctx = can.getContext("2d");
         ctx.clearRect(0,0,can.width, can.height);
-        can.height = can.height *editor.canScaleY;
-        can.width = can.width *editor.canScaleX;
+        can.height = can.height * scaleY;
+        can.width = can.width * scaleX;
         editor.grid.zoomGrid();
         // editor.canScaleX = editor.canScaleX *x;
         // editor.canScaleY = editor.canScaleY *y;

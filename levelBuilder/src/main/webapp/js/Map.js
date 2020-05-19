@@ -294,7 +294,6 @@ class TiledLayer extends Layer{
                     var loadedImg = new Image();
                     loadedImg.src = TS.image.src;
                     ctx.drawImage(loadedImg, TS.tileList[localID].startX, TS.tileList[localID].startY, TS.tileWidth, TS.tileHeight,j*this.tileW, i*this.tileH, TS.tileWidth, TS.tileHeight);
-                    console.log("sx "+ TS.tileList[localID].startX + "sy "+ TS.tileList[localID].startY );
                 }
             }
         }
@@ -309,6 +308,12 @@ function getKey(val){
         }
       })
       return b;
+}
+
+function updateGidAfterLoad(){
+    for(var i=0; i<editor.loadedTilesetList.length; i++){
+        editor.currentMap.nextgid = editor.currentMap.nextgid + editor.loadedTilesetList[i].tilecount;
+    }
 }
 
 class ObjectLayer extends Layer{
