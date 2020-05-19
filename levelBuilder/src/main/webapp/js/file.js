@@ -1,5 +1,7 @@
 function getTilesetwithName(nameT) {
   var list = editor.loadedTilesetList;
+  console.log("check ");
+  console.log(list);
   var tileset;
   console.log("function callsed "+list.length);
   for(var i=0; i<list.length; i++){
@@ -295,7 +297,7 @@ function newTabBtn() {
 
   document.getElementById("newTab").addEventListener("click", function(e) {
     currentTileSetName = e.target.innerHTML;
-    openTilesetTab(e, e.target.innerHTML); 
+    openTilesetTab(e.target, e.target.innerHTML); 
     editor.currentTileset = getTileset(currentTileSetName);
     getCanvas = document.getElementById(currentTileSetName+"1");
     tilesetH = editor.currentTileset.tileList[0].tileHeight;
@@ -357,7 +359,7 @@ function newTabBtn() {
    var ctxT;
    var tilecount;
 
-   function loadImage(e){
+  function loadImage(e){
      colT = Math.floor(loadImg.width / (tilesetW+spacing));
      rowT = Math.floor(loadImg.height / (tilesetH+spacing));
      totalWidth = tilesetW * colT;
@@ -378,11 +380,11 @@ function newTabBtn() {
      tileList = createSingleTiles(currentTileSetName, loadImg, tilesetW, tilesetH, spacing);
      ctxTbase.drawImage(loadImg, 0, 0, loadImg.width, loadImg.height, 0, 0, loadImg.width, loadImg.height);
      drawTile();
-    openTilesetTab(e, currentTileSetName); 
+     openTilesetTab(e.target, currentTileSetName); 
     }
 
-    function loadImageDB(e){
-      colT = Math.floor(loadImg.width / (tilesetW+spacing));
+    function loadImageDB(target){
+    colT = Math.floor(loadImg.width / (tilesetW+spacing));
      rowT = Math.floor(loadImg.height / (tilesetH+spacing));
      totalWidth = tilesetW * colT;
      totalHeight = tilesetH * rowT;
@@ -399,7 +401,7 @@ function newTabBtn() {
      tileList = createSingleTiles(currentTileSetName, loadImg, tilesetW, tilesetH, spacing);
      ctxTbase.drawImage(loadImg, 0, 0, loadImg.width, loadImg.height, 0, 0, loadImg.width, loadImg.height);
      drawTile();
-     openTilesetTab(e, currentTileSetName); 
+     openTilesetTab(target, currentTileSetName); 
      }
 
 var index;
@@ -429,7 +431,7 @@ var index;
       return i;
     }
 
-  function openTilesetTab(evt, tabName) {
+  function openTilesetTab(target, tabName) {
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tilesetContent");
     for (i = 0; i < tabcontent.length; i++) {
@@ -440,7 +442,8 @@ var index;
       tablinks[i].className = tablinks[i].className.replace(" active", "");
     }
     document.getElementById(tabName).style.display = "block";
-    evt.currentTarget.className += " active";
+    // evt.currentTarget.className += " active";
+    target.className += " active";
   }
 
   function openTab(evt, cityName) {
@@ -577,19 +580,15 @@ async function loadAll_Tileset_Helper(loadTilesetJSON) {
             tilesetJson = jsonData.tileset;
             return parseImageJson(jsonData.image);
         }).then(newImage => {
-          // return new Promise((resolve, reject)=> {
-            var newTileset = parseTilesetJson(tilesetJson, newImage);
-            var currentTS = editor.currentTileset;
-            createNewtab(currentTS.name, currentTS.tileHeight, currentTS.tileWidth, currentTS.spacing);
-            loadImg = new Image();
-            loadImg.src = currentTS.image.src;
-            tilesetH = currentTS.tileHeight;
-            tilesetW = currentTS.tileWidth;
-            spacing = currentTS.spacing;
-            loadImg.addEventListener('load',loadImageDB,false);
-            // resolve(loadImg);
-            console.log(1);
-          // });
+          var newTileset = parseTilesetJson(tilesetJson, newImage);
+          var currentTS = editor.currentTileset;
+          createNewtab(currentTS.name, currentTS.tileHeight, currentTS.tileWidth, currentTS.spacing);
+          loadImg = new Image();
+          loadImg.src = currentTS.image.src;
+          tilesetH = currentTS.tileHeight;
+          tilesetW = currentTS.tileWidth;
+          spacing = currentTS.spacing;
+          loadImageDB(loadImg);
     });
     return Promise.resolve('compelet');
 }

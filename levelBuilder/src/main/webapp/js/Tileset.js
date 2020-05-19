@@ -33,6 +33,7 @@ class SingleImageTileset extends Tileset{
 		var newTile;
 		newTile = new Tile(id, startX, startY, tw, th);
 		this.tileList.push(newTile);
+		console.log(newTile)
 	}
  }
 
@@ -44,7 +45,6 @@ function createSingleTiles(tileSetName, image, tileWidth, tileHeight, spacing){
   var tileList =[];
   var plus = tileWidth + spacing;
   var plusH = tileHeight +spacing;
-  
   for(var i = 0;i < colT * rowT; i++){
 		tile = {};
 		tile.xPos = xPos; 
@@ -69,7 +69,7 @@ function createSingleTiles(tileSetName, image, tileWidth, tileHeight, spacing){
 		  }
 		}
   }
-	return tileList;
+;	return tileList;
   }
 
 class CollectionTileset extends Tileset{

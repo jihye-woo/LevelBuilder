@@ -283,18 +283,16 @@ class TiledLayer extends Layer{
         var loadmapH = this.height;
         var can = this.canvasLayer.canvas;
         var ctx = can.getContext("2d");
+        var TS;
         for(var i=0; i<loadmapW; i++){
             for(var j=0; j<loadmapH; j++){
                 if(this.csv[i][j] !=0){
                     var firstgid = editor.currentMap.csvGid.get(this.csv[i][j]);
                     var Tsname = getKey(firstgid);
-                     TS = getTilesetwithName(Tsname);
+                    TS = getTilesetwithName(Tsname);
                     var localID = this.csv[i][j] - firstgid;
-                    console.log("local "+localID);
                     var loadedImg = new Image();
                     loadedImg.src = TS.image.src;
-                    console.log("[][]= "+this.csv[i][j] +" i "+ i +" j "+j);
-                    // console.log("tile "+ TS.tileList);
                     ctx.drawImage(loadedImg, TS.tileList[localID].startX, TS.tileList[localID].startY, TS.tileWidth, TS.tileHeight,j*this.tileW, i*this.tileH, TS.tileWidth, TS.tileHeight);
                     console.log("sx "+ TS.tileList[localID].startX + "sy "+ TS.tileList[localID].startY );
                 }
@@ -302,7 +300,6 @@ class TiledLayer extends Layer{
         }
     }
 }
-var TS;
 function getKey(val){
     var map = editor.currentMap.selectedTilesetList;
     var b;
