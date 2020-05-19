@@ -1,13 +1,17 @@
 class Tileset{
 	constructor(name, image, imgWidth, imgHeight, tileWidth, tileHeight){
 	   this.name = name;
-	  //  this.src = src;
+	   this.src = "./src/main/resources/tileset_src/" + name +".png";
 	   this.image = image;
        this.imgWidth = imgWidth;
        this.imgHeight = imgHeight;
        this.tileWidth = tileWidth;
 	   this.tileHeight = tileHeight;
    }
+   setSrc(filePath){
+	this.src = filePath;
+   }
+
 }
 
 class Tile{

@@ -8,6 +8,8 @@ import java.util.Base64;
 import javax.imageio.ImageIO;
 public class ImageSaver {
 	
+	
+	
 	public ImageSaver(){
 		
 	}
@@ -22,8 +24,6 @@ public class ImageSaver {
 			String filenamepath = ".\\src\\main\\resources\\tileset_src\\" + filename +".png";
 			File outputFile = new File(filenamepath);
 			ImageIO.write(image, "png", outputFile);
-			System.out.println("hello");
-			System.out.println(outputFile.getAbsolutePath());
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
