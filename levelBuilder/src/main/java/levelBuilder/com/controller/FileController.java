@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import levelBuilder.com.ImageSaver;
 import levelBuilder.com.entities.ImagesAddedToTilesetEntity;
 import levelBuilder.com.entities.LayerEntity;
 import levelBuilder.com.entities.LayerPropertiesEntity;
@@ -38,6 +39,7 @@ public class FileController {
 	
 	ObjectMapper mapper = new ObjectMapper();
 	JSONObject object = new JSONObject();
+	ImageSaver imageSaver = new ImageSaver();
 	
 	@Autowired
     UserRepository userRepository;
@@ -132,8 +134,10 @@ public class FileController {
 	
 	@RequestMapping(value="/save_tileset", method=RequestMethod.POST)
 	public ResponseEntity<String> saveTileset(@RequestBody TilesetEntity tileset) {
-		// save map data
+		
+		// save tileset data
 		tilesetRepository.save(tileset);
+		
 		return new ResponseEntity<>(object.toString(), HttpStatus.CREATED);
 	}
 	
@@ -153,6 +157,9 @@ public class FileController {
 //		System.out.println(imageData);
 		// save map data
 		imagesAddedToTilesetRepository.save(imageData);
+		
+		imageSaver.saveBlobImageAsaFile(imageData.getImage(), imageData.getTilesetName());
+		
 		return new ResponseEntity<>(object.toString(), HttpStatus.CREATED);
 	}
 	
