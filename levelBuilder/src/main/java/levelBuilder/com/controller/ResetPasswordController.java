@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,7 +44,12 @@ public class ResetPasswordController {
 
 	//Update a user's password. Get the associated email from the token
 	@PostMapping("/confirm-reset")
-	public String resetPassword(@RequestParam("token") String confirmationToken, @ModelAttribute("resetForm") UserEntity user) {
+	public String resetPassword(@RequestParam("token") String confirmationToken, @ModelAttribute("resetForm") UserEntity user, BindingResult bindingResult) {
+		if(user.getPassword().equals("")){ //password cannot be empty
+			bindingResult.rejectValue("password", "Not valid", "Not valid");
+			return "resetPassword.jsp";
+		}
+
 		ConfirmationTokenEntity token = confirmationTokenRepository.findByConfirmationToken(confirmationToken);
 		UserEntity existingUser = userRepository.findByEmail(token.getUserEmail());
 
