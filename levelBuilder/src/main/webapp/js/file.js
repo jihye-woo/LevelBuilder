@@ -261,6 +261,13 @@ function newTabBtn() {
           return;
       }
 
+    for(var i=0; i<editor.loadedTilesetList.length; i++){
+      if(editor.loadedTilesetList[i].name == document.getElementById("TilesetName").value){
+        alert("Already Exist, please rename the tileset!");
+        return;
+      }
+    }
+
     var tilesetName = document.getElementById("TilesetName").value;
     tilesetH = Number(document.getElementById("tileSet-height").value);
     tilesetW = Number(document.getElementById("tileSet-width").value);
@@ -521,6 +528,12 @@ function loadFile(){
     if("" == document.getElementById('loadFileName').value){
         alert("Invalid input. Please enter a name for this map/tileset.");
         return;
+    }
+    for(var i=0; i<editor.loadedTilesetList.length; i++){
+      if(editor.loadedTilesetList[i].name == document.getElementById("loadFileName").value){
+        alert("Already loaded!");
+        return;
+      }
     }
 
   var selectMap = document.getElementById("selectLoadMap").checked;

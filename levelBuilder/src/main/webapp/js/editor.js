@@ -33,13 +33,9 @@ function zoomIn(){
         scaleY = 2;
         ratioX = Math.pow(editor.canScaleX, editor.zoomcount);
         ratioY = Math.pow(editor.canScaleY, editor.zoomcount);
-        console.log("@@zoominCount "+ editor.zoomcount+"rX "+ ratioX+"rY "+ratioY);
         zoomRedraw(editor.currentMap.LayerList, ratioX, ratioY);
     }else{
         alert("Cannot zoom in anymore!");
-        // ratioX = Math.pow(editor.canScaleX, editor.zoomcount);
-        // ratioY = Math.pow(editor.canScaleY, editor.zoomcount);
-        // zoomRedraw(editor.currentMap.LayerList, ratioX, ratioY);
     }
 }
 
@@ -50,7 +46,6 @@ function zoomOut(){
         scaleY = 0.5;
         ratioX = Math.pow(editor.canScaleX, editor.zoomcount);
         ratioY = Math.pow(editor.canScaleY, editor.zoomcount);
-        console.log("@zoomOUTCount "+ editor.zoomcount+"rX "+ ratioX+"rY "+ratioY);
         zoomRedraw(editor.currentMap.LayerList, ratioX, ratioY);
     }else{
         alert("Cannot zoom out anymore!");
@@ -66,10 +61,7 @@ function zoomRedraw(layers, x, y){
         can.height = can.height * scaleY;
         can.width = can.width * scaleX;
         editor.grid.zoomGrid();
-        // editor.canScaleX = editor.canScaleX *x;
-        // editor.canScaleY = editor.canScaleY *y;
         ctx.scale(x,y);
-        // console.log("S "+editor.canScaleX + editor.canScaleY);
       layer.paintTiles();
       layer.canvasLayer.zoomInEvent(layer);
     }
