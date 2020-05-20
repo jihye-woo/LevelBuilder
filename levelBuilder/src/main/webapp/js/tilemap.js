@@ -39,7 +39,7 @@ class Grid{
         this.ctx.stroke();
         this.ctx.beginPath();
         this.ctx.strokeStyle = "lightgrey";
-        this.ctx.strokeRect(0, 0, cols, rows);
+        // this.ctx.strokeRect(0, 0, cols, rows);
         this.ctx.restore();
         this.show = true;
     }
