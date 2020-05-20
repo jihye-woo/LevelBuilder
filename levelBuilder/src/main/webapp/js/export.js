@@ -144,4 +144,10 @@ function SingleTilesetXML(tileset)
     return doc;
 }
 
+function screenshot_map(){
+    var canvas = document.createElement("canvas");
+    canvas.width = editor.
+    canvas.height = 
+}
+
 

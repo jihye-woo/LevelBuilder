@@ -60,7 +60,7 @@
                 <a href="#">Export As Image</a>
                 <a href="#">Delete</a>
                 <a href="#">Recent Files</a>
-                <a href="#">Close All</a>
+                <a href="#" onclick ="clearWorkspace()">Clear map</a>
               </div>
             </div>
             <div class="dropdown">
@@ -366,7 +366,6 @@ class Editor{
     this.zoomcount =0;
 
    }
-   //$("canvas").detach(); remove all canvas
    
    loadTileset(tileset){
       this.loadedTilesetList.push(tileset);

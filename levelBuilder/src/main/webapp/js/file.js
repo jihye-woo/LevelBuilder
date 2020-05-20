@@ -525,28 +525,39 @@ function save(){
 }
 
 function loadFile(){
-    if("" == document.getElementById('loadFileName').value){
-        alert("Invalid input. Please enter a name for this map/tileset.");
-        return;
-    }
-    for(var i=0; i<editor.loadedTilesetList.length; i++){
-      if(editor.loadedTilesetList[i].name == document.getElementById("loadFileName").value){
-        alert("Already loaded!");
-        return;
-      }
-    }
-
+  var inputName = document.getElementById('loadFileName').value;
   var selectMap = document.getElementById("selectLoadMap").checked;
   var selectTileset = document.getElementById("selectLoadTileset").checked;
-  if(selectMap == true){
+  if(!nameValidator(inputName)){
+    alert("Invalid input. Please enter a valid name.");
+  } else if(selectMap == true){
     loadAll_Map();
   } else if(selectTileset == true){
-    loadAll_Tileset();
+    (canLoadTileset(inputName)) ? loadAll_Tileset() : alert('This tileset is already loaded!');
   } else{
     alert("Please select the type of file to load!");
   }
   document.getElementById('loadFileName').value ="";
 }
+
+function nameValidator(targetName, targetList){
+  var invalidInputRex = /^(?=[\S])[^\\ \/ : * ? " < > | ]+$/;
+  if(invalidInputRex.test(targetName)){ return true;}
+  return false;
+}
+
+function canLoadTileset(inputName){
+  var canLoad = true;
+  var targetList = editor.loadedTilesetList;
+  if(targetList){
+    targetList.forEach(function(tileset){
+      if (tileset.name == inputName) {
+        console.log("same! return false");
+        canLoad= false;}
+    });
+  }
+  return canLoad;
+ }
 
 async function loadAll_Map_Helper(loadMapJSON) {
     loadDataFromDB(loadMapJSON, "load_map")

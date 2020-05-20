@@ -37,7 +37,6 @@ class SingleImageTileset extends Tileset{
 		var newTile;
 		newTile = new Tile(id, startX, startY, tw, th);
 		this.tileList.push(newTile);
-		console.log(newTile)
 	}
  }
 
