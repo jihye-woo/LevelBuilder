@@ -248,13 +248,14 @@ class TiledLayer extends Layer{
         tileList = editor.currentTileset.tileList;
         var imgg = new Image();
         imgg.src = editor.currentTileset.image.src;
-        // imgg.src = editor.currentTileset.tileList[index].src;
-        this.canvasLayer.canvas.getContext("2d").clearRect(x*editor.currentMap.tileWidth, y*editor.currentMap.tileHeight, editor.currentMap.tileWidth, editor.currentMap.tileHeight);
-        this.canvasLayer.canvas.getContext("2d").drawImage(imgg,tileList[index].startX, tileList[index].startY,tileList[index].tileWidth, tileList[index].tileHeight, this.tileW*x, this.tileH*y, tileList[index].tileWidth, tileList[index].tileHeight );
+        this.canvasLayer.canvas.getContext("2d").clearRect(0,0, editor.currentMap.mapWidth*editor.currentMap.tileWidth, editor.currentMap.mapHeight*editor.currentMap.tileWidth);
+        // this.canvasLayer.canvas.getContext("2d").clearRect(x*editor.currentMap.tileWidth, y*editor.currentMap.tileHeight, editor.currentMap.tileWidth, editor.currentMap.tileHeight);
+        // this.canvasLayer.canvas.getContext("2d").drawImage(imgg,tileList[index].startX, tileList[index].startY,tileList[index].tileWidth, tileList[index].tileHeight, this.tileW*x, this.tileH*y, tileList[index].tileWidth, tileList[index].tileHeight );
         editor.currentMap.updateNextGid(editor.currentTileset.name, editor.currentTileset.tilecount);
         var ggid = Number(editor.currentMap.selectedTilesetList.get(editor.currentTileset.name));
         this.csv[y][x] = index + ggid;
         editor.currentMap.updateCSVGid(index + ggid, ggid);
+        this.paintTiles()
     }
 
     eraseTile(x, y, canvas,th, tw){
