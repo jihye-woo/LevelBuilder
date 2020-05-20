@@ -464,22 +464,20 @@ var index;
 async function saveAll_Tileset(newTileset){
   let jsonTileset = getTilesetJSON(newTileset);
   let jsonImage = await getImageJSON(newTileset);
-  console.log(jsonImage);
   saveDataToDB(jsonTileset, "save_tileset");
   saveDataToDB(jsonImage, "save_image");
 }
 
 function saveAll_Map(newMap, newLayers, mapName){
   let jsonMap = getMapJSON(newMap, mapName);
-  let jsonLayers = getLayerJSON(newLayers);
+  let jsonLayers = getLayerJSON(newLayers, mapName);
 
   let saveMapResult = saveDataToDB(jsonMap, "save_map");
   let saveLayerResult = saveDataToDB(jsonLayers["layers"], "save_layer");
   // let saveLayerPropResult = saveDataToDB(jsonLayers["layerProps"], "save_layerProp");
 
   if(newMap.csvGid.size != 0){
-    let jsonTilsetInMap = getTilesetInMapJSON(newMap);
-    console.log(jsonTilsetInMap);
+    let jsonTilsetInMap = getTilesetInMapJSON(newMap, mapName);
     let saveTilesetInMapResult = saveDataToDB(jsonTilsetInMap, "save_tilesetInMap");
   }
   //$.when(saveMapResult, saveLayerResult, saveLayerPropResult).then(function(){
@@ -495,6 +493,7 @@ function saveAll_Map(newMap, newLayers, mapName){
 
 function saveAsMap(){
   var map = editor.currentMap;
+  var currentMapName = editor.currentMap.name;
   if (map == null){
     alert("There is no map to save");
   } else{
@@ -505,6 +504,7 @@ function saveAsMap(){
     }
     saveAll_Map(map, map.LayerList, saveAsName);
   }
+  editor.currentMap = currentMapName;
   closeWindow(saveasWindow);
 }
 
@@ -621,7 +621,6 @@ function loadAll_Tileset(){
 }
 
 var currentTileID;
-
 function removeFile() {
   var d = document.getElementById(currentTileSetName);
   var olddiv = document.getElementById(currentTileID);
@@ -835,7 +834,7 @@ function convertCSVToArray(csv, csvArray, size){
   return result;
 }
 
-function getLayerJSON(LayerData){
+function getLayerJSON(LayerData, mapName){
   let layers = [];
   // let layerProps = [];
 
@@ -843,7 +842,7 @@ function getLayerJSON(LayerData){
     layers.push({
       "id" : layer.id,
       "name" : layer.name,
-      "mapName" : layer.mapName,
+      "mapName" : mapName,
       "orderInMap" : layer.order,
       "type" : layer.type,
       "csv" : convertArrayToCSV(layer.csv),
@@ -883,13 +882,13 @@ function getTilesetJSON(tileset){
   }
 }
 
-function getTilesetInMapJSON(mapData){
+function getTilesetInMapJSON(mapData, mapName){
   let tilesetsInMap = [];
   let gidList = mapData.csvGid;
 
   for (var [gid, fristgid] of gidList) {
     tilesetsInMap.push({
-      "mapName" : mapData.id,
+      "mapName" : mapName,
       "tilesetName" : getKey(fristgid),
       "username": editor.userName,
       "firstgid" : fristgid,
