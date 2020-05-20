@@ -6,9 +6,24 @@ function editFunction(element, service){
         case 'erase':
             EraseTile(element);
             break;
-        
+        case 'zoom':
+            zoomInOut();
         default:
       }
+}
+function zoomInOut(){
+    var girdNode = document.getElementsByClassName('Grid')[0];
+    var zoomon = editor.zoomFeature.zoomEventOn;
+    if(zoomon){
+        console.log("zoom off");
+        editor.zoomFeature.zoomEventOn = false;
+        editor.grid.offScrollEvent();
+        changeCursor(girdNode);
+    } else{console.log("zoom on");
+        editor.zoomFeature.zoomEventOn = true;
+        editor.grid.onScrollEvent();
+        changeCursor(girdNode, "n-resize");
+    }
 }
 
 
@@ -64,8 +79,7 @@ function zoomIn(){
     var zoomFeature = editor.zoomFeature;
     if (zoomFeature.zoomcount < 3){
         zoomFeature.zoomcount += 1;
-        zoomFeature.scaleX = 2;
-        zoomFeature.scaleY = 2;
+        zoomFeature.scaleX = zoomFeature.scaleY = 2;
         zoomFeature.ratioX = Math.pow(zoomFeature.canScaleX, zoomFeature.zoomcount);
         zoomFeature.ratioY = Math.pow(zoomFeature.canScaleY, zoomFeature.zoomcount);
         zoomRedraw(editor.currentMap.LayerList, zoomFeature.ratioX, zoomFeature.ratioY);
@@ -78,8 +92,7 @@ function zoomOut(){
     var zoomFeature = editor.zoomFeature;
     if (zoomFeature.zoomcount > -3){
         zoomFeature.zoomcount -= 1;
-        zoomFeature.scaleX = 0.5;
-        zoomFeature.scaleY = 0.5;
+        zoomFeature.scaleX = zoomFeature.scaleY = 0.5;
         zoomFeature.ratioX = Math.pow(zoomFeature.canScaleX, zoomFeature.zoomcount);
         zoomFeature.ratioY = Math.pow(zoomFeature.canScaleY, zoomFeature.zoomcount);
         zoomRedraw(editor.currentMap.LayerList, zoomFeature.ratioX, zoomFeature.ratioY);
@@ -90,16 +103,36 @@ function zoomOut(){
 
 function zoomRedraw(layers, x, y){
     var zoomFeature = editor.zoomFeature;
+    var resetGridRatioX = resetGridRatioY = 1;
+    if(zoomFeature.zoomcount > 0){
+        resetGridRatioX = zoomFeature.ratioX;
+        resetGridRatioY = zoomFeature.ratioY;
+    };
+    var gridCanvas = editor.grid.grid;
+    gridCanvas.width
+        = document.getElementsByClassName("surface tab")[0].offsetWidth*resetGridRatioX;
+    gridCanvas.height
+        = document.getElementsByClassName("surface tab")[0].offsetHeight*resetGridRatioY;
+    document.getElementsByClassName("editor-container")[0].style.width
+        = resetGridRatioX*100 +"%";
+    document.getElementsByClassName("editor-container")[0].style.height
+        = resetGridRatioY*100 +"%";
+        
+
     for (let [layerId, layer] of layers) {
         layer.canvasLayer.removeEvent();
         var can = layer.canvasLayer.canvas;
         var ctx = can.getContext("2d");
+        // var currentX = can.style.left;
+        // var currentY = can.style.left;
         ctx.clearRect(0,0,can.width, can.height);
         can.height = can.height * zoomFeature.scaleY;
         can.width = can.width * zoomFeature.scaleX;
-        editor.grid.showGrid(parseInt((can.style.left).replace("px", "")), parseInt((can.style.left).replace("px", "")));
+        
+        
+        editor.grid.showGrid(parseInt((can.style.left).replace("px", "")), parseInt((can.style.top).replace("px", "")));
         ctx.scale(x,y);
-      layer.paintTiles();
-      layer.canvasLayer.zoomInEvent(layer);
+        layer.paintTiles();
+        layer.canvasLayer.zoomInEvent(layer);
     }
   }

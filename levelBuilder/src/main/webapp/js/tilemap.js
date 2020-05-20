@@ -5,8 +5,8 @@ class Grid{
         this.ctx = canvas.getContext("2d");
         this.w = (width*tileW);
         this.h = (height*tileH);
-        this.canvasW = canvas.width = window.innerWidth;
-        this.canvasH = canvas.height = window.innerHeight;
+        this.canvasW = canvas.width = document.getElementsByClassName("surface tab")[0].offsetWidth;
+        this.canvasH = canvas.height = document.getElementsByClassName("surface tab")[0].offsetHeight;
         this.tileWidth = tileW;
         this.tileHeight = tileH;
         this.show = true;
@@ -44,31 +44,6 @@ class Grid{
         this.show = true;
     }
 
-    // zoomGrid(offsetX=0, offsetY=0){
-    //     var zoomFeature = editor.zoomFeature;
-    //     this.ctx.clearRect(0,0,this.canvasW, this.canvasH);
-    //     let rows = (this.w*zoomFeature.ratioX)/(this.tileWidth*zoomFeature.ratioX) | 0;
-    //     let cols = (this.h*zoomFeature.ratioY)/(this.tileHeight*zoomFeature.ratioY) | 0;
-        
-    //     this.ctx.save();
-    //     this.ctx.strokeStyle = "lightgrey";
-    //     this.ctx.beginPath();
-
-    //     for(let y =offsetY ; y<=offsetY+(cols * (this.tileHeight*zoomFeature.ratioY)) ; y+=(this.tileHeight*zoomFeature.ratioY)) {
-    //         this.drawLine(offsetX, y, offsetX+(this.w*zoomFeature.ratioX), y);
-    //     }
-
-    //     for(let x =offsetX ; x<=offsetX+(rows * (this.tileWidth*zoomFeature.ratioX)) ; x+=(this.tileWidth*zoomFeature.ratioX)) {
-    //         this.drawLine(x, offsetY, x, offsetY+(this.h*zoomFeature.ratioY));
-    //     }
-    //     this.ctx.stroke();
-    //     this.ctx.beginPath();
-    //     this.ctx.strokeStyle = "lightgrey";
-    //     this.ctx.strokeRect(0, 0, cols, rows);
-    //     this.ctx.restore();
-    //     this.show = true;
-    // }
-
     drawLine(x1, y1, x2, y2){
         this.ctx.moveTo(x1, y1);
         this.ctx.lineTo(x2, y2);
@@ -83,6 +58,34 @@ class Grid{
             this.show = true;
         }
     }
+
+    onScrollEvent(){
+        var gridCanvas = this.grid;
+        if(gridCanvas){
+            gridCanvas.addEventListener('mousewheel', this.zoomScroll);
+            gridCanvas.addEventListener('mouseover', this.setCenter);
+            gridCanvas.style.zIndex = 999;
+        }
+    }
+    offScrollEvent(){
+        var gridCanvas = this.grid;
+        if(gridCanvas){
+            gridCanvas.removeEventListener('mousewheel', this.zoomScroll);
+            gridCanvas.removeEventListener('mouseover', this.setCenter);
+            gridCanvas.style.zIndex = "";
+        }
+    }
+
+    zoomScroll(e){
+        if(e.deltaY == 150){ zoomOut();}
+        else if(e.deltaY == -150){zoomIn();}
+    }
+    setCenter(e){
+        editor.zoomFeature.centerX = e.clientX;
+        editor.zoomFeature.centerY = e.clientY;
+        console.log(editor.zoomFeature.centerX);
+      }
+
 
     onDragEvent(){
         var gridCanvas = this.grid;

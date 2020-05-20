@@ -107,24 +107,25 @@
       <div class="workspace">
         <div class="scene">
           <div class="tab-header">Map editor</div>
+          <div class="editor-tools">
+            <!-- <div class="surface btn" id="btn-editor-cursor"
+              title="Selector tool - select objects to edit their properties" onclick="selectEditorTool('cursor')">
+              <i class="fa fa-mouse-pointer"></i></div> -->
+            <!-- <div class="surface btn" id="btn-editor-brush" title="Brush tool - paint tiles"
+              onclick="selectEditorTool('brush')"><i class="fa fa-paint-brush"></i></div> -->
+            <div class="surface btn" id="eraser" title="Eraser tool - erase tile data"
+              onclick="editFunction(this, 'erase')"><i class="fa fa-eraser"></i></div>
+            <div class="surface btn" id="btn-editor-move" value = "doNotMove"
+              title="Drag tool - pan around the map editor, you can also hold down (alt)"
+              onclick="editFunction(this, 'move')"><i class="fa fa-arrows"></i></div>
+            <div class="surface btn" id="btn-editor-zout" title="Zoom Scroll" onclick="editFunction(this, 'zoom')">
+              <i class="fas fa-search-plus"></i></div>
+            <!-- <div class="surface btn" id="btn-editor-zin" title="(+) Zoom in" onclick="zoomIn()"><i
+                class="fa fa-search-plus"></i></div> -->
+          </div>
           <div class="surface tab">
             <div class="editor-container">
-              <div class="editor-tools">
-                <!-- <div class="surface btn" id="btn-editor-cursor"
-                  title="Selector tool - select objects to edit their properties" onclick="selectEditorTool('cursor')">
-                  <i class="fa fa-mouse-pointer"></i></div> -->
-                <!-- <div class="surface btn" id="btn-editor-brush" title="Brush tool - paint tiles"
-                  onclick="selectEditorTool('brush')"><i class="fa fa-paint-brush"></i></div> -->
-                <div class="surface btn" id="eraser" title="Eraser tool - erase tile data"
-                  onclick="editFunction(this, 'erase')"><i class="fa fa-eraser"></i></div>
-                <div class="surface btn" id="btn-editor-move" value = "doNotMove"
-                  title="Drag tool - pan around the map editor, you can also hold down (alt)"
-                  onclick="editFunction(this, 'move')"><i class="fa fa-arrows"></i></div>
-                <div class="surface btn" id="btn-editor-zout" title="(-) Zoom out" onclick="zoomOut()"><i
-                    class="fa fa-search-minus"></i></div>
-                <div class="surface btn" id="btn-editor-zin" title="(+) Zoom in" onclick="zoomIn()"><i
-                    class="fa fa-search-plus"></i></div>
-              </div>
+              
               <div class="surface editor-border" style =" overflow: scroll;">
                 <div class = "Map">
                   <div class = "Grid"></div>
@@ -354,6 +355,7 @@ let editor;
 
 class ZoomFeature{
   constructor(){
+    this.zoomEventOn = false;
     this.canScaleX = 2;
     this.canScaleY = 2;
     this.zoomcount =0;
@@ -361,7 +363,10 @@ class ZoomFeature{
     this.ratioY = 1;
     this.scaleX = 1;
     this.scaleY = 1;
+    this.centerX = window.innerWidth/2;
+    this.centerY = window.innerHeight/2;
   }
+
 }
 
 class Editor{
