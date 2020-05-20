@@ -233,15 +233,15 @@ class Layer{
 }
 
 class TiledLayer extends Layer{
-    constructor(id, name, width, height, mapName, tileW, tileH){
+    constructor(id, name, width, height, mapName, tileW, tileH, offsetX=0, offsetY=0){
         super(id, name, width, height, mapName);
         this.tileW = tileW;
         this.tileH = tileH;
         this.csv = Array.from(Array((width)), () => Array((height)).fill(0));
         this.type = "TiledLayer";
-        this.canvasLayer = new TiledCanvas(width, height, tileW, tileH, this);
-        this.offsetX = 0;
-        this.offsetY = 0;
+        this.canvasLayer = new TiledCanvas(width, height, tileW, tileH, this, offsetX, offsetY);
+        this.offsetX = offsetX;
+        this.offsetY = offsetY;
     }
 
     fillTiles(x, y, canvas){

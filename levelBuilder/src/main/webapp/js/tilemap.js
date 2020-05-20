@@ -120,7 +120,7 @@ class Grid{
             targetLayer.canvasLayer.canvas.style.left = x+"px";
             targetLayer.canvasLayer.canvas.style.top = y+"px";
             targetLayer.offsetX = parseInt(targetLayer.canvasLayer.canvas.style.left.replace("px", ""));
-            targetLayer.offsetX = parseInt(targetLayer.canvasLayer.canvas.style.left.replace("px", ""));
+            targetLayer.offsetY = parseInt(targetLayer.canvasLayer.canvas.style.top.replace("px", ""));
         }
     }
     dragEnd(e){
@@ -130,12 +130,12 @@ class Grid{
  var col;
  var row;
 class TiledCanvas{
-    constructor(width, height, tileW, tileH, layer){
+    constructor(width, height, tileW, tileH, layer, offsetX, offsetY){
         let canvas = document.createElement("canvas");
         canvas.id = layer.id;
         canvas.style.position = "position"; 
-        canvas.style.left = "0px";
-        canvas.style.top = "0px";
+        canvas.style.left = offsetX+ "px";
+        canvas.style.top = offsetY +"px";
         canvas.addEventListener("click", addEvent);
 
         this.w = canvas.width = (width*tileW);

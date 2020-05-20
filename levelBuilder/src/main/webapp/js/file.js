@@ -134,7 +134,7 @@ var gridVisIcon = document.getElementById("gridVisability");
 
 function createMap() {
   let mapType = "top";
-    
+
     //if any errors in inputs, inform user
     if("" == document.getElementById("map-name").value){
         alert("Invalid input. Please enter a name for this map.");
@@ -535,6 +535,7 @@ function loadFile(){
   if(!nameValidator(inputName)){
     alert("Invalid input. Please enter a valid name.");
   } else if(selectMap == true){
+    editor.clearWorkspace();
     loadAll_Map();
   } else if(selectTileset == true){
     (canLoadTileset(inputName)) ? loadAll_Tileset() : alert('This tileset is already loaded!');
@@ -741,7 +742,7 @@ function parseLayerJson(layers, map){
   layers.forEach(function(layer){
   var newLayer;
   if (layer.type === "TiledLayer"){ 
-    newLayer = new TiledLayer(layer.id, layer.name, map.mapWidth, map.mapHeight, map.id, map.tileWidth, map.tileHeight);
+    newLayer = new TiledLayer(layer.id, layer.name, map.mapWidth, map.mapHeight, map.id, map.tileWidth, map.tileHeight, layer.offsetX, layer.offsetY);
   } else {
     newLayer = new ObjectLayer(layer.id, layer.name, map.mapWidth, map.mapHeight);
   }
@@ -856,7 +857,9 @@ function getLayerJSON(LayerData){
       "mapName" : layer.mapName,
       "orderInMap" : layer.order,
       "type" : layer.type,
-      "csv" : convertArrayToCSV(layer.csv)
+      "csv" : convertArrayToCSV(layer.csv),
+      "offsetX" : layer.offsetX,
+      "offsetY" : layer.offsetY
     });
     
     // let layerPropData = layer.layerProp;
