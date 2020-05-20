@@ -351,6 +351,19 @@
 <script>
 let editor;
 
+
+class ZoomFeature{
+  constructor(){
+    this.canScaleX = 2;
+    this.canScaleY = 2;
+    this.zoomcount =0;
+    this.ratioX = 1;
+    this.ratioY = 1;
+    this.scaleX = 1;
+    this.scaleY = 1;
+  }
+}
+
 class Editor{
    constructor(){
     this.currentMap;
@@ -361,10 +374,7 @@ class Editor{
     this.userName;
     this.grid;
     this.selectedLayerId;
-    this.canScaleX =2;
-    this.canScaleY =2;
-    this.zoomcount =0;
-
+    this.zoomFeature = new ZoomFeature();
    }
    
    loadTileset(tileset){

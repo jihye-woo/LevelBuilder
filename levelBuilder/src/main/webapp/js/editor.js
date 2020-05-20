@@ -22,31 +22,29 @@ function moveGrid(element){
 editor.currentMap.LayerList.get(0).canvasLayer.canvas;
 // editor.currentMap.LayerList.get(editor.selectedLayerId).canvasLayer.canvas;
 
-var ratioX;
-var ratioY;
-var scaleX;
-var scaleY;
 function zoomIn(){
-    if (editor.zoomcount < 3){
-        editor.zoomcount += 1;
-        scaleX = 2;
-        scaleY = 2;
-        ratioX = Math.pow(editor.canScaleX, editor.zoomcount);
-        ratioY = Math.pow(editor.canScaleY, editor.zoomcount);
-        zoomRedraw(editor.currentMap.LayerList, ratioX, ratioY);
+    var zoomFeature = editor.zoomFeature;
+    if (zoomFeature.zoomcount < 3){
+        zoomFeature.zoomcount += 1;
+        zoomFeature.scaleX = 2;
+        zoomFeature.scaleY = 2;
+        zoomFeature.ratioX = Math.pow(zoomFeature.canScaleX, zoomFeature.zoomcount);
+        zoomFeature.ratioY = Math.pow(zoomFeature.canScaleY, zoomFeature.zoomcount);
+        zoomRedraw(editor.currentMap.LayerList, zoomFeature.ratioX, zoomFeature.ratioY);
     }else{
         alert("Cannot zoom in anymore!");
     }
 }
 
 function zoomOut(){
+    var zoomFeature = editor.zoomFeature;
     if (editor.zoomcount > -3){
         editor.zoomcount -= 1;
-        scaleX = 0.5;
-        scaleY = 0.5;
-        ratioX = Math.pow(editor.canScaleX, editor.zoomcount);
-        ratioY = Math.pow(editor.canScaleY, editor.zoomcount);
-        zoomRedraw(editor.currentMap.LayerList, ratioX, ratioY);
+        zoomFeature.scaleX = 0.5;
+        zoomFeature.scaleY = 0.5;
+        zoomFeature.ratioX = Math.pow(zoomFeature.canScaleX, zoomFeature.zoomcount);
+        zoomFeature.ratioY = Math.pow(zoomFeature.canScaleY, zoomFeature.zoomcount);
+        zoomRedraw(editor.currentMap.LayerList, zoomFeature.ratioX, zoomFeature.ratioY);
     }else{
         alert("Cannot zoom out anymore!");
     }

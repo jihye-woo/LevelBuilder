@@ -19,50 +19,74 @@ class Grid{
     }
  
     showGrid(offsetX=0, offsetY=0){
+        var zoomFeature = editor.zoomFeature;
+        // this.ctx.clearRect(0,0,this.canvasW, this.canvasH);
+        // let rows = this.w/this.tileWidth | 0;
+        // let cols = this.h/this.tileHeight | 0;
+        
+        // this.ctx.save();
+        // this.ctx.strokeStyle = "lightgrey";
+        // this.ctx.beginPath();
+
+        // for(let y =offsetY ; y<=offsetY+(cols * this.tileHeight) ; y+=this.tileHeight) {
+        //     this.drawLine(offsetX, y, offsetX+this.w, y);
+        // }
+
+        // for(let x =offsetX ; x<=offsetX+(rows * this.tileWidth) ; x+=this.tileWidth) {
+        //     this.drawLine(x, offsetY, x, offsetY+this.h);
+        // }
+
+        // this.ctx.stroke();
+        // this.ctx.beginPath();
+        // this.ctx.strokeStyle = "lightgrey";
+        // this.ctx.strokeRect(0, 0, cols, rows);
+        // this.ctx.restore();
+        // this.show = true;
+        console.log(zoomFeature.ratioX);
+
         this.ctx.clearRect(0,0,this.canvasW, this.canvasH);
-        let rows = this.w/this.tileWidth | 0;
-        let cols = this.h/this.tileHeight | 0;
+        let rows = (this.w*zoomFeature.ratioX)/(this.tileWidth*zoomFeature.ratioX) | 0;
+        let cols = (this.h*zoomFeature.ratioY)/(this.tileHeight*zoomFeature.ratioY) | 0;
         
         this.ctx.save();
         this.ctx.strokeStyle = "lightgrey";
         this.ctx.beginPath();
 
-        for(let y =offsetY ; y<=offsetY+(cols * this.tileHeight) ; y+=this.tileHeight) {
-            this.drawLine(offsetX, y, offsetX+this.w, y);
+        for(let y =offsetY ; y<=offsetY+(cols * (this.tileHeight*zoomFeature.ratioY)) ; y+=(this.tileHeight*zoomFeature.ratioY)) {
+            this.drawLine(offsetX, y, offsetX+(this.w*zoomFeature.ratioX), y);
         }
 
-        for(let x =offsetX ; x<=offsetX+(rows * this.tileWidth) ; x+=this.tileWidth) {
-            this.drawLine(x, offsetY, x, offsetY+this.h);
+        for(let x =offsetX ; x<=offsetX+(rows * (this.tileWidth*zoomFeature.ratioX)) ; x+=(this.tileWidth*zoomFeature.ratioX)) {
+            this.drawLine(x, offsetY, x, offsetY+(this.h*zoomFeature.ratioY));
         }
-
         this.ctx.stroke();
         this.ctx.beginPath();
-        this.ctx.strokeStyle = "black";
+        this.ctx.strokeStyle = "lightgrey";
         this.ctx.strokeRect(0, 0, cols, rows);
         this.ctx.restore();
         this.show = true;
-
     }
 
     zoomGrid(offsetX=0, offsetY=0){
+        var zoomFeature = editor.zoomFeature;
         this.ctx.clearRect(0,0,this.canvasW, this.canvasH);
-        let rows = (this.w*ratioX)/(this.tileWidth*ratioX) | 0;
-        let cols = (this.h*ratioY)/(this.tileHeight*ratioY) | 0;
+        let rows = (this.w*zoomFeature.ratioX)/(this.tileWidth*zoomFeature.ratioX) | 0;
+        let cols = (this.h*zoomFeature.ratioY)/(this.tileHeight*zoomFeature.ratioY) | 0;
         
         this.ctx.save();
         this.ctx.strokeStyle = "lightgrey";
         this.ctx.beginPath();
 
-        for(let y =offsetY ; y<=offsetY+(cols * (this.tileHeight*ratioY)) ; y+=(this.tileHeight*ratioY)) {
-            this.drawLine(offsetX, y, offsetX+(this.w*ratioX), y);
+        for(let y =offsetY ; y<=offsetY+(cols * (this.tileHeight*zoomFeature.ratioY)) ; y+=(this.tileHeight*zoomFeature.ratioY)) {
+            this.drawLine(offsetX, y, offsetX+(this.w*zoomFeature.ratioX), y);
         }
 
-        for(let x =offsetX ; x<=offsetX+(rows * (this.tileWidth*ratioX)) ; x+=(this.tileWidth*ratioX)) {
-            this.drawLine(x, offsetY, x, offsetY+(this.h*ratioY));
+        for(let x =offsetX ; x<=offsetX+(rows * (this.tileWidth*zoomFeature.ratioX)) ; x+=(this.tileWidth*zoomFeature.ratioX)) {
+            this.drawLine(x, offsetY, x, offsetY+(this.h*zoomFeature.ratioY));
         }
         this.ctx.stroke();
         this.ctx.beginPath();
-        this.ctx.strokeStyle = "black";
+        this.ctx.strokeStyle = "lightgrey";
         this.ctx.strokeRect(0, 0, cols, rows);
         this.ctx.restore();
         this.show = true;
@@ -181,9 +205,10 @@ function addEvent(){
 function zoomEvent(){
     var current = editor.currentMap;
     var topLayerIndex = current.LayerList.size-1;
+    var zoomFeature = editor.zoomFeature;
     var mousePos = getMousePos(current.LayerList.get(topLayerIndex).canvasLayer.canvas, event);
-    row = Math.floor(mousePos.x/(current.tileWidth*ratioY));
-    col = Math.floor(mousePos.y/(current.tileHeight*ratioX));
+    row = Math.floor(mousePos.x/(current.tileWidth*zoomFeature.ratioY));
+    col = Math.floor(mousePos.y/(current.tileHeight*zoomFeature.ratioX));
    var message = 'Mouse position: ' + row  + ',' + col;
    console.log(message);
    if(active == 0){
