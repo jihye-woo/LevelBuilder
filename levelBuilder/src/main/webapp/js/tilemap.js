@@ -20,29 +20,6 @@ class Grid{
  
     showGrid(offsetX=0, offsetY=0){
         var zoomFeature = editor.zoomFeature;
-        // this.ctx.clearRect(0,0,this.canvasW, this.canvasH);
-        // let rows = this.w/this.tileWidth | 0;
-        // let cols = this.h/this.tileHeight | 0;
-        
-        // this.ctx.save();
-        // this.ctx.strokeStyle = "lightgrey";
-        // this.ctx.beginPath();
-
-        // for(let y =offsetY ; y<=offsetY+(cols * this.tileHeight) ; y+=this.tileHeight) {
-        //     this.drawLine(offsetX, y, offsetX+this.w, y);
-        // }
-
-        // for(let x =offsetX ; x<=offsetX+(rows * this.tileWidth) ; x+=this.tileWidth) {
-        //     this.drawLine(x, offsetY, x, offsetY+this.h);
-        // }
-
-        // this.ctx.stroke();
-        // this.ctx.beginPath();
-        // this.ctx.strokeStyle = "lightgrey";
-        // this.ctx.strokeRect(0, 0, cols, rows);
-        // this.ctx.restore();
-        // this.show = true;
-        console.log(zoomFeature.ratioX);
 
         this.ctx.clearRect(0,0,this.canvasW, this.canvasH);
         let rows = (this.w*zoomFeature.ratioX)/(this.tileWidth*zoomFeature.ratioX) | 0;
@@ -67,30 +44,30 @@ class Grid{
         this.show = true;
     }
 
-    zoomGrid(offsetX=0, offsetY=0){
-        var zoomFeature = editor.zoomFeature;
-        this.ctx.clearRect(0,0,this.canvasW, this.canvasH);
-        let rows = (this.w*zoomFeature.ratioX)/(this.tileWidth*zoomFeature.ratioX) | 0;
-        let cols = (this.h*zoomFeature.ratioY)/(this.tileHeight*zoomFeature.ratioY) | 0;
+    // zoomGrid(offsetX=0, offsetY=0){
+    //     var zoomFeature = editor.zoomFeature;
+    //     this.ctx.clearRect(0,0,this.canvasW, this.canvasH);
+    //     let rows = (this.w*zoomFeature.ratioX)/(this.tileWidth*zoomFeature.ratioX) | 0;
+    //     let cols = (this.h*zoomFeature.ratioY)/(this.tileHeight*zoomFeature.ratioY) | 0;
         
-        this.ctx.save();
-        this.ctx.strokeStyle = "lightgrey";
-        this.ctx.beginPath();
+    //     this.ctx.save();
+    //     this.ctx.strokeStyle = "lightgrey";
+    //     this.ctx.beginPath();
 
-        for(let y =offsetY ; y<=offsetY+(cols * (this.tileHeight*zoomFeature.ratioY)) ; y+=(this.tileHeight*zoomFeature.ratioY)) {
-            this.drawLine(offsetX, y, offsetX+(this.w*zoomFeature.ratioX), y);
-        }
+    //     for(let y =offsetY ; y<=offsetY+(cols * (this.tileHeight*zoomFeature.ratioY)) ; y+=(this.tileHeight*zoomFeature.ratioY)) {
+    //         this.drawLine(offsetX, y, offsetX+(this.w*zoomFeature.ratioX), y);
+    //     }
 
-        for(let x =offsetX ; x<=offsetX+(rows * (this.tileWidth*zoomFeature.ratioX)) ; x+=(this.tileWidth*zoomFeature.ratioX)) {
-            this.drawLine(x, offsetY, x, offsetY+(this.h*zoomFeature.ratioY));
-        }
-        this.ctx.stroke();
-        this.ctx.beginPath();
-        this.ctx.strokeStyle = "lightgrey";
-        this.ctx.strokeRect(0, 0, cols, rows);
-        this.ctx.restore();
-        this.show = true;
-    }
+    //     for(let x =offsetX ; x<=offsetX+(rows * (this.tileWidth*zoomFeature.ratioX)) ; x+=(this.tileWidth*zoomFeature.ratioX)) {
+    //         this.drawLine(x, offsetY, x, offsetY+(this.h*zoomFeature.ratioY));
+    //     }
+    //     this.ctx.stroke();
+    //     this.ctx.beginPath();
+    //     this.ctx.strokeStyle = "lightgrey";
+    //     this.ctx.strokeRect(0, 0, cols, rows);
+    //     this.ctx.restore();
+    //     this.show = true;
+    // }
 
     drawLine(x1, y1, x2, y2){
         this.ctx.moveTo(x1, y1);
@@ -134,13 +111,7 @@ class Grid{
             var layerList = editor.currentMap.LayerList;
             var topLayerIndex = layerList.size-1;
             var targetLayer = layerList.get(topLayerIndex);
-            target.zoomGrid(x,y);
-            // if(ratioX == 1){
-            //     target.showGrid(x, y);
-            // }
-            // else{
-            //     target.zoomGrid(x, y);
-            // }
+            target.showGrid(x,y);
             targetLayer.canvasLayer.canvas.style.left = x+"px";
             targetLayer.canvasLayer.canvas.style.top = y+"px";
             targetLayer.offsetX = parseInt(targetLayer.canvasLayer.canvas.style.left.replace("px", ""));
