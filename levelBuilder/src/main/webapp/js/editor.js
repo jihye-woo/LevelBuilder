@@ -60,7 +60,7 @@ function zoomRedraw(layers, x, y){
         ctx.clearRect(0,0,can.width, can.height);
         can.height = can.height * scaleY;
         can.width = can.width * scaleX;
-        editor.grid.zoomGrid();
+        editor.grid.zoomGrid(parseInt((can.style.left).replace("px", "")), parseInt((can.style.left).replace("px", "")));
         ctx.scale(x,y);
       layer.paintTiles();
       layer.canvasLayer.zoomInEvent(layer);
