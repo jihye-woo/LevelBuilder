@@ -17,6 +17,8 @@ public class LayerEntity {
     private String type;
     @Lob //Stored as LONGTEXT in MySQL
     private String csv; //This is an array of tiles (stored as ints)
+    private int offsetX;
+    private int offsetY;
 
     public int getId() {
         return id;
@@ -64,5 +66,21 @@ public class LayerEntity {
 
     public void setCsv(String csv) {
         this.csv = csv;
+    }
+
+    public int getOffsetX() {
+        return offsetX;
+    }
+
+    public void setOffsetX(int offsetX) {
+        this.offsetX = offsetX;
+    }
+
+    public int getOffsetY() {
+        return offsetY;
+    }
+
+    public void setOffsetY(int offsetY) {
+        this.offsetY = offsetY;
     }
 }
