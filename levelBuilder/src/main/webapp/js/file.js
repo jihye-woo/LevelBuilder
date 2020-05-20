@@ -134,7 +134,7 @@ var gridVisIcon = document.getElementById("gridVisability");
 
 function createMap() {
   let mapType = "top";
-
+    
     //if any errors in inputs, inform user
     if("" == document.getElementById("map-name").value){
         alert("Invalid input. Please enter a name for this map.");
@@ -209,22 +209,22 @@ function createTileSet(name, image, imgWidth, imgHeight, tileWidth, tileHeight, 
 
 var currentTileSetName;
 function newTabBtn() {
-  var tilesetName = document.getElementById("TilesetName").value;
-  var btn = document.createElement("BUTTON");
-  btn.setAttribute('class', 'tab-header2');
-  btn.innerHTML = tilesetName;
-  //document.body.appendChild(btn);
-  document.getElementById("newTab").appendChild(btn);
+    var tilesetName = document.getElementById("TilesetName").value;
+    var btn = document.createElement("BUTTON");
+    btn.setAttribute('class', 'tab-header2');
+    btn.innerHTML = tilesetName;
+    //document.body.appendChild(btn);
+    document.getElementById("newTab").appendChild(btn);
 
-  var workspace = document.createElement("div");
-  workspace.setAttribute('class', 'tilesetContent');
-  workspace.setAttribute('id', tilesetName);
-  workspace.setAttribute('style', 'max-height: 220px; max-width:560px; overflow: scroll;');
-  document.getElementById("tilesetWorkspace").appendChild(workspace);
+    var workspace = document.createElement("div");
+    workspace.setAttribute('class', 'tilesetContent');
+    workspace.setAttribute('id', tilesetName);
+    workspace.setAttribute('style', 'max-height: 220px; max-width:560px; overflow: scroll;');
+    document.getElementById("tilesetWorkspace").appendChild(workspace);
 
-  currentTileSetName = tilesetName;
-  document.getElementById("TilesetName").value = "";
-  closeWindow(createTileSetWindow);
+    currentTileSetName = tilesetName;
+    document.getElementById("TilesetName").value = "";
+    closeWindow(createTileSetWindow);
   }
 
   var single = 1;
@@ -282,6 +282,10 @@ function newTabBtn() {
     document.getElementById("tileSet-width").value = "";
     document.getElementById("spacing").value = "";
     }
+
+  function removeTab(tilesetName){
+    
+  }
 
   function createNewtab(name, tHeight, tWidth, spacing){
       var btn = document.createElement("BUTTON");
@@ -584,7 +588,6 @@ async function loadAll_Map_Helper(loadMapJSON) {
 }
 
 function paintAllLayers(loadedLayers){
-  console.log(3);
   for (let [layerId, layer] of loadedLayers) {
     // paint a single layer
     layer.paintTiles();
@@ -769,37 +772,36 @@ function parseTilesetJson(tileset, newImage){
 }
 
 async function loadtilesetPromise(tilesetNameIter) {
+  editor.resetTilesetList();
+  
   var username = editor.userName;
-  // for (let [tilesetName, firstgid] of tilesetNameIter) {
-    var tilesetNames = Array.from(tilesetNameIter.keys());
-    console.log(0);
-    var complete = await Promise.all(tilesetNames.map((tilesetName)=>loadAll_Tileset_Helper( {"name" : tilesetName, "username" : username})));
-    console.log(2);
-  // }
+  var tilesetNames = Array.from(tilesetNameIter.keys());
+
+  var complete = await Promise.all(tilesetNames.map((tilesetName)=>loadAll_Tileset_Helper( {"name" : tilesetName, "username" : username})));
    return Promise.resolve();
 }
 
+
 async function parseTilesetInMapJson(tilesetsInMap, map){
     var username = editor.userName;
-    loadTilesetInMap(tilesetsInMap, map.csvGid, map.selectedTilesetList);
-    var tilesetNameIter = map.selectedTilesetList;
+    var tilesetNameIter = loadTilesetInMap(tilesetsInMap, map.csvGid, map.selectedTilesetList);
     // var username = editor.userName;
     var complete = await loadtilesetPromise(tilesetNameIter);
     return complete;
   // return map.selectedTilesetList;
 }
 
- 
 
 function loadTilesetInMap(tilesetsInMap, gidList, tilesetList){
   tilesetsInMap.forEach(function(paintedtile){
     var tilesetName = paintedtile.tilesetName;
     var firstgid = paintedtile.firstgid;
     gidList.set(paintedtile.globalId, firstgid);
-    if(!tilesetList.has(tilesetName)){
+    if(!tilesetList.has(tilesetName)){ // 
       tilesetList.set(tilesetName, firstgid);
     }
   });
+  return tilesetList;
 }
 
 

@@ -240,6 +240,8 @@ class TiledLayer extends Layer{
         this.csv = Array.from(Array((width)), () => Array((height)).fill(0));
         this.type = "TiledLayer";
         this.canvasLayer = new TiledCanvas(width, height, tileW, tileH, this);
+        this.offsetX = 0;
+        this.offsetY = 0;
     }
 
     fillTiles(x, y, canvas){
@@ -277,6 +279,7 @@ class TiledLayer extends Layer{
                     TS = getTilesetwithName(Tsname);
                     var localID = this.csv[i][j] - firstgid;
                     var loadedImg = new Image();
+                    console.log(TS);
                     loadedImg.src = TS.image.src;
                     ctx.drawImage(loadedImg, TS.tileList[localID].startX, TS.tileList[localID].startY, TS.tileWidth, TS.tileHeight,j*this.tileW, i*this.tileH, TS.tileWidth, TS.tileHeight);
                 }

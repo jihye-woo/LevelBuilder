@@ -21,7 +21,7 @@ public class ImageSaver {
 		
 		try {
 			image = ImageIO.read(bis);
-			String filenamepath = ".\\src\\main\\resources\\tileset_src\\" + filename +".png";
+			String filenamepath = ".\\src\\main\\webapp\\tileset_src\\" + filename +".png"; // for windows
 			File outputFile = new File(filenamepath);
 			ImageIO.write(image, "png", outputFile);
 			

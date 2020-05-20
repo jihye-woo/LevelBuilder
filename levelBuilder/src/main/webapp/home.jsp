@@ -60,7 +60,7 @@
                 <a href="#">Export As Image</a>
                 <!-- <a href="#">Delete</a>
                 <a href="#">Recent Files</a> -->
-                <a href="#" onclick ="clearWorkspace()">Clear map</a>
+                <a href="#" onclick ="editor.clearWorkspace()">Clear map</a>
               </div>
             </div>
             <!-- <div class="dropdown">
@@ -371,14 +371,22 @@ class Editor{
       this.loadedTilesetList.push(tileset);
       this.currentTileset = tileset;
    }
+   resetTilesetList(){
+    this.loadedTilesetList = new Array();
+    var node = document.getElementById('newTab').innerHTML = "";
+   }
 
    clearWorkspace(){
-    $("canvas").detach();
+    var mapNode = document.getElementsByClassName("Map")[0];
+    mapNode.innerText ="";
+    var gridNode = document.createElement("div");
+    gridNode.className = "Grid";
+    mapNode.appendChild(gridNode);
     if(this.currentMap){
       this.currentMap = null;
       this.currentLayer = null;
       this.selectedLayerId = null;
-      this.grid =  null;
+      this.grid = null;
     }
   }
 }

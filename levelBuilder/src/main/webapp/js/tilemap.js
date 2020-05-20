@@ -119,6 +119,8 @@ class Grid{
             // }
             targetLayer.canvasLayer.canvas.style.left = x+"px";
             targetLayer.canvasLayer.canvas.style.top = y+"px";
+            targetLayer.offsetX = parseInt(targetLayer.canvasLayer.canvas.style.left.replace("px", ""));
+            targetLayer.offsetX = parseInt(targetLayer.canvasLayer.canvas.style.left.replace("px", ""));
         }
     }
     dragEnd(e){
