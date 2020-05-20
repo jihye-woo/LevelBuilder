@@ -50,14 +50,14 @@
               <div class="dropdown-content">
                 <a href="#" onclick="newMap()">New Map</a>
                 <a href="#" onclick="newTileSet()">New TileSet</a>
-                <a href="#">Share Map</a>
+                <!-- <a href="#">Share Map</a> -->
                 <a href="#" onclick="createload()">Load</a>
                 <a href="#" onclick="save()">Save</a>
                 <a href="#" onclick="openSaveAs()">Save As </a>
                 <a href="#" onclick ="exportMap()">Export Map</a>
                 <a href="#" onclick ="openExportAsMap()">Export As Map</a>
                 <a href="#" onclick ="openExportAsTileset()">Export Tileset</a>
-                <a href="#">Export As Image</a>
+                <!-- <a href="#">Export As Image</a> -->
                 <!-- <a href="#">Delete</a>
                 <a href="#">Recent Files</a> -->
                 <a href="#" onclick ="editor.clearWorkspace()">Clear map</a>
@@ -116,10 +116,10 @@
                 <!-- <div class="surface btn" id="btn-editor-brush" title="Brush tool - paint tiles"
                   onclick="selectEditorTool('brush')"><i class="fa fa-paint-brush"></i></div> -->
                 <div class="surface btn" id="eraser" title="Eraser tool - erase tile data"
-                  onclick="EraseTile(this)"><i class="fa fa-eraser"></i></div>
+                  onclick="editFunction(this, 'erase')"><i class="fa fa-eraser"></i></div>
                 <div class="surface btn" id="btn-editor-move" value = "doNotMove"
                   title="Drag tool - pan around the map editor, you can also hold down (alt)"
-                  onclick="moveGrid(this)"><i class="fa fa-arrows"></i></div>
+                  onclick="editFunction(this, 'move')"><i class="fa fa-arrows"></i></div>
                 <div class="surface btn" id="btn-editor-zout" title="(-) Zoom out" onclick="zoomOut()"><i
                     class="fa fa-search-minus"></i></div>
                 <div class="surface btn" id="btn-editor-zin" title="(+) Zoom in" onclick="zoomIn()"><i

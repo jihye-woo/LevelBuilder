@@ -10,19 +10,8 @@ function getTilesetwithName(nameT) {
     }
   }return tileset;
 }
-
-var active =1;
 var tsH;
 var tsW;
-function EraseTile(x) {
-if(active ==1){
-  x.className += " active";
-  active = 0;
-  }else{
-    x.className = x.className.replace(" active", "");
-    active=1;
-  }
-}
 
 function getTWTH(){
   var llist = editor.currentMap.LayerList;

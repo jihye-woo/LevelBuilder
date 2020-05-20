@@ -1,22 +1,61 @@
+function editFunction(element, service){
+    switch(service) {
+        case 'move':
+            moveGrid(element);
+            break;
+        case 'erase':
+            EraseTile(element);
+            break;
+        default:
+      }
+}
+
+
+
+
 function moveGrid(element){
     var currentState = element.getAttribute('value');
     var layerList = editor.currentMap.LayerList;
     var topLayerIndex = layerList.size-1;
     var targetLayer = layerList.get(topLayerIndex);
     if(targetLayer.layerProp.locked == 0){
+        var girdNode = document.getElementsByClassName('Grid')[0];
         if(currentState == 'doNotMove'){
             element.className += " active";
             element.setAttribute('value','move');
             editor.grid.onDragEvent();
-            document.getElementsByClassName('Grid')[0].style.zIndex = 999;
+            girdNode.style.zIndex = 999;
+            changeCursor(girdNode, "move");
         }
         else if(currentState == 'move'){
             element.className = element.className.replace(" active", "");
             element.setAttribute("value","doNotMove");
             editor.grid.offDragEvent();
-            document.getElementsByClassName('Grid')[0].style.zIndex = "";
+            girdNode.style.zIndex = "";
+            changeCursor(girdNode);
         }
     }
+}
+
+
+var active = 1;
+function EraseTile(x) {
+  var layerList = editor.currentMap.LayerList;
+  var topLayerIndex = layerList.size-1;
+  var targetLayer = layerList.get(topLayerIndex);
+  if(active == 1){
+    changeCursor(targetLayer.canvasLayer.canvas, "url('img/eraser_cursor.png'), auto");
+    x.className += " active";
+    active = 0;
+  } else{
+    changeCursor(targetLayer.canvasLayer.canvas);
+    x.className = x.className.replace(" active", "");
+    active = 1;
+  }
+}
+
+function changeCursor(targetNode, cursorStyle = ""){
+    targetNode.style.cursor = cursorStyle;
 }
 
 editor.currentMap.LayerList.get(0).canvasLayer.canvas;
