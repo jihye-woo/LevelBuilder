@@ -110,11 +110,13 @@ class Grid{
             var layerList = editor.currentMap.LayerList;
             var topLayerIndex = layerList.size-1;
             var targetLayer = layerList.get(topLayerIndex);
-            if(ratioX == 1){
-                target.showGrid(x, y);
-            }
-            else{target.zoomGrid(x, y);
-            }
+            target.zoomGrid(x,y);
+            // if(ratioX == 1){
+            //     target.showGrid(x, y);
+            // }
+            // else{
+            //     target.zoomGrid(x, y);
+            // }
             targetLayer.canvasLayer.canvas.style.left = x+"px";
             targetLayer.canvasLayer.canvas.style.top = y+"px";
         }

@@ -56,31 +56,31 @@
                 <a href="#" onclick="openSaveAs()">Save As </a>
                 <a href="#" onclick ="exportMap()">Export Map</a>
                 <a href="#" onclick ="openExportAsMap()">Export As Map</a>
-                <a href="#" onclick ="openExportAsTileset()">Export As Tileset</a>
+                <a href="#" onclick ="openExportAsTileset()">Export Tileset</a>
                 <a href="#">Export As Image</a>
-                <a href="#">Delete</a>
-                <a href="#">Recent Files</a>
+                <!-- <a href="#">Delete</a>
+                <a href="#">Recent Files</a> -->
                 <a href="#" onclick ="clearWorkspace()">Clear map</a>
               </div>
             </div>
-            <div class="dropdown">
+            <!-- <div class="dropdown">
                 <button class="dropbtn">Edit</button>
                 <div class="dropdown-content">
                   <a href="#">Undo</a>
                   <a href="#">Redo</a>
-                  <!-- <a href="#">Cut</a>
+                  <a href="#">Cut</a>
                   <a href="#">Copy</a>
                   <a href="#">Paste</a>
-                  <a href="#">Delete</a> -->
+                  <a href="#">Delete</a>
                 </div>
-              </div>
+              </div> -->
               <div class="dropdown">
                   <button class="dropbtn">Layers</button>
                   <div class="dropdown-content">
                     <a href="#" onclick="newLayer()">New</a>
                     <!-- <a href="#" onclick="newLayerGroup()">Group</a> -->
                     <!-- <a href="#">Duplicate Layers</a> -->
-                    <a href="#">Remove Layers</a>
+                    <a href="#"onclick="removeLayer()">Remove Layers</a>
                     <a href="#"onclick="moveLayerUp()">Raise Layers</a>
                     <a href="#"onclick="moveLayerDown()">Lower Layers</a>
                     <!-- <a href="#">Show/Hide Layers</a> -->
@@ -110,9 +110,9 @@
           <div class="surface tab">
             <div class="editor-container">
               <div class="editor-tools">
-                <div class="surface btn" id="btn-editor-cursor"
+                <!-- <div class="surface btn" id="btn-editor-cursor"
                   title="Selector tool - select objects to edit their properties" onclick="selectEditorTool('cursor')">
-                  <i class="fa fa-mouse-pointer"></i></div>
+                  <i class="fa fa-mouse-pointer"></i></div> -->
                 <!-- <div class="surface btn" id="btn-editor-brush" title="Brush tool - paint tiles"
                   onclick="selectEditorTool('brush')"><i class="fa fa-paint-brush"></i></div> -->
                 <div class="surface btn" id="eraser" title="Eraser tool - erase tile data"
