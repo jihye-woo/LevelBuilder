@@ -6,11 +6,10 @@ function editFunction(element, service){
         case 'erase':
             EraseTile(element);
             break;
+        
         default:
       }
 }
-
-
 
 
 function moveGrid(element){
@@ -77,8 +76,8 @@ function zoomIn(){
 
 function zoomOut(){
     var zoomFeature = editor.zoomFeature;
-    if (editor.zoomcount > -3){
-        editor.zoomcount -= 1;
+    if (zoomFeature.zoomcount > -3){
+        zoomFeature.zoomcount -= 1;
         zoomFeature.scaleX = 0.5;
         zoomFeature.scaleY = 0.5;
         zoomFeature.ratioX = Math.pow(zoomFeature.canScaleX, zoomFeature.zoomcount);
@@ -90,14 +89,15 @@ function zoomOut(){
 }
 
 function zoomRedraw(layers, x, y){
+    var zoomFeature = editor.zoomFeature;
     for (let [layerId, layer] of layers) {
         layer.canvasLayer.removeEvent();
         var can = layer.canvasLayer.canvas;
         var ctx = can.getContext("2d");
         ctx.clearRect(0,0,can.width, can.height);
-        can.height = can.height * scaleY;
-        can.width = can.width * scaleX;
-        editor.grid.zoomGrid(parseInt((can.style.left).replace("px", "")), parseInt((can.style.left).replace("px", "")));
+        can.height = can.height * zoomFeature.scaleY;
+        can.width = can.width * zoomFeature.scaleX;
+        editor.grid.showGrid(parseInt((can.style.left).replace("px", "")), parseInt((can.style.left).replace("px", "")));
         ctx.scale(x,y);
       layer.paintTiles();
       layer.canvasLayer.zoomInEvent(layer);
