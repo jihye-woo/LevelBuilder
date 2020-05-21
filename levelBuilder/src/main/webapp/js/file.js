@@ -139,6 +139,7 @@ function resizeMap(){
  
   for(var i=0; i<layers.size; i++){
     var layer = layers.get(i);
+    layer.canvasLayer.removeEvent();
     layer.updateResize(resizeW, resizeH);
     if(i == topLayerIndex){
       editor.grid.resize(resizeW, resizeH, layer.offsetX, layer.offsetY);

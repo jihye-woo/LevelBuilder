@@ -81,7 +81,7 @@ class Grid{
     onScrollEvent(){
         var gridCanvas = this.grid;
         if(gridCanvas){
-            gridCanvas.addEventListener('wheel', this.zoomScroll);
+            gridCanvas.addEventListener('scroll', this.zoomScroll);
             gridCanvas.addEventListener('mousemove', this.setCenter);
             gridCanvas.style.zIndex = 999;
         }
@@ -89,7 +89,7 @@ class Grid{
     offScrollEvent(){
         var gridCanvas = this.grid;
         if(gridCanvas){
-            gridCanvas.removeEventListener('wheel', this.zoomScroll);
+            gridCanvas.removeEventListener('scroll', this.zoomScroll);
             gridCanvas.removeEventListener('mousemove', this.setCenter);
             gridCanvas.style.zIndex = "";
         }

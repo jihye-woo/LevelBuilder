@@ -251,6 +251,7 @@ class TiledLayer extends Layer{
             this.width = x;
             this.height = y;
             this.paintTiles();
+            this.canvasLayer.addEventAgain();
         });
     }
 
@@ -312,7 +313,6 @@ function createNewCSV(layer, x, y, time){
         for(var r=0; r< rows; r++){
             for(var c=0; c< cols; c++){
                 newCSV[r][c] = layer.csv[r][c];
-                // console.log("csv " + r + " " + c);
             }
         }  
         layer.csv = newCSV;
