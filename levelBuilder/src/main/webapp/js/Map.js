@@ -244,8 +244,11 @@ class TiledLayer extends Layer{
         this.offsetY = offsetY;
     }
 
-    updateResize(x, y){
+    updateResizeCSV(x, y){
         this.csv = createNewCSV(this, x, y);
+    }
+
+    updateResize(x,y){
         this.width = x;
         this.height = y;
         editor.currentMap.mapWidth = x;
@@ -287,12 +290,12 @@ class TiledLayer extends Layer{
         for(var i=0; i<loadmapW; i++){
             for(var j=0; j<loadmapH; j++){
                 if(this.csv[i][j] !=0){
+                    console.log("### "+i +" "+j);
                     var firstgid = editor.currentMap.csvGid.get(this.csv[i][j]);
                     var Tsname = getKey(firstgid);
                     TS = getTilesetwithName(Tsname);
                     var localID = this.csv[i][j] - firstgid;
                     var loadedImg = new Image();
-                    console.log(TS);
                     loadedImg.src = TS.image.src;
                     ctx.drawImage(loadedImg, TS.tileList[localID].startX, TS.tileList[localID].startY, TS.tileWidth, TS.tileHeight,j*this.tileW, i*this.tileH, TS.tileWidth, TS.tileHeight);
                 }
@@ -301,13 +304,13 @@ class TiledLayer extends Layer{
     }
 }
 function createNewCSV(layer, x, y){
-    var newCSV = Array.from(Array((x)), () => Array((y)).fill(0));;
-    for(var i=0; i<x; i++){
-        for(var j=0; j<y; j++){     
-           newCSV[i][j] =layer.csv[i][j];
+    var newCSV = Array.from(Array((y)), () => Array((x)).fill(0));;
+    for(var j=0; j<y; j++){
+        for(var i=0; i<x; i++){     
+           newCSV[j][i] =layer.csv[j][i];
         }
     }
-    return newCSV;
+    return newCSV; 
 }
  
 function getKey(val){

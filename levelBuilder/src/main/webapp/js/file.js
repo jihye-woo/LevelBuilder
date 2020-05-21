@@ -138,11 +138,13 @@ function resizeMap(){
   var mapTotalH = editor.currentMap.mapHeight*editor.currentMap.tileHeight;
 
   editor.grid.ctx.clearRect(0,0,mapTotalW,mapTotalH);
-  layers.forEach(function(layer){
-    layer.updateResize(resizeW, resizeH);
+  for(var i=0; i<layers.size;i++){
+    var layer = layers.get(i);
+    layer.updateResizeCSV(resizeW, resizeH);
     layer.canvasLayer.canvas.getContext("2d").clearRect(0,0,mapTotalW, mapTotalH);;
-    layer.paintTiles();
-  })
+    layer.updateResize(resizeW, resizeH);
+    // layer.paintTiles();
+  }
   editor.grid.showGrid();
   closeWindow(resizeMapWindow);
 }
