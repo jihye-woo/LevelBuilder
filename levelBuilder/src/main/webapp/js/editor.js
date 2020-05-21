@@ -6,20 +6,23 @@ function editFunction(element, service){
         case 'erase':
             EraseTile(element);
             break;
-        case 'zoom':
-            zoomInOut();
+        case 'zoomout':
+            zoomOut('zoomout');
+        case 'zoomin':
+            zoomIn('zoomin');
         default:
       }
 }
-function zoomInOut(){
+function zoomInOut(option){
     var girdNode = document.getElementsByClassName('Grid')[0];
-    var zoomon = editor.zoomFeature.zoomEventOn;
-    if(zoomon){
+    // var zoomon = editor.zoomFeature.zoomEventOn;
+    if(option == 'zoomout'){
         console.log("zoom off");
         editor.zoomFeature.zoomEventOn = false;
         editor.grid.offScrollEvent();
         changeCursor(girdNode);
-    } else{console.log("zoom on");
+    } else{
+        console.log("zoom on");
         editor.zoomFeature.zoomEventOn = true;
         editor.grid.onScrollEvent();
         changeCursor(girdNode, "n-resize");
@@ -109,8 +112,10 @@ function zoomRedraw(layers, x, y){
         resetGridRatioY = zoomFeature.ratioY;
     };
     editor.grid.updateZoom(resetGridRatioX, resetGridRatioY);
-    var canvasOffsetX = zoomFeature.centerX;
-    var canvasOffsetY = zoomFeature.centerY;
+    var canvasOffsetX = document.getElementsByClassName("surface tab")[0].offsetWidth/2;
+    // var canvasOffsetX = zoomFeature.centerX;
+    var canvasOffsetY = document.getElementsByClassName("surface tab")[0].offsetHeight/2;
+    // var canvasOffsetY = zoomFeature.centerY;
     var topLayerIndex = layers.size-1;
 
     for (let [layerId, layer] of layers) {
@@ -146,7 +151,7 @@ function zoomRedraw(layers, x, y){
     = canvasOffsetY;
     // = (canvasOffsetY - 1)*zoomFeature.scaleY;
     console.log("after " + document.getElementsByClassName("surface tab")[0].scrollLeft);
-  }, 500);
+  }, 200);
     // setTimeout(function(){
     //     document.getElementsByClassName("surface tab")[0].scrollLeft 
     //     = canvasOffsetX*zoomFeature.scaleX;
