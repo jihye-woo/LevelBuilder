@@ -7,6 +7,8 @@ class Grid{
         this.h = (height*tileH);
         this.canvasW = canvas.width = document.getElementsByClassName("surface tab")[0].offsetWidth;
         this.canvasH = canvas.height = document.getElementsByClassName("surface tab")[0].offsetHeight;
+        // this.canvasW = canvas.width =document.getElementsByClassName("Map")[0].lastElementChild.width;
+        // this.canvasH = canvas.height =document.getElementsByClassName("Map")[0].lastElementChild.height;
         this.tileWidth = tileW;
         this.tileHeight = tileH;
         this.show = true;

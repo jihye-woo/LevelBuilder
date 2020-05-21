@@ -244,6 +244,18 @@ class TiledLayer extends Layer{
         this.offsetY = offsetY;
     }
 
+    updateResize(x, y){
+        this.csv = createNewCSV(this, x, y);
+        this.width = x;
+        this.height = y;
+        editor.currentMap.mapWidth = x;
+        editor.currentMap.mapHeight = y;
+        editor.grid.canvasW = this.tileW * x;
+        editor.grid.canvasH = this.tileH * y;
+        editor.grid.w = this.tileW * x;
+        editor.grid.h = this.tileH * y;
+    }
+
     fillTiles(x, y, canvas){
         tileList = editor.currentTileset.tileList;
         var imgg = new Image();
@@ -287,6 +299,15 @@ class TiledLayer extends Layer{
             }
         }
     }
+}
+function createNewCSV(layer, x, y){
+    var newCSV = Array.from(Array((x)), () => Array((y)).fill(0));;
+    for(var i=0; i<x; i++){
+        for(var j=0; j<y; j++){     
+           newCSV[i][j] =layer.csv[i][j];
+        }
+    }
+    return newCSV;
 }
  
 function getKey(val){

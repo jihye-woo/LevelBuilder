@@ -63,6 +63,12 @@
                 <a href="#" onclick ="editor.clearWorkspace()">Clear map</a>
               </div>
             </div>
+            <div class="dropdown">
+              <button class="dropbtn">Map</button>
+              <div class="dropdown-content">
+                <a href="#" onclick="resizeM()">Resize Map</a>
+              </div>
+            </div>
             <!-- <div class="dropdown">
                 <button class="dropbtn">Edit</button>
                 <div class="dropdown-content">
@@ -99,7 +105,6 @@
                   <div class="dropdown">
                       <button class="dropbtn">About</button>
                       <div class="dropdown-content">
-                        <!-- <a href="#">User Manual</a> -->
                         <a href="#" onclick="aboutLB()">About Level Builder</a>
                       </div>
                   </div>
@@ -125,11 +130,10 @@
           </div>
           <div class="surface tab">
             <div class="editor-container">
-              
-              <div class="surface editor-border" style =" overflow: scroll;">
+              <!-- <div class="surface editor-border"> -->
                 <div class = "Map">
                   <div class = "Grid"></div>
-                </div>
+                <!-- </div> -->
               </div>
             </div>
           </div>
@@ -250,6 +254,29 @@
           <div class="surface btn" onclick="newTabBtn()">OK</div>
            <div class="surface btn" onclick="openTileSet(event, 'collections')">OK</div> 
         </div> -->
+      </div>
+
+      <div class="window surface" id="resize-map-window" style="z-index : 1000;">
+        <div class="window-title-bar">
+          <h4>Resize Map</h4>
+          <div class="surface btn" onclick="cancelResizeMap()"><i class="fa fa-close"></i></div>
+        </div>
+        <div class="window-body">
+          <div class="newline"></div>
+           <p>Offset X: 0</p>
+           <p>Offset Y: 0</p>
+          <div class="input-header">Size</div>
+          <div class="input-row">
+            <label for="resize-width">Width :</label>
+            <label><input type="text" placeholder="eg. 7" id="resize-width"/> tiles</label>
+            <label for="resize-height">Height:</label>
+            <label><input type="text" placeholder="eg. 7" id="resize-height"/>tiles</label>
+          </div>
+        </div>
+        <div class="window-actions">
+          <div class="surface btn" onclick="cancelResizeMap()">Cancel</div>
+          <div class="surface btn" onclick="resizeMap()">OK</div>
+        </div>
       </div>
 
       <div class="window surface" id="saveas" style="z-index : 1000;">

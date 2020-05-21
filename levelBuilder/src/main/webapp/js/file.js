@@ -52,6 +52,7 @@ let createLayerWindow = document.querySelector("#create-layer-window");
 let aboutWindow = document.querySelector("#about");
 let saveasWindow = document.querySelector("#saveas");
 let loadWindow = document.querySelector("#loadFile");
+let resizeMapWindow = document.querySelector("#resize-map-window");
 
 function newMap() {  
 showWindow(createMapWindow);
@@ -59,6 +60,10 @@ showWindow(createMapWindow);
 
 function newTileSet() {  
 showWindow(createTileSetWindow);
+}
+
+function resizeM(){
+  showWindow(resizeMapWindow);
 }
 
 function newLayer() {  
@@ -71,6 +76,10 @@ function cancelCreateMap() {
 
 function cancelCreateTileSet() {  
   closeWindow(createTileSetWindow);
+}
+
+function cancelResizeMap(){
+  closeWindow(resizeMapWindow);
 }
 
 function cancelCreateLayer() {  
@@ -120,6 +129,23 @@ var gridVisIcon = document.getElementById("gridVisability");
   editor.grid.showOrHide();
 });
 
+
+function resizeMap(){
+  var resizeW = Number(document.getElementById("resize-width").value);
+  var resizeH = Number(document.getElementById("resize-height").value);
+  var layers = editor.currentMap.LayerList;
+  var mapTotalW = editor.currentMap.mapWidth*editor.currentMap.tileWidth;
+  var mapTotalH = editor.currentMap.mapHeight*editor.currentMap.tileHeight;
+
+  editor.grid.ctx.clearRect(0,0,mapTotalW,mapTotalH);
+  layers.forEach(function(layer){
+    layer.updateResize(resizeW, resizeH);
+    layer.canvasLayer.canvas.getContext("2d").clearRect(0,0,mapTotalW, mapTotalH);;
+    layer.paintTiles();
+  })
+  editor.grid.showGrid();
+  closeWindow(resizeMapWindow);
+}
 
 function createMap() {
   let mapType = "top";
