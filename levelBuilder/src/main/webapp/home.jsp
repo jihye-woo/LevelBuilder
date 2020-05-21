@@ -123,9 +123,9 @@
             <div class="surface btn" id="btn-editor-move" value = "doNotMove"
               title="Drag tool - pan around the map editor, you can also hold down (alt)"
               onclick="editFunction(this, 'move')"><i class="fa fa-arrows"></i></div>
-            <div class="surface btn" id="btn-editor-zout" title="Zoom Scroll" onclick="editFunction(this, 'zoomin')">
+            <div class="surface btn" id="btn-editor-zout" title="Zoom in" onclick="zoomIn()">
               <i class="fas fa-search-plus"></i></div>
-            <div class="surface btn" id="btn-editor-zin" title="(+) Zoom in" onclick="editFunction(this, 'zoomout')"><i
+            <div class="surface btn" id="btn-editor-zin" title="Zoom out" onclick="zoomOut()"><i
                 class="fas fa-search-minus"></i></div>
           </div>
           <div class="surface tab">

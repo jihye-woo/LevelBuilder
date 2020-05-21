@@ -7,27 +7,27 @@ function editFunction(element, service){
             EraseTile(element);
             break;
         case 'zoomout':
-            zoomOut('zoomout');
+            zoomOut();
         case 'zoomin':
-            zoomIn('zoomin');
+            zoomIn();
         default:
       }
 }
-function zoomInOut(option){
-    var girdNode = document.getElementsByClassName('Grid')[0];
-    // var zoomon = editor.zoomFeature.zoomEventOn;
-    if(option == 'zoomout'){
-        console.log("zoom off");
-        editor.zoomFeature.zoomEventOn = false;
-        editor.grid.offScrollEvent();
-        changeCursor(girdNode);
-    } else{
-        console.log("zoom on");
-        editor.zoomFeature.zoomEventOn = true;
-        editor.grid.onScrollEvent();
-        changeCursor(girdNode, "n-resize");
-    }
-}
+// function zoomInOut(option){
+//     var girdNode = document.getElementsByClassName('Grid')[0];
+//     // var zoomon = editor.zoomFeature.zoomEventOn;
+//     if(option == 'zoomout'){
+//         console.log("zoom off");
+//         editor.zoomFeature.zoomEventOn = false;
+//         editor.grid.offScrollEvent();
+//         changeCursor(girdNode);
+//     } else{
+//         console.log("zoom on");
+//         editor.zoomFeature.zoomEventOn = true;
+//         editor.grid.onScrollEvent();
+//         changeCursor(girdNode, "n-resize");
+//     }
+// }
 
 
 function moveGrid(element){
@@ -82,6 +82,7 @@ function zoomIn(){
     var zoomFeature = editor.zoomFeature;
     if (zoomFeature.zoomcount < 3){
         zoomFeature.zoomcount += 1;
+        console.log("###zoomIN "+ zoomFeature.zoomcount);
         zoomFeature.scaleX = zoomFeature.scaleY = 2;
         zoomFeature.ratioX = Math.pow(zoomFeature.canScaleX, zoomFeature.zoomcount);
         zoomFeature.ratioY = Math.pow(zoomFeature.canScaleY, zoomFeature.zoomcount);
@@ -95,6 +96,7 @@ function zoomOut(){
     var zoomFeature = editor.zoomFeature;
     if (zoomFeature.zoomcount > -3){
         zoomFeature.zoomcount -= 1;
+        console.log("###zoomout "+ zoomFeature.zoomcount);
         zoomFeature.scaleX = zoomFeature.scaleY = 0.5;
         zoomFeature.ratioX = Math.pow(zoomFeature.canScaleX, zoomFeature.zoomcount);
         zoomFeature.ratioY = Math.pow(zoomFeature.canScaleY, zoomFeature.zoomcount);
