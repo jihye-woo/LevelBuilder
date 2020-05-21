@@ -25,6 +25,17 @@ class Grid{
         this.h  = this.tileHeight * y;
         this.showGrid(offsetX, offsetY);
     }
+
+    updateZoom(resetGridRatioX, resetGridRatioY){
+    this.grid.width
+        = document.getElementsByClassName("surface tab")[0].offsetWidth*resetGridRatioX;
+    this.grid.height
+        = document.getElementsByClassName("surface tab")[0].offsetHeight*resetGridRatioY;
+    document.getElementsByClassName("editor-container")[0].style.width
+        = resetGridRatioX*100 +"%";
+    document.getElementsByClassName("editor-container")[0].style.height
+        = resetGridRatioY*100 +"%";
+    }
  
     showGrid(offsetX=0, offsetY=0){
         var zoomFeature = editor.zoomFeature;
@@ -70,7 +81,7 @@ class Grid{
     onScrollEvent(){
         var gridCanvas = this.grid;
         if(gridCanvas){
-            gridCanvas.addEventListener('mousewheel', this.zoomScroll);
+            gridCanvas.addEventListener('wheel', this.zoomScroll);
             gridCanvas.addEventListener('mousemove', this.setCenter);
             gridCanvas.style.zIndex = 999;
         }
@@ -78,7 +89,7 @@ class Grid{
     offScrollEvent(){
         var gridCanvas = this.grid;
         if(gridCanvas){
-            gridCanvas.removeEventListener('mousewheel', this.zoomScroll);
+            gridCanvas.removeEventListener('wheel', this.zoomScroll);
             gridCanvas.removeEventListener('mousemove', this.setCenter);
             gridCanvas.style.zIndex = "";
         }
@@ -149,6 +160,7 @@ class TiledCanvas{
         this.canvas = document.getElementsByClassName('Map')[0].appendChild(canvas);
         this.ctx = canvas.getContext("2d");
     }
+    
     resize(x, y, tileW, tileH){
         this.w = this.canvas.width = x * tileW;
         this.h = this.canvas.height = y * tileH;

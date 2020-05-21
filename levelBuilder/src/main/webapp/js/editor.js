@@ -108,19 +108,10 @@ function zoomRedraw(layers, x, y){
         resetGridRatioX = zoomFeature.ratioX;
         resetGridRatioY = zoomFeature.ratioY;
     };
-    var gridCanvas = editor.grid.grid;
+    editor.grid.updateZoom(resetGridRatioX, resetGridRatioY);
     var canvasOffsetX = zoomFeature.centerX;
     var canvasOffsetY = zoomFeature.centerY;
-
-    gridCanvas.width
-        = document.getElementsByClassName("surface tab")[0].offsetWidth*resetGridRatioX;
-    gridCanvas.height
-        = document.getElementsByClassName("surface tab")[0].offsetHeight*resetGridRatioY;
-    document.getElementsByClassName("editor-container")[0].style.width
-        = resetGridRatioX*100 +"%";
-    document.getElementsByClassName("editor-container")[0].style.height
-        = resetGridRatioY*100 +"%";
-
+    var topLayerIndex = layers.size-1;
 
     for (let [layerId, layer] of layers) {
         layer.canvasLayer.removeEvent();
@@ -132,15 +123,30 @@ function zoomRedraw(layers, x, y){
         can.height = can.height * zoomFeature.scaleY;
         can.width = can.width * zoomFeature.scaleX;
         
-        var layerOffsetX = canvasOffsetX*zoomFeature.scaleX -(canvasOffsetX -currentX)*zoomFeature.scaleX ;
-        var layerOffsetY = canvasOffsetY*zoomFeature.scaleY -(canvasOffsetY -currentY)*zoomFeature.scaleY;
+        var layerOffsetX = currentX*zoomFeature.scaleX;
+        var layerOffsetY = currentY*zoomFeature.scaleY;
         ctx.scale(x,y);
         can.style.left = layerOffsetX + "px";
         can.style.top = layerOffsetX + "px";
-        editor.grid.showGrid(layerOffsetX, layerOffsetY);
         layer.paintTiles();
         layer.canvasLayer.zoomInEvent(layer);
+        if(layerId == topLayerIndex){
+            editor.grid.showGrid(layerOffsetX, layerOffsetY);
+        }
     }
+    console.log("before " + document.getElementsByClassName("surface tab")[0].scrollLeft);
+    console.log("before " + canvasOffsetX);
+    console.log("before " + canvasOffsetY);
+
+    setTimeout(function(){
+    document.getElementsByClassName("surface tab")[0].scrollLeft
+    = canvasOffsetX;
+    // = (canvasOffsetX - 1)*zoomFeature.scaleX;
+    document.getElementsByClassName("surface tab")[0].scrollTop
+    = canvasOffsetY;
+    // = (canvasOffsetY - 1)*zoomFeature.scaleY;
+    console.log("after " + document.getElementsByClassName("surface tab")[0].scrollLeft);
+  }, 500);
     // setTimeout(function(){
     //     document.getElementsByClassName("surface tab")[0].scrollLeft 
     //     = canvasOffsetX*zoomFeature.scaleX;

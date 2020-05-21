@@ -11,7 +11,6 @@ class Tileset{
    setSrc(filePath){
 	this.src = filePath;
    }
-
 }
 
 class Tile{
