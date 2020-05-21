@@ -1,9 +1,9 @@
 function getTilesetwithName(nameT) {
   var list = editor.loadedTilesetList;
-  console.log("check ");
-  console.log(list);
+  // console.log("check ");
+  // console.log(list);
   var tileset;
-  console.log("function callsed "+list.length);
+  // console.log("function callsed "+list.length);
   for(var i=0; i<list.length; i++){
     if(list[i].name == nameT){
       tileset = list[i];
@@ -133,19 +133,17 @@ var gridVisIcon = document.getElementById("gridVisability");
 function resizeMap(){
   var resizeW = Number(document.getElementById("resize-width").value);
   var resizeH = Number(document.getElementById("resize-height").value);
+  var map = editor.currentMap.resize(resizeW, resizeH);
   var layers = editor.currentMap.LayerList;
-  var mapTotalW = editor.currentMap.mapWidth*editor.currentMap.tileWidth;
-  var mapTotalH = editor.currentMap.mapHeight*editor.currentMap.tileHeight;
-
-  editor.grid.ctx.clearRect(0,0,mapTotalW,mapTotalH);
-  for(var i=0; i<layers.size;i++){
+  var topLayerIndex = layers.size - 1;
+ 
+  for(var i=0; i<layers.size; i++){
     var layer = layers.get(i);
-    layer.updateResizeCSV(resizeW, resizeH);
-    layer.canvasLayer.canvas.getContext("2d").clearRect(0,0,mapTotalW, mapTotalH);;
     layer.updateResize(resizeW, resizeH);
-    // layer.paintTiles();
+    if(i == topLayerIndex){
+      editor.grid.resize(resizeW, resizeH, layer.offsetX, layer.offsetY);
+    }
   }
-  editor.grid.showGrid();
   closeWindow(resizeMapWindow);
 }
 

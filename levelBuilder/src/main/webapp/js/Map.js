@@ -13,6 +13,10 @@ class TiledMap{
         this.selectedTilesetList = new Map(); // key : tileset name / value : firstGid
         this.csvGid = new Map(); // key: globalID / value: firstGid
     }
+    resize(x, y){
+        this.mapWidth = x;
+        this.mapHeight = y;
+    }
     updateNextGid(selectedName, size){
         if(this.selectedTilesetList.size ==0){
             this.selectedTilesetList.set(selectedName,this.nextgid); 
@@ -227,9 +231,6 @@ class Layer{
         this.tilesets = new Array();
     }
 
-   // clone(){
-
-    //}
 }
 
 class TiledLayer extends Layer{
@@ -244,19 +245,13 @@ class TiledLayer extends Layer{
         this.offsetY = offsetY;
     }
 
-    updateResizeCSV(x, y){
-        this.csv = createNewCSV(this, x, y);
-    }
-
-    updateResize(x,y){
-        this.width = x;
-        this.height = y;
-        editor.currentMap.mapWidth = x;
-        editor.currentMap.mapHeight = y;
-        editor.grid.canvasW = this.tileW * x;
-        editor.grid.canvasH = this.tileH * y;
-        editor.grid.w = this.tileW * x;
-        editor.grid.h = this.tileH * y;
+    async updateResize(x,y){
+        createNewCSV(this, x, y, x*y).then(newCSV => {
+            this.canvasLayer.resize(x, y, this.tileW, this.tileH);
+            this.width = x;
+            this.height = y;
+            this.paintTiles();
+        });
     }
 
     fillTiles(x, y, canvas){
@@ -270,15 +265,15 @@ class TiledLayer extends Layer{
         var ggid = Number(editor.currentMap.selectedTilesetList.get(editor.currentTileset.name));
         this.csv[y][x] = index + ggid;
         editor.currentMap.updateCSVGid(index + ggid, ggid);
-        this.paintTiles()
+        this.paintTiles();
     }
 
-    eraseTile(x, y, canvas,th, tw){
+    eraseTile(x, y, canvas, th, tw){
         var mapH = editor.currentMap.tileHeight;
         var mapW = editor.currentMap.tileWidth;
         this.canvasLayer.canvas.getContext("2d").clearRect(x*mapW, y*mapH, tw+1, th+1);
         this.csv[y][x] = 0;
-        this.paintTiles()
+        this.paintTiles();
     }
 
     paintTiles(){
@@ -290,7 +285,7 @@ class TiledLayer extends Layer{
         for(var i=0; i<loadmapW; i++){
             for(var j=0; j<loadmapH; j++){
                 if(this.csv[i][j] !=0){
-                    console.log("### "+i +" "+j);
+                    // console.log("### "+i +" "+j);
                     var firstgid = editor.currentMap.csvGid.get(this.csv[i][j]);
                     var Tsname = getKey(firstgid);
                     TS = getTilesetwithName(Tsname);
@@ -303,16 +298,29 @@ class TiledLayer extends Layer{
         }
     }
 }
-function createNewCSV(layer, x, y){
-    var newCSV = Array.from(Array((y)), () => Array((x)).fill(0));;
-    for(var j=0; j<y; j++){
-        for(var i=0; i<x; i++){     
-           newCSV[j][i] =layer.csv[j][i];
-        }
-    }
-    return newCSV; 
+function createNewCSV(layer, x, y, time){
+    console.log(x +" X");
+    console.log(y +" Y");
+    return new Promise ((resolve) => {
+
+    setTimeout(() => {
+        var newCSV = Array.from(Array((x)), () => Array((y)).fill(0));
+        var oldRows = layer.csv.length;
+        var oldCols = layer.csv[0].length;
+        var rows = (x < oldRows) ? x : oldRows;
+        var cols = (y < oldCols) ? y : oldCols;
+        for(var r=0; r< rows; r++){
+            for(var c=0; c< cols; c++){
+                newCSV[r][c] = layer.csv[r][c];
+                // console.log("csv " + r + " " + c);
+            }
+        }  
+        layer.csv = newCSV;
+        resolve(newCSV); 
+    },time); 
+    });
 }
- 
+
 function getKey(val){
     var map = editor.currentMap.selectedTilesetList;
     var b;

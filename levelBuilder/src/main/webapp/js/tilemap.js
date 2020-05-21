@@ -13,16 +13,17 @@ class Grid{
         if(this.h >this.canvasH){
             this.canvasH = canvas.height =document.getElementsByClassName("Map")[0].lastElementChild.height;
         }
-        
         this.tileWidth = tileW;
         this.tileHeight = tileH;
         this.show = true;
         this.isDragging = false;
     }
 
-    resize(width, height, tileW, tileH){
-        this.w = canvas.width = (width*tileW);
-        this.h = canvas.height = (height*tileH);
+    resize(x, y, offsetX, offsetY){
+        this.ctx.clearRect(0, 0, this.w, this.w);
+        this.w  = this.tileWidth * x;
+        this.h  = this.tileHeight * y;
+        this.showGrid(offsetX, offsetY);
     }
  
     showGrid(offsetX=0, offsetY=0){
@@ -123,8 +124,9 @@ class Grid{
             target.showGrid(x,y);
             targetLayer.canvasLayer.canvas.style.left = x+"px";
             targetLayer.canvasLayer.canvas.style.top = y+"px";
-            targetLayer.offsetX = parseInt(targetLayer.canvasLayer.canvas.style.left.replace("px", ""));
-            targetLayer.offsetY = parseInt(targetLayer.canvasLayer.canvas.style.top.replace("px", ""));
+            [targetLayer.offsetX, targetLayer.offsetY] = [x, y];
+            // targetLayer.offsetX = parseInt(targetLayer.canvasLayer.canvas.style.left.replace("px", ""));
+            // targetLayer.offsetY = parseInt(targetLayer.canvasLayer.canvas.style.top.replace("px", ""));
         }
     }
     dragEnd(e){
@@ -147,6 +149,16 @@ class TiledCanvas{
         this.canvas = document.getElementsByClassName('Map')[0].appendChild(canvas);
         this.ctx = canvas.getContext("2d");
     }
+    resize(x, y, tileW, tileH){
+        this.w = this.canvas.width = x * tileW;
+        this.h = this.canvas.height = y * tileH;
+    }
+
+    // getOffset(){
+    //     var x = parseInt(this.canvas.style.left.replace("px", ""));
+    //     var y = parseInt(this.canvas.style.top.replace("px", ""));
+    //     return [x, y];
+    // }
     hideCanvas(){
         document.getElementById(this.canvas.id).style.display="none";
     }
