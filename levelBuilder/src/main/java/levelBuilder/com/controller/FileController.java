@@ -164,7 +164,8 @@ public class FileController {
 	
 	@RequestMapping(value="/load_tileset", method=RequestMethod.POST)
 	public ResponseEntity<String> loadTileset(@RequestBody String jsonFileName) {
-		JSONObject jsonObject = new JSONObject(jsonFileName);
+		JSONObject jsonObject = new JSONObject
+				(jsonFileName);
 		String name = jsonObject.getString("name");
 		String username = jsonObject.getString("username");
 		JSONObject result = new JSONObject();

@@ -119,15 +119,13 @@ function loadMap(map){
   showList(editor.currentMap.LayerList);
 }
 
-var gridVisIcon = document.getElementById("gridVisability");
-  gridVisIcon.addEventListener("click", function(){
-  editor.grid.showOrHide();
-});
-
-
 function resizeMap(){
   var resizeW = Number(document.getElementById("resize-width").value);
   var resizeH = Number(document.getElementById("resize-height").value);
+  resizeMap_Helper(resizeW, resizeH);
+}
+
+function resizeMap_Helper(resizeW, resizeH){
   var map = editor.currentMap.resize(resizeW, resizeH);
   var layers = editor.currentMap.LayerList;
   var topLayerIndex = layers.size - 1;
@@ -358,8 +356,7 @@ function newTabBtn() {
         var mousePos = getMousePos(getCanvas, event);
         var row = Math.floor(mousePos.x/tilesetW);
         var col = Math.floor(mousePos.y/tilesetH);
-        index = getIndex(col, row);
-        console.log("index "+index +" img "+currentTileSetName);
+        editor.tileIndex = getIndex(col, row);
     });
      }
 
@@ -430,7 +427,7 @@ function newTabBtn() {
      openTilesetTab(target, currentTileSetName); 
      }
 
-var index;
+// var index;
       function drawTile(){
         var tile;
         var startXPos = 0;

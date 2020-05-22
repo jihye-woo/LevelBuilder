@@ -25,18 +25,23 @@
   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" /> -->
   <div class="whole_workspace">
     <section id="side-bar">
-      <a href="/my-profile" id="toggle-home">
+      <a href="/my-profile" id="toggle-home" title ="Go to home page">
         <button id="homeButton"><i class="fa fa-home" tooltip = "toggle-home" flow = "right"></i></button>
       </a>
       <div class ="vertical-align">
         <ul id="tool-menu">
-          <li data ="view" id="tool-view">
+          <li data ="view" id="tool-view" title ="Show grid" onclick ="editor.grid.showOrHide()">
             <button id="gridVisability"><i class="fa fa-eye" aria-hidden="true"></i></button>
-            <!-- <span class="tooltiptext">Control view</span> -->
           </li>
           <!-- <li data ="history" id="tool-history">
             <img src="img/tool/history.png">
           </li> -->
+          <li data ="undo" id="tool-undo" title ="Undo">
+            <button id="undoButton"><i class="fas fa-undo-alt" aria-hidden="true"></i></button>
+          </li>
+          <li data ="redo" id="tool-redo" title ="Redo">
+            <button id="redoButton"><i class="fas fa-redo-alt" aria-hidden="true"></i></button>
+          </li>
         </ul>
       </div>
     </section>
@@ -377,114 +382,42 @@
             <div class="surface btn" onclick="createLayer()">OK</div>
           </div>
         </div>
-<script>
-let editor;
 
 
-class ZoomFeature{
-  constructor(){
-    this.zoomEventOn = false;
-    this.canScaleX = 2;
-    this.canScaleY = 2;
-    this.zoomcount =0;
-    this.ratioX = 1;
-    this.ratioY = 1;
-    this.scaleX = 1;
-    this.scaleY = 1;
-    this.centerX = window.innerWidth/2;
-    this.centerY = window.innerHeight/2;
-  }
-
-}
-
-class Editor{
-   constructor(){
-    this.currentMap;
-    this.currentTileset;
-    this.currentLayer;
-    this.loadedMapList = new Array();
-    this.loadedTilesetList = new Array();
-    this.userName;
-    this.grid;
-    this.selectedLayerId;
-    this.zoomFeature = new ZoomFeature();
-   }
-   
-   loadTileset(tileset){
-      this.loadedTilesetList.push(tileset);
-      this.currentTileset = tileset;
-   }
-   resetTilesetList(){
-    this.loadedTilesetList = new Array();
-    var node = document.getElementById('newTab').innerHTML = "";
-   }
-
-   clearWorkspace(){
-    var mapNode = document.getElementsByClassName("Map")[0];
-    mapNode.innerText ="";
-    var gridNode = document.createElement("div");
-    gridNode.className = "Grid";
-    mapNode.appendChild(gridNode);
-    if(this.currentMap){
-      this.currentMap = null;
-      this.currentLayer = null;
-      this.selectedLayerId = null;
-      this.grid = null;
-    }
-  }
-}
-
-function handleLoadMapRequest(mapName){
-    var loadMapJSON = {"mapName" : mapName};
-    loadAll_Map_Helper(loadMapJSON);
-
-}
-
-function handleLoadTilesetRequest(tileSetName, username){
-    var loadTilesetJSON = {"name" : tileSetName, "username" : username};
-    loadAll_Tileset_Helper(loadTilesetJSON);
-}
-
-function handleExportMapRequest(mapName){
-    var loadMapJSON = {"mapName": mapName};
-    loadAll_Map_Helper(loadMapJSON);
-    setTimeout(exportMap, 2000); //wait until map has loaded to start exporting
-}
-
-function handleExportTilesetRequest(tileSetName, username){
-    var loadTilesetJSON = {"name" : tileSetName, "username" : username};
-    loadAll_Tileset_Helper(loadTilesetJSON);
-    setTimeout(exportTileset, 2000, tileSetName); //wait until tileset has loaded to start exporting
-}
-
-window.onload = (event) => {
-  editor = new Editor();
-  editor.userName = '${username}';
-  console.log("create editor class");
-
-  //If parameters exist in the URL, handle request
-  var queryString = window.location.search;
-  var urlParams = new URLSearchParams(queryString);
-  if(urlParams.has('load_map')) {
-      handleLoadMapRequest(urlParams.get('load_map'));
-  } else if(urlParams.has('load_tileset') && urlParams.has('owned_by')) {
-      handleLoadTilesetRequest(urlParams.get('load_tileset'), urlParams.get('owned_by'));
-  } else if(urlParams.has('export_map')) {
-      handleExportMapRequest(urlParams.get('export_map'));
-  } else if(urlParams.has('export_tileset') && urlParams.has('owned_by')) {
-      handleExportTilesetRequest(urlParams.get('export_tileset'), urlParams.get('owned_by'));
-  }
-};
-
-</script>
 <script type="text/javascript" src="js/Map.js"></script>
 <script type="text/javascript" src="js/Tileset.js"></script>
 <script type="text/javascript" src="js/tilemap.js"></script>
 <script type="text/javascript" src="js/editor.js"></script>
+<script type="text/javascript" src="js/transaction.js"></script>
 <script type="text/javascript" src="js/export.js"></script>
 <!-- <script type="text/javascript" src="js/npm.js"></script> -->
 <script type="text/javascript" src="js/FileSaver.js"></script>
 <script type="text/javascript" src="js/file.js"></script>
+<script>
+  let editor;
+  let transactionManager;
+
+  window.onload = (event) => {
+   editor = new Editor();
+   transactionManager = new Transaction();
+   
+   editor.userName = '${username}';
+   console.log("create editor class");
+ 
+   //If parameters exist in the URL, handle request
+   var queryString = window.location.search;
+   var urlParams = new URLSearchParams(queryString);
+   if(urlParams.has('load_map')) {
+       handleLoadMapRequest(urlParams.get('load_map'));
+   } else if(urlParams.has('load_tileset') && urlParams.has('owned_by')) {
+       handleLoadTilesetRequest(urlParams.get('load_tileset'), urlParams.get('owned_by'));
+   } else if(urlParams.has('export_map')) {
+       handleExportMapRequest(urlParams.get('export_map'));
+   } else if(urlParams.has('export_tileset') && urlParams.has('owned_by')) {
+       handleExportTilesetRequest(urlParams.get('export_tileset'), urlParams.get('owned_by'));
+   }
+ };
+</script>
 
 </body>
 </html>

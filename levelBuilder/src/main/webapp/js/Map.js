@@ -256,6 +256,7 @@ class TiledLayer extends Layer{
     }
 
     fillTiles(x, y, canvas){
+        var index = editor.tileIndex;
         tileList = editor.currentTileset.tileList;
         var imgg = new Image();
         imgg.src = editor.currentTileset.image.src;
@@ -264,6 +265,9 @@ class TiledLayer extends Layer{
         // this.canvasLayer.canvas.getContext("2d").drawImage(imgg,tileList[index].startX, tileList[index].startY,tileList[index].tileWidth, tileList[index].tileHeight, this.tileW*x, this.tileH*y, tileList[index].tileWidth, tileList[index].tileHeight );
         editor.currentMap.updateNextGid(editor.currentTileset.name, editor.currentTileset.tilecount);
         var ggid = Number(editor.currentMap.selectedTilesetList.get(editor.currentTileset.name));
+        console.log(this.csv[y][x]);
+        console.log("index " + index);
+        console.log("ggid " +ggid);
         this.csv[y][x] = index + ggid;
         editor.currentMap.updateCSVGid(index + ggid, ggid);
         this.paintTiles();
@@ -308,6 +312,7 @@ class TiledLayer extends Layer{
                     var firstgid = editor.currentMap.csvGid.get(this.csv[i][j]);
                     var Tsname = getKey(firstgid);
                     TS = getTilesetwithName(Tsname);
+                    console.log(this.csv[i][j]);
                     var localID = this.csv[i][j] - firstgid;
                     var loadedImg = new Image();
                     loadedImg.src = TS.image.src;

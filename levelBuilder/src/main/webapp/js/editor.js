@@ -1,3 +1,80 @@
+class ZoomFeature{
+    constructor(){
+      this.zoomEventOn = false;
+      this.canScaleX = 2;
+      this.canScaleY = 2;
+      this.zoomcount =0;
+      this.ratioX = 1;
+      this.ratioY = 1;
+      this.scaleX = 1;
+      this.scaleY = 1;
+      this.centerX = window.innerWidth/2;
+      this.centerY = window.innerHeight/2;
+    }
+  }
+
+class Editor{
+    constructor(){
+     this.currentMap;
+     this.currentTileset;
+     this.currentLayer;
+     this.loadedMapList = new Array();
+     this.loadedTilesetList = new Array();
+     this.userName;
+     this.grid;
+     this.selectedLayerId;
+     this.zoomFeature = new ZoomFeature();
+     this.tileIndex = 0;
+    }
+    
+    loadTileset(tileset){
+       this.loadedTilesetList.push(tileset);
+       this.currentTileset = tileset;
+    }
+    resetTilesetList(){
+     this.loadedTilesetList = new Array();
+     var node = document.getElementById('newTab').innerHTML = "";
+    }
+ 
+    clearWorkspace(){
+     var mapNode = document.getElementsByClassName("Map")[0];
+     mapNode.innerText ="";
+     var gridNode = document.createElement("div");
+     gridNode.className = "Grid";
+     mapNode.appendChild(gridNode);
+     if(this.currentMap){
+       this.currentMap = null;
+       this.currentLayer = null;
+       this.selectedLayerId = null;
+       this.grid = null;
+     }
+   }
+ }
+ 
+ function handleLoadMapRequest(mapName){
+     var loadMapJSON = {"mapName" : mapName};
+     loadAll_Map_Helper(loadMapJSON);
+ 
+ }
+ 
+ function handleLoadTilesetRequest(tileSetName, username){
+     var loadTilesetJSON = {"name" : tileSetName, "username" : username};
+     loadAll_Tileset_Helper(loadTilesetJSON);
+ }
+ 
+ function handleExportMapRequest(mapName){
+     var loadMapJSON = {"mapName": mapName};
+     loadAll_Map_Helper(loadMapJSON);
+     setTimeout(exportMap, 2000); //wait until map has loaded to start exporting
+ }
+ 
+ function handleExportTilesetRequest(tileSetName, username){
+     var loadTilesetJSON = {"name" : tileSetName, "username" : username};
+     loadAll_Tileset_Helper(loadTilesetJSON);
+     setTimeout(exportTileset, 2000, tileSetName); //wait until tileset has loaded to start exporting
+ }
+ 
+
 function editFunction(element, service){
     switch(service) {
         case 'move':
