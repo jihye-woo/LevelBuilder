@@ -386,13 +386,12 @@
 
 <script type="text/javascript" src="js/Map.js"></script>
 <script type="text/javascript" src="js/Tileset.js"></script>
-<script type="text/javascript" src="js/tilemap.js"></script>
-<script type="text/javascript" src="js/editor.js"></script>
-<script type="text/javascript" src="js/transaction.js"></script>
-<script type="text/javascript" src="js/export.js"></script>
-<!-- <script type="text/javascript" src="js/npm.js"></script> -->
+<script type="text/javascript" src="js/Tilemap.js"></script>
+<script type="text/javascript" src="js/Editor.js"></script>
+<script type="text/javascript" src="js/Transaction.js"></script>
+<script type="text/javascript" src="js/Export.js"></script>
 <script type="text/javascript" src="js/FileSaver.js"></script>
-<script type="text/javascript" src="js/file.js"></script>
+<script type="text/javascript" src="js/File.js"></script>
 <script>
   let editor;
   let transactionManager;

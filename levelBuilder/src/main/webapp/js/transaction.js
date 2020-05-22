@@ -52,7 +52,9 @@ class PaintAction {
         this.csvGid = csvGid;
     }
     undo() {
-        this.layer.eraseTile(this.x, this.y, this.layer.canvasLayer.canvas, tsH, tsW, true);
+        var mapH = editor.currentMap.tileHeight;
+        var mapW = editor.currentMap.tileWidth;
+        this.layer.eraseTile(this.x, this.y, this.layer.canvasLayer.canvas, mapH, mapW, true);
     }
     redo() {
         this.layer.fillTiles(this.x, this.y, this.layer.canvasLayer.canvas, true, this.csvGid);
@@ -70,7 +72,9 @@ class EraseAction {
         this.layer.fillTiles(this.x, this.y, this.layer.canvasLayer.canvas, true, this.csvGid);
     }
     redo(){
-        this.layer.eraseTile(this.x, this.y, this.layer.canvasLayer.canvas, tsH, tsW, true);
+        var mapH = editor.currentMap.tileHeight;
+        var mapW = editor.currentMap.tileWidth;
+        this.layer.eraseTile(this.x, this.y, this.layer.canvasLayer.canvas, mapH, mapW, true);
     }
 }
 
