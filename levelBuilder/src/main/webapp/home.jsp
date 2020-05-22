@@ -69,7 +69,7 @@
                 <a href="#" onclick="resizeM()">Resize Map</a>
               </div>
             </div>
-            <!-- <div class="dropdown">
+            <div class="dropdown">
                 <button class="dropbtn">Edit</button>
                 <div class="dropdown-content">
                   <a href="#">Undo</a>
@@ -79,7 +79,7 @@
                   <a href="#">Paste</a>
                   <a href="#">Delete</a>
                 </div>
-              </div> -->
+              </div>
               <div class="dropdown">
                   <button class="dropbtn">Layers</button>
                   <div class="dropdown-content">
@@ -113,9 +113,9 @@
         <div class="scene">
           <div class="tab-header">Map editor</div>
           <div class="editor-tools">
-            <!-- <div class="surface btn" id="btn-editor-cursor"
-              title="Selector tool - select objects to edit their properties" onclick="selectEditorTool('cursor')">
-              <i class="fa fa-mouse-pointer"></i></div> -->
+            <div class="surface btn" id="btn-editor-cursor"
+              title="Select Tile" onclick="Select(this)">
+              <i class="fa fa-mouse-pointer"></i></div>
             <!-- <div class="surface btn" id="btn-editor-brush" title="Brush tool - paint tiles"
               onclick="selectEditorTool('brush')"><i class="fa fa-paint-brush"></i></div> -->
             <div class="surface btn" id="eraser" title="Eraser tool - erase tile data"

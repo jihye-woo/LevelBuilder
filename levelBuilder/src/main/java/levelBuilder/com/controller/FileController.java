@@ -158,7 +158,7 @@ public class FileController {
 		// save map data
 		imagesAddedToTilesetRepository.save(imageData);
 		
-		imageSaver.saveBlobImageAsaFile(imageData.getImage(), imageData.getTilesetName());
+//		imageSaver.saveBlobImageAsaFile(imageData.getImage(), imageData.getTilesetName());
 		return new ResponseEntity<>(object.toString(), HttpStatus.CREATED);
 	}
 	

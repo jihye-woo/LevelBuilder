@@ -71,7 +71,7 @@ function createSingleTiles(tileSetName, image, tileWidth, tileHeight, spacing){
 		  }
 		}
   }
-;	return tileList;
+	return tileList;
   }
 
 class CollectionTileset extends Tileset{

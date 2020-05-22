@@ -269,6 +269,15 @@ class TiledLayer extends Layer{
         this.paintTiles();
     }
 
+    selectTile(x, y, canvas, th, tw){
+        var mapH = editor.currentMap.tileHeight;
+        var mapW = editor.currentMap.tileWidth;
+        this.paintTiles();
+        this.canvasLayer.canvas.getContext("2d").strokeStyle ="green";
+        this.canvasLayer.canvas.getContext("2d").lineWidth =3;
+        this.canvasLayer.canvas.getContext("2d").strokeRect(x*mapW+2, y*mapH+2, tw-3, th-3);
+    }
+
     eraseTile(x, y, canvas, th, tw){
         var mapH = editor.currentMap.tileHeight;
         var mapW = editor.currentMap.tileWidth;
@@ -283,10 +292,10 @@ class TiledLayer extends Layer{
         var can = this.canvasLayer.canvas;
         var ctx = can.getContext("2d");
         var TS;
-        for(var i=0; i<loadmapW; i++){
-            for(var j=0; j<loadmapH; j++){
+        for(var i=0; i<loadmapH; i++){
+            for(var j=0; j<loadmapW; j++){
                 if(this.csv[i][j] !=0){
-                    // console.log("### "+i +" "+j);
+                    console.log("###paint "+i +" "+j);
                     var firstgid = editor.currentMap.csvGid.get(this.csv[i][j]);
                     var Tsname = getKey(firstgid);
                     TS = getTilesetwithName(Tsname);
@@ -294,6 +303,9 @@ class TiledLayer extends Layer{
                     var loadedImg = new Image();
                     loadedImg.src = TS.image.src;
                     ctx.drawImage(loadedImg, TS.tileList[localID].startX, TS.tileList[localID].startY, TS.tileWidth, TS.tileHeight,j*this.tileW, i*this.tileH, TS.tileWidth, TS.tileHeight);
+                }
+                else{
+                    ctx.clearRect(this.tileW*j, this.tileH*i, this.tileW, this.tileH);
                 }
             }
         }

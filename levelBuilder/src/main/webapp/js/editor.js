@@ -71,6 +71,25 @@ function EraseTile(x) {
   }
 }
 
+var selectVal=1;
+function Select(x){
+    var layerList = editor.currentMap.LayerList;
+  var topLayerIndex = layerList.size-1;
+  var targetLayer = layerList.get(topLayerIndex);
+    if(selectVal == 1){
+        changeCursor(targetLayer.canvasLayer.canvas, "url('img/mouse_hand.png'), auto");
+        x.className += " active";
+        selectVal = 0;
+        targetLayer.canvasLayer.canvas.addEventListener("mousemove", hoverEvent);
+      } else{
+        changeCursor(targetLayer.canvasLayer.canvas);
+        x.className = x.className.replace(" active", "");
+        selectVal = 1;
+        targetLayer.canvasLayer.canvas.removeEventListener("mousemove", hoverEvent);
+        targetLayer.paintTiles();
+      }
+}
+
 function changeCursor(targetNode, cursorStyle = ""){
     targetNode.style.cursor = cursorStyle;
 }
@@ -82,7 +101,6 @@ function zoomIn(){
     var zoomFeature = editor.zoomFeature;
     if (zoomFeature.zoomcount < 3){
         zoomFeature.zoomcount += 1;
-        console.log("###zoomIN "+ zoomFeature.zoomcount);
         zoomFeature.scaleX = zoomFeature.scaleY = 2;
         zoomFeature.ratioX = Math.pow(zoomFeature.canScaleX, zoomFeature.zoomcount);
         zoomFeature.ratioY = Math.pow(zoomFeature.canScaleY, zoomFeature.zoomcount);
@@ -96,7 +114,6 @@ function zoomOut(){
     var zoomFeature = editor.zoomFeature;
     if (zoomFeature.zoomcount > -3){
         zoomFeature.zoomcount -= 1;
-        console.log("###zoomout "+ zoomFeature.zoomcount);
         zoomFeature.scaleX = zoomFeature.scaleY = 0.5;
         zoomFeature.ratioX = Math.pow(zoomFeature.canScaleX, zoomFeature.zoomcount);
         zoomFeature.ratioY = Math.pow(zoomFeature.canScaleY, zoomFeature.zoomcount);

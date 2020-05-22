@@ -155,15 +155,25 @@ class TiledCanvas{
         canvas.style.top = offsetY +"px";
         canvas.addEventListener("click", addEvent);
 
-        this.w = canvas.width = (width*tileW);
-        this.h = canvas.height = (height*tileH);
+        let canvasHover = document.createElement("canvas");
+        canvasHover.id = layer.id +"hover";
+        canvasHover.style.position = "position"; 
+        canvasHover.style.left = offsetX+ "px";
+        canvasHover.style.top = offsetY +"px";
+
+        this.w = canvas.width = canvasHover.width = (width*tileW);
+        this.h = canvas.height = canvasHover.height = (height*tileH);
         this.canvas = document.getElementsByClassName('Map')[0].appendChild(canvas);
         this.ctx = canvas.getContext("2d");
+        this.canvasHover = document.getElementsByClassName('Map')[0].appendChild(canvasHover);
+        this.ctxHover = canvasHover.getContext("2d");
     }
     
     resize(x, y, tileW, tileH){
         this.w = this.canvas.width = x * tileW;
         this.h = this.canvas.height = y * tileH;
+        this.w = this.canvasHover.width = x * tileW;
+        this.h = this.canvasHover.height = y * tileH;
     }
 
     // getOffset(){
@@ -189,7 +199,11 @@ class TiledCanvas{
     zoomInEvent(){
         this.canvas.addEventListener("click", zoomEvent);
     }
+    // addHover(layer){
+    //     this.canvas.addEventListener("mousemove", hoverEvent);
+    // }
 }
+
 function addEvent(){
     var current = editor.currentMap;
     var topLayerIndex = current.LayerList.size-1;
@@ -203,7 +217,7 @@ function addEvent(){
        current.LayerList.get(topLayerIndex).eraseTile(row, col, current.LayerList.get(topLayerIndex).canvasLayer.canvas, tsH, tsW);
    }
    else{
-    current.LayerList.get(topLayerIndex).fillTiles(row, col, current.LayerList.get(topLayerIndex).canvasLayer.canvas);
+        current.LayerList.get(topLayerIndex).fillTiles(row, col, current.LayerList.get(topLayerIndex).canvasLayer.canvas);
    }
 }
 function zoomEvent(){
@@ -222,6 +236,24 @@ function zoomEvent(){
    else{
     current.LayerList.get(topLayerIndex).fillTiles(row, col, current.LayerList.get(topLayerIndex).canvasLayer.canvas);
    }
+}
+
+function hoverEvent(){
+    var current = editor.currentMap;
+    var topLayerIndex = current.LayerList.size-1;
+    var zoomFeature = editor.zoomFeature;
+    var mousePos = getMousePos(current.LayerList.get(topLayerIndex).canvasLayer.canvas, event);
+    row = Math.floor(mousePos.x/(current.tileWidth*zoomFeature.ratioY));
+    col = Math.floor(mousePos.y/(current.tileHeight*zoomFeature.ratioX));
+   var message = 'Mouse position: ' + row  + ',' + col;
+   console.log(message);
+   if(selectVal == 0){
+        console.log("select!!!@");
+     current.LayerList.get(topLayerIndex).selectTile(row, col, current.LayerList.get(topLayerIndex).canvasLayer.canvas, current.tileHeight, current.tileWidth);
+    }
+    else{
+        current.LayerList.get(topLayerIndex).paintTiles();
+    }
 }
 
 class ObjectCanvas{
