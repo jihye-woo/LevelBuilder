@@ -45,29 +45,32 @@ class Transaction{
 }
 
 class PaintAction {
-    constructor (layerId, position, oldcsv, newcsv) {
-        this.layerId = layerId;
-        this.position = position;
-        this.oldcsv = oldcsv;
-        this.newcsv = newcsv;
+    constructor (layer, x, y, csvGid) {
+        this.layer = layer;
+        this.x = x;
+        this.y = y;
+        this.csvGid = csvGid;
     }
-    undo () {
-
+    undo() {
+        this.layer.eraseTile(this.x, this.y, this.layer.canvasLayer.canvas, tsH, tsW, true);
     }
-    redo () {
+    redo() {
+        this.layer.fillTiles(this.x, this.y, this.layer.canvasLayer.canvas, true, this.csvGid);
     }
 }
 
 class EraseAction {
-    constructor (layerId, position, oldcsv, newcsv) {
-        this.layerId = layerId;
-        this.position = position;
-        this.oldcsv = oldcsv;
-        this.newcsv = newcsv;
+    constructor (layer, x, y, csvGid) {
+        this.layer = layer;
+        this.x = x;
+        this.y = y;
+        this.csvGid = csvGid;
     }
-    undo () {
+    undo(){
+        this.layer.fillTiles(this.x, this.y, this.layer.canvasLayer.canvas, true, this.csvGid);
     }
-    redo () {
+    redo(){
+        this.layer.eraseTile(this.x, this.y, this.layer.canvasLayer.canvas, tsH, tsW, true);
     }
 }
 

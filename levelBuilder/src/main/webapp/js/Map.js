@@ -261,21 +261,25 @@ class TiledLayer extends Layer{
         this.canvasLayer.addEventAgain();
     }
 
-    fillTiles(x, y, canvas){
-        var index = editor.tileIndex;
+    fillTiles(x, y, canvas = this.canvasLayer.canvas, transaction = false, csvGid = 0){
+        var map = editor.currentMap;
         tileList = editor.currentTileset.tileList;
         var imgg = new Image();
         imgg.src = editor.currentTileset.image.src;
-        this.canvasLayer.canvas.getContext("2d").clearRect(0,0, editor.currentMap.mapWidth*editor.currentMap.tileWidth, editor.currentMap.mapHeight*editor.currentMap.tileWidth);
+        var selectedtileset = editor.currentTileset;
+        var index = editor.tileIndex;
+        canvas.getContext("2d").clearRect(0,0, map.mapWidth*map.tileWidth, map.mapHeight*map.tileWidth);
         // this.canvasLayer.canvas.getContext("2d").clearRect(x*editor.currentMap.tileWidth, y*editor.currentMap.tileHeight, editor.currentMap.tileWidth, editor.currentMap.tileHeight);
         // this.canvasLayer.canvas.getContext("2d").drawImage(imgg,tileList[index].startX, tileList[index].startY,tileList[index].tileWidth, tileList[index].tileHeight, this.tileW*x, this.tileH*y, tileList[index].tileWidth, tileList[index].tileHeight );
-        editor.currentMap.updateNextGid(editor.currentTileset.name, editor.currentTileset.tilecount);
-        var ggid = Number(editor.currentMap.selectedTilesetList.get(editor.currentTileset.name));
-        // console.log(this.csv[y][x]);
-        // console.log("index " + index);
-        // console.log("ggid " +ggid);
-        this.csv[y][x] = index + ggid;
-        editor.currentMap.updateCSVGid(index + ggid, ggid);
+        if(!transaction){
+            map.updateNextGid(selectedtileset.name, selectedtileset.tilecount);
+            var ggid = Number(map.selectedTilesetList.get(selectedtileset.name));
+            csvGid = index + ggid;
+            map.updateCSVGid(csvGid, ggid);
+            transactionManager.doAction(new PaintAction(this, x, y, csvGid));
+        }
+        this.csv[y][x] = csvGid;
+
         this.paintTiles();
     }
 
@@ -297,10 +301,13 @@ class TiledLayer extends Layer{
         this.canvasLayer.canvasclicked.getContext("2d").strokeRect(x*mapW+2, y*mapH+2, tw-3, th-3);
     }    
 
-    eraseTile(x, y, canvas, th, tw){
+    eraseTile(x, y, canvas = this.canvasLayer.canvas, th, tw, transaction = false){
         var mapH = editor.currentMap.tileHeight;
         var mapW = editor.currentMap.tileWidth;
-        this.canvasLayer.canvas.getContext("2d").clearRect(x*mapW, y*mapH, tw+1, th+1);
+        canvas.getContext("2d").clearRect(x*mapW, y*mapH, tw+1, th+1);
+        if(!transaction){
+            transactionManager.doAction(new EraseAction(this, x, y, this.csv[y][x]));
+        }
         this.csv[y][x] = 0;
         this.paintTiles();
     }
