@@ -118,18 +118,21 @@
         <div class="scene">
           <div class="tab-header">Map editor</div>
           <div class="editor-tools">
-            <div class="surface btn" id="btn-editor-cursor" title="Select Tile" onclick="Select(this)"><i class="fas fa-edit"></i></div>
-            <div class="surface btn" id="eraser" title="Eraser tool - erase tile data"
-              onclick="editFunction(this, 'erase')"><i class="fa fa-eraser"></i></div>
-            <div class="surface btn" id="btn-editor-move" value = "doNotMove"
-              title="Drag tool - pan around the map editor, you can also hold down (alt)" 
-              onclick="editFunction(this, 'move')"><i class="fa fa-arrows"></i></div>
-            <div class="surface btn" id="btn-editor-zout" title="Zoom in" onclick="zoomIn()"><i class="fas fa-search-plus"></i></div>
-            <div class="surface btn" id="btn-editor-zin" title="Zoom out" onclick="zoomOut()"><i class="fas fa-search-minus"></i></div>
-            <div class="surface btn" id="btn-editor-cut" title="Cut" onclick="cut()"><i class="fas fa-cut"></i></div>
-            <div class="surface btn" id="btn-editor-copy" title="Copy" onclick="copy()"><i class="far fa-copy"></i></div>
-            <div class="surface btn" id="btn-editor-paste" title="Paste" onclick="paste()"><i class="fas fa-paste"></i></div>
-            <div class="surface btn" id="btn-editor-delete" title="Delete" onclick="Delete()"><i class="fas fa-trash-alt"></i></div>
+            <div class="surface btn" id="btn-editor-cursor" title="Edit Tile" onclick="Select(this)"><i class="fas fa-edit"></i></div>
+          </div>
+            <div class="editor-tools">
+            <div id="Icons"  style="display:block">
+              <div class="surface btn" id="eraser" title="Erase tile" onclick="editFunction(this, 'erase')"><i class="fa fa-eraser"></i></div>
+              <div class="surface btn" id="btn-editor-move" value = "doNotMove" title="Drag" onclick="editFunction(this, 'move')"><i class="fa fa-arrows"></i></div>
+              <div class="surface btn" id="btn-editor-zout" title="Zoom in" onclick="zoomIn()"><i class="fas fa-search-plus"></i></div>
+              <div class="surface btn" id="btn-editor-zin" title="Zoom out" onclick="zoomOut()"><i class="fas fa-search-minus"></i></div>
+          </div>
+            <div id="EditIcons"  style="display:none">
+              <div class="surface btn" id="btn-editor-cut" title="Cut" onclick="cut()"><i class="fas fa-cut"></i></div>
+              <div class="surface btn" id="btn-editor-copy" title="Copy" onclick="copy()"><i class="far fa-copy"></i></div>
+              <div class="surface btn" id="btn-editor-paste" title="Paste" onclick="paste()"><i class="fas fa-paste"></i></div>
+              <div class="surface btn" id="btn-editor-delete" title="Delete" onclick="Delete()"><i class="fas fa-trash-alt"></i></div>
+          </div>
                   
           </div>
           <div class="surface tab">

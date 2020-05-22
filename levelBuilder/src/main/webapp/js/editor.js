@@ -160,6 +160,7 @@ function Select(x){
         changeCursor(targetLayer.canvasLayer.canvasHover, "url('img/mouse_hand.png'), auto");
         x.className += " active";
         selectVal = 0;
+        EditIcons();
         targetLayer.canvasLayer.canvasHover.style.zIndex = 2;
         targetLayer.canvasLayer.canvasclicked.style.zIndex = 1;
         targetLayer.canvasLayer.canvasHover.addEventListener("click", tileSelectEvent);
@@ -168,11 +169,24 @@ function Select(x){
         changeCursor(targetLayer.canvasLayer.canvasHover);
         x.className = x.className.replace(" active", "");
         selectVal = 1;
+        EditIcons();
         targetLayer.canvasLayer.canvasHover.removeEventListener('click', tileSelectEvent);
         targetLayer.canvasLayer.canvasHover.removeEventListener('mousemove', hoverEvent);
         targetLayer.canvasLayer.canvasHover.style.zIndex = -1;
         targetLayer.canvasLayer.canvasclicked.style.zIndex = -1;
         targetLayer.paintTiles();
+      }
+}
+
+function EditIcons(selectVal){
+    var editIcon = document.getElementById("EditIcons");
+    var Icon = document.getElementById("Icons");
+    if (editIcon.style.display === "none") {
+        editIcon.style.display = "block";
+        Icon.style.display = "none";
+      } else {
+        editIcon.style.display = "none";
+        Icon.style.display = "block";
       }
 }
 
