@@ -287,16 +287,20 @@ class TiledLayer extends Layer{
         var mapH = editor.currentMap.tileHeight;
         var mapW = editor.currentMap.tileWidth;
         this.canvasLayer.canvasHover.getContext("2d").clearRect(0,0,mapW*editor.currentMap.mapWidth, mapH*editor.currentMap.mapHeight);
-        this.canvasLayer.canvasHover.getContext("2d").strokeStyle ="green";
+        this.canvasLayer.canvasHover.getContext("2d").strokeStyle ="yellow";
         this.canvasLayer.canvasHover.getContext("2d").lineWidth =3;
         this.canvasLayer.canvasHover.getContext("2d").strokeRect(x*mapW+2, y*mapH+2, tw-3, th-3);
+        editor.selectedTileGID  = this.csv[y][x];
+        console.log("print gid "+ editor.selectedTileGID);
+        editor.selectedCol = y;
+        editor.selectedRow = x;
     }
 
-    clickHoverTile(x, y, canvas, th, tw){
+    hoverTile(x, y, canvas, th, tw){
         var mapH = editor.currentMap.tileHeight;
         var mapW = editor.currentMap.tileWidth;
         this.canvasLayer.canvasclicked.getContext("2d").clearRect(0,0,mapW*editor.currentMap.mapWidth, mapH*editor.currentMap.mapHeight);
-        this.canvasLayer.canvasclicked.getContext("2d").strokeStyle ="yellow";
+        this.canvasLayer.canvasclicked.getContext("2d").strokeStyle ="green";
         this.canvasLayer.canvasclicked.getContext("2d").lineWidth =3;
         this.canvasLayer.canvasclicked.getContext("2d").strokeRect(x*mapW+2, y*mapH+2, tw-3, th-3);
     }    
@@ -321,7 +325,6 @@ class TiledLayer extends Layer{
         for(var i=0; i<loadmapH; i++){
             for(var j=0; j<loadmapW; j++){
                 if(this.csv[i][j] !=0){
-                    // console.log("###paint "+i +" "+j);
                     var firstgid = editor.currentMap.csvGid.get(this.csv[i][j]);
                     var Tsname = getKey(firstgid);
                     TS = getTilesetwithName(Tsname);

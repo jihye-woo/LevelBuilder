@@ -256,12 +256,12 @@ function hoverEvent(){
     var mousePos = getMousePos(current.LayerList.get(topLayerIndex).canvasLayer.canvasHover, event);
     row = Math.floor(mousePos.x/(current.tileWidth*zoomFeature.ratioY));
     col = Math.floor(mousePos.y/(current.tileHeight*zoomFeature.ratioX));
-   var message = 'Mouse position: ' + row  + ',' + col;
-   console.log(message);
-     current.LayerList.get(topLayerIndex).selectTile(row, col, current.LayerList.get(topLayerIndex).canvasLayer.canvasHover, current.tileHeight, current.tileWidth);
+//    var message = 'Mouse position: ' + row  + ',' + col;
+//    console.log(message);
+     current.LayerList.get(topLayerIndex).hoverTile(row, col, current.LayerList.get(topLayerIndex).canvasLayer.canvasHover, current.tileHeight, current.tileWidth);
 }
 
-function hoverClick(){
+function tileSelectEvent(){
     var current = editor.currentMap;
     var topLayerIndex = current.LayerList.size-1;
     var zoomFeature = editor.zoomFeature;
@@ -270,7 +270,7 @@ function hoverClick(){
     col = Math.floor(mousePos.y/(current.tileHeight*zoomFeature.ratioX));
    var message = 'Mouse position: ' + row  + ',' + col;
    console.log(message);
-     current.LayerList.get(topLayerIndex).clickHoverTile(row, col, current.LayerList.get(topLayerIndex).canvasLayer.canvasHover, current.tileHeight, current.tileWidth);
+     current.LayerList.get(topLayerIndex).selectTile(row, col, current.LayerList.get(topLayerIndex).canvasLayer.canvasHover, current.tileHeight, current.tileWidth);
 }
 
 class ObjectCanvas{

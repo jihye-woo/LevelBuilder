@@ -79,10 +79,10 @@
                 <div class="dropdown-content">
                   <a href="#">Undo</a>
                   <a href="#">Redo</a>
-                  <a href="#">Cut</a>
-                  <a href="#">Copy</a>
-                  <a href="#">Paste</a>
-                  <a href="#">Delete</a>
+                  <a href="#"onclick="cut()">Cut</a>
+                  <a href="#"onclick="copy()">Copy</a>
+                  <a href="#"onclick="paste()">Paste</a>
+                  <a href="#"onclick="delete()">Delete</a>
                 </div>
               </div>
               <div class="dropdown">

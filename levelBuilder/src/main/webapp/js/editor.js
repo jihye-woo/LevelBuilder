@@ -25,6 +25,10 @@ class Editor{
      this.selectedLayerId;
      this.zoomFeature = new ZoomFeature();
      this.tileIndex = 0;
+     this.selectedTileGID =0;
+     this.selectedCol = 0;
+     this.selectedRow = 0;
+     this.cutcopyTileGID = 0;
     }
     
     loadTileset(tileset){
@@ -131,7 +135,6 @@ function moveGrid(element){
     }
 }
 
-
 var active = 1;
 function EraseTile(x) {
   var layerList = editor.currentMap.LayerList;
@@ -159,7 +162,7 @@ function Select(x){
         selectVal = 0;
         targetLayer.canvasLayer.canvasHover.style.zIndex = 2;
         targetLayer.canvasLayer.canvasclicked.style.zIndex = 1;
-        targetLayer.canvasLayer.canvasHover.addEventListener("click", hoverClick);
+        targetLayer.canvasLayer.canvasHover.addEventListener("click", tileSelectEvent);
         targetLayer.canvasLayer.canvasHover.addEventListener("mousemove", hoverEvent);
       } else{
         changeCursor(targetLayer.canvasLayer.canvasHover);
@@ -169,6 +172,38 @@ function Select(x){
         targetLayer.canvasLayer.canvasclicked.style.zIndex = -1;
         targetLayer.paintTiles();
       }
+}
+
+function cut(){
+    if(editor.selectedTileGID == 0){
+        alert("No tile to Cut!");
+        return;
+    }else{
+    editor.cutcopyTileGID = editor.selectedTileGID;
+    var current = editor.currentMap;
+    var topLayerIndex = current.LayerList.size-1;
+    var a = getKey(editor.currentMap.csvGid.get(editor.selectedTileGID));
+    var tilesett = getTilesetwithName(a);
+    tsH = tilesett.tileHeight;
+    tsW = tilesett.tileWidth;
+    current.LayerList.get(topLayerIndex).eraseTile(editor.selectedRow, editor.selectedCol, current.LayerList.get(topLayerIndex).canvasLayer.canvas, tsH, tsW);
+    }
+}
+
+function copy(){
+    if(editor.selectedTileGID == 0){
+        alert("No tile to Copy!");
+        return;
+    }else{
+        editor.cutcopyTileGID = editor.selectedTileGID;
+    }
+}
+
+function paste(){
+    var current = editor.currentMap;
+    var topLayerIndex = current.LayerList.size-1;
+    current.LayerList.get(topLayerIndex).csv[editor.selectedCol][editor.selectedRow] = editor.cutcopyTileGID;
+    current.LayerList.get(topLayerIndex).paintTiles();
 }
 
 function changeCursor(targetNode, cursorStyle = ""){
