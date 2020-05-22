@@ -154,7 +154,6 @@ class TiledCanvas{
         canvas.style.left = offsetX+ "px";
         canvas.style.top = offsetY +"px";
         canvas.addEventListener("click", addEvent);
-        canvas.addEventListener("mousemove", hoverEvent);
 
         let canvasHover = document.createElement("canvas");
         canvasHover.id = layer.id +"hover";
@@ -177,7 +176,7 @@ class TiledCanvas{
         this.canvasHover = document.getElementsByClassName('Map')[0].appendChild(canvasHover);
         this.ctxHover = canvasHover.getContext("2d");
         this.canvasclicked = document.getElementsByClassName('Map')[0].appendChild(canvasclicked);
-        this.ctxHover = canvasclicked.getContext("2d");
+        this.ctxClicked = canvasclicked.getContext("2d");
     }
     
     resize(x, y, tileW, tileH){
@@ -203,8 +202,7 @@ class TiledCanvas{
         this.canvasclicked.style.display="block";
     }
     getCSVvalue(){
-        // return editor.currentMap.LayerList.get(editor.currentMap.LayerList.size-1).csv[col][row];
-        return editor.currentMap.LayerList.get(editor.currentMap.LayerList.size-1).csv[editor.selectedCol][editor.selectedRow];
+        return editor.currentMap.LayerList.get(editor.currentMap.LayerList.size-1).csv[col][row];
     }
     removeEvent(){
         this.canvas.removeEventListener('click', addEvent);
@@ -258,8 +256,6 @@ function hoverEvent(){
     var mousePos = getMousePos(current.LayerList.get(topLayerIndex).canvasLayer.canvasHover, event);
     row = Math.floor(mousePos.x/(current.tileWidth*zoomFeature.ratioY));
     col = Math.floor(mousePos.y/(current.tileHeight*zoomFeature.ratioX));
-//    var message = 'Mouse position: ' + row  + ',' + col;
-//    console.log(message);
      current.LayerList.get(topLayerIndex).hoverTile(row, col, current.LayerList.get(topLayerIndex).canvasLayer.canvasHover, current.tileHeight, current.tileWidth);
 }
 

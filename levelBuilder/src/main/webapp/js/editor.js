@@ -168,6 +168,8 @@ function Select(x){
         changeCursor(targetLayer.canvasLayer.canvasHover);
         x.className = x.className.replace(" active", "");
         selectVal = 1;
+        targetLayer.canvasLayer.canvasHover.removeEventListener('click', tileSelectEvent);
+        targetLayer.canvasLayer.canvasHover.removeEventListener('mousemove', hoverEvent);
         targetLayer.canvasLayer.canvasHover.style.zIndex = -1;
         targetLayer.canvasLayer.canvasclicked.style.zIndex = -1;
         targetLayer.paintTiles();
@@ -207,7 +209,11 @@ function paste(){
 }
 
 function Delete(){
-    getTWTH();
+    var csvTile = editor.currentMap.LayerList.get(editor.currentMap.LayerList.size-1).csv[editor.selectedCol][editor.selectedRow]
+    var a = getKey(editor.currentMap.csvGid.get(csvTile));
+    var tilesett = getTilesetwithName(a);
+    tsH = tilesett.tileHeight;
+    tsW = tilesett.tileWidth;
     var topLayerIndex = editor.currentMap.LayerList.size-1;
     editor.currentMap.LayerList.get(topLayerIndex).eraseTile(editor.selectedRow, editor.selectedCol, editor.currentMap.LayerList.get(topLayerIndex).canvasLayer.canvas, tsH, tsW);
 }
