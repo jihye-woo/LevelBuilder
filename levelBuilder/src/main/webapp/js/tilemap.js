@@ -154,6 +154,7 @@ class TiledCanvas{
         canvas.style.left = offsetX+ "px";
         canvas.style.top = offsetY +"px";
         canvas.addEventListener("click", addEvent);
+        canvas.addEventListener("mousemove", hoverEvent);
 
         let canvasHover = document.createElement("canvas");
         canvasHover.id = layer.id +"hover";
@@ -202,7 +203,8 @@ class TiledCanvas{
         this.canvasclicked.style.display="block";
     }
     getCSVvalue(){
-        return editor.currentMap.LayerList.get(editor.currentMap.LayerList.size-1).csv[col][row];
+        // return editor.currentMap.LayerList.get(editor.currentMap.LayerList.size-1).csv[col][row];
+        return editor.currentMap.LayerList.get(editor.currentMap.LayerList.size-1).csv[editor.selectedCol][editor.selectedRow];
     }
     removeEvent(){
         this.canvas.removeEventListener('click', addEvent);

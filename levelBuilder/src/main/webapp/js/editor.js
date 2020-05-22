@@ -87,10 +87,10 @@ function editFunction(element, service){
         case 'erase':
             EraseTile(element);
             break;
-        case 'zoomout':
-            zoomOut();
-        case 'zoomin':
-            zoomIn();
+        // case 'zoomout':
+        //     zoomOut();
+        // case 'zoomin':
+        //     zoomIn();
         default:
       }
 }
@@ -204,6 +204,12 @@ function paste(){
     var topLayerIndex = current.LayerList.size-1;
     current.LayerList.get(topLayerIndex).csv[editor.selectedCol][editor.selectedRow] = editor.cutcopyTileGID;
     current.LayerList.get(topLayerIndex).paintTiles();
+}
+
+function Delete(){
+    getTWTH();
+    var topLayerIndex = editor.currentMap.LayerList.size-1;
+    editor.currentMap.LayerList.get(topLayerIndex).eraseTile(editor.selectedRow, editor.selectedCol, editor.currentMap.LayerList.get(topLayerIndex).canvasLayer.canvas, tsH, tsW);
 }
 
 function changeCursor(targetNode, cursorStyle = ""){

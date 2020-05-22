@@ -659,6 +659,8 @@ background-color: #292727;
 height: calc(100% - 120px);
 width: calc(100% - 10px);
 overflow: auto;
+min-width: 300px;
+min-height: 300px;
 }
 
 /* Style the buttons inside the tab */

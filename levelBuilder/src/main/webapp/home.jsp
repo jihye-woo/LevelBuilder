@@ -82,7 +82,7 @@
                   <a href="#"onclick="cut()">Cut</a>
                   <a href="#"onclick="copy()">Copy</a>
                   <a href="#"onclick="paste()">Paste</a>
-                  <a href="#"onclick="delete()">Delete</a>
+                  <a href="#"onclick="Delete()">Delete</a>
                 </div>
               </div>
               <div class="dropdown">
