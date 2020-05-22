@@ -272,11 +272,20 @@ class TiledLayer extends Layer{
     selectTile(x, y, canvas, th, tw){
         var mapH = editor.currentMap.tileHeight;
         var mapW = editor.currentMap.tileWidth;
-        this.paintTiles();
-        this.canvasLayer.canvas.getContext("2d").strokeStyle ="green";
-        this.canvasLayer.canvas.getContext("2d").lineWidth =3;
-        this.canvasLayer.canvas.getContext("2d").strokeRect(x*mapW+2, y*mapH+2, tw-3, th-3);
+        this.canvasLayer.canvasHover.getContext("2d").clearRect(0,0,mapW*editor.currentMap.mapWidth, mapH*editor.currentMap.mapHeight);
+        this.canvasLayer.canvasHover.getContext("2d").strokeStyle ="green";
+        this.canvasLayer.canvasHover.getContext("2d").lineWidth =3;
+        this.canvasLayer.canvasHover.getContext("2d").strokeRect(x*mapW+2, y*mapH+2, tw-3, th-3);
     }
+
+    clickHoverTile(x, y, canvas, th, tw){
+        var mapH = editor.currentMap.tileHeight;
+        var mapW = editor.currentMap.tileWidth;
+        this.canvasLayer.canvasclicked.getContext("2d").clearRect(0,0,mapW*editor.currentMap.mapWidth, mapH*editor.currentMap.mapHeight);
+        this.canvasLayer.canvasclicked.getContext("2d").strokeStyle ="yellow";
+        this.canvasLayer.canvasclicked.getContext("2d").lineWidth =3;
+        this.canvasLayer.canvasclicked.getContext("2d").strokeRect(x*mapW+2, y*mapH+2, tw-3, th-3);
+    }    
 
     eraseTile(x, y, canvas, th, tw){
         var mapH = editor.currentMap.tileHeight;
@@ -303,9 +312,6 @@ class TiledLayer extends Layer{
                     var loadedImg = new Image();
                     loadedImg.src = TS.image.src;
                     ctx.drawImage(loadedImg, TS.tileList[localID].startX, TS.tileList[localID].startY, TS.tileWidth, TS.tileHeight,j*this.tileW, i*this.tileH, TS.tileWidth, TS.tileHeight);
-                }
-                else{
-                    ctx.clearRect(this.tileW*j, this.tileH*i, this.tileW, this.tileH);
                 }
             }
         }

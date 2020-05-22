@@ -77,15 +77,19 @@ function Select(x){
   var topLayerIndex = layerList.size-1;
   var targetLayer = layerList.get(topLayerIndex);
     if(selectVal == 1){
-        changeCursor(targetLayer.canvasLayer.canvas, "url('img/mouse_hand.png'), auto");
+        changeCursor(targetLayer.canvasLayer.canvasHover, "url('img/mouse_hand.png'), auto");
         x.className += " active";
         selectVal = 0;
-        targetLayer.canvasLayer.canvas.addEventListener("mousemove", hoverEvent);
+        targetLayer.canvasLayer.canvasHover.style.zIndex = 2;
+        targetLayer.canvasLayer.canvasclicked.style.zIndex = 1;
+        targetLayer.canvasLayer.canvasHover.addEventListener("click", hoverClick);
+        targetLayer.canvasLayer.canvasHover.addEventListener("mousemove", hoverEvent);
       } else{
-        changeCursor(targetLayer.canvasLayer.canvas);
+        changeCursor(targetLayer.canvasLayer.canvasHover);
         x.className = x.className.replace(" active", "");
         selectVal = 1;
-        targetLayer.canvasLayer.canvas.removeEventListener("mousemove", hoverEvent);
+        targetLayer.canvasLayer.canvasHover.style.zIndex = -1;
+        targetLayer.canvasLayer.canvasclicked.style.zIndex = -1;
         targetLayer.paintTiles();
       }
 }
@@ -93,9 +97,6 @@ function Select(x){
 function changeCursor(targetNode, cursorStyle = ""){
     targetNode.style.cursor = cursorStyle;
 }
-
-editor.currentMap.LayerList.get(0).canvasLayer.canvas;
-// editor.currentMap.LayerList.get(editor.selectedLayerId).canvasLayer.canvas;
 
 function zoomIn(){
     var zoomFeature = editor.zoomFeature;
