@@ -204,7 +204,11 @@ function copy(){
 function paste(){
     var current = editor.currentMap;
     var topLayerIndex = current.LayerList.size-1;
-    current.LayerList.get(topLayerIndex).csv[editor.selectedCol][editor.selectedRow] = editor.cutcopyTileGID;
+    var currentLayer = current.LayerList.get(topLayerIndex);
+    var row = editor.selectedRow;
+    var col = editor.selectedCol;
+    currentLayer.csv[col][row] = editor.cutcopyTileGID;
+    transactionManager.doAction(new PaintAction(currentLayer, row, col, editor.cutcopyTileGID));
     current.LayerList.get(topLayerIndex).paintTiles();
 }
 
