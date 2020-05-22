@@ -112,11 +112,6 @@ function cancelAbout() {
 
 
 function loadMap(map){
-  console.log(map);
-  if(editor.currentMap){// if currentMap is existed
-    console.log("run");
-    editor.clearWorkspace();
-  }
   editor.grid= new Grid(map.mapWidth, map.mapHeight, map.tileWidth, map.tileHeight);
   editor.grid.showGrid();
   editor.currentMap = map;
@@ -172,6 +167,10 @@ function createMap() {
         alert("Invalid input. Please enter integer values for map width/height and tile width/height.");
         return;
     }
+
+  if(editor.currentMap){// if currentMap is existed
+     editor.clearWorkspace();
+  }
 
   var mapWidth = parseInt(document.getElementById("map-width").value);
   var mapHeight = parseInt(document.getElementById("map-height").value);
@@ -581,13 +580,16 @@ function canLoadTileset(inputName){
  }
 
 async function loadAll_Map_Helper(loadMapJSON) {
+  if(editor.currentMap){
+    editor.clearWorkspace();
+  }
     loadDataFromDB(loadMapJSON, "load_map")
         .then(jsonData => {
             var loadedMap = parseMapJson(jsonData.map);
 
             parseLayerJson(jsonData.layers, loadedMap);
-
             loadMap(loadedMap);
+
             // parseTilesetInMapJson(jsonData.tilesetsInMap, loadedMap);
             // var tilesetNameIter = loadedMap.selectedTilesetList;
             // var username = editor.userName;
