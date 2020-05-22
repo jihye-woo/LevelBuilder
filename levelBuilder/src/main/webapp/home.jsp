@@ -36,11 +36,11 @@
           <!-- <li data ="history" id="tool-history">
             <img src="img/tool/history.png">
           </li> -->
-          <li data ="undo" id="tool-undo" title ="Undo">
-            <button id="undoButton"><i class="fas fa-undo-alt" aria-hidden="true"></i></button>
+          <li data ="undo" id="tool-undo" title ="Undo" onclick = "transactionManager.undo()">
+            <button id="undoButton" disabled><i class="fas fa-undo-alt" aria-hidden="true"></i></button>
           </li>
-          <li data ="redo" id="tool-redo" title ="Redo">
-            <button id="redoButton"><i class="fas fa-redo-alt" aria-hidden="true"></i></button>
+          <li data ="redo" id="tool-redo" title ="Redo" onclick = "transactionManager.redo()">
+            <button id="redoButton" disabled><i class="fas fa-redo-alt" aria-hidden="true"></i></button>
           </li>
         </ul>
       </div>

@@ -245,14 +245,20 @@ class TiledLayer extends Layer{
         this.offsetY = offsetY;
     }
 
-    async updateResize(x,y){
+    async updateResize(x,y, csvs){
+        csvs['oldCSVs'].push(this.csv);
         createNewCSV(this, x, y, x*y).then(newCSV => {
-            this.canvasLayer.resize(x, y, this.tileW, this.tileH);
-            this.width = x;
-            this.height = y;
-            this.paintTiles();
-            this.canvasLayer.addEventAgain();
+            csvs['newCSVs'].push(newCSV);
+            this.updateResize_helper(x, y);
         });
+    }
+
+    updateResize_helper(x, y){
+        this.canvasLayer.resize(x, y, this.tileW, this.tileH);
+        this.width = x;
+        this.height = y;
+        this.paintTiles();
+        this.canvasLayer.addEventAgain();
     }
 
     fillTiles(x, y, canvas){
@@ -265,9 +271,9 @@ class TiledLayer extends Layer{
         // this.canvasLayer.canvas.getContext("2d").drawImage(imgg,tileList[index].startX, tileList[index].startY,tileList[index].tileWidth, tileList[index].tileHeight, this.tileW*x, this.tileH*y, tileList[index].tileWidth, tileList[index].tileHeight );
         editor.currentMap.updateNextGid(editor.currentTileset.name, editor.currentTileset.tilecount);
         var ggid = Number(editor.currentMap.selectedTilesetList.get(editor.currentTileset.name));
-        console.log(this.csv[y][x]);
-        console.log("index " + index);
-        console.log("ggid " +ggid);
+        // console.log(this.csv[y][x]);
+        // console.log("index " + index);
+        // console.log("ggid " +ggid);
         this.csv[y][x] = index + ggid;
         editor.currentMap.updateCSVGid(index + ggid, ggid);
         this.paintTiles();
@@ -308,11 +314,11 @@ class TiledLayer extends Layer{
         for(var i=0; i<loadmapH; i++){
             for(var j=0; j<loadmapW; j++){
                 if(this.csv[i][j] !=0){
-                    console.log("###paint "+i +" "+j);
+                    // console.log("###paint "+i +" "+j);
                     var firstgid = editor.currentMap.csvGid.get(this.csv[i][j]);
                     var Tsname = getKey(firstgid);
                     TS = getTilesetwithName(Tsname);
-                    console.log(this.csv[i][j]);
+                    // console.log(this.csv[i][j]);
                     var localID = this.csv[i][j] - firstgid;
                     var loadedImg = new Image();
                     loadedImg.src = TS.image.src;
@@ -323,8 +329,6 @@ class TiledLayer extends Layer{
     }
 }
 function createNewCSV(layer, x, y, time){
-    console.log(x +" X");
-    console.log(y +" Y");
     return new Promise ((resolve) => {
 
     setTimeout(() => {

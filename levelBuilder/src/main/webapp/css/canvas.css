@@ -41,9 +41,14 @@ canvas {
   opacity: 0.5;
 }
 
+
 #undoButton:disabled , #redoButton:disabled {
-    color : white;
-    opacity: 0.5;
-    cursor : default;
+  color : white;
+  opacity: 0.5;
+  cursor : default;
+}
+
+.fa {
+  float: right;
 }
   

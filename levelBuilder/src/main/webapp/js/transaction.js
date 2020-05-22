@@ -6,21 +6,24 @@ class Transaction{
 
     undo() {
         if (this.undoStack.length > 0) {
-          const action = this._undoStack.pop();
+          const action = this.undoStack.pop();
           action.undo();
           this.redoStack.push(action);
+          this.updateButtonState();
         }
     }
     
     redo() {
         if (this.redoStack.length > 0) {
-        const action = this.redoStack.pop();
-        action.redo();
-        this.undoStack.push(action);
+            const action = this.redoStack.pop();
+            action.redo();
+            this.undoStack.push(action);
+            this.updateButtonState();
         }
     }
 
     doAction(newAction){
+        document.getElementById("undoButton").disabled = false;
         document.getElementById("redoButton").disabled = true;
         this.redoStack = [];
         this.undoStack.push(newAction);
@@ -49,6 +52,7 @@ class PaintAction {
         this.newcsv = newcsv;
     }
     undo () {
+
     }
     redo () {
     }
@@ -68,17 +72,27 @@ class EraseAction {
 }
 
 class ResizeAction {
-    constructor (oldX, oldY, x, y) {
-        this.oldX =  oldX;
-        this.oldY =  oldY;
+    constructor (x, y, oldX, oldY, csvs) {
         this.x = x;
         this.y = y;
+        this.oldX =  oldX;
+        this.oldY =  oldY;
+        this.newCSV = csvs['newCSVs'];
+        this.oldCSV = csvs['oldCSVs'];
     }
+    undo() {
+        setCSVForAllLayers(this.oldCSV);
+        resizeMap_Helper(this.oldX, this.oldY, true);
+    }
+    redo() {
+        setCSVForAllLayers(this.newCSV);
+        resizeMap_Helper(this.x, this.y, true);
+    }
+}
 
-    undo () {
-        resizeMap_Helper(oldX, oldY);
-    }
-    redo () {
-        resizeMap_Helper(x, y);
+function setCSVForAllLayers(csv){
+    var layers = editor.currentMap.LayerList;
+    for (let [layerId, layer] of layers) {
+        layer.csv = csv[layerId];
     }
 }

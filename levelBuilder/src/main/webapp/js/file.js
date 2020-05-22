@@ -122,23 +122,33 @@ function loadMap(map){
 function resizeMap(){
   var resizeW = Number(document.getElementById("resize-width").value);
   var resizeH = Number(document.getElementById("resize-height").value);
-  resizeMap_Helper(resizeW, resizeH);
+  var oldRow = editor.currentMap.mapWidth;
+  var oldCol = editor.currentMap.mapWidth;
+  var csvs = resizeMap_Helper(resizeW, resizeH); // return csvs = ['oldCSVs', 'newCSVs']
+  transactionManager.doAction(new ResizeAction(resizeW, resizeH, oldRow , oldCol, csvs));
 }
 
-function resizeMap_Helper(resizeW, resizeH){
-  var map = editor.currentMap.resize(resizeW, resizeH);
+function resizeMap_Helper(resizeW, resizeH, transaction = false){
+  editor.currentMap.resize(resizeW, resizeH);
+  var csvs = {'oldCSVs' : [], 'newCSVs' : []};
   var layers = editor.currentMap.LayerList;
   var topLayerIndex = layers.size - 1;
  
   for(var i=0; i<layers.size; i++){
     var layer = layers.get(i);
     layer.canvasLayer.removeEvent();
-    layer.updateResize(resizeW, resizeH);
+
+    if( transaction == false ) { layer.updateResize(resizeW, resizeH, csvs);} 
+    else { // if this method is call by transaction manager
+      layer.updateResize_helper(resizeW, resizeH);
+    }
+
     if(i == topLayerIndex){
       editor.grid.resize(resizeW, resizeH, layer.offsetX, layer.offsetY);
     }
   }
   closeWindow(resizeMapWindow);
+  return csvs;
 }
 
 function createMap() {
