@@ -223,10 +223,15 @@ function paste(){
     var col = editor.selectedCol;
     currentLayer.csv[col][row] = editor.cutcopyTileGID;
     transactionManager.doAction(new PaintAction(currentLayer, row, col, editor.cutcopyTileGID));
+    current.LayerList.get(topLayerIndex).canvasLayer.canvasHover.getContext("2d").clearRect(0,0,current.mapWidth*current.tileWidth, current.mapHeight*current.tileHeight);
     current.LayerList.get(topLayerIndex).paintTiles();
 }
 
 function Delete(){
+    if(editor.selectedTileGID == 0){
+        alert("No tile to Delete!");
+        return;
+    }else{
     var csvTile = editor.currentMap.LayerList.get(editor.currentMap.LayerList.size-1).csv[editor.selectedCol][editor.selectedRow]
     var a = getKey(editor.currentMap.csvGid.get(csvTile));
     var tilesett = getTilesetwithName(a);
@@ -234,6 +239,8 @@ function Delete(){
     tsW = tilesett.tileWidth;
     var topLayerIndex = editor.currentMap.LayerList.size-1;
     editor.currentMap.LayerList.get(topLayerIndex).eraseTile(editor.selectedRow, editor.selectedCol, editor.currentMap.LayerList.get(topLayerIndex).canvasLayer.canvas, tsH, tsW);
+    current.LayerList.get(topLayerIndex).canvasLayer.canvasHover.getContext("2d").clearRect(0,0,current.mapWidth*current.tileWidth, current.mapHeight*current.tileHeight);    
+    }
 }
 
 function changeCursor(targetNode, cursorStyle = ""){
