@@ -36,11 +36,19 @@ class Editor{
        this.currentTileset = tileset;
     }
     resetTilesetList(){
-     this.loadedTilesetList = new Array();
-     var node = document.getElementById('newTab').innerHTML = "";
+        this.loadedTilesetList = new Array();
+        var tilesetBtnNode = document.getElementById("newTab");
+        while (tilesetBtnNode.firstChild) {
+           tilesetBtnNode.removeChild(tilesetBtnNode.lastChild);
+        }
+        var tilesetNode = document.getElementById("tilesetWorkspace");
+        while (tilesetNode.firstChild) {
+           tilesetNode.removeChild(tilesetNode.lastChild);
+        }
     }
  
     clearWorkspace(){
+        resetTilesetList();
      var mapNode = document.getElementsByClassName("Map")[0];
      mapNode.innerText ="";
      var gridNode = document.createElement("div");
